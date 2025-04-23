@@ -290,14 +290,29 @@ main {
 }
 
 /* Hero Section with Responsive Image */
+.how-to-order-hero {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 .hero-section {
     width: 100%;
     height: 100vh; /* Full viewport height */
     overflow: hidden;
     position: relative;
-    margin: 0;
     padding: 0;
-    background-color: #000;
+    margin: 0;
+    background-color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -309,9 +324,7 @@ main {
     height: 100vh; /* Full viewport height */
     max-height: 100vh;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     margin: 0;
     padding: 0;
     background-color: #000;
@@ -322,7 +335,7 @@ main {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Fill the container */
-    object-position: center 5%; /* Very slight shift to ensure hair is fully visible */
+    object-position: center top; /* Show full head/hair at the top */
     max-height: 100vh;
     display: block;
     margin: 0;
@@ -343,7 +356,7 @@ main {
 /* About Page Image */
 .about-image {
     object-fit: cover;
-    object-position: center 5%; /* Same as landing page to ensure consistency */
+    object-position: center top; /* Show full head/hair at the top */
     height: 100vh;
     width: 100%;
     margin: 0;
@@ -976,7 +989,7 @@ footer {
     
     .responsive-image, .about-image {
         object-fit: cover;
-        object-position: center 5%;
+        object-position: center top;
         width: 100%;
         height: 100%;
     }
@@ -986,48 +999,73 @@ footer {
 @media screen and (max-width: 1023px) {
     body {
         -webkit-overflow-scrolling: touch;
-        height: auto;
-        overflow-y: scroll;
+        height: 100%;
+        overflow-y: auto;
     }
     
     header {
         position: fixed;
         top: 0;
         left: 0;
+        width: 100%;
         z-index: 1000;
     }
     
     main {
-        padding-top: 3rem;
+        padding-top: 0;
+        margin-top: 0;
     }
     
     .hero-section {
         height: 100vh;
-        min-height: -webkit-fill-available; /* Fix for iOS height issues */
+        min-height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
     }
     
     .responsive-image-container {
         height: 100vh;
-        height: -webkit-fill-available; /* Fix for iOS height issues */
         width: 100%;
-        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     
     .responsive-image, .about-image {
         object-fit: cover;
-        object-position: center 5%;
+        object-position: center top;
         width: 100%;
         height: 100%;
+        max-height: none;
     }
 }
 
 /* Portrait-specific optimizations (typical mobile view) */
 @media screen and (orientation: portrait) and (max-width: 767px) {
+    .hero-section {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .responsive-image-container {
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
     .responsive-image, .about-image {
         object-fit: cover;
-        object-position: center 5%;
+        object-position: center top;
         width: 100%;
         height: 100%;
+        margin: 0;
+        padding: 0;
     }
     
     /* Support for iPhone browser momentum scrolling */
