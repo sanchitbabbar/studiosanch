@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDIO SANCH | The Official Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(20px);
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .cookie-consent.show {
+            transform: translateY(0);
+        }
+        
+        .cookie-consent p {
+            margin: 0;
+            padding-right: 20px;
+        }
+        
+        .cookie-consent-text a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .cookie-consent-text a:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .cookie-consent button {
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 5px 15px;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-left: 5px;
+        }
+        
+        .cookie-consent button:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        
+        .cookie-settings-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(20px);
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat', sans-serif;
+            z-index: 9998;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 20px;
+        }
+        
+        .cookie-settings-panel.show {
+            transform: translateY(0);
+        }
+        
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .settings-header h4 {
+            margin: 0;
+            font-size: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+        
+        .settings-close {
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .settings-close:hover {
+            opacity: 1;
+        }
+        
+        .cookie-type {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .cookie-type:last-child {
+            border-bottom: none;
+        }
+        
+        .cookie-type-info {
+            flex: 1;
+        }
+        
+        .cookie-type h5 {
+            margin: 0 0 3px 0;
+            font-size: 0.75rem;
+            font-weight: 400;
+        }
+        
+        .cookie-type p {
+            margin: 0;
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+        
+        .cookie-toggle {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 18px;
+            margin-left: 15px;
+        }
+        
+        .cookie-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(100, 100, 100, 0.2);
+            transition: .3s;
+            border-radius: 18px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: rgba(255, 255, 255, 0.9);
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(18px);
+        }
+        
+        .settings-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">STUDIO SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="how-to-order.html">CREATE</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero-section">
+            <div class="responsive-image-container">
+                <img src="images/hero.jpg" alt="Studio Sanch Fashion" class="responsive-image">
+            </div>
+        </section>
+
+        <section class="language-selector">
+            <h2>SELECT LOCATION AND LANGUAGE</h2>
+            <ul>
+                <li><a href="index.html" class="active">English</a></li>
+                <li><a href="fr/index.html">Français</a></li>
+            </ul>
+            <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <ul class="language-options">
+                            <li><a href="index.html" class="active">English</a></li>
+                            <li><a href="fr/index.html">Français</a></li>
+                        </ul>
+                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>CLIENT SERVICE</h3>
+                <ul>
+                    <li><a href="#">TRACK ORDER</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Enter your email address" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text">Send</span>
+                                    <input type="submit" value="" class="hidden-submit">                                    
+                                </div>
+                            </form>
+                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="#">LEGAL NOTICE</a></li>
+                    <li><a href="#">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CAREER</h3>
+            </div>
+
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanchofficial" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="js/script.js"></script>
+    <script>
+        // Newsletter Dropdown
+        const newsletterLink = document.getElementById('newsletter-link');
+        const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+        const dropdownClose = document.querySelector('.dropdown-close');
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const successMessage = document.querySelector('.success-message');
+
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
+
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }
+        });
+
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // In a real implementation, this would send the data to a server
+            this.style.display = 'none';
+            successMessage.classList.add('active');
+            
+            setTimeout(() => {
+                this.reset();
+                this.style.display = 'flex';
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }, 2000);
+        });
+
+        // Language Panel Functionality
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.querySelector('.language-panel-overlay');
+        const panelClose = document.querySelector('.panel-close');
+
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
+
+        // Keep track of panel state
+        let isPanelAnimating = false;
+        
+        // Helper function to open panel with proper timing
+        function openLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            languagePanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                isPanelAnimating = false;
+            }, 2200);
+        }
+        
+        // Helper function for closing with proper timing
+        function closeLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            const panel = document.querySelector('.language-panel');
+            
+            // Add a class to trigger the slide back transition
+            panel.classList.add('sliding-back');
+            
+            // Make backdrop fade out with delay
+            setTimeout(() => {
+                languagePanel.style.opacity = 0;
+            }, 500);
+            
+            // Only remove active class after animation completes
+            setTimeout(() => {
+                languagePanel.classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset styles for next open
+                languagePanel.style.opacity = '';
+                panel.classList.remove('sliding-back');
+                isPanelAnimating = false;
+            }, 2200);
+        }
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLanguagePanel();
+            }
+        });
+
+        // Close panel with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
+                closeLanguagePanel();
+            }
+        });
+    </script>
+    <script src="js/menu.js"></script>
+    
+    <!-- Cookie Consent Bar -->
+    <div class="cookie-consent" id="cookieConsent">
+        <div class="cookie-consent-text">
+            <p>This website uses cookies to enhance your experience. We use necessary cookies for essential functions, and optional cookies for analytics and personalization. For details, see our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+        </div>
+        <div>
+            <button id="customizeCookies">Customize</button>
+            <button id="acceptAllCookies">Accept All</button>
+            <button id="acceptNecessaryCookies">Necessary Only</button>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Panel -->
+    <div class="cookie-settings-panel" id="cookieSettings">
+        <div class="settings-header">
+            <h4>COOKIE PREFERENCES</h4>
+            <div class="settings-close">&times;</div>
+        </div>
+        
+        <!-- Necessary Cookies -->
+        <div class="cookie-type">
+            <div class="cookie-type-info">
+                <h5>NECESSARY COOKIES</h5>
+                <p>Essential cookies that enable basic website functionality. These cannot be disabled.</p>
+            </div>
+            <label class="cookie-toggle">
+                <input type="checkbox" checked disabled>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <!-- Analytics Cookies -->
+        <div class="cookie-type">
+            <div class="cookie-type-info">
+                <h5>ANALYTICS COOKIES</h5>
+                <p>These cookies allow us to count visits and traffic sources so we can measure and improve site performance.</p>
+            </div>
+            <label class="cookie-toggle">
+                <input type="checkbox" id="analyticsCookies">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <!-- Marketing Cookies -->
+        <div class="cookie-type">
+            <div class="cookie-type-info">
+                <h5>MARKETING COOKIES</h5>
+                <p>These cookies may be set by our advertising partners to build a profile of your interests and show relevant advertisements.</p>
+            </div>
+            <label class="cookie-toggle">
+                <input type="checkbox" id="marketingCookies">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <!-- Functional Cookies -->
+        <div class="cookie-type">
+            <div class="cookie-type-info">
+                <h5>FUNCTIONAL COOKIES</h5>
+                <p>These cookies enable enhanced functionality and personalization, such as language selection and remembering your preferences.</p>
+            </div>
+            <label class="cookie-toggle">
+                <input type="checkbox" id="functionalCookies">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <div class="settings-actions">
+            <button id="saveSettings">Save Preferences</button>
+        </div>
+    </div>
+
+    <script>
+        // Cookie Consent Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieConsent = document.getElementById('cookieConsent');
+            const cookieSettings = document.getElementById('cookieSettings');
+            const acceptAllBtn = document.getElementById('acceptAllCookies');
+            const necessaryOnlyBtn = document.getElementById('acceptNecessaryCookies');
+            const customizeBtn = document.getElementById('customizeCookies');
+            const settingsCloseBtn = document.querySelector('.settings-close');
+            const saveSettingsBtn = document.getElementById('saveSettings');
+            
+            // Cookie type toggles
+            const analyticsCookies = document.getElementById('analyticsCookies');
+            const marketingCookies = document.getElementById('marketingCookies');
+            const functionalCookies = document.getElementById('functionalCookies');
+            
+            // Check if user has already made a choice
+            const cookiePreferences = localStorage.getItem('cookiePreferences');
+            
+            // Function to apply cookie preferences
+            function applyCookiePreferences(preferences) {
+                if (preferences) {
+                    try {
+                        const prefs = JSON.parse(preferences);
+                        
+                        // Update toggles
+                        if (analyticsCookies) analyticsCookies.checked = prefs.analytics;
+                        if (marketingCookies) marketingCookies.checked = prefs.marketing;
+                        if (functionalCookies) functionalCookies.checked = prefs.functional;
+                        
+                        // Apply cookie settings (example implementation)
+                        if (!prefs.analytics) {
+                            // Disable analytics tracking code
+                            // e.g., window['ga-disable-UA-XXXXXXXX-Y'] = true;
+                        }
+                        
+                        if (!prefs.marketing) {
+                            // Disable marketing cookies
+                            // e.g., disable related scripts
+                        }
+                        
+                        if (!prefs.functional) {
+                            // Disable functional cookies
+                            // Implementation depends on what functionality uses cookies
+                        }
+                    } catch (e) {
+                        console.error('Error parsing cookie preferences:', e);
+                    }
+                }
+            }
+            
+            // Show consent banner if no preferences saved
+            if (!cookiePreferences) {
+                setTimeout(() => {
+                    cookieConsent.classList.add('show');
+                }, 1000);
+            } else {
+                // Apply saved preferences
+                applyCookiePreferences(cookiePreferences);
+            }
+            
+            // Handle "Accept All" button click
+            acceptAllBtn.addEventListener('click', function() {
+                const preferences = {
+                    necessary: true,  // Always true
+                    analytics: true,
+                    marketing: true,
+                    functional: true
+                };
+                
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                applyCookiePreferences(JSON.stringify(preferences));
+                cookieConsent.classList.remove('show');
+            });
+            
+            // Handle "Necessary Only" button click
+            necessaryOnlyBtn.addEventListener('click', function() {
+                const preferences = {
+                    necessary: true,  // Always true
+                    analytics: false,
+                    marketing: false,
+                    functional: false
+                };
+                
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                applyCookiePreferences(JSON.stringify(preferences));
+                cookieConsent.classList.remove('show');
+            });
+            
+            // Handle "Customize" button click
+            customizeBtn.addEventListener('click', function() {
+                cookieConsent.classList.remove('show');
+                cookieSettings.classList.add('show');
+                
+                // Load existing preferences into toggles
+                if (cookiePreferences) {
+                    applyCookiePreferences(cookiePreferences);
+                }
+            });
+            
+            // Handle settings close button
+            settingsCloseBtn.addEventListener('click', function() {
+                cookieSettings.classList.remove('show');
+                
+                // If no preferences saved yet, show the consent banner again
+                if (!localStorage.getItem('cookiePreferences')) {
+                    cookieConsent.classList.add('show');
+                }
+            });
+            
+            // Handle "Save Preferences" button
+            saveSettingsBtn.addEventListener('click', function() {
+                const preferences = {
+                    necessary: true,  // Always true
+                    analytics: analyticsCookies.checked,
+                    marketing: marketingCookies.checked,
+                    functional: functionalCookies.checked
+                };
+                
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                applyCookiePreferences(JSON.stringify(preferences));
+                cookieSettings.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>

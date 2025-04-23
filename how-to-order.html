@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATE - STUDIO SANCH</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Luxury Haute Couture Museum styling */
+        main {
+            background-color: black;
+            color: white;
+        }
+        
+        /* Fullscreen intro video */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+            margin-bottom: 2rem;
+            min-height: 80vh;
+            max-height: 90vh;
+        }
+        
+        .fashion-gallery {
+            position: relative;
+            width: 33%;
+            max-width: 385px;
+            min-width: 275px;
+            height: 82.5vh;
+            overflow: visible;
+            background-color: transparent;
+        }
+        
+        .gallery-header {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .gallery-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        
+        /* Elegant quote styling */
+        .quote-block {
+            width: 50%;
+            text-align: left;
+            padding: 0 2rem 0 4rem;
+        }
+        
+        .quote-text {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: white;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        
+        .quote-author {
+            font-family: var(--font-primary);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+        
+        /* Museum Gallery Styling */
+        .process-section {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 8rem 2rem;
+        }
+        
+        .process-header {
+            margin-bottom: 6rem;
+            text-align: center;
+        }
+        
+        .process-headline {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: white;
+        }
+        
+        .process-title {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            letter-spacing: 0.25em;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5rem 1.5rem;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+        }
+        
+        .gallery-item-1 {
+            grid-column: 1 / 7;
+            grid-row: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .gallery-item-1-text {
+            grid-column: 7 / 13;
+            grid-row: 1;
+            align-self: center;
+        }
+        
+        .gallery-item-2 {
+            grid-column: 6 / 13;
+            grid-row: 2;
+        }
+        
+        .gallery-item-2-text {
+            grid-column: 1 / 6;
+            grid-row: 2;
+            align-self: center;
+        }
+        
+        .gallery-item-3 {
+            grid-column: 1 / 7;
+            grid-row: 3;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .gallery-item-3-text {
+            grid-column: 7 / 13;
+            grid-row: 3;
+            align-self: center;
+        }
+        
+        .gallery-item-4 {
+            grid-column: 6 / 13;
+            grid-row: 4;
+        }
+        
+        .gallery-item-4-text {
+            grid-column: 1 / 6;
+            grid-row: 4;
+            align-self: center;
+        }
+        
+        .step-media {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .horizontal-media {
+            aspect-ratio: 16/9;
+        }
+        
+        .vertical-media {
+            aspect-ratio: 9/16;
+            max-height: 75vh;
+            margin: 0 auto;
+            width: auto;
+        }
+        
+        .step-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+        
+        .sketch-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            filter: grayscale(30%) contrast(1.1);
+        }
+        
+        .step-number {
+            font-family: 'Jost', sans-serif;
+            font-size: 8rem;
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        
+        .step-title {
+            font-family: var(--font-primary);
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+        
+        .step-description {
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+        
+        /* Final CTA Section */
+        .cta-section {
+            padding: 8rem 2rem 6rem;
+            background-color: black;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cta-title {
+            font-family: 'Jost', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: white;
+        }
+        
+        .cta-text {
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 0.8rem 0;
+            background-color: transparent;
+            color: white;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+            font-weight: 300;
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        .cta-button:hover {
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom-color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.22em;
+        }
+        
+        .cta-button:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s ease;
+        }
+        
+        .cta-button:hover:after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .step-details {
+                margin-left: 4rem;
+                max-width: 450px;
+            }
+            
+            .even-step .step-details {
+                margin-right: 4rem;
+            }
+            
+            .step-number {
+                font-size: 8rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .process-step {
+                width: 90%;
+                height: 60vh;
+            }
+            
+            .step-details {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            
+            .even-step .step-details {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .step-number {
+                font-size: 6rem;
+                top: -3rem;
+            }
+            
+            .step-title {
+                font-size: 1.6rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">STUDIO SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="how-to-order.html">CREATE</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main style="max-width: 100%; overflow-x: hidden; background-color: black;">
+        <section class="hero-section">
+            <div class="fashion-gallery">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
+                    <source src="public/Videos/1.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <div class="quote-block">
+                <p class="quote-text">"Luxury is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
+                <p class="quote-author">SANCHIT BABBAR</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="process-header">
+                <h2 class="process-headline">THE PROCESS</h2>
+            </div>
+            
+            <div class="gallery-container">
+                <!-- Gallery Item 1 - Video (Vertical/iPhone) -->
+                <div class="gallery-item gallery-item-1">
+                    <div class="step-media vertical-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="public/Videos/4.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 1 - Text -->
+                <div class="gallery-item-text gallery-item-1-text">
+                    <div class="step-details">
+                        <div class="step-number">01</div>
+                        <h3 class="step-title">Personalized Consultation</h3>
+                        <p class="step-description">Every piece begins with a personal consultation to understand your preferences and requirements.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 - Text -->
+                <div class="gallery-item-text gallery-item-2-text">
+                    <div class="step-details">
+                        <div class="step-number">02</div>
+                        <h3 class="step-title">Designing Your Masterpiece</h3>
+                        <p class="step-description">Personally view and select original designs sketched by Sanchit himself. Together, we'll ensure every detail aligns perfectly with your vision.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 - Video (Horizontal) -->
+                <div class="gallery-item gallery-item-2">
+                    <div class="step-media horizontal-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="public/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 - Video (Vertical/iPhone) -->
+                <div class="gallery-item gallery-item-3">
+                    <div class="step-media vertical-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="public/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 - Text -->
+                <div class="gallery-item-text gallery-item-3-text">
+                    <div class="step-details">
+                        <div class="step-number">03</div>
+                        <h3 class="step-title">Selecting Premium Materials</h3>
+                        <p class="step-description">We source only the finest fabrics from around the world to craft a clothing that feels as luxurious as it looks.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 - Text -->
+                <div class="gallery-item-text gallery-item-4-text">
+                    <div class="step-details">
+                        <div class="step-number">04</div>
+                        <h3 class="step-title">Tailoring to Perfection</h3>
+                        <p class="step-description">Whether you prefer a standard EU, UK, or US size or a completely custom fit, our expert tailors will bring your design to life with precise attention to detail.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 - Image (Horizontal) -->
+                <div class="gallery-item gallery-item-4">
+                    <div class="step-media horizontal-media">
+                        <img class="sketch-image" src="images/sketch 1.heic" alt="Design Development Sketch" style="object-position: top center;">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <h3 class="cta-title">CREATE WITH SANCH</h3>
+            <p class="cta-text">Ready to create your custom couture piece? Make an appointment and begin your journey with Sanch.</p>
+            <a href="appointment.html" class="cta-button">BEGIN</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <ul class="language-options">
+                            <li><a href="index.html" class="active">English</a></li>
+                            <li><a href="fr/index.html">Français</a></li>
+                        </ul>
+                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>CLIENT SERVICE</h3>
+                <ul>
+                    <li><a href="#">TRACK ORDER</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Enter your email address" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text">Send</span>
+                                    <input type="submit" value="" class="hidden-submit">
+                                </div>
+                            </form>
+                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="#">LEGAL NOTICE</a></li>
+                    <li><a href="#">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CAREER</h3>
+            </div>
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanchofficial" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+    
+    <!-- Video Performance Optimization Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all videos
+            const videos = document.querySelectorAll('.step-video');
+            
+            // Create Intersection Observer with higher priority for vertical videos
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Check if this is the problematic video in step 3
+                    const isStep3Video = entry.target.closest('.gallery-item-3') !== null;
+                    
+                    // If element is in view
+                    if (entry.isIntersecting) {
+                        // Make sure video is playing
+                        const playPromise = entry.target.play();
+                        
+                        // Handle play promise to avoid errors
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                // Auto-play was prevented, try again with user interaction
+                                document.addEventListener('click', () => {
+                                    entry.target.play();
+                                }, { once: true });
+                            });
+                        }
+                    } else {
+                        // Don't pause the step 3 video to prevent stuttering
+                        if (!isStep3Video) {
+                            // Only pause if video is actually playing
+                            if (!entry.target.paused) {
+                                entry.target.pause();
+                            }
+                        }
+                    }
+                });
+            }, { threshold: 0.2, rootMargin: '0px 0px 100px 0px' }); // More sensitive threshold and root margin
+            
+            // Add each video to the observer
+            videos.forEach(video => {
+                observer.observe(video);
+                
+                // Ensure video plays on click as fallback
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Newsletter Dropdown
+        const newsletterLink = document.getElementById('newsletter-link');
+        const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+        const dropdownClose = document.querySelector('.dropdown-close');
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const successMessage = document.querySelector('.success-message');
+
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
+
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }
+        });
+
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // In a real implementation, this would send the data to a server
+            this.style.display = 'none';
+            successMessage.classList.add('active');
+            
+            setTimeout(() => {
+                this.reset();
+                this.style.display = 'flex';
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }, 2000);
+        });
+        
+        // Language Panel Functionality
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.querySelector('.language-panel-overlay');
+        const panelClose = document.querySelector('.panel-close');
+
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
+
+        // Keep track of panel state
+        let isPanelAnimating = false;
+        
+        // Helper function to open panel with proper timing
+        function openLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            languagePanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                isPanelAnimating = false;
+            }, 2200);
+        }
+        
+        // Helper function for closing with proper timing
+        function closeLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            const panel = document.querySelector('.language-panel');
+            
+            // Add a class to trigger the slide back transition
+            panel.classList.add('sliding-back');
+            
+            // Make backdrop fade out with delay
+            setTimeout(() => {
+                languagePanel.style.opacity = 0;
+            }, 500);
+            
+            // Only remove active class after animation completes
+            setTimeout(() => {
+                languagePanel.classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset styles for next open
+                languagePanel.style.opacity = '';
+                panel.classList.remove('sliding-back');
+                isPanelAnimating = false;
+            }, 2200);
+        }
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLanguagePanel();
+            }
+        });
+
+        // Close panel with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
+                closeLanguagePanel();
+            }
+        });
+    </script>
+</body>
+</html>

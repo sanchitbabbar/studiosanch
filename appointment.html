@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make An Appointment - STUDIO SANCH</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to the Appointment page */
+        .appointment-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .appointment-steps {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-header {
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+        
+        .step-title {
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            font-weight: 400;
+        }
+        
+        .form-group {
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+        }
+        
+        .form-group input {
+            padding: 0.8rem 1rem;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-family: var(--font-primary);
+            background-color: rgba(25,25,25,0.4);
+            color: #f0f0f0;
+            letter-spacing: 0.05em;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+        
+        .form-group select {
+            padding: 0.8rem 1rem;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-family: var(--font-primary);
+            background-color: rgba(25,25,25,0.4);
+            color: #f0f0f0;
+            letter-spacing: 0.05em;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 14px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+        
+        /* Force custom select styling across all browsers */
+        .form-group select::-ms-expand {
+            display: none;
+        }
+        
+        /* Custom select styling to override browser defaults */
+        .form-group select {
+            color-scheme: dark;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            background-color: rgba(30,30,30,0.5);
+        }
+        
+        /* Custom Select Dropdown Styling */
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+            width: 100%;
+        }
+        
+        .custom-select {
+            position: relative;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            color: #f0f0f0;
+            cursor: pointer;
+        }
+        
+        .custom-select-trigger {
+            position: relative;
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            background-color: rgba(25,25,25,0.4);
+            transition: all 0.3s ease;
+            font-weight: 300;
+        }
+        
+        .custom-select-trigger:after {
+            content: '';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-select.opened .custom-select-trigger:after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .custom-options {
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: rgba(20,20,20,0.95);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(5px);
+            z-index: 2;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        .custom-select.opened .custom-options {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+        
+        .custom-option {
+            position: relative;
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+        
+        .custom-option:last-of-type {
+            border-bottom: none;
+        }
+        
+        .custom-option:hover {
+            background-color: rgba(45,45,45,0.4);
+        }
+        
+        .custom-option.selection {
+            background-color: rgba(35,35,35,0.6);
+        }
+        
+        .form-group label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-bottom: 0.4rem;
+        }
+        
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            width: 100%;
+            padding: 0.5rem;
+        }
+        
+        .calendar-header {
+            grid-column: span 7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .weekday {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem;
+        }
+        
+        .date {
+            text-align: center;
+            padding: 0.6rem 0.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            margin: 1px;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .date:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .date.selected {
+            color: white;
+            text-shadow: 0 0 15px rgba(255,255,255,0.4);
+            position: relative;
+        }
+        
+        .date.selected:after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 30%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255,255,255,0.4);
+        }
+        
+        .date.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        
+        /* Exclusive Dropdown Styling */
+        .exclusive-dropdown {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-primary);
+        }
+        
+        .selected-value {
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0;
+            color: #f0f0f0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 0.5rem;
+        }
+        
+        .exclusive-button {
+            background-color: transparent;
+            color: rgba(255,255,255,0.7);
+            border: none;
+            padding: 0.5rem 0.7rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            font-weight: 300;
+            position: relative;
+        }
+        
+        .exclusive-button:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .dropdown-content {
+            position: absolute;
+            display: none;
+            background-color: rgba(15,15,15,0.7);
+            min-width: 280px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            z-index: 100;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.12);
+            margin-top: 0.7rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                        transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 2px;
+        }
+        
+        .calendar-dropdown {
+            width: 420px;
+            padding: 2rem;
+            background-color: rgba(15,15,15,0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+        
+        .time-dropdown {
+            width: 280px;
+            padding: 2rem;
+            background-color: rgba(15,15,15,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        }
+        
+        /* Control visibility only on button hover */
+        .exclusive-dropdown .dropdown-content {
+            display: none;
+        }
+        
+        .exclusive-dropdown .exclusive-button:hover + .dropdown-content,
+        .exclusive-dropdown .dropdown-content:hover {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .time-slot {
+            text-align: center;
+            padding: 0.6rem 0.3rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            background-color: transparent;
+            color: rgba(255,255,255,0.7);
+            font-weight: 300;
+            margin: 2px 5px;
+            position: relative;
+        }
+        
+        .time-slot:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .time-slot.selected {
+            color: white;
+            text-shadow: 0 0 15px rgba(255,255,255,0.4);
+            position: relative;
+        }
+        
+        .time-slot.selected:after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 30%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255,255,255,0.4);
+        }
+        
+        .time-slot.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .summary-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .summary-value {
+            font-size: 0.9rem;
+        }
+        
+        .appointment-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background-color: transparent;
+            color: rgba(255,255,255,0.7);
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: 300;
+            position: relative;
+        }
+        
+        .btn:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .btn-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar {
+                gap: 0.25rem;
+            }
+            
+            .date, .time-slot {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">STUDIO SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="how-to-order.html">CREATE</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main style="background-color: #080808; color: #f0f0f0; padding-top: 6rem; background-image: linear-gradient(to bottom, rgba(20, 20, 20, 0.3), rgba(10, 10, 10, 0.5)), url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAABN2lDQ1BBZG9iZSBSR0IgKDE5OTgpAAAokZWPv0rDUBSHvxtFxaFWCOLgcCdRUGzVwYxJW4ogWKtDkq1JQ5ViEm6uf/oQjm4dXNx9AidHwUHxCXwDxamDQ4QMBYvf9J3fORzOAaNi152GUYbzWKt205Gu58vZF2aYAoBOmKV2q3UAECdxxBjf7wiA10277jTG+38yH6ZKAyNguxtlIYgK0L/SqQYxBMygn2oQD4CpTto1EE9AqZf7G1AKcv8ASsr1fBBfgNlzPR+MOcAMcl8BTB1da4Bakg7UWe9Uy6plWdLuJkEkjweZjs4zuR+HiUoT1dFRF8jvA2AxH2w3HblWtay99X/+PRHX82Vun0cIQCw9F1lBeKEuf1UYO5PrYsdwGQ7vYXpUZLs3cLcBC7dFtlqF8hY8Dn8AwMZP/fNTP8gAAAAGYktHRAAMAA4AFSeykcIAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAHdElNRQflBR0IKDVu8XqeAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAYJJREFUaN7tmMGtgzAMhtPqARg5I7Gw1XsYolP13h2qHqteEe9iNmiZgbFCNK0aWDhRtapSS8iJJLZjf/4Tgwhc115e5YuIXmuty7JUWutzeVdKPd/F6rrudi0455xz2rbttCzLIYQwxpgQwtFaewDAoiiaGmOYMYaVUs0/awMYYzDG8FxKnTEYYxARsyhg2KqqXLaBiBnGmJfZYwfTNA3SNG2GYfi4ZNu2XYiItdaWMUYhIi8FsylB13WNuq4RAOCcexPCdwFcJoRvibRMCDcRWSwEEY/3lR0SIbg2XH4TJYSwRwcAAHieB5IkyXvfLxaGmZ+iKC5931+9YJimKeM4RmEYtuM4vvnH1PxJCSm7FPQfLp1IJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJRCKRSPQxEWbuirLNvU+pSYS47KzdYgGl1EH2+zn3sljnoqrryJZlufuZwXVd3l09d8OsLsuSu66DKIpgGAYwxkBKCUII8H3/4Ps+7LLPt027DlrrGhFrKeUXIlb/9Z16A38P9RBNIVPIUAAAAABJRU5ErkJggg==');">
+
+        <section class="appointment-section">
+            <h1 style="font-size: 1.5rem; letter-spacing: 0.2em; margin-bottom: 2rem; font-weight: 400;">MAKE AN APPOINTMENT</h1>
+            
+            <div class="appointment-steps">
+                <div class="step active" id="step1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <h2 class="step-title">Select Service</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Choose a Service*</label>
+                        <div class="custom-select-wrapper">
+                            <div class="custom-select">
+                                <div class="custom-select-trigger">Select a service</div>
+                                <div class="custom-options">
+                                    <span class="custom-option" data-value="consultation">Design Consultation</span>
+                                    <span class="custom-option" data-value="styling">Personal Styling</span>
+                                    <span class="custom-option" data-value="fitting">Custom Fitting</span>
+                                    <span class="custom-option" data-value="photoshoot">Fashion Photoshoot</span>
+                                </div>
+                                <input type="hidden" id="service" name="service" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-buttons">
+                        <button class="btn btn-disabled" disabled>Previous</button>
+                        <button class="btn" id="nextToStep2">Next</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <h2 class="step-title">Select Date & Time</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selected-date">Selected Date</label>
+                        <div class="exclusive-dropdown">
+                            <div class="selected-value" id="selected-date">April 23, 2025</div>
+                            <button class="exclusive-button">SELECT DAY</button>
+                            <div class="dropdown-content calendar-dropdown">
+                                <div class="calendar">
+                                    <div class="calendar-header">
+                                        <h3 id="currentMonth">April 2025</h3>
+                                        <div class="calendar-nav">
+                                            <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                            <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="weekday">Mon</div>
+                                    <div class="weekday">Tue</div>
+                                    <div class="weekday">Wed</div>
+                                    <div class="weekday">Thu</div>
+                                    <div class="weekday">Fri</div>
+                                    <div class="weekday">Sat</div>
+                                    <div class="weekday">Sun</div>
+                                    
+                                    <!-- Calendar dates with limited availability -->
+                                    <div class="date disabled">30</div>
+                                    <div class="date disabled">31</div>
+                                    <div class="date disabled">1</div>
+                                    <div class="date disabled">2</div>
+                                    <div class="date disabled">3</div>
+                                    <div class="date disabled">4</div>
+                                    <div class="date disabled">5</div>
+                                    <div class="date disabled">6</div>
+                                    <div class="date disabled">7</div>
+                                    <div class="date disabled">8</div>
+                                    <div class="date disabled">9</div>
+                                    <div class="date disabled">10</div>
+                                    <div class="date disabled">11</div>
+                                    <div class="date disabled">12</div>
+                                    <div class="date">13</div>
+                                    <div class="date disabled">14</div>
+                                    <div class="date disabled">15</div>
+                                    <div class="date">16</div>
+                                    <div class="date disabled">17</div>
+                                    <div class="date disabled">18</div>
+                                    <div class="date disabled">19</div>
+                                    <div class="date">20</div>
+                                    <div class="date disabled">21</div>
+                                    <div class="date disabled">22</div>
+                                    <div class="date selected">23</div>
+                                    <div class="date disabled">24</div>
+                                    <div class="date disabled">25</div>
+                                    <div class="date disabled">26</div>
+                                    <div class="date">27</div>
+                                    <div class="date disabled">28</div>
+                                    <div class="date disabled">29</div>
+                                    <div class="date">30</div>
+                                    <div class="date disabled">1</div>
+                                    <div class="date disabled">2</div>
+                                    <div class="date disabled">3</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selected-time">Selected Time</label>
+                        <div class="exclusive-dropdown">
+                            <div class="selected-value" id="selected-time">2:00 PM</div>
+                            <button class="exclusive-button">SELECT TIME</button>
+                            <div class="dropdown-content time-dropdown">
+                                <div class="time-slots">
+                                    <div class="time-slot disabled">10:00 AM</div>
+                                    <div class="time-slot">11:30 AM</div>
+                                    <div class="time-slot selected">2:00 PM</div>
+                                    <div class="time-slot disabled">3:30 PM</div>
+                                    <div class="time-slot">5:00 PM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="appointment-buttons">
+                        <button class="btn btn-outline" id="backToStep1">Previous</button>
+                        <button class="btn" id="nextToStep3">Next</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <h2 class="step-title">Your Information</h2>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name*</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address*</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number*</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Special Requests or Notes</label>
+                        <input type="text" id="notes" name="notes">
+                    </div>
+                    
+                    <div class="appointment-buttons">
+                        <button class="btn btn-outline" id="backToStep2">Previous</button>
+                        <button class="btn" id="nextToStep4">Next</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <h2 class="step-title">Confirmation</h2>
+                    </div>
+                    
+                    <div class="appointment-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Service</div>
+                            <div class="summary-value" id="summaryService">Personal Styling</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div class="summary-label">Date</div>
+                            <div class="summary-value" id="summaryDate">April 23, 2025</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div class="summary-label">Time</div>
+                            <div class="summary-value" id="summaryTime">12:00 PM</div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div class="summary-label">Name</div>
+                            <div class="summary-value" id="summaryName"></div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div class="summary-label">Email</div>
+                            <div class="summary-value" id="summaryEmail"></div>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <div class="summary-label">Phone</div>
+                            <div class="summary-value" id="summaryPhone"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="newsletter" id="newsletter">
+                            <span style="font-size: 0.8rem;">Subscribe to the Studio Sanch newsletter to receive exclusive information on new designs, fashion shows and events</span>
+                        </label>
+                    </div>
+                    
+                    <div class="appointment-buttons">
+                        <button class="btn btn-outline" id="backToStep3">Previous</button>
+                        <button class="btn" id="confirmAppointment">Confirm Appointment</button>
+                    </div>
+                </div>
+                
+                <div class="step" id="step5">
+                    <div style="text-align: center; padding: 3rem 0;">
+                        <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 2rem;"></i>
+                        <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem; font-weight: 400;">Appointment Confirmed</h2>
+                        <p style="margin-bottom: 1rem;">Thank you for booking an appointment with Studio Sanch.</p>
+                        <p style="margin-bottom: 2rem;">A confirmation email has been sent to your email address. We look forward to meeting you!</p>
+                        <a href="index.html" class="btn">Return to Homepage</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <ul class="language-options">
+                            <li><a href="index.html" class="active">English</a></li>
+                            <li><a href="fr/index.html">Français</a></li>
+                        </ul>
+                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>CLIENT SERVICE</h3>
+                <ul>
+                    <li><a href="#">TRACK ORDER</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Enter your email address" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text">Send</span>
+                                    <input type="submit" value="" class="hidden-submit">
+                                </div>
+                            </form>
+                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="#">LEGAL NOTICE</a></li>
+                    <li><a href="#">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CAREER</h3>
+            </div>
+
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanchofficial" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+    <script>
+        // Custom Select Dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const customSelect = document.querySelector('.custom-select');
+            const customSelectTrigger = document.querySelector('.custom-select-trigger');
+            const customOptions = document.querySelectorAll('.custom-option');
+            const hiddenInput = document.getElementById('service');
+            
+            // Toggle dropdown
+            customSelectTrigger.addEventListener('click', function() {
+                customSelect.classList.toggle('opened');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!customSelect.contains(e.target)) {
+                    customSelect.classList.remove('opened');
+                }
+            });
+            
+            // Handle option selection
+            customOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    customOptions.forEach(opt => opt.classList.remove('selection'));
+                    this.classList.add('selection');
+                    customSelectTrigger.textContent = this.textContent;
+                    hiddenInput.value = this.getAttribute('data-value');
+                    customSelect.classList.remove('opened');
+                });
+            });
+        });
+        
+        // Newsletter Dropdown
+        const newsletterLink = document.getElementById('newsletter-link');
+        const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+        const dropdownClose = document.querySelector('.dropdown-close');
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const successMessage = document.querySelector('.success-message');
+
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
+
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }
+        });
+
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // In a real implementation, this would send the data to a server
+            this.style.display = 'none';
+            successMessage.classList.add('active');
+            
+            setTimeout(() => {
+                this.reset();
+                this.style.display = 'flex';
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }, 2000);
+        });
+    </script>
+    <script>
+        // Language Panel Functionality
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.querySelector('.language-panel-overlay');
+        const panelClose = document.querySelector('.panel-close');
+
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
+
+        // Keep track of panel state
+        let isPanelAnimating = false;
+        
+        // Helper function to open panel with proper timing
+        function openLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            languagePanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                isPanelAnimating = false;
+            }, 2200);
+        }
+        
+        // Helper function for closing with proper timing
+        function closeLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            const panel = document.querySelector('.language-panel');
+            
+            // Add a class to trigger the slide back transition
+            panel.classList.add('sliding-back');
+            
+            // Make backdrop fade out with delay
+            setTimeout(() => {
+                languagePanel.style.opacity = 0;
+            }, 500);
+            
+            // Only remove active class after animation completes
+            setTimeout(() => {
+                languagePanel.classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset styles for next open
+                languagePanel.style.opacity = '';
+                panel.classList.remove('sliding-back');
+                isPanelAnimating = false;
+            }, 2200);
+        }
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLanguagePanel();
+            }
+        });
+
+        // Close panel with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
+                closeLanguagePanel();
+            }
+        });
+
+        // Appointment form navigation
+        document.getElementById('nextToStep2').addEventListener('click', function() {
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        });
+        
+        document.getElementById('backToStep1').addEventListener('click', function() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+        });
+        
+        document.getElementById('nextToStep3').addEventListener('click', function() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+        });
+        
+        document.getElementById('backToStep2').addEventListener('click', function() {
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        });
+        
+        document.getElementById('nextToStep4').addEventListener('click', function() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            // Update summary
+            document.getElementById('summaryName').textContent = name;
+            document.getElementById('summaryEmail').textContent = email;
+            document.getElementById('summaryPhone').textContent = phone;
+            
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step4').classList.add('active');
+        });
+        
+        document.getElementById('backToStep3').addEventListener('click', function() {
+            document.getElementById('step4').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+        });
+        
+        document.getElementById('confirmAppointment').addEventListener('click', function() {
+            document.getElementById('step4').classList.remove('active');
+            document.getElementById('step5').classList.add('active');
+        });
+        
+        // Interactive calendar
+        const dates = document.querySelectorAll('.date:not(.disabled)');
+        dates.forEach(date => {
+            date.addEventListener('click', function() {
+                dates.forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // Interactive time slots
+        const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
