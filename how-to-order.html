@@ -31,6 +31,8 @@
             margin-bottom: 2rem;
             min-height: 80vh;
             max-height: 90vh;
+            overflow: visible;
+            flex-wrap: nowrap;
         }
         
         .fashion-gallery {
@@ -385,10 +387,38 @@
             }
         }
         
-        /* iPhone-specific improvements - minimal changes to prevent layout issues */
-        @media (max-width: 480px) {
-            /* ONLY APPLYING CHANGES TO iPHONE SIZE - NO DESKTOP CHANGES */
-            /* Following the exact video→text pattern as requested */
+        /* Quote block styling for all screen sizes */
+        .quote-block {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow: visible;
+        }
+        
+        /* iPhone-specific improvements - minimal changes that ONLY affect mobile */
+        @media (max-width: 480px) {            
+            /* Create the mobile-only layout */
+            .hero-section {
+                flex-direction: column;
+                padding: 1rem;
+                min-height: auto;
+                max-height: none;
+                gap: 1rem;
+            }
+            
+            .fashion-gallery {
+                width: 100%;
+                max-width: 100%;
+                height: 70vh;
+            }
+            
+            .quote-block {
+                width: 90%;
+                margin: 1rem 0;
+            }
+            
+            /* Mobile-only gallery layout */
             .gallery-container {
                 display: flex !important;
                 flex-direction: column !important;
