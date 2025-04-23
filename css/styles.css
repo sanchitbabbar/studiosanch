@@ -77,8 +77,8 @@ header {
 }
 
 .logo a {
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
+    font-size: 0.832rem; /* Increased by 4% from 0.8rem */
+    letter-spacing: 0.14em; /* Exactly 14% character spacing */
     font-weight: 400;
     font-family: var(--font-logo);
     line-height: 1;
