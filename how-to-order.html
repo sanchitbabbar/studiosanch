@@ -385,48 +385,23 @@
             }
         }
         
-        /* iPhone layout with the specific pattern: video→text, video→text */
+        /* iPhone-specific improvements - minimal changes to prevent layout issues */
         @media (max-width: 480px) {
-            .hero-section {
-                flex-direction: column;
-                height: 100vh; /* Full screen height */
-                min-height: 100vh;
-                padding: 0;
-                gap: 0;
-            }
-            
-            .fashion-gallery {
-                width: 100%;
-                height: 70vh; /* Takes up most of the screen */
-                max-width: none;
-            }
-            
-            .gallery-video {
-                object-fit: cover;
-                height: 100%;
-                width: 100%;
-            }
-            
-            .quote-block {
-                width: 90%;
-                padding: 1.5rem 0;
-                margin-bottom: 0;
-            }
-            
-            /* Create a single-column layout for the process gallery */
+            /* ONLY APPLYING CHANGES TO iPHONE SIZE - NO DESKTOP CHANGES */
+            /* Following the exact video→text pattern as requested */
             .gallery-container {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                padding: 0;
-                gap: 0;
+                display: flex !important;
+                flex-direction: column !important;
+                grid-template-columns: unset;
+                grid-auto-rows: unset;
             }
             
-            /* Override the grid layout */
+            /* Override the grid layout for mobile only */
             .gallery-item, .gallery-item-text {
+                grid-column: unset !important;
+                grid-row: unset !important;
                 width: 100%;
-                grid-column: auto;
-                grid-row: auto;
+                margin: 0 !important;
             }
             
             /* Set proper order for iPhone view as requested */
@@ -439,31 +414,20 @@
             .gallery-item-4-text { order: 7; }
             .gallery-item-4 { order: 8; }
             
-            .step-media {
-                height: 70vh;
-                width: 100%;
-            }
-            
+            /* Ensure videos display properly on iPhone */
             .step-video, .gallery-video {
                 object-fit: cover;
+                width: 100%;
                 height: 100%;
-                width: 100%;
             }
             
-            .step-details {
-                padding: 2rem 1.5rem;
-                width: 100%;
-                max-width: 100%;
-            }
-            
+            /* Adjust text sizes for iPhone */
             .step-number {
                 font-size: 5rem;
-                opacity: 0.3;
             }
             
             .step-title {
                 font-size: 1.3rem;
-                margin-top: -1rem;
             }
             
             .step-description {
@@ -477,9 +441,10 @@
                 line-height: 1.5;
             }
             
-            .process-headline {
-                font-size: 1.8rem;
-                margin: 2rem 0;
+            /* Adjust spacing to ensure proper flow */
+            .step-details {
+                padding: 1.5rem;
+                max-width: 100%;
             }
         }
     </style>
