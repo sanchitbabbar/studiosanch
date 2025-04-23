@@ -902,21 +902,43 @@ footer {
 
 @media (max-width: 480px) {
     /* iPhone-specific fixes */
+    body {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+    }
+    
+    main {
+        min-height: 100vh;
+        justify-content: flex-start;
+    }
+    
+    .hero-section {
+        height: 100vh; /* Full viewport height on iPhone */
+        min-height: 100vh;
+        position: relative;
+    }
+    
     .responsive-image-container {
-        height: calc(100vh - 3rem);
+        height: 100vh;
+        position: fixed; /* Keep fixed to viewport */
+        top: 3rem; /* Below header */
+        left: 0;
+        width: 100%;
+        z-index: 1;
     }
     
     .responsive-image {
         object-fit: cover;
         object-position: center top;
+        height: 100%;
+        width: 100%;
     }
     
-    main {
-        justify-content: flex-start;
-    }
-    
-    .language-selector {
-        margin-top: auto;
+    footer {
+        position: relative;
+        z-index: 2;
+        margin-top: 100vh; /* Push footer below hero image */
     }
     
     .footer-container {
@@ -929,18 +951,39 @@ footer {
     }
 }
 
-/* Instagram browser compatibility fix */
+/* Instagram and iPhone browser compatibility fix */
 @media screen and (max-width: 1024px) and (display-mode: standalone), 
        screen and (max-width: 1024px) and (display-mode: fullscreen),
-       screen and (max-width: 1024px) and (-webkit-app-region: drag) {
+       screen and (max-width: 1024px) and (-webkit-app-region: drag),
+       screen and (max-width: 480px) {
     body {
         -webkit-overflow-scrolling: touch;
-        height: 100vh;
+        height: auto;
         overflow-y: scroll;
     }
     
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+    
+    main {
+        padding-top: 3rem;
+    }
+    
     .responsive-image-container {
-        height: calc(100vh - 3rem);
+        height: 100vh;
+        width: 100vw;
+        max-width: 100%;
+        max-height: 100vh;
+    }
+    
+    /* Support for iPhone browser momentum scrolling */
+    html, body {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
     }
 }
 
