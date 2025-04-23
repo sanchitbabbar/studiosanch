@@ -385,28 +385,101 @@
             }
         }
         
-        /* iPhone-specific improvements - minimal changes to prevent layout issues */
+        /* iPhone layout with the specific pattern: video→text, video→text */
         @media (max-width: 480px) {
+            .hero-section {
+                flex-direction: column;
+                height: 100vh; /* Full screen height */
+                min-height: 100vh;
+                padding: 0;
+                gap: 0;
+            }
+            
+            .fashion-gallery {
+                width: 100%;
+                height: 70vh; /* Takes up most of the screen */
+                max-width: none;
+            }
+            
+            .gallery-video {
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+            }
+            
+            .quote-block {
+                width: 90%;
+                padding: 1.5rem 0;
+                margin-bottom: 0;
+            }
+            
+            /* Create a single-column layout for the process gallery */
+            .gallery-container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                padding: 0;
+                gap: 0;
+            }
+            
+            /* Override the grid layout */
+            .gallery-item, .gallery-item-text {
+                width: 100%;
+                grid-column: auto;
+                grid-row: auto;
+            }
+            
+            /* Set proper order for iPhone view as requested */
+            .gallery-item-1 { order: 1; }
+            .gallery-item-1-text { order: 2; }
+            .gallery-item-2 { order: 3; }
+            .gallery-item-2-text { order: 4; }
+            .gallery-item-3 { order: 5; }
+            .gallery-item-3-text { order: 6; }
+            .gallery-item-4-text { order: 7; }
+            .gallery-item-4 { order: 8; }
+            
+            .step-media {
+                height: 70vh;
+                width: 100%;
+            }
+            
             .step-video, .gallery-video {
-                object-fit: cover; /* Ensure videos display properly */
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+            }
+            
+            .step-details {
+                padding: 2rem 1.5rem;
+                width: 100%;
+                max-width: 100%;
             }
             
             .step-number {
-                font-size: 5rem; /* Slightly smaller on iPhone */
+                font-size: 5rem;
+                opacity: 0.3;
             }
             
             .step-title {
                 font-size: 1.3rem;
+                margin-top: -1rem;
             }
             
             .step-description {
                 font-size: 0.9rem;
                 line-height: 1.5;
+                width: 100%;
             }
             
             .quote-text {
                 font-size: 1.1rem;
                 line-height: 1.5;
+            }
+            
+            .process-headline {
+                font-size: 1.8rem;
+                margin: 2rem 0;
             }
         }
     </style>
