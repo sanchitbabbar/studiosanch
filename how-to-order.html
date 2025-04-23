@@ -438,7 +438,7 @@
     <main style="max-width: 100%; overflow-x: hidden; background-color: black;">
         <section class="hero-section">
             <div class="fashion-gallery">
-                <video class="gallery-video" muted loop playsinline autoplay preload="auto">
+                <video class="gallery-video" muted loop playsinline autoplay preload="auto" fetchpriority="high">
                     <source src="public/Videos/1.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
@@ -459,7 +459,7 @@
                 <!-- Gallery Item 1 - Video (Vertical/iPhone) -->
                 <div class="gallery-item gallery-item-1">
                     <div class="step-media vertical-media">
-                        <video class="step-video" autoplay muted loop playsinline preload="auto">
+                        <video class="step-video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
                             <source src="public/Videos/4.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -487,7 +487,7 @@
                 <!-- Gallery Item 2 - Video (Horizontal) -->
                 <div class="gallery-item gallery-item-2">
                     <div class="step-media horizontal-media">
-                        <video class="step-video" autoplay muted loop playsinline preload="auto">
+                        <video class="step-video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
                             <source src="public/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -497,7 +497,7 @@
                 <!-- Gallery Item 3 - Video (Vertical/iPhone) -->
                 <div class="gallery-item gallery-item-3">
                     <div class="step-media vertical-media">
-                        <video class="step-video" autoplay muted loop playsinline preload="auto">
+                        <video class="step-video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
                             <source src="public/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -617,55 +617,75 @@
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
     
-    <!-- Video Performance Optimization Script -->
+    <!-- Optimized Video Loading Script - Eliminating the 2-second delay -->
     <script>
-        // Execute immediately without waiting for DOMContentLoaded
-        // Force load all videos immediately
+        // Preload all video sources before DOM is fully loaded
+        (function() {
+            // Create a list of all video sources that need to be preloaded
+            const videoSources = [
+                'public/Videos/1.webm',
+                'public/Videos/4.webm',
+                'public/Videos/Atelier_ultrahq_curved.webm',
+                'public/Videos/5_ultrahq_curved_optimized.webm'
+            ];
+            
+            // Preload each video file using fetch with highest priority
+            videoSources.forEach(src => {
+                fetch(src, {priority: 'high'});
+            });
+        })();
+        
+        // Force immediate play of all videos
         function preloadAllVideos() {
             const allVideos = document.querySelectorAll('video');
             
             allVideos.forEach(video => {
-                // Force video element to load and display by triggering load event
+                // Set highest loading priority
+                video.setAttribute('fetchpriority', 'high');
+                
+                // Force immediate loading
                 video.load();
                 
-                // Set up force play mechanism
-                const forcePlay = () => {
+                // Force immediate play with retry mechanism
+                const playVideo = () => {
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(error => {
-                            console.log('Autoplay prevented initially, will retry');
-                            // Browser prevented autoplay, we'll try again when user interacts
-                            document.addEventListener('click', () => {
-                                video.play();
-                            }, { once: true });
+                            // Retry immediately if failed
+                            setTimeout(() => video.play(), 50);
+                            
+                            // Also try when user interacts
+                            document.addEventListener('click', () => video.play(), {once: true});
                         });
                     }
                 };
                 
-                // Try to play immediately
-                forcePlay();
+                // Multiple trigger points to ensure videos play
+                playVideo(); // Try immediately
                 
-                // Also try playing when resource is loaded
-                video.addEventListener('loadeddata', forcePlay);
-                
-                // Ensure playing on visibility change
-                if (document.visibilityState === 'visible') {
-                    forcePlay();
+                // Try as soon as metadata is loaded
+                if (video.readyState >= 1) {
+                    playVideo();
+                } else {
+                    video.addEventListener('loadedmetadata', playVideo, {once: true});
                 }
                 
-                // Handle case where video might not autoplay
-                video.addEventListener('click', () => {
-                    if (video.paused) {
+                // Try again when data is loaded
+                video.addEventListener('loadeddata', playVideo, {once: true});
+                
+                // Ensure video plays even when user returns to tab
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible' && video.paused) {
                         video.play();
                     }
                 });
             });
         }
         
-        // Execute immediately
+        // Execute immediately before page is fully loaded
         preloadAllVideos();
         
-        // Also execute on DOMContentLoaded for safety
+        // Also execute on DOMContentLoaded for backup
         document.addEventListener('DOMContentLoaded', preloadAllVideos);
         
         // Set up Intersection Observer for video performance after page is loaded
