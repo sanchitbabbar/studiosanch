@@ -284,7 +284,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start; /* Align to top */
     background-color: #000;
     min-height: calc(100vh - 3rem); /* Full viewport height minus header */
 }
@@ -292,7 +292,7 @@ main {
 /* Hero Section with Responsive Image */
 .hero-section {
     width: 100%;
-    min-height: calc(100vh - 3rem); /* Full viewport height minus header */
+    height: 100vh; /* Full viewport height */
     overflow: hidden;
     position: relative;
     margin: 0;
@@ -529,11 +529,7 @@ main {
 
 /* Language Selector */
 .language-selector {
-    padding: 3rem 2rem;
-    background-color: #000;
-    text-align: center;
-    width: 100%;
-    margin-top: auto; /* Push to bottom of container */
+    display: none; /* Hidden completely */
 }
 
 .language-selector h2 {
@@ -579,6 +575,8 @@ footer {
     padding: 3rem 2rem;
     margin-top: 0;
     width: 100%;
+    position: relative;
+    z-index: 10;
 }
 
 /* Newsletter Dropdown */
