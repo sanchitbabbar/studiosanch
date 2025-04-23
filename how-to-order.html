@@ -354,6 +354,61 @@
                 font-size: 1rem;
             }
         }
+        
+        @media (max-width: 992px) {
+            .process-step {
+                width: 90%;
+                height: 60vh;
+            }
+            
+            .step-details {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            
+            .even-step .step-details {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .step-number {
+                font-size: 6rem;
+                top: -3rem;
+            }
+            
+            .step-title {
+                font-size: 1.6rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+        
+        /* iPhone-specific improvements - minimal changes to prevent layout issues */
+        @media (max-width: 480px) {
+            .step-video, .gallery-video {
+                object-fit: cover; /* Ensure videos display properly */
+            }
+            
+            .step-number {
+                font-size: 5rem; /* Slightly smaller on iPhone */
+            }
+            
+            .step-title {
+                font-size: 1.3rem;
+            }
+            
+            .step-description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .quote-text {
+                font-size: 1.1rem;
+                line-height: 1.5;
+            }
+        }
     </style>
 </head>
 <body>
@@ -383,7 +438,7 @@
     <main style="max-width: 100%; overflow-x: hidden; background-color: black;">
         <section class="hero-section">
             <div class="fashion-gallery">
-                <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
+                <video class="gallery-video" muted loop playsinline autoplay preload="auto">
                     <source src="public/Videos/1.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
@@ -404,7 +459,7 @@
                 <!-- Gallery Item 1 - Video (Vertical/iPhone) -->
                 <div class="gallery-item gallery-item-1">
                     <div class="step-media vertical-media">
-                        <video class="step-video" autoplay muted loop playsinline>
+                        <video class="step-video" autoplay muted loop playsinline preload="auto">
                             <source src="public/Videos/4.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -415,7 +470,7 @@
                 <div class="gallery-item-text gallery-item-1-text">
                     <div class="step-details">
                         <div class="step-number">01</div>
-                        <h3 class="step-title">Personalized Consultation</h3>
+                        <h3 class="step-title" style="font-size: 1.6rem;">Personalized Consultation</h3>
                         <p class="step-description">Every piece begins with a personal consultation to understand your preferences and requirements.</p>
                     </div>
                 </div>
@@ -425,14 +480,14 @@
                     <div class="step-details">
                         <div class="step-number">02</div>
                         <h3 class="step-title">Designing Your Masterpiece</h3>
-                        <p class="step-description">Personally view and select original designs sketched by Sanchit himself. Together, we'll ensure every detail aligns perfectly with your vision.</p>
+                        <p class="step-description" style="width: 100%; max-width: 100%; margin: 0 auto;">Personally view and select original designs sketched by Sanchit himself. Together, we'll ensure every detail aligns perfectly with your vision.</p>
                     </div>
                 </div>
                 
                 <!-- Gallery Item 2 - Video (Horizontal) -->
                 <div class="gallery-item gallery-item-2">
                     <div class="step-media horizontal-media">
-                        <video class="step-video" autoplay muted loop playsinline>
+                        <video class="step-video" autoplay muted loop playsinline preload="auto">
                             <source src="public/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -442,7 +497,7 @@
                 <!-- Gallery Item 3 - Video (Vertical/iPhone) -->
                 <div class="gallery-item gallery-item-3">
                     <div class="step-media vertical-media">
-                        <video class="step-video" autoplay muted loop playsinline>
+                        <video class="step-video" autoplay muted loop playsinline preload="auto">
                             <source src="public/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
@@ -463,7 +518,7 @@
                     <div class="step-details">
                         <div class="step-number">04</div>
                         <h3 class="step-title">Tailoring to Perfection</h3>
-                        <p class="step-description">Whether you prefer a standard EU, UK, or US size or a completely custom fit, our expert tailors will bring your design to life with precise attention to detail.</p>
+                        <p class="step-description" style="width: 100%; max-width: 100%; margin: 0 auto;">Whether you prefer a standard EU, UK, or US size or a completely custom fit, our expert tailors will bring your design to life with precise attention to detail.</p>
                     </div>
                 </div>
                 
@@ -564,8 +619,58 @@
     
     <!-- Video Performance Optimization Script -->
     <script>
+        // Execute immediately without waiting for DOMContentLoaded
+        // Force load all videos immediately
+        function preloadAllVideos() {
+            const allVideos = document.querySelectorAll('video');
+            
+            allVideos.forEach(video => {
+                // Force video element to load and display by triggering load event
+                video.load();
+                
+                // Set up force play mechanism
+                const forcePlay = () => {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log('Autoplay prevented initially, will retry');
+                            // Browser prevented autoplay, we'll try again when user interacts
+                            document.addEventListener('click', () => {
+                                video.play();
+                            }, { once: true });
+                        });
+                    }
+                };
+                
+                // Try to play immediately
+                forcePlay();
+                
+                // Also try playing when resource is loaded
+                video.addEventListener('loadeddata', forcePlay);
+                
+                // Ensure playing on visibility change
+                if (document.visibilityState === 'visible') {
+                    forcePlay();
+                }
+                
+                // Handle case where video might not autoplay
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                    }
+                });
+            });
+        }
+        
+        // Execute immediately
+        preloadAllVideos();
+        
+        // Also execute on DOMContentLoaded for safety
+        document.addEventListener('DOMContentLoaded', preloadAllVideos);
+        
+        // Set up Intersection Observer for video performance after page is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all videos
+            // After videos are initially loaded, use Intersection Observer for performance
             const videos = document.querySelectorAll('.step-video');
             
             // Create Intersection Observer with higher priority for vertical videos
@@ -576,41 +681,20 @@
                     
                     // If element is in view
                     if (entry.isIntersecting) {
-                        // Make sure video is playing
-                        const playPromise = entry.target.play();
-                        
-                        // Handle play promise to avoid errors
-                        if (playPromise !== undefined) {
-                            playPromise.catch(error => {
-                                // Auto-play was prevented, try again with user interaction
-                                document.addEventListener('click', () => {
-                                    entry.target.play();
-                                }, { once: true });
-                            });
+                        if (entry.target.paused) {
+                            entry.target.play();
                         }
                     } else {
                         // Don't pause the step 3 video to prevent stuttering
-                        if (!isStep3Video) {
-                            // Only pause if video is actually playing
-                            if (!entry.target.paused) {
-                                entry.target.pause();
-                            }
+                        if (!isStep3Video && !entry.target.paused) {
+                            entry.target.pause();
                         }
                     }
                 });
-            }, { threshold: 0.2, rootMargin: '0px 0px 100px 0px' }); // More sensitive threshold and root margin
+            }, { threshold: 0.1, rootMargin: '0px 0px 300px 0px' }); // More aggressive threshold and margin
             
             // Add each video to the observer
-            videos.forEach(video => {
-                observer.observe(video);
-                
-                // Ensure video plays on click as fallback
-                video.addEventListener('click', () => {
-                    if (video.paused) {
-                        video.play();
-                    }
-                });
-            });
+            videos.forEach(video => observer.observe(video));
         });
     </script>
     <script>

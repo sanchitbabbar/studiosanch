@@ -9,24 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .email-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+        .email-display {
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 70vh;
+            padding: 80px 0;
             background-color: #000;
         }
         
         .email-address {
             font-family: 'Montserrat', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1rem;
             font-weight: 300;
-            letter-spacing: 0.2em;
+            letter-spacing: 0.1em;
             color: rgba(255, 255, 255, 0.8);
             text-align: center;
             transition: all 0.3s ease;
@@ -39,8 +38,178 @@
     </style>
 </head>
 <body>
-    <div class="email-container">
-        <a href="mailto:info@studiosanch.com" class="email-address">info@studiosanch.com</a>
+    <header>
+        <div class="logo">
+            <a href="index.html">STUDIO SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="how-to-order.html">CREATE</a></li>
+            </ul>
+        </div>
     </div>
+
+    <main>
+        <section class="email-display">
+            <a href="mailto:info@studiosanch.com" class="email-address">info@studiosanch.com</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel" id="language-panel">
+                <div class="panel-header">
+                    <h3>SELECT YOUR LOCATION</h3>
+                    <div class="panel-close">&times;</div>
+                </div>
+                <div class="panel-content">
+                    <div class="language-option">
+                        <a href="index.html" class="active">ENGLISH</a>
+                    </div>
+                    <div class="language-option">
+                        <a href="fr/index.html">FRANÇAIS</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3>NEWSLETTER</h3>
+                <ul>
+                    <li><a href="#" id="newsletter-link">SIGN UP</a>
+                        <div class="newsletter-dropdown">
+                            <div class="dropdown-header">
+                                <h3>NEWSLETTER</h3>
+                                <div class="dropdown-close">&times;</div>
+                            </div>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Your email address" required>
+                                <button type="submit">SUBSCRIBE</button>
+                            </form>
+                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">PRIVACY POLICY</a></li>
+                    <li><a href="#">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CAREER</h3>
+            </div>
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanchofficial" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/menu.js"></script>
+    <script>
+        // Newsletter Dropdown
+        const newsletterLink = document.getElementById('newsletter-link');
+        const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+        const dropdownClose = document.querySelector('.dropdown-close');
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const successMessage = document.querySelector('.success-message');
+
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('show');
+        });
+
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('show');
+        });
+
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            newsletterForm.style.display = 'none';
+            successMessage.style.display = 'block';
+            setTimeout(function() {
+                newsletterDropdown.classList.remove('show');
+                // Reset after hiding
+                setTimeout(function() {
+                    newsletterForm.style.display = 'block';
+                    successMessage.style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+
+        // Language Panel
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.getElementById('language-panel');
+        const panelClose = document.querySelector('.panel-close');
+
+        function openLanguagePanel() {
+            languagePanel.classList.add('show');
+            // Add backdrop blur effect to the whole page
+            document.body.classList.add('blur-background');
+            // Prevent scrolling when panel is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLanguagePanel() {
+            languagePanel.classList.remove('show');
+            // Remove backdrop blur effect
+            document.body.classList.remove('blur-background');
+            // Re-enable scrolling
+            document.body.style.overflow = '';
+        }
+
+        languageTrigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            openLanguagePanel();
+        });
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        // Close panel when clicking outside of it
+        document.addEventListener('click', function(e) {
+            if (languagePanel.classList.contains('show') && 
+                !languagePanel.contains(e.target) && 
+                e.target !== languageTrigger) {
+                closeLanguagePanel();
+            }
+        });
+    </script>
 </body>
 </html>
