@@ -284,14 +284,15 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     background-color: #000;
+    min-height: calc(100vh - 3rem); /* Full viewport height minus header */
 }
 
 /* Hero Section with Responsive Image */
 .hero-section {
     width: 100%;
-    height: calc(100vh - 3rem); /* Full viewport minus header */
+    min-height: calc(100vh - 3rem); /* Full viewport height minus header */
     overflow: hidden;
     position: relative;
     margin: 0;
@@ -303,7 +304,7 @@ main {
 
 .responsive-image-container {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 3rem); /* Full viewport height minus header */
     overflow: hidden;
     display: flex;
     align-items: flex-start;
@@ -311,13 +312,14 @@ main {
     margin: 0;
     padding: 0;
     background-color: #000;
+    position: relative;
 }
 
 .responsive-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+    object-position: center top;
     display: block;
     margin: 0;
     padding: 0;
@@ -527,7 +529,11 @@ main {
 
 /* Language Selector */
 .language-selector {
-    display: none;
+    padding: 3rem 2rem;
+    background-color: #000;
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* Push to bottom of container */
 }
 
 .language-selector h2 {
@@ -571,7 +577,8 @@ footer {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     padding: 3rem 2rem;
-    margin-top: 5rem;
+    margin-top: 0;
+    width: 100%;
 }
 
 /* Newsletter Dropdown */
@@ -873,6 +880,70 @@ footer {
 
 .newsletter-form button:hover {
     opacity: 0.9;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+    .responsive-image-container {
+        height: calc(100vh - 3rem);
+    }
+    
+    .responsive-image {
+        object-position: center top;
+    }
+    
+    .language-selector {
+        padding: 2rem 1rem;
+    }
+    
+    .footer-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* iPhone-specific fixes */
+    .responsive-image-container {
+        height: calc(100vh - 3rem);
+    }
+    
+    .responsive-image {
+        object-fit: cover;
+        object-position: center top;
+    }
+    
+    main {
+        justify-content: flex-start;
+    }
+    
+    .language-selector {
+        margin-top: auto;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-section ul {
+        align-items: center;
+    }
+}
+
+/* Instagram browser compatibility fix */
+@media screen and (max-width: 1024px) and (display-mode: standalone), 
+       screen and (max-width: 1024px) and (display-mode: fullscreen),
+       screen and (max-width: 1024px) and (-webkit-app-region: drag) {
+    body {
+        -webkit-overflow-scrolling: touch;
+        height: 100vh;
+        overflow-y: scroll;
+    }
+    
+    .responsive-image-container {
+        height: calc(100vh - 3rem);
+    }
 }
 
 .copyright-container {

@@ -31,8 +31,6 @@
             margin-bottom: 2rem;
             min-height: 80vh;
             max-height: 90vh;
-            overflow: visible;
-            flex-wrap: nowrap;
         }
         
         .fashion-gallery {
@@ -387,73 +385,14 @@
             }
         }
         
-        /* Quote block styling for all screen sizes */
-        .quote-block {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            overflow: visible;
-        }
-        
-        /* iPhone-specific improvements - minimal changes that ONLY affect mobile */
-        @media (max-width: 480px) {            
-            /* Create the mobile-only layout */
-            .hero-section {
-                flex-direction: column;
-                padding: 1rem;
-                min-height: auto;
-                max-height: none;
-                gap: 1rem;
-            }
-            
-            .fashion-gallery {
-                width: 100%;
-                max-width: 100%;
-                height: 70vh;
-            }
-            
-            .quote-block {
-                width: 90%;
-                margin: 1rem 0;
-            }
-            
-            /* Mobile-only gallery layout */
-            .gallery-container {
-                display: flex !important;
-                flex-direction: column !important;
-                grid-template-columns: unset;
-                grid-auto-rows: unset;
-            }
-            
-            /* Override the grid layout for mobile only */
-            .gallery-item, .gallery-item-text {
-                grid-column: unset !important;
-                grid-row: unset !important;
-                width: 100%;
-                margin: 0 !important;
-            }
-            
-            /* Set proper order for iPhone view as requested */
-            .gallery-item-1 { order: 1; }
-            .gallery-item-1-text { order: 2; }
-            .gallery-item-2 { order: 3; }
-            .gallery-item-2-text { order: 4; }
-            .gallery-item-3 { order: 5; }
-            .gallery-item-3-text { order: 6; }
-            .gallery-item-4-text { order: 7; }
-            .gallery-item-4 { order: 8; }
-            
-            /* Ensure videos display properly on iPhone */
+        /* iPhone-specific improvements - minimal changes to prevent layout issues */
+        @media (max-width: 480px) {
             .step-video, .gallery-video {
-                object-fit: cover;
-                width: 100%;
-                height: 100%;
+                object-fit: cover; /* Ensure videos display properly */
             }
             
-            /* Adjust text sizes for iPhone */
             .step-number {
-                font-size: 5rem;
+                font-size: 5rem; /* Slightly smaller on iPhone */
             }
             
             .step-title {
@@ -463,18 +402,11 @@
             .step-description {
                 font-size: 0.9rem;
                 line-height: 1.5;
-                width: 100%;
             }
             
             .quote-text {
                 font-size: 1.1rem;
                 line-height: 1.5;
-            }
-            
-            /* Adjust spacing to ensure proper flow */
-            .step-details {
-                padding: 1.5rem;
-                max-width: 100%;
             }
         }
     </style>
