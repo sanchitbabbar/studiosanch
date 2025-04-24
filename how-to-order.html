@@ -633,8 +633,19 @@
                 font-size: 1rem;
             }
         }
-        /* iPhone-specific fixes - Minimal approach to fix only text alignment */
+        /* iPhone-specific fixes - Improved text layout while preserving video styling */
         @media screen and (max-width: 480px) {
+            /* Reset gallery grid for mobile single-column layout but preserve original video styling */
+            .gallery-container {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 0;
+                gap: 3rem;
+            }
+            
             /* Fix headline overflow */
             .process-headline {
                 font-size: 1.5rem;
@@ -646,25 +657,32 @@
                 overflow-wrap: break-word;
             }
             
-            /* Fix text overflow only */
-            .step-description {
+            /* Reset all gallery items for text only - NO VIDEO CHANGES */
+            .gallery-item-text, .gallery-item-1-text, .gallery-item-2-text, .gallery-item-3-text, .gallery-item-4-text {
+                grid-column: 1 / -1;
+                width: 90%;
                 max-width: 90%;
-                margin-left: auto;
-                margin-right: auto;
+                margin: 0 auto;
+                padding: 0;
+                position: static;
+            }
+            
+            /* Style text blocks properly */
+            .step-description {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                width: 90%;
+                margin: 0 auto;
                 text-align: center;
                 overflow-wrap: break-word;
-            }
-
-            /* Ensure gallery items are centered properly */
-            .gallery-item-text {
-                display: flex;
-                justify-content: center;
-                text-align: center;
             }
 
             /* Fix the step details alignment */
             .step-details {
                 text-align: center;
+                width: 90%;
+                margin: 0 auto;
+                padding: 0;
             }
         }
     </style>
