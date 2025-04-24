@@ -635,6 +635,7 @@
         }
         /* iPhone-specific fixes */
         @media screen and (max-width: 480px) {
+            /* Fix the headline */
             .process-headline {
                 font-size: 1.5rem;
                 letter-spacing: 0.07em;
@@ -647,68 +648,35 @@
                 padding: 0 10px;
             }
             
-            .step-info {
-                margin: 1.5rem auto;
-                width: 90%;
-            }
-            
-            .step-description {
-                width: 90%;
-                margin: 0 auto;
-                padding: 0 10px;
-                overflow-wrap: break-word;
-                font-size: 0.9rem;
-            }
-            
-            .step-media {
-                width: 90%;
-                margin: 1rem auto;
-                overflow: hidden;
-            }
-            
-            /* Fix centering for gallery items */
-            .gallery-item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+            /* Fix the gallery container alignment */
+            .gallery-container {
                 width: 100%;
                 max-width: 100%;
+                display: block;
+                padding: 0;
+                margin: 0 auto;
+            }
+            
+            /* Fix gallery item text alignment */
+            .gallery-item-text {
+                width: 100%;
+                max-width: 100%;
+                text-align: center;
+                padding: 0;
+                margin: 0 auto;
+            }
+            
+            /* Fix the text content that's getting cut off */
+            .step-description {
+                width: 95%;
+                max-width: 95%;
+                text-align: center;
+                display: block;
                 margin: 0 auto;
                 padding: 0;
                 box-sizing: border-box;
-            }
-            
-            /* Ensure videos and images don't overflow */
-            .step-video, .sketch-image {
-                width: 100%;
-                max-width: 100%;
-                object-fit: contain;
-            }
-            
-            /* Fix alignment for horizontal media */
-            .horizontal-media {
-                width: 90%;
-                margin: 0 auto;
-                display: flex;
-                justify-content: center;
-            }
-            
-            /* Ensure proper text alignment for all gallery item text */
-            .gallery-item-text {
-                width: 100%;
-                text-align: center;
-                padding: 0 15px;
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-            }
-            
-            /* Fix step details alignment */
-            .step-details {
-                width: 100%;
-                max-width: 90%;
-                margin: 0 auto;
-                text-align: center;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
             }
         }
     </style>
