@@ -633,50 +633,90 @@
                 font-size: 1rem;
             }
         }
-        /* iPhone-specific fixes */
+        /* iPhone-specific fixes - Following luxury fashion mobile design standards */
         @media screen and (max-width: 480px) {
+            /* Force main container to reset for iPhone */
+            main {
+                max-width: 100% !important;
+                width: 100% !important;
+                overflow-x: hidden !important;
+                box-sizing: border-box !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            
+            /* Reset section containers */
+            section {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                box-sizing: border-box !important;
+                overflow-x: hidden !important;
+            }
+            
             /* Fix the headline */
             .process-headline {
                 font-size: 1.5rem;
                 letter-spacing: 0.07em;
-                word-spacing: normal;
-                width: 100%;
-                overflow: visible;
-                white-space: normal;
-                max-width: 90%;
-                margin: 0 auto;
-                padding: 0 10px;
-            }
-            
-            /* Fix the gallery container alignment */
-            .gallery-container {
-                width: 100%;
-                max-width: 100%;
-                display: block;
-                padding: 0;
-                margin: 0 auto;
-            }
-            
-            /* Fix gallery item text alignment */
-            .gallery-item-text {
-                width: 100%;
-                max-width: 100%;
                 text-align: center;
+                width: 90%;
+                margin: 0 auto 2rem;
                 padding: 0;
-                margin: 0 auto;
-            }
-            
-            /* Fix the text content that's getting cut off */
-            .step-description {
-                width: 95%;
-                max-width: 95%;
-                text-align: center;
-                display: block;
-                margin: 0 auto;
-                padding: 0;
-                box-sizing: border-box;
                 overflow-wrap: break-word;
-                word-wrap: break-word;
+                word-break: normal;
+                hyphens: auto;
+            }
+            
+            /* Reset gallery grid for mobile single-column layout */
+            .gallery-container {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                gap: 3rem !important;
+            }
+            
+            /* Reset all gallery items */
+            .gallery-item, .gallery-item-1, .gallery-item-2, .gallery-item-3, .gallery-item-4,
+            .gallery-item-1-text, .gallery-item-2-text, .gallery-item-3-text, .gallery-item-4-text {
+                grid-column: 1 / -1 !important;
+                width: 100% !important;
+                max-width: 92% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                position: static !important;
+            }
+            
+            /* Style text blocks properly */
+            .step-description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                width: 92%;
+                margin: 0 auto;
+                text-align: center;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+            
+            /* Force proper media containment */
+            .step-media {
+                width: 92% !important;
+                max-width: 92% !important;
+                margin: 0 auto !important;
+                overflow: hidden !important;
+                border-radius: 4px !important;
+            }
+            
+            /* Ensure videos are contained */
+            .step-video, .sketch-image {
+                width: 100% !important;
+                height: auto !important;
+                object-fit: contain !important;
+                display: block !important;
+                margin: 0 auto !important;
             }
         }
     </style>
