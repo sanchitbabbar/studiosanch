@@ -633,29 +633,9 @@
                 font-size: 1rem;
             }
         }
-        /* iPhone-specific fixes - Following luxury fashion mobile design standards */
+        /* iPhone-specific fixes - Minimal approach to fix only text alignment */
         @media screen and (max-width: 480px) {
-            /* Force main container to reset for iPhone */
-            main {
-                max-width: 100% !important;
-                width: 100% !important;
-                overflow-x: hidden !important;
-                box-sizing: border-box !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            
-            /* Reset section containers */
-            section {
-                width: 100% !important;
-                max-width: 100% !important;
-                padding-left: 0 !important;
-                padding-right: 0 !important;
-                box-sizing: border-box !important;
-                overflow-x: hidden !important;
-            }
-            
-            /* Fix the headline */
+            /* Fix headline overflow */
             .process-headline {
                 font-size: 1.5rem;
                 letter-spacing: 0.07em;
@@ -664,59 +644,27 @@
                 margin: 0 auto 2rem;
                 padding: 0;
                 overflow-wrap: break-word;
-                word-break: normal;
-                hyphens: auto;
             }
             
-            /* Reset gallery grid for mobile single-column layout */
-            .gallery-container {
-                display: flex !important;
-                flex-direction: column !important;
-                width: 100% !important;
-                max-width: 100% !important;
-                margin: 0 auto !important;
-                padding: 0 !important;
-                gap: 3rem !important;
-            }
-            
-            /* Reset all gallery items */
-            .gallery-item, .gallery-item-1, .gallery-item-2, .gallery-item-3, .gallery-item-4,
-            .gallery-item-1-text, .gallery-item-2-text, .gallery-item-3-text, .gallery-item-4-text {
-                grid-column: 1 / -1 !important;
-                width: 100% !important;
-                max-width: 92% !important;
-                margin: 0 auto !important;
-                padding: 0 !important;
-                position: static !important;
-            }
-            
-            /* Style text blocks properly */
+            /* Fix text overflow only */
             .step-description {
-                font-size: 0.9rem;
-                line-height: 1.6;
-                width: 92%;
-                margin: 0 auto;
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
                 text-align: center;
                 overflow-wrap: break-word;
-                hyphens: auto;
             }
-            
-            /* Force proper media containment */
-            .step-media {
-                width: 92% !important;
-                max-width: 92% !important;
-                margin: 0 auto !important;
-                overflow: hidden !important;
-                border-radius: 4px !important;
+
+            /* Ensure gallery items are centered properly */
+            .gallery-item-text {
+                display: flex;
+                justify-content: center;
+                text-align: center;
             }
-            
-            /* Ensure videos are contained */
-            .step-video, .sketch-image {
-                width: 100% !important;
-                height: auto !important;
-                object-fit: contain !important;
-                display: block !important;
-                margin: 0 auto !important;
+
+            /* Fix the step details alignment */
+            .step-details {
+                text-align: center;
             }
         }
     </style>
