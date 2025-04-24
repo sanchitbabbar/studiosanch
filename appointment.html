@@ -387,11 +387,15 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
         
-        /* Control visibility only on button hover */
+        /* Control visibility with active class and hover */
         .exclusive-dropdown .dropdown-content {
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         
+        .exclusive-dropdown .dropdown-content.active,
         .exclusive-dropdown .exclusive-button:hover + .dropdown-content,
         .exclusive-dropdown .dropdown-content:hover {
             display: block;
@@ -1084,22 +1088,90 @@
             });
         });
         
-        // Interactive calendar
+        // Date selector functionality
+        const dateDropdownButton = document.querySelector('.form-group:nth-of-type(1) .exclusive-button');
+        const dateDropdown = document.querySelector('.calendar-dropdown');
+        const selectedDateDisplay = document.getElementById('selected-date');
         const dates = document.querySelectorAll('.date:not(.disabled)');
+        
+        // Toggle date dropdown
+        dateDropdownButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dateDropdown.classList.toggle('active');
+            
+            // Hide time dropdown if it's open
+            timeDropdown.classList.remove('active');
+        });
+        
+        // Handle date selection
         dates.forEach(date => {
             date.addEventListener('click', function() {
+                // Remove selection from all dates
                 dates.forEach(d => d.classList.remove('selected'));
+                
+                // Add selection to clicked date
                 this.classList.add('selected');
+                
+                // Update the displayed date
+                const month = document.getElementById('currentMonth').textContent.split(' ')[0];
+                const year = document.getElementById('currentMonth').textContent.split(' ')[1];
+                selectedDateDisplay.textContent = `${month} ${this.textContent}, ${year}`;
+                
+                // Also update the summary
+                document.getElementById('summaryDate').textContent = selectedDateDisplay.textContent;
+                
+                // Close the dropdown
+                setTimeout(() => {
+                    dateDropdown.classList.remove('active');
+                }, 300);
             });
         });
         
-        // Interactive time slots
+        // Time selector functionality
+        const timeDropdownButton = document.querySelector('.form-group:nth-of-type(2) .exclusive-button');
+        const timeDropdown = document.querySelector('.time-dropdown');
+        const selectedTimeDisplay = document.getElementById('selected-time');
         const timeSlots = document.querySelectorAll('.time-slot:not(.disabled)');
+        
+        // Toggle time dropdown
+        timeDropdownButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            timeDropdown.classList.toggle('active');
+            
+            // Hide date dropdown if it's open
+            dateDropdown.classList.remove('active');
+        });
+        
+        // Handle time selection
         timeSlots.forEach(slot => {
             slot.addEventListener('click', function() {
+                // Remove selection from all time slots
                 timeSlots.forEach(s => s.classList.remove('selected'));
+                
+                // Add selection to clicked time slot
                 this.classList.add('selected');
+                
+                // Update the displayed time
+                selectedTimeDisplay.textContent = this.textContent;
+                
+                // Also update the summary
+                document.getElementById('summaryTime').textContent = selectedTimeDisplay.textContent;
+                
+                // Close the dropdown
+                setTimeout(() => {
+                    timeDropdown.classList.remove('active');
+                }, 300);
             });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.exclusive-dropdown')) {
+                dateDropdown.classList.remove('active');
+                timeDropdown.classList.remove('active');
+            }
         });
     </script>
 </body>
