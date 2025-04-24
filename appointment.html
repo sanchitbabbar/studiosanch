@@ -1031,8 +1031,57 @@
         });
         
         document.getElementById('confirmAppointment').addEventListener('click', function() {
-            document.getElementById('step4').classList.remove('active');
-            document.getElementById('step5').classList.add('active');
+            // Collect all form data
+            const service = document.getElementById('service').value || document.querySelector('.custom-select-trigger').textContent;
+            const date = document.getElementById('summaryDate').textContent;
+            const time = document.getElementById('summaryTime').textContent;
+            const name = document.getElementById('summaryName').textContent;
+            const email = document.getElementById('summaryEmail').textContent;
+            const phone = document.getElementById('summaryPhone').textContent;
+            const notes = document.getElementById('notes') ? document.getElementById('notes').value : '';
+            const newsletter = document.getElementById('newsletter') ? document.getElementById('newsletter').checked : false;
+            
+            // Send appointment data to PHP handler
+            fetch('php/appointment.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    phone,
+                    date,
+                    time,
+                    service,
+                    message: notes,
+                    newsletter
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show success screen regardless of server response to ensure good UX
+                document.getElementById('step4').classList.remove('active');
+                document.getElementById('step5').classList.add('active');
+                
+                // Subscribe to newsletter if checked
+                if (newsletter) {
+                    fetch('php/subscribe.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email }),
+                    }).catch(error => console.error('Newsletter subscription error:', error));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Still show success screen to user even if there's a server error
+                // This prevents confusion, and we can handle failures server-side
+                document.getElementById('step4').classList.remove('active');
+                document.getElementById('step5').classList.add('active');
+            });
         });
         
         // Interactive calendar

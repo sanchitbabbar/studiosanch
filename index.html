@@ -330,6 +330,13 @@
         const dropdownClose = document.querySelector('.dropdown-close');
         const newsletterForm = document.querySelector('.newsletter-form');
         const successMessage = document.querySelector('.success-message');
+        const sendButton = document.querySelector('.send-text');
+        
+        // Make the Send text button work
+        sendButton.addEventListener('click', function() {
+            // Trigger the form submission
+            newsletterForm.dispatchEvent(new Event('submit'));
+        });
 
         newsletterLink.addEventListener('click', function(e) {
             e.preventDefault();
@@ -367,16 +374,30 @@
             e.preventDefault();
             const email = this.querySelector('input[type="email"]').value;
             
-            // In a real implementation, this would send the data to a server
-            this.style.display = 'none';
-            successMessage.classList.add('active');
-            
-            setTimeout(() => {
-                this.reset();
-                this.style.display = 'flex';
-                newsletterDropdown.classList.remove('active');
-                successMessage.classList.remove('active');
-            }, 2000);
+            // Send to our PHP handler
+            fetch('php/subscribe.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.style.display = 'none';
+                successMessage.classList.add('active');
+                
+                setTimeout(() => {
+                    this.reset();
+                    this.style.display = 'flex';
+                    newsletterDropdown.classList.remove('active');
+                    successMessage.classList.remove('active');
+                }, 2000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Something went wrong. Please try again.');
+            });
         });
 
         // Language Panel Functionality
