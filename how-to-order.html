@@ -16,6 +16,227 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Custom styling for CREATE WITH SANCH heading */
+        .custom-heading-create {
+            font-family: 'Syne', sans-serif; 
+            font-size: 1.8rem; 
+            font-weight: 600; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase; 
+            color: var(--logo-color);
+        }
+        
+        .custom-heading-sanch {
+            font-family: var(--font-logo);
+            font-size: 1.8rem; 
+            font-weight: 400; 
+            letter-spacing: 0.14em; 
+            text-transform: uppercase; 
+            color: var(--logo-color);
+        }
+        
+        /* Mobile-specific hero section */
+        .mobile-hero-container {
+            display: none; /* Hidden by default */
+            padding: 2rem 0;
+        }
+        
+        /* Desktop-specific hero section */
+        .desktop-hero {
+            display: flex; /* Visible by default */
+        }
+        
+        /* Mobile and tablet overrides */
+        @media (max-width: 768px) {
+            /* Layout adjustments */
+            .desktop-hero {
+                display: none !important; /* Hide on mobile and tablet */
+            }
+            
+            .mobile-hero-container {
+                display: block !important; /* Show on mobile and tablet */
+                padding: 2rem 0 !important;
+            }
+            
+            /* Media adjustments */
+            .fashion-gallery {
+                /* Adjust size based on screen width - larger for tablets */
+                width: 80% !important; 
+                max-width: 600px !important; /* Cap max width for tablets */
+                min-width: 80% !important;
+                height: auto !important;
+                margin: 0 auto 2rem auto !important;
+                aspect-ratio: 9/16 !important; /* Maintain video aspect ratio */
+                order: 1 !important;
+            }
+            
+            /* Typography adjustments */
+            .quote-text {
+                font-size: 1.2rem !important;
+                line-height: 1.6 !important;
+                text-align: center !important; /* Center-align quotes for all mobile devices */
+            }
+            
+            .quote-author {
+                text-align: center !important; /* Center-align author for all mobile devices */
+            }
+            
+            .quote-block {
+                text-align: center !important; /* Ensure the entire quote block is center-aligned */
+                width: 90% !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Content section adjustments */
+            .process-section {
+                padding: 3rem 1.5rem !important;
+                text-align: center !important;
+            }
+            
+            .process-headline {
+                text-align: center !important;
+                width: 100% !important;
+                margin: 0 auto 3rem auto !important;
+                font-size: 2rem !important; /* Reduce font size on mobile */
+                letter-spacing: 0.12em !important; /* Adjust letter spacing */
+                padding: 0 1rem !important; /* Add padding to prevent text from getting cut off */
+                box-sizing: border-box !important; /* Ensure padding is included in width */
+                white-space: nowrap !important; /* Prevent wrapping */
+            }
+            
+            .gallery-container {
+                gap: 4rem !important;
+                align-items: center !important;
+            }
+            
+            /* Center the first gallery item (first video) */
+            .gallery-container {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            .gallery-item-1 {
+                margin: 0 auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+                order: 1 !important; /* First video appears first */
+            }
+            
+            .gallery-item-1-text {
+                order: 2 !important; /* Text for 01 appears immediately after first video */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-2 {
+                order: 3 !important; /* Video for 02 appears between 01 text and 02 text */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-2 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-2-text {
+                order: 4 !important; /* Text for 02 appears after its video */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-3 {
+                order: 5 !important; /* Video for 03 */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-3 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-3-text {
+                order: 6 !important; /* Text for 03 */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-4 {
+                order: 7 !important; /* Photo appears between 03 text and 04 text */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-4 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-4-text {
+                order: 8 !important; /* Text for 04 appears after the photo */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-1 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Center the step number and descriptions */
+            .step-details {
+                text-align: center !important;
+                margin: 0 auto !important;
+                max-width: 90% !important;
+            }
+            
+            .vertical-media {
+                max-height: 65vh !important;
+            }
+            
+            .horizontal-media {
+                min-height: 40vh !important; /* Ensure horizontal videos aren't too short */
+                height: auto !important;
+                aspect-ratio: 16/9 !important; /* Maintain proper aspect ratio */
+            }
+            
+            /* CTA section adjustments */
+            .cta-section {
+                padding: 4rem 1.5rem 3rem !important;
+            }
+            
+            .cta-title {
+                font-size: 1.3rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            .cta-text {
+                font-size: 1rem !important;
+                margin-bottom: 2.5rem !important;
+            }
+        }
+        
+        /* Tablet-specific overrides */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .fashion-gallery {
+                width: 65% !important; /* Exactly 65% width for tablets as requested */
+                max-width: 65% !important;
+                min-width: 65% !important;
+            }
+        }
+        
         /* Luxury Haute Couture Museum styling */
         main {
             background-color: black;
@@ -106,7 +327,7 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: white;
+            color: var(--logo-color);
         }
         
         .process-title {
@@ -354,6 +575,47 @@
                 font-size: 1rem;
             }
         }
+        
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .step-number {
+                font-size: 5rem;
+            }
+            
+            .step-title {
+                font-size: 1.4rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+        
+        /* This media query has been merged with the one at the top of the stylesheet */
+
+        /* Additional mobile adjustments - keeping these in case they're needed */
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .step-number {
+                font-size: 5rem;
+            }
+            
+            .step-title {
+                font-size: 1.4rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -381,7 +643,23 @@
     </div>
 
     <main style="max-width: 100%; overflow-x: hidden; background-color: black;">
-        <section class="hero-section">
+        <!-- Add a mobile-only container that will only be visible on mobile -->
+        <div class="mobile-hero-container" style="display: none;">
+            <div class="fashion-gallery" style="width: 80%; margin: 0 auto;">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata" style="width: 100%; height: auto;">
+                    <source src="public/Videos/1.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <div class="quote-block" style="width: 100%; padding: 1.5rem 1rem; margin-top: 2rem;">
+                <p class="quote-text">"For me, it is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
+                <p class="quote-author">SANCHIT BABBAR</p>
+            </div>
+        </div>
+
+        <!-- Desktop hero section that will be hidden on mobile -->
+        <section class="hero-section desktop-hero">
             <div class="fashion-gallery">
                 <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
                     <source src="public/Videos/1.webm" type="video/webm">
@@ -390,7 +668,7 @@
             </div>
             
             <div class="quote-block">
-                <p class="quote-text">"Luxury is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
+                <p class="quote-text">"For me, it is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
                 <p class="quote-author">SANCHIT BABBAR</p>
             </div>
         </section>
@@ -470,14 +748,17 @@
                 <!-- Gallery Item 4 - Image (Horizontal) -->
                 <div class="gallery-item gallery-item-4">
                     <div class="step-media horizontal-media">
-                        <img class="sketch-image" src="images/sketch 1.heic" alt="Design Development Sketch" style="object-position: top center;">
+                        <img class="sketch-image" src="images/sketch1.jpg" alt="Design Development Sketch" style="object-position: top center;">
                     </div>
                 </div>
             </div>
         </section>
         
         <section class="cta-section">
-            <h3 class="cta-title">CREATE WITH SANCH</h3>
+            <h3 class="cta-title">
+                <span class="custom-heading-create">CREATE WITH</span> 
+                <span class="custom-heading-sanch">SANCH</span>
+            </h3>
             <p class="cta-text">Ready to create your custom couture piece? Make an appointment and begin your journey with Sanch.</p>
             <a href="appointment.html" class="cta-button">BEGIN</a>
         </section>
