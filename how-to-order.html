@@ -665,6 +665,51 @@
                 margin: 1rem auto;
                 overflow: hidden;
             }
+            
+            /* Fix centering for gallery items */
+            .gallery-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            /* Ensure videos and images don't overflow */
+            .step-video, .sketch-image {
+                width: 100%;
+                max-width: 100%;
+                object-fit: contain;
+            }
+            
+            /* Fix alignment for horizontal media */
+            .horizontal-media {
+                width: 90%;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+            }
+            
+            /* Ensure proper text alignment for all gallery item text */
+            .gallery-item-text {
+                width: 100%;
+                text-align: center;
+                padding: 0 15px;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: center;
+            }
+            
+            /* Fix step details alignment */
+            .step-details {
+                width: 100%;
+                max-width: 90%;
+                margin: 0 auto;
+                text-align: center;
+            }
         }
     </style>
 </head>
