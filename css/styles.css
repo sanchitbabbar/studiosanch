@@ -291,7 +291,7 @@ main {
 /* Hero Section with Responsive Image */
 .hero-section {
     width: 100%;
-    height: auto;
+    height: calc(100vh - 3rem);
     overflow: hidden;
     position: relative;
     margin: 0;
@@ -301,7 +301,7 @@ main {
 
 .responsive-image-container {
     width: 100%;
-    max-height: 100vh;
+    height: 100%;
     overflow: hidden;
     display: flex;
     align-items: flex-start;
@@ -313,13 +313,12 @@ main {
 
 .responsive-image {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
-    object-position: center top -150px;
+    object-position: center top;
     display: block;
     margin: 0;
     padding: 0;
-    margin-top: -20px;
 }
 
 /* White Background Section */
@@ -482,20 +481,29 @@ main {
 
 /* Media Queries for Responsive Images */
 @media (max-width: 1200px) {
+    .hero-section {
+        height: calc(100vh - 3rem);
+    }
     .responsive-image-container {
-        max-height: 80vh;
+        height: 100%;
     }
 }
 
 @media (max-width: 768px) {
+    .hero-section {
+        height: calc(100vh - 3rem);
+    }
     .responsive-image-container {
-        max-height: 70vh;
+        height: 100%;
     }
 }
 
 @media (max-width: 480px) {
+    .hero-section {
+        height: calc(100vh - 3rem);
+    }
     .responsive-image-container {
-        max-height: 60vh;
+        height: 100%;
     }
 }
 
@@ -570,7 +578,7 @@ footer {
     background-color: var(--primary-color);
     color: var(--secondary-color);
     padding: 3rem 2rem;
-    margin-top: 5rem;
+    margin-top: 0;
 }
 
 /* Newsletter Dropdown */
