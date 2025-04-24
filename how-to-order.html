@@ -633,38 +633,88 @@
                 font-size: 1rem;
             }
         }
-        /* iPhone-specific fixes - Improved text layout while preserving video styling */
+        /* iPhone-specific fixes - Complete alignment fix for all elements */
         @media screen and (max-width: 480px) {
-            /* Reset gallery grid for mobile single-column layout but preserve original video styling */
-            .gallery-container {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                max-width: 100%;
-                margin: 0 auto;
-                padding: 0;
-                gap: 3rem;
+            /* Center THE PROCESS section and fix width */
+            .process-section {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
             }
             
-            /* Fix headline overflow */
+            /* Center process header */
+            .process-header {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                margin: 0 auto 2rem !important;
+            }
+            
+            /* Fix THE PROCESS headline alignment */
             .process-headline {
                 font-size: 1.5rem;
                 letter-spacing: 0.07em;
-                text-align: center;
-                width: 90%;
-                margin: 0 auto 2rem;
-                padding: 0;
+                text-align: center !important;
+                width: 85% !important;
+                margin: 0 auto 2rem !important;
+                padding: 0 !important;
                 overflow-wrap: break-word;
+                display: block !important;
             }
             
-            /* Reset all gallery items for text only - NO VIDEO CHANGES */
+            /* Force single column and center alignment for gallery container */
+            .gallery-container {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                align-items: center !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                gap: 3rem !important;
+            }
+            
+            /* Fix alignment for ALL gallery items - both media and text */
+            .gallery-item, .gallery-item-1, .gallery-item-2, .gallery-item-3, .gallery-item-4,
             .gallery-item-text, .gallery-item-1-text, .gallery-item-2-text, .gallery-item-3-text, .gallery-item-4-text {
-                grid-column: 1 / -1;
-                width: 90%;
-                max-width: 90%;
-                margin: 0 auto;
-                padding: 0;
-                position: static;
+                width: 85% !important;
+                max-width: 85% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                position: static !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            /* Center all media containers */
+            .step-media, .vertical-media, .horizontal-media {
+                width: 100% !important;
+                max-width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Fix step details alignment */
+            .step-details {
+                text-align: center !important;
+                width: 90% !important;
+                max-width: 90% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
             }
             
             /* Style text blocks properly */
@@ -672,17 +722,22 @@
                 font-size: 0.95rem;
                 line-height: 1.6;
                 width: 90%;
-                margin: 0 auto;
-                text-align: center;
+                margin: 0 auto !important;
+                text-align: center !important;
                 overflow-wrap: break-word;
             }
-
-            /* Fix the step details alignment */
-            .step-details {
-                text-align: center;
-                width: 90%;
-                margin: 0 auto;
-                padding: 0;
+            
+            /* Center step numbers */
+            .step-number {
+                margin: 0 auto 1rem !important;
+                text-align: center !important;
+            }
+            
+            /* Center step titles */
+            .step-title {
+                margin: 0 auto 1.5rem !important;
+                text-align: center !important;
+                width: 90% !important;
             }
         }
     </style>
