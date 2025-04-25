@@ -24,6 +24,30 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* iOS scroll fix - prevent zooming glitches during scroll */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            .responsive-image-container {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                will-change: transform;
+            }
+            
+            /* Use more gentle acceleration to prevent re-renders */
+            .responsive-image {
+                -webkit-perspective: 1000;
+                perspective: 1000;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        }
+
+        /* Fix for iOS momentum scrolling */
+        html, body {
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; /* Use gentler momentum scrolling */
+            height: 100%;
+        }
+        
         .cookie-consent {
             position: fixed;
             bottom: 0;
@@ -323,6 +347,18 @@
 
 
     <script src="js/script.js"></script>
+    <script src="js/ios-fix.js"></script>
+    <style>
+        /* Prevent iOS zoom glitch during scrolling */
+        .ios-device.ios-scrolling .responsive-image-container {
+            transform: translateZ(0);
+            will-change: transform;
+        }
+        
+        .ios-device .image-loaded {
+            transition: none !important;
+        }
+    </style>
     <script>
         // Newsletter Dropdown
         const newsletterLink = document.getElementById('newsletter-link');
