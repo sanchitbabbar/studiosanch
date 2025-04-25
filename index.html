@@ -348,6 +348,7 @@
 
     <script src="js/script.js"></script>
     <script src="js/ios-fix.js"></script>
+    <script src="js/newsletter-handler.js"></script>
     <style>
         /* Prevent iOS zoom glitch during scrolling */
         .ios-device.ios-scrolling .responsive-image-container {
@@ -406,68 +407,7 @@
             }
         });
 
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            const submitButton = this.querySelector('.send-text');
-            const originalButtonText = submitButton.innerText;
-            
-            // Show loading state
-            submitButton.innerText = 'Sending...';
-            
-            // Send to our PHP handler
-            fetch('php/subscribe.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            })
-            .then(response => {
-                if (!response.ok && response.status !== 200) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Reset button text
-                submitButton.innerText = originalButtonText;
-                
-                // Display success message
-                this.style.display = 'none';
-                successMessage.innerText = data.message || 'Thank you for subscribing to our newsletter.';
-                successMessage.classList.add('active');
-                
-                // Set a timeout to reset the form
-                setTimeout(() => {
-                    this.reset();
-                    this.style.display = 'flex';
-                    newsletterDropdown.classList.remove('active');
-                    successMessage.classList.remove('active');
-                }, 3000);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                submitButton.innerText = originalButtonText;
-                
-                // Create and show an error message inside the form
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'newsletter-error';
-                errorMsg.innerText = 'Something went wrong. Please try again.';
-                errorMsg.style.color = '#ff4545';
-                errorMsg.style.fontSize = '0.8rem';
-                errorMsg.style.marginTop = '10px';
-                
-                // Add error message to form
-                this.appendChild(errorMsg);
-                
-                // Remove error message after 3 seconds
-                setTimeout(() => {
-                    if (errorMsg.parentNode) {
-                        errorMsg.parentNode.removeChild(errorMsg);
-                    }
-                }, 3000);
-            });
+        // Newsletter form is now handled by the newsletter-handler.js script
         });
 
         // Language Panel Functionality
