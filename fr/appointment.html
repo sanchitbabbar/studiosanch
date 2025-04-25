@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Write to Us - STUDIO SANCH</title>
+    <title>Prendre Rendez-Vous - STUDIO SANCH</title>
     <!-- Favicon -->
-    <link rel="icon" href="images/Address bar image.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="images/Address bar image.jpg">
-    <link rel="shortcut icon" href="images/Address bar image.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../images/Address bar image.jpg">
+    <link rel="shortcut icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../css/styles.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,11 +18,13 @@
     <style>
         .email-display {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 70vh;
             padding: 80px 0;
             background-color: #000;
+            text-align: center;
         }
         
         .email-address {
@@ -33,11 +35,24 @@
             color: rgba(255, 255, 255, 0.8);
             text-align: center;
             transition: all 0.3s ease;
+            margin-top: 20px;
         }
         
         .email-address:hover {
             color: white;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .thank-you-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -58,23 +73,24 @@
         <div class="menu-content">
             <div class="menu-close">&times;</div>
             <ul class="menu-items">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-                <li><a href="how-to-order.html">CREATE</a></li>
+                <li><a href="index.html" data-i18n="header.home">ACCUEIL</a></li>
+                <li><a href="about.html" data-i18n="header.about">À PROPOS</a></li>
+                <li><a href="../how-to-order.html" data-i18n="header.create">CRÉER</a></li>
             </ul>
         </div>
     </div>
 
     <main>
         <section class="email-display">
-            <a href="mailto:info@studiosanch.com" class="email-address">info@studiosanch.com</a>
+            <p class="thank-you-text">Merci de nous contacter pour prendre rendez-vous. Veuillez nous écrire à l'adresse email ci-dessous pour organiser votre consultation personnalisée.</p>
+            <a href="mailto:rdv@studiosanch.com" class="email-address">rdv@studiosanch.com</a>
         </section>
     </main>
 
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUAGE</h3>
+                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUE</h3>
             </div>
             
             <!-- Language Selector Panel -->
@@ -82,52 +98,52 @@
                 <div class="language-panel">
                     <div class="panel-close">&times;</div>
                     <div class="panel-content">
-                        <h2 data-i18n="footer.selectLanguage">SELECT LOCATION AND LANGUAGE</h2>
+                        <h2 data-i18n="footer.selectLanguage">SÉLECTIONNEZ VOTRE LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="index.html" data-lang="en" class="active">English</a></li>
-                            <li><a href="fr/contact.html" data-lang="fr">Français</a></li>
+                            <li><a href="../appointment.html" data-lang="en">English</a></li>
+                            <li><a href="appointment.html" data-lang="fr" class="active">Français</a></li>
                         </ul>
-                        <p class="notice" data-i18n="footer.basketNotice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                        <p class="notice" data-i18n="footer.basketNotice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.clientService">CLIENT SERVICE</h3>
+                <h3 data-i18n="footer.clientService">SERVICE CLIENT</h3>
                 <ul>
-                    <li><a href="track-order.html" data-i18n="footer.trackOrder">TRACK ORDER</a></li>
+                    <li><a href="track-order.html" data-i18n="footer.trackOrder">SUIVRE LA COMMANDE</a></li>
                     <li class="newsletter-item">
-                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">SUBSCRIBE TO NEWS LETTER</a>
+                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">S'ABONNER À LA NEWSLETTER</a>
                         <div class="newsletter-dropdown">
                             <span class="dropdown-close">&times;</span>
                             <h3 data-i18n="footer.newsletter">Newsletter</h3>
                             <form class="newsletter-form">
-                                <input type="email" data-i18n="footer.enterEmail" placeholder="Enter your email address" required>
+                                <input type="email" data-i18n="footer.enterEmail" placeholder="Entrez votre adresse email" required>
                                 <div class="send-button-wrapper">
-                                    <span class="send-text" data-i18n="footer.send">Send</span>
+                                    <span class="send-text" data-i18n="footer.send">Envoyer</span>
                                     <input type="submit" value="" class="hidden-submit">                                    
                                 </div>
                             </form>
-                            <div class="success-message" data-i18n="footer.thankYou">Thank you for subscribing to our newsletter.</div>
+                            <div class="success-message" data-i18n="footer.thankYou">Merci de vous être abonné à notre newsletter.</div>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.contactUs">CONTACT US</h3>
+                <h3 data-i18n="footer.contactUs">CONTACTEZ-NOUS</h3>
                 <ul>
-                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">MAKE AN APPOINTMENT</a></li>
-                    <li><a href="contact.html" data-i18n="footer.writeToUs">WRITE TO US</a></li>
+                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">PRENDRE UN RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html" data-i18n="footer.writeToUs">NOUS ÉCRIRE</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.legal">LEGAL</h3>
+                <h3 data-i18n="footer.legal">JURIDIQUE</h3>
                 <ul>
-                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">LEGAL NOTICE</a></li>
-                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITY</a></li>
+                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">MENTIONS LÉGALES</a></li>
+                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITÉ</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.career">CAREER</h3>
+                <h3 data-i18n="footer.career">CARRIÈRE</h3>
             </div>
         </div>
         
@@ -145,13 +161,13 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
-    <script src="js/ios-fix.js"></script>
-    <script src="js/newsletter-handler.js"></script>
-    <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
-    <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/menu.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/ios-fix.js"></script>
+    <script src="../js/newsletter-handler.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="../js/i18n.js"></script>
     <style>
         /* Prevent iOS zoom glitch during scrolling */
         .ios-device.ios-scrolling .responsive-image-container {
@@ -164,6 +180,7 @@
         }
     </style>
     <script>
+        // Newsletter and Language Panel Script - same as working footer
         // Newsletter Dropdown
         const newsletterLink = document.getElementById('newsletter-link');
         const newsletterDropdown = document.querySelector('.newsletter-dropdown');

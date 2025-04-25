@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Write to Us - STUDIO SANCH</title>
+    <title>Suivre La Commande - STUDIO SANCH</title>
     <!-- Favicon -->
-    <link rel="icon" href="images/Address bar image.jpg" type="image/jpeg">
-    <link rel="apple-touch-icon" href="images/Address bar image.jpg">
-    <link rel="shortcut icon" href="images/Address bar image.jpg" type="image/jpeg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../images/Address bar image.jpg">
+    <link rel="shortcut icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../css/styles.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,28 +16,86 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .email-display {
+        .track-order-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 70vh;
-            padding: 80px 0;
+            padding: 80px 20px;
             background-color: #000;
         }
         
-        .email-address {
+        .track-order-form {
+            width: 100%;
+            max-width: 500px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .track-order-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
             font-weight: 300;
             letter-spacing: 0.1em;
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
+            text-transform: uppercase;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
             transition: all 0.3s ease;
         }
         
-        .email-address:hover {
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .track-button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 30px;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .track-button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
             color: white;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+        
+        .success-message {
+            text-align: center;
+            margin-top: 20px;
+            display: none;
         }
     </style>
 </head>
@@ -50,6 +108,7 @@
             <div class="hamburger-icon">
                 <span></span>
                 <span></span>
+                <span></span>
             </div>
         </div>
     </header>
@@ -58,23 +117,41 @@
         <div class="menu-content">
             <div class="menu-close">&times;</div>
             <ul class="menu-items">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-                <li><a href="how-to-order.html">CREATE</a></li>
+                <li><a href="index.html" data-i18n="header.home">ACCUEIL</a></li>
+                <li><a href="about.html" data-i18n="header.about">À PROPOS</a></li>
+                <li><a href="how-to-order.html" data-i18n="header.create">CRÉER</a></li>
             </ul>
         </div>
     </div>
 
     <main>
-        <section class="email-display">
-            <a href="mailto:info@studiosanch.com" class="email-address">info@studiosanch.com</a>
+        <section class="track-order-container">
+            <div class="track-order-form">
+                <h2 data-i18n="track.title">SUIVRE VOTRE COMMANDE</h2>
+                <form id="orderTrackingForm">
+                    <div class="form-group">
+                        <label for="name" data-i18n="track.name">NOM</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" data-i18n="track.email">EMAIL</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNumber" data-i18n="track.orderNumber">NUMÉRO DE COMMANDE</label>
+                        <input type="text" id="orderNumber" name="orderNumber" required>
+                    </div>
+                    <button type="submit" class="track-button" data-i18n="track.button">SUIVRE</button>
+                </form>
+                <div class="success-message" data-i18n="track.success">Votre demande de suivi de commande a été soumise. Nous vous contacterons avec des détails sur l'état de votre commande.</div>
+            </div>
         </section>
     </main>
 
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUAGE</h3>
+                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUE</h3>
             </div>
             
             <!-- Language Selector Panel -->
@@ -82,52 +159,53 @@
                 <div class="language-panel">
                     <div class="panel-close">&times;</div>
                     <div class="panel-content">
-                        <h2 data-i18n="footer.selectLanguage">SELECT LOCATION AND LANGUAGE</h2>
+                        <h2 data-i18n="footer.selectLanguage">SÉLECTIONNEZ VOTRE LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="index.html" data-lang="en" class="active">English</a></li>
-                            <li><a href="fr/contact.html" data-lang="fr">Français</a></li>
+                            <li><a href="../track-order.html" data-lang="en">English</a></li>
+                            <li><a href="track-order.html" data-lang="fr" class="active">Français</a></li>
                         </ul>
-                        <p class="notice" data-i18n="footer.basketNotice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                        <p class="notice" data-i18n="footer.basketNotice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
+            
             <div class="footer-section">
-                <h3 data-i18n="footer.clientService">CLIENT SERVICE</h3>
+                <h3 data-i18n="footer.clientService">SERVICE CLIENT</h3>
                 <ul>
-                    <li><a href="track-order.html" data-i18n="footer.trackOrder">TRACK ORDER</a></li>
+                    <li><a href="track-order.html" data-i18n="footer.trackOrder">SUIVRE LA COMMANDE</a></li>
                     <li class="newsletter-item">
-                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">SUBSCRIBE TO NEWS LETTER</a>
+                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">S'ABONNER À LA NEWSLETTER</a>
                         <div class="newsletter-dropdown">
                             <span class="dropdown-close">&times;</span>
                             <h3 data-i18n="footer.newsletter">Newsletter</h3>
                             <form class="newsletter-form">
-                                <input type="email" data-i18n="footer.enterEmail" placeholder="Enter your email address" required>
+                                <input type="email" data-i18n="footer.enterEmail" placeholder="Entrez votre adresse email" required>
                                 <div class="send-button-wrapper">
-                                    <span class="send-text" data-i18n="footer.send">Send</span>
+                                    <span class="send-text" data-i18n="footer.send">Envoyer</span>
                                     <input type="submit" value="" class="hidden-submit">                                    
                                 </div>
                             </form>
-                            <div class="success-message" data-i18n="footer.thankYou">Thank you for subscribing to our newsletter.</div>
+                            <div class="success-message" data-i18n="footer.thankYou">Merci de vous être abonné à notre newsletter.</div>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.contactUs">CONTACT US</h3>
+                <h3 data-i18n="footer.contactUs">CONTACTEZ-NOUS</h3>
                 <ul>
-                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">MAKE AN APPOINTMENT</a></li>
-                    <li><a href="contact.html" data-i18n="footer.writeToUs">WRITE TO US</a></li>
+                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">PRENDRE UN RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html" data-i18n="footer.writeToUs">NOUS ÉCRIRE</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.legal">LEGAL</h3>
+                <h3 data-i18n="footer.legal">JURIDIQUE</h3>
                 <ul>
-                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">LEGAL NOTICE</a></li>
-                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITY</a></li>
+                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">MENTIONS LÉGALES</a></li>
+                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITÉ</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3 data-i18n="footer.career">CAREER</h3>
+                <h3 data-i18n="footer.career">CARRIÈRE</h3>
             </div>
         </div>
         
@@ -145,13 +223,13 @@
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
-    <script src="js/ios-fix.js"></script>
-    <script src="js/newsletter-handler.js"></script>
-    <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
-    <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/menu.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/ios-fix.js"></script>
+    <script src="../js/newsletter-handler.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="../js/i18n.js"></script>
     <style>
         /* Prevent iOS zoom glitch during scrolling */
         .ios-device.ios-scrolling .responsive-image-container {
@@ -164,6 +242,15 @@
         }
     </style>
     <script>
+        // Form submission handling
+        document.getElementById('orderTrackingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to your server
+            // For now, we'll just show the success message
+            document.querySelector('.success-message').style.display = 'block';
+            this.reset();
+        });
+
         // Newsletter Dropdown
         const newsletterLink = document.getElementById('newsletter-link');
         const newsletterDropdown = document.querySelector('.newsletter-dropdown');

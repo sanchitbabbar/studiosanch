@@ -1,0 +1,78 @@
+{
+  "header": {
+    "home": "HOME",
+    "about": "ABOUT",
+    "create": "CREATE"
+  },
+  "footer": {
+    "language": "LANGUAGE",
+    "clientService": "CLIENT SERVICE",
+    "trackOrder": "TRACK ORDER",
+    "subscribe": "SUBSCRIBE TO NEWS LETTER",
+    "newsletter": "Newsletter",
+    "enterEmail": "Enter your email address",
+    "send": "Send",
+    "thankYou": "Thank you for subscribing to our newsletter.",
+    "contactUs": "CONTACT US",
+    "makeAppointment": "MAKE AN APPOINTMENT",
+    "writeToUs": "WRITE TO US",
+    "legal": "LEGAL",
+    "legalNotice": "LEGAL NOTICE",
+    "accessibility": "ACCESSIBILITY",
+    "career": "CAREER",
+    "selectLanguage": "SELECT LOCATION AND LANGUAGE",
+    "basketNotice": "IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT"
+  },
+  "privacy": {
+    "title": "PRIVACY POLICY",
+    "intro": "At STUDIO SANCH, we value your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.",
+    "outline": "This document outlines our policies regarding the collection, use, and disclosure of your personal information when you use our website and services.",
+    "tableOfContents": "TABLE OF CONTENTS",
+    "section1Title": "1. SCOPE OF THIS POLICY",
+    "section1Para1": "This Privacy Policy covers how STUDIO SANCH accesses, collects, stores, processes, uses, communicates, or transfers your personal data, whether in physical or electronic form. It also covers situations where authorized partners or other service providers use your personal data on our behalf.",
+    "section1Para2": "Other policies may apply in certain cases when you use specific products or services. In such cases:",
+    "section1List1": "These additional policies will be communicated to you when you use the products or services to which they apply",
+    "section1List2": "These additional policies may replace this Privacy Policy, unless they explicitly reference it",
+    "section1Para3": "This Privacy Policy does not cover products or services provided by other companies acting on their own behalf, such as when you share information through social media platforms or other online platforms operated by third parties. These third parties have their own privacy policies, and how they use the personal data you provide to them will be subject to their rules and policies, not ours."
+  },
+  "legal": {
+    "title": "LEGAL NOTICE",
+    "intro": "This Legal Notice provides important information about STUDIO SANCH, the legal structure of the business, and the terms under which we operate.",
+    "tableOfContents": "TABLE OF CONTENTS",
+    "section1Title": "1. LEGAL IDENTITY",
+    "section1Para1": "STUDIO SANCH is a creative studio where Sanchit Babbar, an artiste-auteur (artist-author) and individual entrepreneur established in Paris, France, creates his original high fashion designs, photoshoots, and digital films.",
+    "section1Para2": "The professional status of Sanchit Babbar is that of an \"artiste-auteur\" (artist-author) registered with the appropriate French administrative and social authorities.",
+    "section1Para3": "Unlike corporate entities, STUDIO SANCH represents the creative studio and commercial activities through which Sanchit Babbar produces and distributes his original works. All transactions, contracts, and agreements are conducted directly with Sanchit Babbar operating under the creative studio name STUDIO SANCH.",
+    "section2Title": "2. SITE OPERATOR",
+    "section2Para1": "This website (studiosanch.com) is operated by Sanchit Babbar, based in Paris, France.",
+    "section2Para2": "For any questions regarding the website, please contact: privacy@studiosanch.com",
+    "section3Title": "3. INTELLECTUAL PROPERTY",
+    "section3Para1": "All content on this website, including but not limited to text, graphics, logos, images, audio clips, digital downloads, data compilations, and software, is the property of Sanchit Babbar (STUDIO SANCH) and is protected by French and international copyright and intellectual property laws.",
+    "section3Para2": "The reproduction, modification, distribution, transmission, republication, display, or performance of the contents of this website is strictly prohibited without the express written consent of Sanchit Babbar.",
+    "section3Para3": "SANCHIT BABBAR, SANCH and STUDIO SANCH are French trademarks, officially registered with the Director General of the National Institute of Industrial Property.",
+    "section3Para4": "The STUDIO SANCH name, logo, and all related product and service names, design marks, and slogans are trademarks or service marks belonging to Sanchit Babbar. No right, license, or interest in our trademarks is granted to you by accessing this website."
+  },
+  "cookieConsent": {
+    "title": "Cookie Consent",
+    "message": "This website uses cookies to enhance your browsing experience and provide personalized services. By using our website, you agree to our use of cookies.",
+    "accept": "Accept All",
+    "settings": "Cookie Settings",
+    "necessary": "Necessary Cookies",
+    "analytics": "Analytics Cookies",
+    "marketing": "Marketing Cookies",
+    "functional": "Functional Cookies",
+    "save": "Save Preferences"
+  },
+  "copyright": "© studiosanch 2025",
+  "contact": {
+    "email": "info@studiosanch.com"
+  },
+  "track": {
+    "title": "TRACK YOUR ORDER",
+    "name": "NAME",
+    "email": "EMAIL",
+    "orderNumber": "ORDER NUMBER",
+    "button": "TRACK",
+    "success": "Your order tracking request has been submitted. We will contact you with details about your order status."
+  }
+}

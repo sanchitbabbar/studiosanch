@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos - STUDIO SANCH</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../images/Address bar image.jpg">
+    <link rel="shortcut icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional styles specific to the About page */
+        .black-background {
+            width: 100%;
+            background-color: black;
+            padding: 10rem 0 10rem;
+            margin-top: 0;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .about-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 3rem;
+            color: #000;
+        }
+        
+        .studio-description {
+            margin: 3rem 0 6rem;
+            text-align: center;
+        }
+        
+        .studio-description p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            letter-spacing: 0.14em;
+            font-weight: 300;
+            color: #e8e8e8;
+            max-width: 650px;
+            margin: 0 auto;
+            font-style: italic;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .trademark-notice {
+            text-align: center;
+            font-size: 0.534rem; /* Reduced by 3% from 0.55rem */
+            letter-spacing: 0.1em;
+            line-height: 1.8;
+            opacity: 0.5;
+            max-width: 500px;
+            margin: 0 auto;
+            font-style: normal;
+            font-weight: 300;
+            color: #e8e8e8;
+            font-family: 'Montserrat', sans-serif;
+            position: absolute;
+            bottom: 3rem;
+            left: 0;
+            right: 0;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            justify-content: center;
+        }
+        
+        .footer-social {
+            margin: 2rem 0 1rem;
+        }
+        
+        .footer-social i {
+            color: #c0c0c0;
+            font-size: 1.1rem;
+        }
+        
+        .social-links a {
+            font-size: 1.2rem;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+        
+        .trademark-notice {
+            margin-top: 4rem;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html" data-i18n="header.home">ACCUEIL</a></li>
+                <li><a href="about.html" data-i18n="header.about">À PROPOS</a></li>
+                <li><a href="../how-to-order.html" data-i18n="header.create">CRÉER</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <section class="hero-section">
+            <div class="responsive-image-container">
+                <img src="../images/about-page.jpg" alt="Studio Sanch À Propos Image" class="responsive-image about-image">
+            </div>
+        </section>
+    </main>
+    <div class="black-background">
+        <section class="about-section">
+            <div class="studio-description">
+                <p data-i18n="about.description">Studio Créatif de Sanchit Babbar, basé à Paris, spécialisé dans la mode et les films numériques.</p>
+            </div>
+            <div class="trademark-notice">
+                <p data-i18n="about.trademark">Sanch et Studio Sanch sont des marques françaises, officiellement enregistrées auprès du directeur général de l'Institut national de la propriété industrielle.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2 data-i18n="footer.selectLanguage">SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
+                        <ul class="language-options">
+                            <li><a href="../index.html" data-lang="en">English</a></li>
+                            <li><a href="index.html" data-lang="fr" class="active">Français</a></li>
+                        </ul>
+                        <p class="notice" data-i18n="footer.basketNotice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS ALLEZ SÉLECTIONNER</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.clientService">SERVICE CLIENT</h3>
+                <ul>
+                    <li><a href="track-order.html" data-i18n="footer.trackOrder">SUIVRE LA COMMANDE</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">S'INSCRIRE À LA NEWSLETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3 data-i18n="footer.newsletter">Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" data-i18n="footer.enterEmail" placeholder="Entrez votre adresse e-mail" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text" data-i18n="footer.send">Envoyer</span>
+                                    <input type="submit" value="" class="hidden-submit">                                    
+                                </div>
+                            </form>
+                            <div class="success-message" data-i18n="footer.thankYou">Merci de vous être abonné à notre newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.contactUs">CONTACTEZ-NOUS</h3>
+                <ul>
+                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">PRENDRE RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html" data-i18n="footer.writeToUs">NOUS ÉCRIRE</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.legal">MENTIONS LÉGALES</h3>
+                <ul>
+                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">MENTIONS LÉGALES</a></li>
+                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITÉ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.career">CARRIÈRE</h3>
+            </div>
+
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanchofficial" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p data-i18n="copyright">© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script src="../js/ios-fix.js"></script>
+    <script src="../js/newsletter-handler.js"></script>
+    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/menu.js"></script>
+</body>
+</html>

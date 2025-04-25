@@ -126,21 +126,21 @@
         <div class="menu-content">
             <div class="menu-close">&times;</div>
             <ul class="menu-items">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-                <li><a href="how-to-order.html">CREATE</a></li>
+                <li><a href="index.html" data-i18n="header.home">HOME</a></li>
+                <li><a href="about.html" data-i18n="header.about">ABOUT</a></li>
+                <li><a href="how-to-order.html" data-i18n="header.create">CREATE</a></li>
             </ul>
         </div>
     </div>
 
     <main>
         <section class="legal-section">
-            <h1>LEGAL NOTICE</h1>
+            <h1 data-i18n="legal.title">LEGAL NOTICE</h1>
             
-            <p>This Legal Notice provides important information about STUDIO SANCH, the legal structure of the business, and the terms under which we operate.</p>
+            <p data-i18n="legal.intro">This Legal Notice provides important information about STUDIO SANCH, the legal structure of the business, and the terms under which we operate.</p>
 
             <div class="legal-toc">
-                <h3>TABLE OF CONTENTS</h3>
+                <h3 data-i18n="legal.tableOfContents">TABLE OF CONTENTS</h3>
                 <a href="#identity">1. LEGAL IDENTITY</a>
                 <a href="#operator">2. SITE OPERATOR</a>
                 <a href="#intellectual">3. INTELLECTUAL PROPERTY</a>
@@ -154,28 +154,28 @@
             </div>
 
             <div id="identity" class="section-divider"></div>
-            <h2>1. LEGAL IDENTITY</h2>
-            <p>STUDIO SANCH is a creative studio where Sanchit Babbar, an artiste-auteur (artist-author) and individual entrepreneur established in Paris, France, creates his original high fashion designs, photoshoots, and digital films.</p>
+            <h2 data-i18n="legal.section1Title">1. LEGAL IDENTITY</h2>
+            <p data-i18n="legal.section1Para1">STUDIO SANCH is a creative studio where Sanchit Babbar, an artiste-auteur (artist-author) and individual entrepreneur established in Paris, France, creates his original high fashion designs, photoshoots, and digital films.</p>
             
-            <p>The professional status of Sanchit Babbar is that of an "artiste-auteur" (artist-author) registered with the appropriate French administrative and social authorities.</p>
+            <p data-i18n="legal.section1Para2">The professional status of Sanchit Babbar is that of an "artiste-auteur" (artist-author) registered with the appropriate French administrative and social authorities.</p>
             
-            <p>Unlike corporate entities, STUDIO SANCH represents the creative studio and commercial activities through which Sanchit Babbar produces and distributes his original works. All transactions, contracts, and agreements are conducted directly with Sanchit Babbar operating under the creative studio name STUDIO SANCH.</p>
+            <p data-i18n="legal.section1Para3">Unlike corporate entities, STUDIO SANCH represents the creative studio and commercial activities through which Sanchit Babbar produces and distributes his original works. All transactions, contracts, and agreements are conducted directly with Sanchit Babbar operating under the creative studio name STUDIO SANCH.</p>
 
             <div id="operator" class="section-divider"></div>
-            <h2>2. SITE OPERATOR</h2>
-            <p>This website (studiosanch.com) is operated by Sanchit Babbar, based in Paris, France.</p>
+            <h2 data-i18n="legal.section2Title">2. SITE OPERATOR</h2>
+            <p data-i18n="legal.section2Para1">This website (studiosanch.com) is operated by Sanchit Babbar, based in Paris, France.</p>
             
-            <p>For any questions regarding the website, please contact: privacy@studiosanch.com</p>
+            <p data-i18n="legal.section2Para2">For any questions regarding the website, please contact: privacy@studiosanch.com</p>
 
             <div id="intellectual" class="section-divider"></div>
-            <h2>3. INTELLECTUAL PROPERTY</h2>
-            <p>All content on this website, including but not limited to text, graphics, logos, images, audio clips, digital downloads, data compilations, and software, is the property of Sanchit Babbar (STUDIO SANCH) and is protected by French and international copyright and intellectual property laws.</p>
+            <h2 data-i18n="legal.section3Title">3. INTELLECTUAL PROPERTY</h2>
+            <p data-i18n="legal.section3Para1">All content on this website, including but not limited to text, graphics, logos, images, audio clips, digital downloads, data compilations, and software, is the property of Sanchit Babbar (STUDIO SANCH) and is protected by French and international copyright and intellectual property laws.</p>
             
-            <p>The reproduction, modification, distribution, transmission, republication, display, or performance of the contents of this website is strictly prohibited without the express written consent of Sanchit Babbar.</p>
+            <p data-i18n="legal.section3Para2">The reproduction, modification, distribution, transmission, republication, display, or performance of the contents of this website is strictly prohibited without the express written consent of Sanchit Babbar.</p>
             
-            <p>SANCHIT BABBAR, SANCH and STUDIO SANCH are French trademarks, officially registered with the Director General of the National Institute of Industrial Property.</p>
+            <p data-i18n="legal.section3Para3">SANCHIT BABBAR, SANCH and STUDIO SANCH are French trademarks, officially registered with the Director General of the National Institute of Industrial Property.</p>
             
-            <p>The STUDIO SANCH name, logo, and all related product and service names, design marks, and slogans are trademarks or service marks belonging to Sanchit Babbar. No right, license, or interest in our trademarks is granted to you by accessing this website.</p>
+            <p data-i18n="legal.section3Para4">The STUDIO SANCH name, logo, and all related product and service names, design marks, and slogans are trademarks or service marks belonging to Sanchit Babbar. No right, license, or interest in our trademarks is granted to you by accessing this website.</p>
 
             <div id="artworks" class="section-divider"></div>
             <h2>4. ARTWORKS AND CREATIONS</h2>
@@ -315,5 +315,8 @@
     <script src="js/ios-fix.js"></script>
     <script src="js/newsletter-handler.js"></script>
     <script src="js/menu.js"></script>
+    <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="js/i18n.js"></script>
 </body>
 </html>
