@@ -29,8 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    // Here you would typically save the email to your subscriber database
-    // For this example, we'll just send a confirmation email
+    // Save the email to a subscribers file as backup
+    $subscribersFile = __DIR__ . '/subscribers.txt';
+    $timestamp = date('Y-m-d H:i:s');
+    $logEntry = "$timestamp - $email\n";
+    
+    // Append to subscribers file
+    file_put_contents($subscribersFile, $logEntry, FILE_APPEND | LOCK_EX);
+    
+    // Log this subscription attempt
+    error_log("Newsletter subscription attempt from: $email", 0);
     
     // Email content
     $to = $email;
@@ -80,15 +88,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
     
     // Send the email
-    $emailSent = mail($to, $subject, $message, $headers);
+    $emailSent = false;
     
-    // Check if the email was sent
+    try {
+        $emailSent = mail($to, $subject, $message, $headers);
+        // Log the mail attempt
+        error_log("Mail send attempt to $to: " . ($emailSent ? 'SUCCESS' : 'FAILED'), 0);
+    } catch (Exception $e) {
+        error_log("Exception sending mail to $to: " . $e->getMessage(), 0);
+    }
+    
+    // Even if mail fails, we've saved the subscriber to our file
     if ($emailSent) {
         http_response_code(200);
         echo json_encode(['success' => true, 'message' => 'Subscription successful']);
     } else {
-        http_response_code(500);
-        echo json_encode(['success' => false, 'message' => 'Failed to send confirmation email']);
+        // We'll still treat this as a success since we've stored the email
+        http_response_code(200);
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Subscription received. Email confirmation might be delayed.'
+        ]);
+        
+        // Log the failure for admin reference
+        error_log("Failed to send confirmation email to $email but subscription was recorded", 0);
     }
 } else {
     // Handle non-POST requests
