@@ -222,6 +222,8 @@
 
     <script src="js/script.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/newsletter-handler.js"></script>
+
     <script>
         // Newsletter Dropdown
         const newsletterLink = document.getElementById('newsletter-link');
@@ -262,21 +264,7 @@
             }
         });
 
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            
-            // In a real implementation, this would send the data to a server
-            this.style.display = 'none';
-            successMessage.classList.add('active');
-            
-            setTimeout(() => {
-                this.reset();
-                this.style.display = 'flex';
-                newsletterDropdown.classList.remove('active');
-                successMessage.classList.remove('active');
-            }, 2000);
-        });
+        // Newsletter form submission is now handled by the newsletter-handler.js script
         
         // Language Panel Functionality
         const languageTrigger = document.getElementById('language-selector-trigger');

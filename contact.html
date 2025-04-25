@@ -145,6 +145,8 @@
     </footer>
 
     <script src="js/menu.js"></script>
+    <script src="js/newsletter-handler.js"></script>
+
     <script>
         // Newsletter Dropdown
         const newsletterLink = document.getElementById('newsletter-link');
@@ -155,26 +157,37 @@
 
         newsletterLink.addEventListener('click', function(e) {
             e.preventDefault();
-            newsletterDropdown.classList.add('show');
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
         });
 
         dropdownClose.addEventListener('click', function() {
-            newsletterDropdown.classList.remove('show');
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
         });
 
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            newsletterForm.style.display = 'none';
-            successMessage.style.display = 'block';
-            setTimeout(function() {
-                newsletterDropdown.classList.remove('show');
-                // Reset after hiding
-                setTimeout(function() {
-                    newsletterForm.style.display = 'block';
-                    successMessage.style.display = 'none';
-                }, 500);
-            }, 2000);
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }
         });
+
+        // Newsletter form submission is now handled by the newsletter-handler.js script
 
         // Language Panel
         const languageTrigger = document.getElementById('language-selector-trigger');
