@@ -318,5 +318,42 @@
     <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
     <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="js/i18n.js"></script>
+    <script>
+        // Language Selector Panel Functionality
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.querySelector('.language-panel-overlay');
+        const panelClose = document.querySelector('.panel-close');
+
+        // Helper function to open panel with proper timing
+        function openLanguagePanel() {
+            languagePanel.style.display = 'flex';
+            setTimeout(() => {
+                languagePanel.style.opacity = '1';
+            }, 10);
+        }
+        
+        // Helper function for closing with proper timing
+        function closeLanguagePanel() {
+            languagePanel.style.opacity = '0';
+            setTimeout(() => {
+                languagePanel.style.display = 'none';
+            }, 300);
+        }
+
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        // Close panel when clicking outside
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === languagePanel) {
+                closeLanguagePanel();
+            }
+        });
+    </script>
 </body>
 </html>
