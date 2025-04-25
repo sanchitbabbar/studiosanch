@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CREATE - STUDIO SANCH</title>
     <link rel="stylesheet" href="css/styles.css">
     <!-- Google Fonts -->
@@ -17,32 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- iOS performance optimizations -->
-    <style>
-        /* iOS scroll fix - prevent zooming glitches during scroll */
-        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
-            main, .mobile-hero-container, .fashion-gallery, .gallery-item-1, .gallery-item-2, .gallery-item-3, .gallery-item-4 {
-                -webkit-transform: translate3d(0, 0, 0);
-                transform: translate3d(0, 0, 0);
-                will-change: transform;
-            }
-            
-            /* Use more gentle acceleration for media elements to prevent re-renders */
-            video, img, .step-video, .step-media, .gallery-video {
-                -webkit-perspective: 1000;
-                perspective: 1000;
-                -webkit-backface-visibility: hidden;
-                backface-visibility: hidden;
-            }
-        }
-
-        /* Fix for iOS momentum scrolling */
-        html, body {
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch; /* Use gentler momentum scrolling */
-            height: 100%;
-        }
-    </style>
     <style>
         /* Custom styling for CREATE WITH SANCH heading */
         .custom-heading-create {
@@ -996,7 +968,6 @@
     <script src="js/menu.js"></script>
     
     <!-- Video Performance Optimization Script -->
-    <script src="js/create-ios-fix.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get all videos
