@@ -240,6 +240,40 @@
         .ios-device .image-loaded {
             transition: none !important;
         }
+        
+        /* Language panel overlay styles */
+        .language-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .language-panel {
+            background-color: black;
+            padding: 30px;
+            max-width: 80%;
+            width: 500px;
+            color: white;
+            position: relative;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .panel-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
     <script>
         // Form submission handling
@@ -256,51 +290,52 @@
         const newsletterDropdown = document.querySelector('.newsletter-dropdown');
         const dropdownClose = document.querySelector('.dropdown-close');
         const newsletterForm = document.querySelector('.newsletter-form');
-        const successMessage = document.querySelector('.success-message');
+        const successMessage = document.querySelector('.newsletter-dropdown .success-message');
         const sendButton = document.querySelector('.send-text');
         
         // Make the Send text button work
-        if (sendButton) {
-            sendButton.addEventListener('click', function() {
-                // Trigger the form submission
-                newsletterForm.dispatchEvent(new Event('submit'));
-            });
-        }
+        sendButton.addEventListener('click', function() {
+            // Trigger the form submission
+            newsletterForm.dispatchEvent(new Event('submit'));
+        });
 
-        if (newsletterLink) {
-            newsletterLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                newsletterDropdown.classList.add('active');
-                
-                // Position the dropdown relative to the link
-                const linkRect = this.getBoundingClientRect();
-                
-                // Calculate position relative to viewport
-                const top = linkRect.top;
-                const left = linkRect.left;
-                
-                // Position above the link if near the bottom of the screen
-                const isNearBottom = top + 300 > window.innerHeight;
-                
-                // Set the position
-                newsletterDropdown.style.position = 'fixed';
-                newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
-                newsletterDropdown.style.left = left + 'px';
-            });
-        }
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
 
-        if (dropdownClose) {
-            dropdownClose.addEventListener('click', function() {
-                newsletterDropdown.classList.remove('active');
-                if (successMessage) successMessage.classList.remove('active');
-            });
-        }
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
+        });
 
         document.addEventListener('click', function(e) {
-            if (newsletterDropdown && !e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
                 newsletterDropdown.classList.remove('active');
-                if (successMessage) successMessage.classList.remove('active');
+                successMessage.classList.remove('active');
             }
+        });
+        
+        // Handle newsletter form submission
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            newsletterForm.style.display = 'none';
+            successMessage.classList.add('active');
         });
 
         // Language Panel Functionality
@@ -308,11 +343,9 @@
         const languagePanel = document.querySelector('.language-panel-overlay');
         const panelClose = document.querySelector('.panel-close');
 
-        if (languageTrigger) {
-            languageTrigger.addEventListener('click', function() {
-                openLanguagePanel();
-            });
-        }
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
 
         // Keep track of panel state
         let isPanelAnimating = false;
@@ -356,23 +389,20 @@
             }, 2200);
         }
 
-        if (panelClose) {
-            panelClose.addEventListener('click', function() {
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        // Close panel when clicking outside
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === languagePanel) {
                 closeLanguagePanel();
-            });
-        }
-
-        if (languagePanel) {
-            languagePanel.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeLanguagePanel();
-                }
-            });
-        }
-
+            }
+        });
+        
         // Close panel with ESC key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && languagePanel && languagePanel.classList.contains('active')) {
+            if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
                 closeLanguagePanel();
             }
         });

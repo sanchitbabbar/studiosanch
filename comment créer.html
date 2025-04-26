@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREATE - STUDIO SANCH</title>
+    <title>COMMENT CRÉER - STUDIO SANCH</title>
     <link rel="stylesheet" href="css/styles.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -891,7 +891,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger">LANGUAGE</h3>
+                <h3 id="language-selector-trigger">LANGUE</h3>
             </div>
             
             <!-- Language Selector Panel -->
@@ -899,53 +899,54 @@
                 <div class="language-panel">
                     <div class="panel-close">&times;</div>
                     <div class="panel-content">
-                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <h2>SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="how-to-order.html" class="active">English</a></li>
-                            <li><a href="comment créer.html">Français</a></li>
+                            <li><a href="how-to-order.html">English</a></li>
+                            <li><a href="comment créer.html" class="active">Français</a></li>
                         </ul>
-                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                        <p class="notice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
             <div class="footer-section">
-                <h3>CLIENT SERVICE</h3>
+                <h3>SERVICE CLIENT</h3>
                 <ul>
-                    <li><a href="#">TRACK ORDER</a></li>
+                    <li><a href="track-order.html">SUIVRE LA COMMANDE</a></li>
                     <li class="newsletter-item">
-                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <a href="#" id="newsletter-link">S'ABONNER À LA NEWSLETTER</a>
                         <div class="newsletter-dropdown">
                             <span class="dropdown-close">&times;</span>
                             <h3>Newsletter</h3>
                             <form class="newsletter-form">
-                                <input type="email" placeholder="Enter your email address" required>
+                                <input type="email" placeholder="Entrez votre adresse e-mail" required>
                                 <div class="send-button-wrapper">
-                                    <span class="send-text">Send</span>
-                                    <input type="submit" value="" class="hidden-submit">
+                                    <span class="send-text">Envoyer</span>
+                                    <input type="submit" value="" class="hidden-submit">                                    
                                 </div>
                             </form>
-                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                            <div class="success-message">Merci de vous être abonné à notre newsletter.</div>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>CONTACT US</h3>
+                <h3>CONTACTEZ-NOUS</h3>
                 <ul>
-                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
-                    <li><a href="contact.html">WRITE TO US</a></li>
+                    <li><a href="appointment.html">PRENDRE UN RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html">ÉCRIVEZ-NOUS</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>LEGAL</h3>
+                <h3>LÉGAL</h3>
                 <ul>
-                    <li><a href="#">LEGAL NOTICE</a></li>
-                    <li><a href="#">ACCESSIBILITY</a></li>
+                    <li><a href="legal-notice.html">MENTIONS LÉGALES</a></li>
+                    <li><a href="#">ACCESSIBILITÉ</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>CAREER</h3>
+                <h3>CARRIÈRE</h3>
             </div>
+
         </div>
         
         <div class="copyright-container">
@@ -967,6 +968,9 @@
     <script src="js/main.js"></script>
     <script src="js/menu.js"></script>
     <script src="js/newsletter-handler.js"></script>
+    <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="js/i18n.js"></script>
     
     <!-- Video Performance Optimization Script -->
     <script>
@@ -1050,6 +1054,7 @@
         dropdownClose.addEventListener('click', function() {
             newsletterDropdown.classList.remove('active');
             successMessage.classList.remove('active');
+
         });
 
         document.addEventListener('click', function(e) {
