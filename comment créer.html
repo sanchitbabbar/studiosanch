@@ -777,7 +777,7 @@
             </div>
             
             <div class="quote-block" style="width: 100%; padding: 1.5rem 1rem; margin-top: 2rem;">
-                <p class="quote-text">"For me, it is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
+                <p class="quote-text">"Pour moi, ce n'est jamais juste à propos de dessiner et de créer, plutôt c'est à propos de comment l'être humain qui habite son corps se sent lui-même quand il porte ce que j'ai créé."</p>
                 <p class="quote-author">SANCHIT BABBAR</p>
             </div>
         </div>
@@ -792,14 +792,14 @@
             </div>
             
             <div class="quote-block">
-                <p class="quote-text">"For me, it is never just about designing and creating, rather it's about how the person feels about themselves when they wear what I created."</p>
+                <p class="quote-text">"Pour moi, ce n'est jamais juste à propos de dessiner et de créer, plutôt c'est à propos de comment l'être humain qui habite son corps se sent lui-même quand il porte ce que j'ai créé."</p>
                 <p class="quote-author">SANCHIT BABBAR</p>
             </div>
         </section>
 
         <section class="process-section">
             <div class="process-header">
-                <h2 class="process-headline">THE PROCESS</h2>
+                <h2 class="process-headline">LE PROCESSUS</h2>
             </div>
             
             <div class="gallery-container">
@@ -880,11 +880,12 @@
         
         <section class="cta-section">
             <h3 class="cta-title">
-                <span class="custom-heading-create">CREATE WITH</span> 
+                <span class="custom-heading-create">CRÉER AVEC</span> 
                 <span class="custom-heading-sanch">SANCH</span>
             </h3>
-            <p class="cta-text">Ready to create your custom couture piece? Make an appointment and begin your journey with Sanch.</p>
-            <a href="appointment.html" class="cta-button">BEGIN</a>
+
+            <p class="cta-text">Prêt à créer votre pièce de couture personnalisée? Prenez rendez-vous et commencez votre voyage avec Sanch.</p>
+            <a href="appointment.html" class="cta-button">COMMENCER</a>
         </section>
     </main>
 
@@ -901,8 +902,8 @@
                     <div class="panel-content">
                         <h2>SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="how-to-order.html">English</a></li>
-                            <li><a href="comment créer.html" class="active">Français</a></li>
+                            <li><a href="javascript:void(0)" id="english-link">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link" class="active">Français</a></li>
                         </ul>
                         <p class="notice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
@@ -1132,6 +1133,17 @@
             if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
                 closeLanguagePanel();
             }
+        });
+        
+        // Handle language switching
+        document.getElementById('english-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'how-to-order.html';
+        });
+        
+        document.getElementById('french-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'comment créer.html';
         });
     </script>
 </body>
