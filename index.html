@@ -282,8 +282,8 @@
                     <div class="panel-content">
                         <h2 data-i18n="footer.selectLanguage">SELECT LOCATION AND LANGUAGE</h2>
                         <ul class="language-options">
-                            <li><a href="index.html" data-lang="en" class="active">English</a></li>
-                            <li><a href="fr/index.html" data-lang="fr">Français</a></li>
+                            <li><a href="javascript:void(0)" id="english-link" data-lang="en" class="active">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link" data-lang="fr">Français</a></li>
                         </ul>
                         <p class="notice" data-i18n="footer.basketNotice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
                     </div>
@@ -476,6 +476,25 @@
             if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
                 closeLanguagePanel();
             }
+        });
+        
+        // Handle language switching
+        document.getElementById('english-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Close the panel first with a small delay before redirecting
+            closeLanguagePanel();
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 600);
+        });
+        
+        document.getElementById('french-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Close the panel first with a small delay before redirecting
+            closeLanguagePanel();
+            setTimeout(() => {
+                window.location.href = 'fr/index.html';
+            }, 600);
         });
     </script>
     <script src="js/menu.js"></script>
