@@ -761,7 +761,7 @@
             <ul class="menu-items">
                 <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
-                <li><a href="how-to-order.html">CREATE</a></li>
+                <li><a href="how-to-order.html" class="active">CREATE</a></li>
             </ul>
         </div>
     </div>
@@ -1132,7 +1132,8 @@
         // Handle language switching
         document.getElementById('english-link').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'how-to-order.html';
+            // Already on the English page, no need to navigate
+            closeLanguagePanel();
         });
         
         document.getElementById('french-link').addEventListener('click', function(e) {

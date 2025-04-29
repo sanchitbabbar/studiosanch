@@ -156,8 +156,8 @@
                     <div class="panel-content">
                         <h2>SELECT LOCATION AND LANGUAGE</h2>
                         <ul class="language-options">
-                            <li><a href="index.html" class="active">English</a></li>
-                            <li><a href="fr/index.html">Français</a></li>
+                            <li><a href="javascript:void(0)" id="english-link" class="active">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link">Français</a></li>
                         </ul>
                         <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
                     </div>
@@ -332,6 +332,18 @@
             if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
                 closeLanguagePanel();
             }
+        });
+        
+        // Handle language switching
+        document.getElementById('english-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Already on the English page, no need to navigate
+            closeLanguagePanel();
+        });
+        
+        document.getElementById('french-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'fr/about.html';
         });
     </script>
 </body>
