@@ -166,6 +166,12 @@
     <script src="js/newsletter-handler.js"></script>
     <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
     <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <!-- Force English language for this page -->
+    <script>
+        // Set language to English in localStorage before loading i18n.js
+        localStorage.setItem('i18nextLng', 'en');
+        document.documentElement.lang = 'en';
+    </script>
     <script src="js/i18n.js"></script>
     <script src="js/menu.js"></script>
     <style>
