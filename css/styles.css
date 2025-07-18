@@ -504,6 +504,9 @@ main {
     .responsive-image-container {
         height: 100%;
     }
+    .about-image {
+        object-position: 40% 82.5%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -512,6 +515,9 @@ main {
     }
     .responsive-image-container {
         height: 100%;
+    }
+    .about-image {
+        object-position: 35% 82.5%;
     }
 }
 
