@@ -319,6 +319,69 @@
     <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="js/i18n.js"></script>
     <script>
+        // Newsletter functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsletterLink = document.getElementById('newsletter-link');
+            const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+            const dropdownClose = document.querySelector('.dropdown-close');
+            const newsletterForm = document.querySelector('.newsletter-form');
+            const successMessage = document.querySelector('.success-message');
+            const sendButton = document.querySelector('.send-text');
+            
+            if (sendButton) {
+                // Make the Send text button work
+                sendButton.addEventListener('click', function() {
+                    // Trigger the form submission
+                    newsletterForm.dispatchEvent(new Event('submit'));
+                });
+            }
+            
+            if (newsletterLink && newsletterDropdown) {
+                // Toggle dropdown when clicking the newsletter link
+                newsletterLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    newsletterDropdown.classList.add('active');
+                    
+                    // Position the dropdown relative to the link
+                    const linkRect = this.getBoundingClientRect();
+                    
+                    // Calculate position relative to viewport
+                    const top = linkRect.top;
+                    const left = linkRect.left;
+                    
+                    // Position above the link if near the bottom of the screen
+                    const isNearBottom = top + 300 > window.innerHeight;
+                    
+                    // Set the position
+                    newsletterDropdown.style.position = 'fixed';
+                    newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+                    newsletterDropdown.style.left = left + 'px';
+                });
+                
+                // Close dropdown when clicking the close button
+                if (dropdownClose) {
+                    dropdownClose.addEventListener('click', function() {
+                        newsletterDropdown.classList.remove('active');
+                        successMessage && (successMessage.classList.remove('active'));
+                    });
+                }
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                        newsletterDropdown.classList.remove('active');
+                        successMessage && (successMessage.classList.remove('active'));
+                    }
+                });
+                
+                // Prevent dropdown from closing when clicking inside it
+                newsletterDropdown.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
+        });
+        
         // Language Selector Panel Functionality
         const languageTrigger = document.getElementById('language-selector-trigger');
         const languagePanel = document.querySelector('.language-panel-overlay');
