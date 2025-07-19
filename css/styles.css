@@ -918,6 +918,11 @@ footer {
     margin-bottom: 0.5rem;
 }
 
+/* Hide career footer section */
+.footer-section.career-section {
+    display: none;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     .menu-toggle {
