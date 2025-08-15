@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="instagram:card" content="summary_large_image">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="STUDIO SANCH | Haute Couture">
+    <meta property="og:image" content="https://studiosanch.com/images/hero.jpg">
+    <meta property="og:url" content="https://studiosanch.com/haute-couture">
+    <title>HAUTE COUTURE - STUDIO SANCH</title>
+    <!-- Favicon -->
+    <link rel="icon" href="images/Address bar image.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="images/Address bar image.jpg">
+    <link rel="shortcut icon" href="images/Address bar image.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* iOS scroll fix - prevent zooming glitches during scroll */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) { 
+            .responsive-image-container {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                will-change: transform;
+            }
+            
+            /* Use more gentle acceleration to prevent re-renders */
+            .responsive-image {
+                -webkit-perspective: 1000;
+                perspective: 1000;
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        }
+
+        /* Fix for iOS momentum scrolling */
+        html, body {
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch; /* Use gentler momentum scrolling */
+            height: 100%;
+        }
+        
+        /* Haute Couture specific styles */
+        .haute-couture-container {
+            padding: 0.5rem 1rem 4rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .haute-couture-header {
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+        
+        .haute-couture-header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            margin-bottom: 0.3rem;
+        }
+        
+        .haute-couture-header p {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .haute-couture-gallery {
+            display: flex;
+            justify-content: space-between;
+            gap: 5rem;
+            margin: 0 auto 3rem;
+            padding: 0 2.5rem;
+            max-width: 1200px;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            flex-direction: column;
+            width: calc(29% - 1rem);
+        }
+        
+        .gallery-item {
+            position: relative;
+            width: 100%;
+            border-radius: 16px; /* iPhone-style rounded corners */
+            overflow: hidden;
+            aspect-ratio: 9/16; /* Increased height by 7% more */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Thumbnail scrolling functionality */
+        .thumbnail-scroller {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .thumbnail-container:nth-child(1) .thumbnail-images,
+        .thumbnail-container:nth-child(2) .thumbnail-images {
+            display: flex;
+            width: 800%;
+            height: 100%;
+            transition: transform 2.2s ease;
+        }
+        
+        .thumbnail-container:nth-child(3) .thumbnail-images {
+            display: flex;
+            width: 900%;
+            height: 100%;
+            transition: transform 2.2s ease;
+        }
+        
+        .thumbnail-container:nth-child(1) .thumbnail-images img {
+            width: 20%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .thumbnail-container:nth-child(2) .thumbnail-images img {
+            width: 12.5%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .thumbnail-container:nth-child(3) .thumbnail-images img {
+            width: 11.111%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .scroll-indicator {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .scroll-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.35);
+            transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scroll-dot:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .scroll-dot.active {
+            background-color: rgba(255, 255, 255, 0.85);
+            transform: scale(1.1);
+            box-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .haute-couture-gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .gallery-item {
+                width: 80%;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        .haute-couture-info {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        
+        .haute-couture-info h2 {
+            font-size: 1.4rem;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+        
+        .haute-couture-info p {
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .appointment-btn {
+            display: inline-block;
+            padding: 0.8rem 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+            font-size: 0.7rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .appointment-btn:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            color: #fff;
+            letter-spacing: 0.25em;
+        }
+        
+        .appointment-btn:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .appointment-btn:hover:after {
+            transform: scaleX(1);
+        }
+        
+        @media (max-width: 768px) {
+            .haute-couture-gallery {
+                flex-direction: column;
+                align-items: center;
+                gap: 3rem;
+                padding: 0 1rem;
+            }
+            
+            .thumbnail-container {
+                width: 70%;
+            }
+            
+            .haute-couture-header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .haute-couture-header p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay" style="margin-bottom: 0;">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html" data-i18n="header.home">HOME</a></li>
+                <li><a href="about.html" data-i18n="header.about">ABOUT</a></li>
+                <li><a href="create.html" data-i18n="header.create">CREATE</a></li>
+                <li><a href="haute-couture.html" data-i18n="header.hauteCouture" class="active">HAUTE COUTURE</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main style="margin-top: -40px; padding-top: 0;">
+        
+        <section class="haute-couture-container">
+            <div class="haute-couture-header">
+                <h1>HAUTE COUTURE</h1>
+                <p>Discover the exquisite craftsmanship and artistry of STUDIO SANCH Haute Couture. Each piece is meticulously handcrafted with the finest materials and attention to detail, embodying our commitment to timeless elegance and exceptional quality.</p>
+            </div>
+            
+            <div class="haute-couture-gallery">
+                <!-- iPhone-style thumbnails for dress images with scroll functionality -->
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/1.webp" alt="Haute Couture Dress 1 - View 1">
+                                <img src="images/2.webp" alt="Haute Couture Dress 1 - View 2">
+                                <img src="images/3.webp" alt="Haute Couture Dress 1 - View 3">
+                                <img src="images/4.webp" alt="Haute Couture Dress 1 - View 4">
+                                <img src="images/5.webp" alt="Haute Couture Dress 1 - View 5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
+                
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/look2/1.webp" alt="Haute Couture Dress 2 - View 1">
+                                <img src="images/look2/2.webp" alt="Haute Couture Dress 2 - View 2">
+                                <img src="images/look2/3.webp" alt="Haute Couture Dress 2 - View 3">
+                                <img src="images/look2/4.webp" alt="Haute Couture Dress 2 - View 4">
+                                <img src="images/look2/5.webp" alt="Haute Couture Dress 2 - View 5">
+                                <img src="images/look2/6.webp" alt="Haute Couture Dress 2 - View 6">
+                                <img src="images/look2/7.webp" alt="Haute Couture Dress 2 - View 7">
+                                <img src="images/look2/8.webp" alt="Haute Couture Dress 2 - View 8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
+                
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/look3/1.webp" alt="Haute Couture Dress 3 - View 1">
+                                <img src="images/look3/2.webp" alt="Haute Couture Dress 3 - View 2">
+                                <img src="images/look3/3.webp" alt="Haute Couture Dress 3 - View 3">
+                                <img src="images/look3/4.webp" alt="Haute Couture Dress 3 - View 4">
+                                <img src="images/look3/5.webp" alt="Haute Couture Dress 3 - View 5">
+                                <img src="images/look3/6.webp" alt="Haute Couture Dress 3 - View 6">
+                                <img src="images/look3/7.webp" alt="Haute Couture Dress 3 - View 7">
+                                <img src="images/look3/8.webp" alt="Haute Couture Dress 3 - View 8">
+                                <img src="images/look3/9.webp" alt="Haute Couture Dress 3 - View 9">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
+            </div>
+            
+            <div class="haute-couture-info">
+                <h2>BESPOKE CREATIONS</h2>
+                <p>Each STUDIO SANCH Haute Couture creation is an expression of artistic vision and technical excellence. Our atelier offers a personalized experience where every detail is considered and every stitch is executed with precision.</p>
+                
+                <p>For those seeking an extraordinary garment crafted to their exact specifications, our Haute Couture service provides an intimate collaboration between client and designer.</p>
+                
+                <a href="appointment.html" class="appointment-btn">BOOK AN APPOINTMENT</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2 data-i18n="footer.selectLanguage">SELECT LOCATION AND LANGUAGE</h2>
+                        <ul class="language-options">
+                            <li><a href="javascript:void(0)" id="english-link" data-lang="en" class="active">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link" data-lang="fr">Français</a></li>
+                        </ul>
+                        <p class="notice" data-i18n="footer.basketNotice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.clientService">CLIENT SERVICE</h3>
+                <ul>
+                    <li><a href="track-order.html" data-i18n="footer.trackOrder">TRACK ORDER</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">SUBSCRIBE TO NEWS LETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3 data-i18n="footer.newsletter">Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" data-i18n="footer.enterEmail" placeholder="Enter your email address" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text" data-i18n="footer.send">Send</span>
+                                    <input type="submit" value="" class="hidden-submit">                                    
+                                </div>
+                            </form>
+                            <div class="success-message" data-i18n="footer.thankYou">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.contactUs">CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html" data-i18n="footer.makeAppointment">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html" data-i18n="footer.writeToUs">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 data-i18n="footer.legal">LEGAL</h3>
+                <ul>
+                    <li><a href="legal-notice.html" data-i18n="footer.legalNotice">LEGAL NOTICE</a></li>
+                    <li><a href="#" data-i18n="footer.accessibility">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section career-section">
+                <h3 data-i18n="footer.career">CAREER</h3>
+            </div>
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanch/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p data-i18n="copyright">© studiosanch 2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/ios-fix.js"></script>
+    <script src="js/newsletter-handler.js"></script>
+    <script src="node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/menu.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set up scrolling functionality for each thumbnail container
+        document.querySelectorAll('.thumbnail-container').forEach((container, containerIndex) => {
+            const thumbnailImages = container.querySelector('.thumbnail-images');
+            const dots = container.querySelectorAll('.scroll-dot');
+            let currentIndex = 0;
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const maxIndex = containerIndex === 0 ? 4 : (containerIndex === 1 ? 7 : 8); // First container has 5 images, second has 8, third has 9
+            
+            // Set up touch events for mobile swipe
+            thumbnailImages.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+            
+            thumbnailImages.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+            
+            // Handle the swipe direction
+            function handleSwipe() {
+                if (touchEndX < touchStartX) {
+                    // Swipe left
+                    if (currentIndex < maxIndex) scroll(currentIndex + 1);
+                }
+                if (touchEndX > touchStartX) {
+                    // Swipe right
+                    if (currentIndex > 0) scroll(currentIndex - 1);
+                }
+            }
+            
+            // Set up click events for the dots
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => scroll(index));
+            });
+            
+            // Scroll function
+            function scroll(index) {
+                if (index < 0 || index > maxIndex) return;
+                
+                // Update images position
+                // Different percentages for containers with 5, 8, or 9 images
+                const slidePercentage = containerIndex === 0 ? 20 : (containerIndex === 1 ? 12.5 : 11.111);
+                thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
+                
+                // Update dots
+                dots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+                
+                currentIndex = index;
+            }
+            
+            // Set up automatic scrolling every 3 seconds
+            let autoScroll = setInterval(() => {
+                currentIndex = (currentIndex + 1) % (maxIndex + 1);
+                scroll(currentIndex);
+            }, 3000);
+            
+            // Stop auto-scrolling when user interacts with the gallery
+            const galleryItem = container.querySelector('.gallery-item');
+            galleryItem.addEventListener('mouseenter', () => clearInterval(autoScroll));
+            galleryItem.addEventListener('mouseleave', () => {
+                autoScroll = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % (maxIndex + 1);
+                    scroll(currentIndex);
+                }, 3000);
+            });
+        });
+    });
+    </script>
+</body>
+</html>
