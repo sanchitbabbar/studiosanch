@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Test</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .test-container {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            max-width: 500px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px dashed #999;
+            margin: 10px 0;
+        }
+        h3 {
+            margin-top: 0;
+        }
+        .status {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Loading Test</h1>
+    <p>This page tests different paths and formats for the slider images</p>
+
+    <div class="test-container">
+        <h3>Test 1: Simple Image</h3>
+        <img src="/images/Address bar image.jpg" alt="Address bar image">
+        <div class="status" id="status1"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 2: No Space in Folder</h3>
+        <img src="/images/Haute-Couture/Slider Thumbnail 1/1.jpg" alt="Haute Couture image 1">
+        <div class="status" id="status2"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 3: With Space in Folder</h3>
+        <img src="/images/Haute%20Couture/Slider Thumbnail 1/1.jpg" alt="Haute Couture image 2">
+        <div class="status" id="status3"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 4: With Space and Trailing Space</h3>
+        <img src="/images/Haute%20Couture%20/Slider Thumbnail 1/1.jpg" alt="Haute Couture image 3">
+        <div class="status" id="status4"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 5: WebP Format</h3>
+        <img src="/images/Haute%20Couture/Slider Thumbnail 1/1.webp" alt="Haute Couture WebP">
+        <div class="status" id="status5"></div>
+    </div>
+
+    <div class="test-container">
+        <h3>Test 6: Absolute URL</h3>
+        <img src="https://studiosanch.pages.dev/images/Haute%20Couture/Slider Thumbnail 1/1.jpg" alt="Absolute URL">
+        <div class="status" id="status6"></div>
+    </div>
+
+    <script>
+        // Function to check if images loaded successfully
+        function checkImageLoading() {
+            const images = document.querySelectorAll('img');
+            const statusDivs = document.querySelectorAll('.status');
+            
+            images.forEach((img, index) => {
+                img.onload = function() {
+                    statusDivs[index].textContent = "✅ Image loaded successfully";
+                    statusDivs[index].classList.add('success');
+                    console.log(`Image ${index + 1} loaded successfully from: ${img.src}`);
+                };
+                
+                img.onerror = function() {
+                    statusDivs[index].textContent = "❌ Failed to load image";
+                    statusDivs[index].classList.add('error');
+                    console.error(`Image ${index + 1} failed to load from: ${img.src}`);
+                };
+            });
+        }
+
+        // Run when page loads
+        window.onload = checkImageLoading;
+    </script>
+</body>
+</html>
