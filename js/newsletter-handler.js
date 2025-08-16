@@ -66,7 +66,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     newsletterForm.reset();
                     newsletterForm.style.display = 'flex';
-                    newsletterDropdown.classList.remove('active');
+                    const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+                    if (newsletterDropdown) {
+                        newsletterDropdown.classList.remove('active');
+                    }
                     successMessage.classList.remove('active');
                 }, 3000);
             }
