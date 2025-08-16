@@ -85,6 +85,12 @@
             margin: 0 auto 3rem;
             padding: 0 2.5rem;
             max-width: 1200px;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .haute-couture-gallery.loading {
+            opacity: 0.5; /* Slightly dimmed during loading */
         }
         
         .thumbnail-container {
@@ -100,6 +106,8 @@
             overflow: hidden;
             aspect-ratio: 9/16; /* Increased height by 7% more */
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            min-height: 400px; /* Minimum height to prevent collapse during load */
+            min-width: 225px; /* Minimum width based on aspect ratio */
         }
         
         /* Thumbnail scrolling functionality */
@@ -108,35 +116,70 @@
             height: 100%;
             overflow: hidden;
             position: relative;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            perspective: 1000;
+            -webkit-perspective: 1000;
+            min-height: 400px; /* Ensure consistent height during load */
+            background-color: rgba(0, 0, 0, 0.2); /* Subtle placeholder background */
         }
         
-        .thumbnail-container:nth-child(1) .thumbnail-images,
-        .thumbnail-container:nth-child(2) .thumbnail-images {
+        .thumbnail-container:nth-child(1) .thumbnail-images {
             display: flex;
             width: 800%;
             height: 100%;
-            transition: transform 2.2s ease;
+            transition: transform 2.2s linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+        
+        .thumbnail-container:nth-child(2) .thumbnail-images {
+            display: flex;
+            width: 900%;
+            height: 100%;
+            transition: transform 2.2s linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
         
         .thumbnail-container:nth-child(3) .thumbnail-images {
             display: flex;
             width: 900%;
             height: 100%;
-            transition: transform 2.2s ease;
+            transition: transform 2.2s linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
         }
         
         .thumbnail-container:nth-child(1) .thumbnail-images img {
-            width: 20%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        
-        .thumbnail-container:nth-child(2) .thumbnail-images img {
             width: 12.5%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+        
+        .thumbnail-container:nth-child(2) .thumbnail-images img {
+            width: 11.111%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
         }
         
         .thumbnail-container:nth-child(3) .thumbnail-images img {
@@ -144,6 +187,14 @@
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .scroll-indicator {
@@ -193,15 +244,17 @@
         }
         
         .haute-couture-info {
-            margin-top: 4rem;
+            margin-top: 0.5rem;
             text-align: center;
+            position: relative;
+            padding-bottom: 7rem;
         }
         
         .haute-couture-info h2 {
             font-size: 1.4rem;
             letter-spacing: 0.2em;
             font-weight: 300;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.8rem;
         }
         
         .haute-couture-info p {
@@ -210,58 +263,67 @@
             line-height: 1.6;
             font-weight: 300;
             max-width: 700px;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 0.7rem;
         }
         
+        .button-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 4rem;
+            text-align: center;
+            z-index: 10;
+        }
+
         .appointment-btn {
             display: inline-block;
-            padding: 0.8rem 3rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.85rem 3.5rem;
+            border: none;
+            background: transparent;
             color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
-            letter-spacing: 0.2em;
-            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            font-size: 0.75rem;
             font-weight: 300;
             text-transform: uppercase;
-            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            margin-top: 2rem;
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
         
         .appointment-btn:hover {
-            border-color: rgba(255, 255, 255, 0.8);
             color: #fff;
-            letter-spacing: 0.25em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
-        .appointment-btn:after {
+        .appointment-btn::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: -3px;
+            left: 25%;
+            right: 25%;
+            width: 50%;
             height: 1px;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
             transform: scaleX(0);
+            transition: transform 0.4s ease;
             transform-origin: center;
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
         
-        .appointment-btn:hover:after {
+        .appointment-btn:hover::after {
             transform: scaleX(1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         @media (max-width: 768px) {
             .haute-couture-gallery {
                 flex-direction: column;
                 align-items: center;
-                gap: 3rem;
+                gap: 2rem;
                 padding: 0 1rem;
             }
             
             .thumbnail-container {
-                width: 70%;
+                width: 80%;
             }
             
             .haute-couture-header h1 {
@@ -270,6 +332,28 @@
             
             .haute-couture-header p {
                 font-size: 0.9rem;
+            }
+            
+            .appointment-btn {
+                padding: 0.75rem 2.5rem;
+                margin-top: 0;
+            }
+        }
+
+        /* iPhone and smaller mobile devices */
+        @media (max-width: 480px) {
+            .thumbnail-container {
+                width: 80%;
+            }
+
+            .gallery-item {
+                aspect-ratio: 9/16;
+                width: 100%;
+            }
+            
+            .scroll-indicator {
+                margin-top: 10px;
+                margin-bottom: 3px;
             }
         }
     </style>
@@ -313,29 +397,14 @@
                     <div class="gallery-item">
                         <div class="thumbnail-scroller">
                             <div class="thumbnail-images">
-                                <img src="images/1.webp" alt="Haute Couture Dress 1 - View 1">
-                                <img src="images/2.webp" alt="Haute Couture Dress 1 - View 2">
-                                <img src="images/3.webp" alt="Haute Couture Dress 1 - View 3">
-                                <img src="images/4.webp" alt="Haute Couture Dress 1 - View 4">
-                                <img src="images/5.webp" alt="Haute Couture Dress 1 - View 5">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
-                </div>
-                
-                <div class="thumbnail-container">
-                    <div class="gallery-item">
-                        <div class="thumbnail-scroller">
-                            <div class="thumbnail-images">
-                                <img src="images/look2/1.webp" alt="Haute Couture Dress 2 - View 1">
-                                <img src="images/look2/2.webp" alt="Haute Couture Dress 2 - View 2">
-                                <img src="images/look2/3.webp" alt="Haute Couture Dress 2 - View 3">
-                                <img src="images/look2/4.webp" alt="Haute Couture Dress 2 - View 4">
-                                <img src="images/look2/5.webp" alt="Haute Couture Dress 2 - View 5">
-                                <img src="images/look2/6.webp" alt="Haute Couture Dress 2 - View 6">
-                                <img src="images/look2/7.webp" alt="Haute Couture Dress 2 - View 7">
-                                <img src="images/look2/8.webp" alt="Haute Couture Dress 2 - View 8">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/1.webp" alt="Haute Couture Dress 2 - View 1">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/2.webp" alt="Haute Couture Dress 2 - View 2">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/3.webp" alt="Haute Couture Dress 2 - View 3">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/4.webp" alt="Haute Couture Dress 2 - View 4">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/5.webp" alt="Haute Couture Dress 2 - View 5">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/6.webp" alt="Haute Couture Dress 2 - View 6">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/7.webp" alt="Haute Couture Dress 2 - View 7">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 1/8.webp" alt="Haute Couture Dress 2 - View 8">
                             </div>
                         </div>
                     </div>
@@ -346,15 +415,34 @@
                     <div class="gallery-item">
                         <div class="thumbnail-scroller">
                             <div class="thumbnail-images">
-                                <img src="images/look3/1.webp" alt="Haute Couture Dress 3 - View 1">
-                                <img src="images/look3/2.webp" alt="Haute Couture Dress 3 - View 2">
-                                <img src="images/look3/3.webp" alt="Haute Couture Dress 3 - View 3">
-                                <img src="images/look3/4.webp" alt="Haute Couture Dress 3 - View 4">
-                                <img src="images/look3/5.webp" alt="Haute Couture Dress 3 - View 5">
-                                <img src="images/look3/6.webp" alt="Haute Couture Dress 3 - View 6">
-                                <img src="images/look3/7.webp" alt="Haute Couture Dress 3 - View 7">
-                                <img src="images/look3/8.webp" alt="Haute Couture Dress 3 - View 8">
-                                <img src="images/look3/9.webp" alt="Haute Couture Dress 3 - View 9">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/1.webp" alt="Haute Couture Dress 2 - View 1">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/2.webp" alt="Haute Couture Dress 2 - View 2">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/3.webp" alt="Haute Couture Dress 2 - View 3">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/4.webp" alt="Haute Couture Dress 2 - View 4">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/5.webp" alt="Haute Couture Dress 2 - View 5">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/6.webp" alt="Haute Couture Dress 2 - View 6">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/7.webp" alt="Haute Couture Dress 2 - View 7">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/8.webp" alt="Haute Couture Dress 2 - View 8">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/9.webp" alt="Haute Couture Dress 2 - View 9">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
+                
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/1.webp" alt="Haute Couture Dress 3 - View 1">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/2.webp" alt="Haute Couture Dress 3 - View 2">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/3.webp" alt="Haute Couture Dress 3 - View 3">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/4.webp" alt="Haute Couture Dress 3 - View 4">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/5.webp" alt="Haute Couture Dress 3 - View 5">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/6.jpg" alt="Haute Couture Dress 3 - View 6">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/7.jpg" alt="Haute Couture Dress 3 - View 7">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/8.jpg" alt="Haute Couture Dress 3 - View 8">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 3/9.jpg" alt="Haute Couture Dress 3 - View 9">
                             </div>
                         </div>
                     </div>
@@ -368,7 +456,9 @@
                 
                 <p>For those seeking an extraordinary garment crafted to their exact specifications, our Haute Couture service provides an intimate collaboration between client and designer.</p>
                 
-                <a href="appointment.html" class="appointment-btn">BOOK AN APPOINTMENT</a>
+                <div class="button-wrapper">
+                <a href="inquire.html" class="appointment-btn">INQUIRE</a>
+            </div>
             </div>
         </section>
     </main>
@@ -456,6 +546,13 @@
     <script src="js/menu.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Add loading class to gallery
+        document.querySelector('.haute-couture-gallery').classList.add('loading');
+        
+        // Remove loading class after images have loaded
+        window.addEventListener('load', function() {
+            document.querySelector('.haute-couture-gallery').classList.remove('loading');
+        });
         // Set up scrolling functionality for each thumbnail container
         document.querySelectorAll('.thumbnail-container').forEach((container, containerIndex) => {
             const thumbnailImages = container.querySelector('.thumbnail-images');
@@ -463,7 +560,8 @@
             let currentIndex = 0;
             let touchStartX = 0;
             let touchEndX = 0;
-            const maxIndex = containerIndex === 0 ? 4 : (containerIndex === 1 ? 7 : 8); // First container has 5 images, second has 8, third has 9
+            let direction = 1; // 1 for forward (left to right), -1 for backward (right to left)
+            const maxIndex = containerIndex === 0 ? 7 : (containerIndex === 1 ? 8 : 8); // First container: 8 images (Slider Thumbnail 1), second: 9 images (Slider Thumbnail 2), third: 9 images (Slider Thumbnail 3)
             
             // Set up touch events for mobile swipe
             thumbnailImages.addEventListener('touchstart', function(e) {
@@ -478,27 +576,54 @@
             // Handle the swipe direction
             function handleSwipe() {
                 if (touchEndX < touchStartX) {
-                    // Swipe left
-                    if (currentIndex < maxIndex) scroll(currentIndex + 1);
+                    // Swipe left (forward)
+                    if (currentIndex < maxIndex) {
+                        currentIndex += 1;
+                        direction = 1;
+                        scroll(currentIndex);
+                    } else {
+                        // Reached the end, reverse direction
+                        direction = -1;
+                        currentIndex = maxIndex - 1;
+                        scroll(currentIndex);
+                    }
                 }
                 if (touchEndX > touchStartX) {
-                    // Swipe right
-                    if (currentIndex > 0) scroll(currentIndex - 1);
+                    // Swipe right (backward)
+                    if (currentIndex > 0) {
+                        currentIndex -= 1;
+                        direction = -1;
+                        scroll(currentIndex);
+                    } else {
+                        // Reached the beginning, reverse direction
+                        direction = 1;
+                        currentIndex = 1;
+                        scroll(currentIndex);
+                    }
                 }
             }
             
             // Set up click events for the dots
             dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => scroll(index));
+                dot.addEventListener('click', () => {
+                    // Set direction based on which dot was clicked compared to current index
+                    direction = (index > currentIndex) ? 1 : -1;
+                    scroll(index);
+                });
             });
             
             // Scroll function
             function scroll(index) {
                 if (index < 0 || index > maxIndex) return;
                 
+                // Prepare for the transition
+                thumbnailImages.style.willChange = 'transform';
+                
                 // Update images position
-                // Different percentages for containers with 5, 8, or 9 images
-                const slidePercentage = containerIndex === 0 ? 20 : (containerIndex === 1 ? 12.5 : 11.111);
+                // Container 0: 8 images at 12.5% each
+                // Container 1: 9 images at 11.111% each
+                // Container 2: 9 images at 11.111% each
+                const slidePercentage = containerIndex === 0 ? 12.5 : (containerIndex === 1 ? 11.111 : 11.111);
                 thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
                 
                 // Update dots
@@ -511,22 +636,43 @@
                 });
                 
                 currentIndex = index;
+                
+                // Optimize after transition
+                setTimeout(() => {
+                    thumbnailImages.style.willChange = 'auto';
+                }, 2200); // Match transition duration
             }
             
-            // Set up automatic scrolling every 3 seconds
+            // Set up automatic scrolling with direction change
             let autoScroll = setInterval(() => {
-                currentIndex = (currentIndex + 1) % (maxIndex + 1);
+                // Check if we need to change direction
+                if (currentIndex >= maxIndex) {
+                    direction = -1; // Change to backward direction
+                } else if (currentIndex <= 0) {
+                    direction = 1; // Change to forward direction
+                }
+                
+                // Move in the current direction
+                currentIndex += direction;
                 scroll(currentIndex);
-            }, 3000);
+            }, 5000);
             
             // Stop auto-scrolling when user interacts with the gallery
             const galleryItem = container.querySelector('.gallery-item');
             galleryItem.addEventListener('mouseenter', () => clearInterval(autoScroll));
             galleryItem.addEventListener('mouseleave', () => {
                 autoScroll = setInterval(() => {
-                    currentIndex = (currentIndex + 1) % (maxIndex + 1);
+                    // Check if we need to change direction
+                    if (currentIndex >= maxIndex) {
+                        direction = -1; // Change to backward direction
+                    } else if (currentIndex <= 0) {
+                        direction = 1; // Change to forward direction
+                    }
+                    
+                    // Move in the current direction
+                    currentIndex += direction;
                     scroll(currentIndex);
-                }, 3000);
+                }, 5000);
             });
         });
     });
