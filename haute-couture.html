@@ -547,17 +547,30 @@
     <script src="js/menu.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Add loading class to gallery
-        document.querySelector('.haute-couture-gallery').classList.add('loading');
+        // Shuffle function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
         
-        // Remove loading class after images have loaded
-        window.addEventListener('load', function() {
-            document.querySelector('.haute-couture-gallery').classList.remove('loading');
-        });
-        // Set up scrolling functionality for each thumbnail container
-        document.querySelectorAll('.thumbnail-container').forEach((container, containerIndex) => {
+        // Get all thumbnail containers
+        const thumbnailContainers = document.querySelectorAll('.thumbnail-container');
+        
+        // Set up each container
+        thumbnailContainers.forEach((container, containerIndex) => {
+            // Shuffle images on page load
             const thumbnailImages = container.querySelector('.thumbnail-images');
-            const dots = container.querySelectorAll('.scroll-dot');
+            const images = Array.from(thumbnailImages.children);
+            const shuffledImages = shuffleArray(images);
+            
+            // Clear container and add shuffled images
+            thumbnailImages.innerHTML = '';
+            shuffledImages.forEach(img => thumbnailImages.appendChild(img));
+            
             let currentIndex = 0;
             let touchStartX = 0;
             let touchEndX = 0;
@@ -617,9 +630,6 @@
             function scroll(index) {
                 if (index < 0 || index > maxIndex) return;
                 
-                // Prepare for the transition
-                thumbnailImages.style.willChange = 'transform';
-                
                 // Update images position
                 // Container 0: 8 images at 12.5% each
                 // Container 1: 10 images at 10% each
@@ -637,11 +647,6 @@
                 });
                 
                 currentIndex = index;
-                
-                // Optimize after transition
-                setTimeout(() => {
-                    thumbnailImages.style.willChange = 'auto';
-                }, 2200); // Match transition duration
             }
             
             // Set up automatic scrolling with direction change
