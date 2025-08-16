@@ -140,7 +140,7 @@
         
         .thumbnail-container:nth-child(2) .thumbnail-images {
             display: flex;
-            width: 900%;
+            width: 1000%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -173,7 +173,7 @@
         }
         
         .thumbnail-container:nth-child(2) .thumbnail-images img {
-            width: 11.111%;
+            width: 10%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
@@ -424,10 +424,11 @@
                                 <img src="public/images/Haute Couture /Slider Thumbnail 2/7.webp" alt="Haute Couture Dress 2 - View 7">
                                 <img src="public/images/Haute Couture /Slider Thumbnail 2/8.webp" alt="Haute Couture Dress 2 - View 8">
                                 <img src="public/images/Haute Couture /Slider Thumbnail 2/9.webp" alt="Haute Couture Dress 2 - View 9">
+                                <img src="public/images/Haute Couture /Slider Thumbnail 2/10.webp" alt="Haute Couture Dress 2 - View 10">
                             </div>
                         </div>
                     </div>
-                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
                 
                 <div class="thumbnail-container">
@@ -561,7 +562,7 @@
             let touchStartX = 0;
             let touchEndX = 0;
             let direction = 1; // 1 for forward (left to right), -1 for backward (right to left)
-            const maxIndex = containerIndex === 0 ? 7 : (containerIndex === 1 ? 8 : 8); // First container: 8 images (Slider Thumbnail 1), second: 9 images (Slider Thumbnail 2), third: 9 images (Slider Thumbnail 3)
+            const maxIndex = containerIndex === 0 ? 7 : (containerIndex === 1 ? 9 : 8); // First container: 8 images (Slider Thumbnail 1), second: 10 images (Slider Thumbnail 2), third: 9 images (Slider Thumbnail 3)
             
             // Set up touch events for mobile swipe
             thumbnailImages.addEventListener('touchstart', function(e) {
@@ -621,9 +622,9 @@
                 
                 // Update images position
                 // Container 0: 8 images at 12.5% each
-                // Container 1: 9 images at 11.111% each
+                // Container 1: 10 images at 10% each
                 // Container 2: 9 images at 11.111% each
-                const slidePercentage = containerIndex === 0 ? 12.5 : (containerIndex === 1 ? 11.111 : 11.111);
+                const slidePercentage = containerIndex === 0 ? 12.5 : (containerIndex === 1 ? 10 : 11.111);
                 thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
                 
                 // Update dots
