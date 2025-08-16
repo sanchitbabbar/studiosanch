@@ -11,6 +11,7 @@
     max-width: 100%;
     max-height: 100%;
     display: block;
+    flex-shrink: 0;
 }
 
 .thumbnail-images img.loaded {
@@ -39,6 +40,10 @@
     overflow: hidden;
     border-radius: 15px;
     position: relative;
+}
+
+.thumbnail-container:nth-child(2) .thumbnail-images img {
+    margin-right: 1px;
 }
 
 .thumbnail-scroller {
