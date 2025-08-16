@@ -696,6 +696,63 @@
             img.classList.add('loaded');
         }
     });
+    
+    // Newsletter Dropdown functionality
+    const newsletterLink = document.getElementById('newsletter-link');
+    const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+    const dropdownClose = document.querySelector('.dropdown-close');
+    const newsletterForm = document.querySelector('.newsletter-form');
+    const successMessage = document.querySelector('.success-message');
+    const sendButton = document.querySelector('.send-text');
+    
+    // Make the Send text button work
+    if (sendButton) {
+        sendButton.addEventListener('click', function() {
+            // Trigger the form submission
+            newsletterForm.dispatchEvent(new Event('submit'));
+        });
+    }
+
+    if (newsletterLink) {
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
+    }
+
+    if (dropdownClose) {
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            if (successMessage) {
+                successMessage.classList.remove('active');
+            }
+        });
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.newsletter-item') && newsletterDropdown && newsletterDropdown.classList.contains('active')) {
+            newsletterDropdown.classList.remove('active');
+            if (successMessage) {
+                successMessage.classList.remove('active');
+            }
+        }
+    });
     </script>
 </body>
 </html>
