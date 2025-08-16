@@ -43,7 +43,8 @@
 }
 
 .thumbnail-container:nth-child(2) .thumbnail-images img {
-    margin-right: 1px;
+    width: calc(100% + 2px);
+    margin-left: -1px;
 }
 
 .thumbnail-scroller {
