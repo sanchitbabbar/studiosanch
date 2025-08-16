@@ -637,7 +637,8 @@
                 // Container 1: 10 images at 10% each
                 // Container 2: 9 images at 11.111% each
                 const slidePercentage = containerIndex === 0 ? 12.5 : (containerIndex === 1 ? 10 : 11.111);
-                thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
+                const translateValue = containerIndex === 1 ? Math.round(index * slidePercentage * 100) / 100 : index * slidePercentage;
+                thumbnailImages.style.transform = `translateX(-${translateValue}%)`;
                 
                 // Update dots
                 dots.forEach((dot, i) => {

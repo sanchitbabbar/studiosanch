@@ -42,9 +42,6 @@
     position: relative;
 }
 
-.thumbnail-container:nth-child(2) .thumbnail-images {
-    transform: translateX(-1px);
-}
 
 .thumbnail-scroller {
     width: 100%;
