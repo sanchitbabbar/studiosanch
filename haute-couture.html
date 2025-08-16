@@ -562,8 +562,10 @@
         
         // Set up each container
         thumbnailContainers.forEach((container, containerIndex) => {
-            // Shuffle images on page load
             const thumbnailImages = container.querySelector('.thumbnail-images');
+            const dots = container.querySelectorAll('.scroll-dot');
+            
+            // Shuffle images on page load
             const images = Array.from(thumbnailImages.children);
             const shuffledImages = shuffleArray(images);
             
