@@ -42,9 +42,8 @@
     position: relative;
 }
 
-.thumbnail-container:nth-child(2) .thumbnail-images img {
-    width: calc(100% + 2px);
-    margin-left: -1px;
+.thumbnail-container:nth-child(2) .thumbnail-images {
+    transform: translateX(-1px);
 }
 
 .thumbnail-scroller {
