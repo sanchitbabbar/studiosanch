@@ -1,4 +1,22 @@
 /* STUDIO SANCH Website Styles */
+
+/* Thumbnail Image Loading Fix */
+.thumbnail-images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.thumbnail-images img.loaded {
+    opacity: 1;
+}
+
+.thumbnail-images img[src*="webp"] {
+    min-width: 100%;
+    min-height: 100%;
+}
 /* Font Declarations */
 @font-face {
     font-family: 'Balgin';

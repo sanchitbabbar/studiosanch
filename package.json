@@ -17,5 +17,8 @@
     "i18next": "^25.0.1",
     "i18next-browser-languagedetector": "^8.0.5",
     "jquery": "^3.7.1"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
   }
 }

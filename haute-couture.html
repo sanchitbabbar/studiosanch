@@ -677,6 +677,18 @@
             });
         });
     });
+    
+    // Fix image loading flash
+    document.querySelectorAll('.thumbnail-images img').forEach(img => {
+        img.addEventListener('load', function() {
+            this.classList.add('loaded');
+        });
+        
+        // If image is already cached and loaded
+        if (img.complete) {
+            img.classList.add('loaded');
+        }
+    });
     </script>
 </body>
 </html>
