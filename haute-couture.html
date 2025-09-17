@@ -87,6 +87,7 @@
             max-width: 1200px;
             opacity: 1;
             transition: opacity 0.3s ease-in-out;
+            flex-wrap: wrap; /* Added to allow wrapping for 4+ sliders */
         }
         
         .haute-couture-gallery.loading {
@@ -97,6 +98,7 @@
             display: flex;
             flex-direction: column;
             width: calc(29% - 1rem);
+            margin-bottom: 3rem; /* Added spacing between rows if they wrap */
         }
         
         .gallery-item {
@@ -128,7 +130,7 @@
         
         .thumbnail-container:nth-child(1) .thumbnail-images {
             display: flex;
-            width: 800%;
+            width: 900%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -152,6 +154,18 @@
         
         .thumbnail-container:nth-child(3) .thumbnail-images {
             display: flex;
+            width: 800%;
+            height: 100%;
+            transition: transform 2.2s linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+        
+        .thumbnail-container:nth-child(4) .thumbnail-images {
+            display: flex;
             width: 900%;
             height: 100%;
             transition: transform 2.2s linear;
@@ -163,7 +177,7 @@
         }
         
         .thumbnail-container:nth-child(1) .thumbnail-images img {
-            width: 12.5%;
+            width: 11.111%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
@@ -183,6 +197,16 @@
         }
         
         .thumbnail-container:nth-child(3) .thumbnail-images img {
+            width: 12.5%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+        
+        .thumbnail-container:nth-child(4) .thumbnail-images img {
             width: 11.111%;
             height: 100%;
             object-fit: cover;
@@ -397,18 +421,19 @@
                     <div class="gallery-item">
                         <div class="thumbnail-scroller">
                             <div class="thumbnail-images">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/1.webp" alt="Haute Couture Dress 2 - View 1">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/2.webp" alt="Haute Couture Dress 2 - View 2">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/3.webp" alt="Haute Couture Dress 2 - View 3">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/4.webp" alt="Haute Couture Dress 2 - View 4">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/5.webp" alt="Haute Couture Dress 2 - View 5">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/6.webp" alt="Haute Couture Dress 2 - View 6">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/7.webp" alt="Haute Couture Dress 2 - View 7">
-                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/8.webp" alt="Haute Couture Dress 2 - View 8">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/1.jpg" alt="Haute Couture Dress 4 - View 1" style="object-fit: cover; object-position: 100% 50%;">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/2.jpg" alt="Haute Couture Dress 4 - View 2" style="object-fit: cover; object-position: 100% 50%;">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/3.jpg" alt="Haute Couture Dress 4 - View 3">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/4.jpg" alt="Haute Couture Dress 4 - View 4">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/5.jpg" alt="Haute Couture Dress 4 - View 5">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/6.jpg" alt="Haute Couture Dress 4 - View 6" style="object-fit: cover; object-position: 100% 50%;">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/7.jpg" alt="Haute Couture Dress 4 - View 7">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/8.jpg" alt="Haute Couture Dress 4 - View 8">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%204/9.jpg" alt="Haute Couture Dress 4 - View 9" style="object-fit: cover; object-position: 100% 50%;">
                             </div>
                         </div>
                     </div>
-                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
                 
                 <div class="thumbnail-container">
@@ -429,6 +454,24 @@
                         </div>
                     </div>
                     <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
+                
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/1.webp" alt="Haute Couture Dress 1 - View 1">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/2.webp" alt="Haute Couture Dress 1 - View 2">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/3.webp" alt="Haute Couture Dress 1 - View 3">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/4.webp" alt="Haute Couture Dress 1 - View 4">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/5.webp" alt="Haute Couture Dress 1 - View 5">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/6.webp" alt="Haute Couture Dress 1 - View 6">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/7.webp" alt="Haute Couture Dress 1 - View 7">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%201/8.webp" alt="Haute Couture Dress 1 - View 8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
                 
                 <div class="thumbnail-container">
@@ -577,7 +620,22 @@
             let touchStartX = 0;
             let touchEndX = 0;
             let direction = 1; // 1 for forward (left to right), -1 for backward (right to left)
-            const maxIndex = containerIndex === 0 ? 7 : (containerIndex === 1 ? 9 : 8); // First container: 8 images (Slider Thumbnail 1), second: 10 images (Slider Thumbnail 2), third: 9 images (Slider Thumbnail 3)
+            
+            // Define max index based on container
+            // Container 0: 9 images (0-8) - Slider 4 moved to position 1
+            // Container 1: 10 images (0-9) - Slider 2 stayed in position 2
+            // Container 2: 8 images (0-7) - Slider 1 moved to position 3
+            // Container 3: 9 images (0-8) - Slider 3 moved to position 4
+            let maxIndex;
+            if (containerIndex === 0) {
+                maxIndex = 8; // First slider (originally slider 4) has 9 images (0-8)
+            } else if (containerIndex === 1) {
+                maxIndex = 9; // Second slider (slider 2) has 10 images (0-9)
+            } else if (containerIndex === 2) {
+                maxIndex = 7; // Third slider (originally slider 1) has 8 images (0-7)
+            } else if (containerIndex === 3) {
+                maxIndex = 8; // Fourth slider (slider 3) has 9 images (0-8)
+            }
             
             // Set up touch events for mobile swipe
             thumbnailImages.addEventListener('touchstart', function(e) {
@@ -632,11 +690,18 @@
             function scroll(index) {
                 if (index < 0 || index > maxIndex) return;
                 
-                // Update images position
-                // Container 0: 8 images at 12.5% each
-                // Container 1: 10 images at 10% each
-                // Container 2: 9 images at 11.111% each
-                const slidePercentage = containerIndex === 0 ? 12.5 : (containerIndex === 1 ? 10 : 11.111);
+                // Update images position based on container
+                let slidePercentage;
+                if (containerIndex === 0) {
+                    slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
+                } else if (containerIndex === 1) {
+                    slidePercentage = 10;      // 10 images at 10% each (100/10)
+                } else if (containerIndex === 2) {
+                    slidePercentage = 12.5;    // 8 images at 12.5% each (100/8)
+                } else if (containerIndex === 3) {
+                    slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
+                }
+                
                 thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
                 
                 // Update dots
