@@ -2,8 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À Propos - STUDIO SANCH</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="instagram:card" content="summary_large_image">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="STUDIO SANCH | Haute Couture">
+    <meta property="og:image" content="https://studiosanch.com/images/hero.jpg">
+    <meta property="og:url" content="https://studiosanch.com/fr/haute-couture">
+    <title>HAUTE COUTURE - STUDIO SANCH</title>
     <!-- Favicon -->
     <link rel="icon" href="../images/Address bar image.jpg" type="image/jpeg">
     <link rel="apple-touch-icon" href="../images/Address bar image.jpg">
@@ -16,88 +24,105 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Additional styles specific to the About page */
-        .black-background {
-            width: 100%;
-            background-color: black;
-            padding: 10rem 0 10rem;
-            margin-top: 0;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+        /* Haute Couture specific styles */
+        .haute-couture-container {
+            padding: 0.5rem 1rem 4rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .haute-couture-header {
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+        
+        .haute-couture-header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            margin-bottom: 0.3rem;
+        }
+        
+        .haute-couture-header p {
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            line-height: 1.4;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .haute-couture-info {
+            margin-top: 0.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 7rem;
+        }
+        
+        .haute-couture-info h2 {
+            font-size: 1.4rem;
+            letter-spacing: 0.2em;
+            font-weight: 300;
+            margin-bottom: 0.8rem;
+        }
+        
+        .haute-couture-info p {
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 0.7rem;
+        }
+        
+        .button-wrapper {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 4rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .appointment-btn {
+            display: inline-block;
+            padding: 0.85rem 3.5rem;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            letter-spacing: 0.25em;
+            font-size: 0.75rem;
+            font-weight: 300;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
             position: relative;
         }
         
-        .about-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 3rem;
-            color: #000;
+        .appointment-btn:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         
-        .studio-description {
-            margin: 3rem 0 6rem;
-            text-align: center;
-        }
-        
-        .studio-description p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            letter-spacing: 0.14em;
-            font-weight: 300;
-            color: #e8e8e8;
-            max-width: 650px;
-            margin: 0 auto;
-            font-style: italic;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .trademark-notice {
-            text-align: center;
-            font-size: 0.534rem; /* Reduced by 3% from 0.55rem */
-            letter-spacing: 0.1em;
-            line-height: 1.8;
-            opacity: 0.5;
-            max-width: 500px;
-            margin: 0 auto;
-            font-style: normal;
-            font-weight: 300;
-            color: #e8e8e8;
-            font-family: 'Montserrat', sans-serif;
+        .appointment-btn::after {
+            content: '';
             position: absolute;
-            bottom: 3rem;
-            left: 0;
-            right: 0;
+            bottom: -3px;
+            left: 25%;
+            right: 25%;
+            width: 50%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: center;
         }
         
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 3rem;
-            justify-content: center;
-        }
-        
-        .footer-social {
-            margin: 2rem 0 1rem;
-        }
-        
-        .footer-social i {
-            color: #c0c0c0;
-            font-size: 1.1rem;
-        }
-        
-        .social-links a {
-            font-size: 1.2rem;
-            transition: opacity 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            opacity: 0.7;
-        }
-        
-        .trademark-notice {
-            margin-top: 4rem;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            max-width: 600px;
+        .appointment-btn:hover::after {
+            transform: scaleX(1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
@@ -114,35 +139,37 @@
         </div>
     </header>
     
-    <div class="menu-overlay">
+    <div class="menu-overlay" style="margin-bottom: 0;">
         <div class="menu-content">
             <div class="menu-close">&times;</div>
             <ul class="menu-items">
                 <li><a href="/fr/index.html" data-i18n="header.home">ACCUEIL</a></li>
-                <li><a href="/fr/about.html" data-i18n="header.about" class="active">À PROPOS</a></li>
+                <li><a href="/fr/about.html" data-i18n="header.about">À PROPOS</a></li>
                 <li><a href="/fr/comment-créer.html" data-i18n="header.create">CRÉER</a></li>
-                <li><a href="/fr/haute-couture.html" data-i18n="header.hauteCouture">HAUTE COUTURE</a></li>
+                <li><a href="/fr/haute-couture.html" data-i18n="header.hauteCouture" class="active">HAUTE COUTURE</a></li>
             </ul>
         </div>
     </div>
 
-    <main>
-        <section class="hero-section">
-            <div class="responsive-image-container">
-                <img src="../images/about-page.jpg" alt="Studio Sanch À Propos Image" class="responsive-image about-image">
+    <main style="margin-top: -40px; padding-top: 0;">
+        <section class="haute-couture-container">
+            <div class="haute-couture-header">
+                <h1>HAUTE COUTURE</h1>
+                <p>Découvrez l'artisanat exquis et l'art de la Haute Couture STUDIO SANCH. Chaque pièce est méticuleusement confectionnée à la main avec les matériaux les plus fins et une attention particulière aux détails, incarnant notre engagement envers l'élégance intemporelle et la qualité exceptionnelle.</p>
+            </div>
+            
+            <div class="haute-couture-info">
+                <h2>CRÉATIONS SUR MESURE</h2>
+                <p>Chaque création Haute Couture de STUDIO SANCH est l'expression d'une vision artistique et d'une excellence technique. Notre atelier offre une expérience personnalisée où chaque détail est pris en compte et chaque point est exécuté avec précision.</p>
+                
+                <p>Pour ceux qui recherchent un vêtement extraordinaire créé selon leurs spécifications exactes, notre service Haute Couture propose une collaboration intime entre le client et le designer.</p>
+                
+                <div class="button-wrapper">
+                    <a href="inquire.html" class="appointment-btn">DEMANDER</a>
+                </div>
             </div>
         </section>
     </main>
-    <div class="black-background">
-        <section class="about-section">
-            <div class="studio-description">
-                <p data-i18n="about.description">Studio Créatif de Sanchit Babbar, basé à Paris, spécialisé dans la mode et les films numériques.</p>
-            </div>
-            <div class="trademark-notice">
-                <p data-i18n="about.trademark">Sanch et Studio Sanch sont des marques françaises, officiellement enregistrées auprès du directeur général de l'Institut national de la propriété industrielle.</p>
-            </div>
-        </section>
-    </div>
 
     <footer>
         <div class="footer-container">
@@ -155,12 +182,12 @@
                 <div class="language-panel">
                     <div class="panel-close">&times;</div>
                     <div class="panel-content">
-                        <h2 data-i18n="footer.selectLanguage">SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
+                        <h2 data-i18n="footer.selectLanguage">SÉLECTIONNEZ LA LOCALISATION ET LA LANGUE</h2>
                         <ul class="language-options">
                             <li><a href="javascript:void(0)" id="english-link" data-lang="en">English</a></li>
                             <li><a href="javascript:void(0)" id="french-link" data-lang="fr" class="active">Français</a></li>
                         </ul>
-                        <p class="notice" data-i18n="footer.basketNotice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS ALLEZ SÉLECTIONNER</p>
+                        <p class="notice" data-i18n="footer.basketNotice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS DANS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
@@ -169,7 +196,7 @@
                 <ul>
                     <li><a href="/fr/track-order.html" data-i18n="footer.trackOrder">SUIVRE LA COMMANDE</a></li>
                     <li class="newsletter-item">
-                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">S'INSCRIRE À LA NEWSLETTER</a>
+                        <a href="#" id="newsletter-link" data-i18n="footer.subscribe">S'ABONNER À LA NEWSLETTER</a>
                         <div class="newsletter-dropdown">
                             <span class="dropdown-close">&times;</span>
                             <h3 data-i18n="footer.newsletter">Newsletter</h3>
@@ -202,7 +229,6 @@
             <div class="footer-section career-section">
                 <h3 data-i18n="footer.career">CARRIÈRE</h3>
             </div>
-
         </div>
         
         <div class="copyright-container">
@@ -219,7 +245,6 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script src="../js/script.js"></script>
     <script src="../js/ios-fix.js"></script>
     <script src="../js/newsletter-handler.js"></script>
@@ -227,6 +252,5 @@
     <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="../js/i18n.js"></script>
     <script src="../js/menu.js"></script>
-    <script src="about.js"></script>
 </body>
 </html>
