@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREATE - STUDIO SANCH</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>ATELIER - STUDIO SANCH</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,14 @@
             font-weight: 600; 
             letter-spacing: 0.1em; 
             text-transform: uppercase; 
+            color: var(--logo-color);
+        }
+        
+        .cta-text-sanch {
+            font-family: var(--font-logo);
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
             color: var(--logo-color);
         }
         
@@ -759,10 +767,10 @@
         <div class="menu-content">
             <div class="menu-close">&times;</div>
             <ul class="menu-items">
-                <li><a href="index.html">HOME</a></li>
-                <li><a href="about.html">ABOUT</a></li>
-                <li><a href="create.html" class="active">CREATE</a></li>
-                <li><a href="haute-couture.html">HAUTE COUTURE</a></li>
+                <li><a href="index.html">ACCUEIL</a></li>
+                <li><a href="about.html">À PROPOS</a></li>
+                <li><a href="atelier.html" class="active" data-i18n="header.atelier">ATELIER</a></li>
+                <li><a href="/haute-couture.html">HAUTE COUTURE</a></li>
             </ul>
         </div>
     </div>
@@ -772,14 +780,14 @@
         <div class="mobile-hero-container" style="display: none;">
             <div class="fashion-gallery" style="width: 80%; margin: 0 auto;">
                 <video class="gallery-video" muted loop playsinline autoplay preload="metadata" style="width: 100%; height: auto;">
-                    <source src="public/Videos/1.webm" type="video/webm">
+                    <source src="../public/Videos/1.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
             </div>
             
             <div class="quote-block" style="width: 100%; padding: 1.5rem 1rem; margin-top: 2rem;">
-                <p class="quote-text"><span style="font-weight: 500;">An Ode to Femininity</span> — Revealing the delicate interplay between masculine and feminine, defined by style and elegance.</p>
-                <p class="quote-author">BY SANCHIT BABBAR</p>
+                <p class="quote-text"><span style="font-weight: 500;">Une Ode à la Féminité</span> — Où se révèle la délicate interaction entre le masculin et le féminin, dans une grâce auréolée d'élégance.</p>
+                <p class="quote-author">PAR SANCHIT BABBAR</p>
             </div>
         </div>
 
@@ -787,20 +795,20 @@
         <section class="hero-section desktop-hero">
             <div class="fashion-gallery">
                 <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
-                    <source src="public/Videos/1.webm" type="video/webm">
+                    <source src="../public/Videos/1.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
             </div>
             
             <div class="quote-block">
-                <p class="quote-text"><span style="font-weight: 500;">An Ode to Femininity</span> — Revealing the delicate interplay between masculine and feminine, defined by style and elegance.</p>
-                <p class="quote-author">BY SANCHIT BABBAR</p>
+                <p class="quote-text"><span style="font-weight: 500;">Une Ode à la Féminité</span> — Où se révèle la délicate interaction entre le masculin et le féminin, dans une grâce auréolée d'élégance.</p>
+                <p class="quote-author">PAR SANCHIT BABBAR</p>
             </div>
         </section>
 
         <section class="process-section">
             <div class="process-header">
-                <h2 class="process-headline">THE PROCESS</h2>
+                <h2 class="process-headline">LE PROCESSUS</h2>
             </div>
             
             <div class="gallery-container">
@@ -808,7 +816,7 @@
                 <div class="gallery-item gallery-item-1">
                     <div class="step-media vertical-media">
                         <video class="step-video" autoplay muted loop playsinline>
-                            <source src="public/Videos/4.webm" type="video/webm">
+                            <source src="../public/Videos/4.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -818,8 +826,8 @@
                 <div class="gallery-item-text gallery-item-1-text">
                     <div class="step-details">
                         <div class="step-number">01</div>
-                        <h3 class="step-title">Personalized Consultation</h3>
-                        <p class="step-description">Every creation begins with a personal consultation to understand your preferences and requirements.</p>
+                        <h3 class="step-title">CONSULTATION PERSONNALISÉE</h3>
+                        <p class="step-description">Chaque création commence par une consultation personnalisée afin de comprendre vos préférences et vos exigences.</p>
                     </div>
                 </div>
                 
@@ -827,8 +835,8 @@
                 <div class="gallery-item-text gallery-item-2-text">
                     <div class="step-details">
                         <div class="step-number">02</div>
-                        <h3 class="step-title">Designing Your Masterpiece</h3>
-                        <p class="step-description">Personally view and select original designs sketched by Sanchit himself. Together, we'll ensure every detail aligns perfectly with your vision.</p>
+                        <h3 class="step-title">CONCEVEZ VOTRE VISION ARTISTIQUE</h3>
+                        <p class="step-description">Visualisez et sélectionnez en personne les créations originales esquissées par Sanchit. Ensemble, nous nous assurerons que chaque détail s'harmonise idéalement avec votre conception.</p>
                     </div>
                 </div>
                 
@@ -836,7 +844,7 @@
                 <div class="gallery-item gallery-item-2">
                     <div class="step-media horizontal-media">
                         <video class="step-video" autoplay muted loop playsinline>
-                            <source src="public/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
+                            <source src="../public/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -846,7 +854,7 @@
                 <div class="gallery-item gallery-item-3">
                     <div class="step-media vertical-media">
                         <video class="step-video" autoplay muted loop playsinline>
-                            <source src="public/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
+                            <source src="../public/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -856,8 +864,8 @@
                 <div class="gallery-item-text gallery-item-3-text">
                     <div class="step-details">
                         <div class="step-number">03</div>
-                        <h3 class="step-title">Selecting Premium Materials</h3>
-                        <p class="step-description">We source only the finest fabrics from around the world to craft a clothing that feels as luxurious as it looks.</p>
+                        <h3 class="step-title">TISSUS PRÉCIEUX</h3>
+                        <p class="step-description">Nous sélectionnons uniquement les tissus les plus esthétiques du monde entier pour créer un vêtement aussi luxueux au toucher qu'à l'œil.</p>
                     </div>
                 </div>
                 
@@ -865,34 +873,30 @@
                 <div class="gallery-item-text gallery-item-4-text">
                     <div class="step-details">
                         <div class="step-number">04</div>
-                        <h3 class="step-title">Tailoring to Perfection</h3>
-                        <p class="step-description">Whether you prefer a standard EU, UK, or US size or a completely custom fit, our expert tailors will bring your design to life with precise attention to detail.</p>
+                        <h3 class="step-title">COUTURE SUR MESURE</h3>
+                        <p class="step-description">Qu'il s'agisse d'une taille standard européenne, britannique ou américaine, ou d'une adaptation entièrement personnalisée, nos artisans couturiers concrétiseront votre vision avec précision.</p>
                     </div>
                 </div>
                 
                 <!-- Gallery Item 4 - Image (Horizontal) -->
                 <div class="gallery-item gallery-item-4">
                     <div class="step-media horizontal-media">
-                        <img class="sketch-image" src="images/sketch1.jpg" alt="Design Development Sketch" style="object-position: top center;">
+                        <img class="sketch-image" src="../images/sketch1.jpg" alt="Design Development Sketch" style="object-position: top center;">
                     </div>
                 </div>
             </div>
         </section>
         
         <section class="cta-section">
-            <h3 class="cta-title">
-                <span class="custom-heading-create">CREATE WITH</span> 
-                <span class="custom-heading-sanch">SANCH</span>
-            </h3>
-            <p class="cta-text">Ready to craft your artistic expression? Make an appointment and begin your journey with Sanch.</p>
-            <a href="appointment.html" class="cta-button">BEGIN</a>
+            <p class="cta-text">Raffinez votre élégance avec <span class="cta-text-sanch">SANCH</span>.</p>
+            <a href="appointment.html" class="cta-button">COMMENCER</a>
         </section>
     </main>
 
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger">LANGUAGE</h3>
+                <h3 id="language-selector-trigger">LANGUE</h3>
             </div>
             
             <!-- Language Selector Panel -->
@@ -900,53 +904,54 @@
                 <div class="language-panel">
                     <div class="panel-close">&times;</div>
                     <div class="panel-content">
-                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <h2>SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="javascript:void(0)" id="english-link" class="active">English</a></li>
-                            <li><a href="javascript:void(0)" id="french-link">Français</a></li>
+                            <li><a href="javascript:void(0)" id="english-link">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link" class="active">Français</a></li>
                         </ul>
-                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                        <p class="notice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
             <div class="footer-section">
-                <h3>CLIENT SERVICE</h3>
+                <h3>SERVICE CLIENT</h3>
                 <ul>
-                    <li><a href="#">TRACK ORDER</a></li>
+                    <li><a href="track-order.html">SUIVRE LA COMMANDE</a></li>
                     <li class="newsletter-item">
-                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <a href="#" id="newsletter-link">S'ABONNER À LA NEWSLETTER</a>
                         <div class="newsletter-dropdown">
                             <span class="dropdown-close">&times;</span>
                             <h3>Newsletter</h3>
                             <form class="newsletter-form">
-                                <input type="email" placeholder="Enter your email address" required>
+                                <input type="email" placeholder="Entrez votre adresse e-mail" required>
                                 <div class="send-button-wrapper">
-                                    <span class="send-text">Send</span>
-                                    <input type="submit" value="" class="hidden-submit">
+                                    <span class="send-text">Envoyer</span>
+                                    <input type="submit" value="" class="hidden-submit">                                    
                                 </div>
                             </form>
-                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                            <div class="success-message">Merci de vous être abonné à notre newsletter.</div>
                         </div>
                     </li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>CONTACT US</h3>
+                <h3>CONTACTEZ-NOUS</h3>
                 <ul>
-                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
-                    <li><a href="contact.html">WRITE TO US</a></li>
+                    <li><a href="appointment.html">PRENDRE UN RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html">ÉCRIVEZ-NOUS</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h3>LEGAL</h3>
+                <h3>LÉGAL</h3>
                 <ul>
-                    <li><a href="#">LEGAL NOTICE</a></li>
-                    <li><a href="#">ACCESSIBILITY</a></li>
+                    <li><a href="legal-notice.html">MENTIONS LÉGALES</a></li>
+                    <li><a href="#">ACCESSIBILITÉ</a></li>
                 </ul>
             </div>
-            <div class="footer-section career-section">
-                <h3>CAREER</h3>
+            <div class="footer-section">
+                <h3>CARRIÈRE</h3>
             </div>
+
         </div>
         
         <div class="copyright-container">
@@ -958,16 +963,19 @@
                 <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
             </div>
             <div class="copyright">
-                <p data-i18n="copyright"> studiosanch 2026</p>
+                <p>© studiosanch 2026</p>
             </div>
         </div>
     </footer>
 
 
 
-    <script src="js/main.js"></script>
-    <script src="js/menu.js"></script>
-    <script src="js/newsletter-handler.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/newsletter-handler.js"></script>
+    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="../js/i18n.js"></script>
     
     <!-- Video Performance Optimization Script -->
     <script>
@@ -1051,6 +1059,7 @@
         dropdownClose.addEventListener('click', function() {
             newsletterDropdown.classList.remove('active');
             successMessage.classList.remove('active');
+
         });
 
         document.addEventListener('click', function(e) {
@@ -1133,13 +1142,13 @@
         // Handle language switching
         document.getElementById('english-link').addEventListener('click', function(e) {
             e.preventDefault();
-            // Already on the English page, no need to navigate
-            closeLanguagePanel();
+            window.location.href = 'atelier.html';
         });
         
         document.getElementById('french-link').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'comment créer.html';
+            // Already on the French page, no need to navigate
+            closeLanguagePanel();
         });
     </script>
 </body>
