@@ -84,7 +84,7 @@ const Navigation = () => {
           <a
             href="/"
             aria-label="Studio Sanch home"
-            className="inline-block uppercase leading-none text-[#c0c0c0] transition-colors hover:text-white"
+            className="inline-block uppercase leading-none text-[#e0e0e0] transition-colors hover:text-white"
             style={{ fontFamily: 'Balgin, serif', fontSize: '0.864rem', fontWeight: 400, letterSpacing: '0.14em' }}
           >
             SANCH

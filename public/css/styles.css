@@ -132,7 +132,8 @@ header {
     font-weight: 400;
     font-family: var(--font-logo);
     line-height: 1;
-    color: var(--logo-color);
+    /* Keep the brand mark crisp against the black navigation bar. */
+    color: #e0e0e0;
     text-transform: uppercase;
     display: inline-block;
     position: relative;
