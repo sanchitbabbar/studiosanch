@@ -93,8 +93,9 @@ export default function ProductDetail() {
   }
 
   return (
-    <main className="bg-black text-white min-h-screen">
-      <Navigation />
+    <>
+      <main className="bg-black text-white min-h-screen">
+        <Navigation />
       
       <motion.section 
         className="py-32 px-8 md:px-24 lg:px-32"
@@ -473,12 +474,13 @@ export default function ProductDetail() {
         />
       )}
 
+      </main>
       <link rel="stylesheet" href="/css/styles.css" />
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
       <SiteFooter backgroundColor="#000" />
-    </main>
+    </>
   );
 }

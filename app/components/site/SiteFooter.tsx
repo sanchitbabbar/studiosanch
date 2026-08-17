@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-export default function SiteFooter({ backgroundColor }: { backgroundColor?: string }) {
+export default function SiteFooter({ backgroundColor = '#000' }: { backgroundColor?: string }) {
   const [isLanguagePanelOpen, setIsLanguagePanelOpen] = useState(false);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ export default function SiteFooter({ backgroundColor }: { backgroundColor?: stri
   };
 
   return (
-    <footer style={backgroundColor ? { backgroundColor } : undefined}>
+    <footer style={{ backgroundColor }}>
       <div className="footer-container">
         <div className="footer-section">
           <h3
