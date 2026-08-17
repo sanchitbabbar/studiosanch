@@ -382,7 +382,8 @@ type LanguageContextType = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState('fr');
+  const [language, setLanguage] = useState('en');
+  const [isLanguageReady, setIsLanguageReady] = useState(false);
 
   // Function to get nested translation by dot notation
   const t = (key: string, sectionParam = '') => {
@@ -411,19 +412,25 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   // Save language preference to localStorage
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && isLanguageReady) {
       localStorage.setItem('language', language);
+      localStorage.setItem('i18nextLng', language);
       document.documentElement.lang = language;
     }
-  }, [language]);
+  }, [language, isLanguageReady]);
 
   // Initialize language from localStorage if available
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      const siteLanguage = localStorage.getItem('i18nextLng');
       const savedLanguage = localStorage.getItem('language');
-      if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'fr')) {
-        setLanguage(savedLanguage);
+      const pathLanguage = window.location.pathname.startsWith('/fr/') ? 'fr' : null;
+      const preferredLanguage = pathLanguage || siteLanguage || savedLanguage;
+
+      if (preferredLanguage === 'en' || preferredLanguage === 'fr') {
+        setLanguage(preferredLanguage);
       }
+      setIsLanguageReady(true);
     }
   }, []);
 
