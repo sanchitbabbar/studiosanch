@@ -646,6 +646,33 @@ footer {
     margin-top: 0;
 }
 
+/* Shared purchase inquiry modal (used by Haute Couture's Inquire action). */
+.purchase-inquiry-modal { position: fixed; inset: 0; z-index: 5000; visibility: hidden; opacity: 0; transition: opacity 0.5s ease, visibility 0s linear 0.5s; }
+.purchase-inquiry-modal.is-open { visibility: visible; opacity: 1; transition-delay: 0s; }
+.purchase-inquiry-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(12px); }
+.purchase-inquiry-stage { position: relative; display: flex; min-height: 100%; align-items: center; justify-content: center; padding: 1rem; }
+.purchase-inquiry-card { position: relative; width: min(100%, 32rem); overflow: hidden; border: 1px solid rgba(255,255,255,0.05); border-radius: 2px; background: rgba(0,0,0,0.8); backdrop-filter: blur(24px); color: rgba(255,255,255,0.9); transform: scale(0.95); transition: transform 0.2s ease-out; }
+.purchase-inquiry-modal.is-open .purchase-inquiry-card { transform: scale(1); }
+.purchase-inquiry-glow { position: absolute; inset: 0; pointer-events: none; opacity: 0.5; background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent); }
+.purchase-inquiry-content { position: relative; padding: 1.5rem; }
+.purchase-inquiry-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.purchase-inquiry-heading h3 { margin: 0; color: rgba(255,255,255,0.9); font-size: 1.125rem; font-weight: 300; letter-spacing: 0.05em; }
+.purchase-inquiry-close { border: 0; padding: 0; background: transparent; color: rgba(255,255,255,0.4); font-size: 1.5rem; line-height: 1; cursor: pointer; transition: color 0.25s ease; }
+.purchase-inquiry-close:hover { color: rgba(255,255,255,0.7); }
+.purchase-inquiry-summary { margin-bottom: 2rem; padding: 1rem; border-radius: 0.5rem; background: rgba(255,255,255,0.05); }
+.purchase-inquiry-summary h4 { margin: 0 0 0.25rem; font-size: 1rem; font-weight: 300; letter-spacing: 0.04em; }
+.purchase-inquiry-summary span { font-size: 1.125rem; font-weight: 300; }
+.purchase-inquiry-form { display: grid; gap: 1.5rem; }
+.purchase-inquiry-form label { display: grid; gap: 0.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-size: 0.75rem; letter-spacing: 0.2em; }
+.purchase-inquiry-form input, .purchase-inquiry-form textarea { width: 100%; border: 0; padding: 0; background: transparent; color: rgba(255,255,255,0.9); font: inherit; font-size: 0.75rem; letter-spacing: 0.08em; outline: none; resize: none; }
+.purchase-inquiry-form button { border: 0; padding: 0.5rem 1rem; background: transparent; color: rgba(255,255,255,0.8); font: inherit; font-size: 0.625rem; font-weight: 300; letter-spacing: 0.25em; cursor: pointer; }
+.purchase-inquiry-form button:hover { color: #fff; }
+.purchase-inquiry-success { padding: 2rem 0; text-align: center; }
+.purchase-inquiry-success p { margin: 1rem 0 0.25rem; font-size: 0.875rem; }
+.purchase-inquiry-success small, .purchase-inquiry-note { color: rgba(255,255,255,0.3); font-size: 0.5625rem; font-style: italic; line-height: 1.5; text-align: center; }
+.purchase-inquiry-check { display: inline-flex; width: 4rem; height: 4rem; align-items: center; justify-content: center; border-radius: 999px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 2rem; }
+.purchase-inquiry-note { margin: 1rem 0 0; }
+
 /* Newsletter Dropdown */
 .newsletter-dropdown {
     position: absolute;
