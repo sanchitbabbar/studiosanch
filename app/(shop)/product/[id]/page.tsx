@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import Navigation from '../../../components/Navigation';
-import { ElegantLink } from '../../../components/ElegantLink';
 import { accessoryProducts, AccessoryProduct } from '../../../data/accessories';
 import ProductCheckoutModal from '../../../components/ProductCheckoutModal';
+import SiteFooter from '../../../components/site/SiteFooter';
 import { useLanguage } from '../../../context/LanguageContext';
 
 // Using imported AccessoryProduct type and accessoryProducts array from data/accessories.ts
@@ -473,11 +473,12 @@ export default function ProductDetail() {
         />
       )}
 
-      <footer className="bg-black text-white py-12 text-center">
-        <ElegantLink href="/" className="text-sm tracking-[0.3em] font-light text-white/50 hover:text-white/90">
-          RETURN TO HOME
-        </ElegantLink>
-      </footer>
+      <link rel="stylesheet" href="/css/styles.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+      <SiteFooter />
     </main>
   );
 }
