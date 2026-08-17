@@ -1,0 +1,4 @@
+/* Specific styles for about page only */
+body.about-page .responsive-image.about-image {
+    object-position: center 70%;
+}

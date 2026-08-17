@@ -1,0 +1,82 @@
+.productCarousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carouselTrack {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.productCard {
+  flex: 0 0 auto;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+}
+
+.productImage {
+  background: linear-gradient(to bottom right, #333, #111);
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.8s ease;
+}
+
+.productCard:hover .productImage {
+  transform: scale(1.03);
+}
+
+.productOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.productCard:hover .productOverlay {
+  opacity: 1;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #FFF;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  background: #ffffff;
+  width: 3px;
+  height: 24px;
+  transform: translateX(-50%);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

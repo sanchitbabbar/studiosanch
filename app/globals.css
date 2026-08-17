@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap');
+
+@font-face {
+  font-family: 'Balgin';
+  src: url('/fonts/Fontspring-DEMO-balgin-regularexpanded.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hide scrollbar for story section */
+.story-scroll {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.story-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 0.9; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 2s ease-out forwards;
+}
+
+.bg-radial-vignette {
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-rgb: 0, 0, 0;
+}
+
+html {
+  font-family: 'Montserrat', sans-serif;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+/* Hover effects */
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Text reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide all scrollbars but maintain scrolling functionality */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Image hover effect */
+.image-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-hover img {
+  transition: transform 0.6s ease;
+}
+
+.image-hover:hover img {
+  transform: scale(1.1);
+}
+
+/* Utility to completely remove all outline/ring effects */
+.no-ring {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  border-color: inherit !important;
+}
+
+.no-ring:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: inherit !important;
+}
+
+.no-ring:hover {
+  outline: none !important;
+  box-shadow: none !important;
+}

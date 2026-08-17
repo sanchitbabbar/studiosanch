@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="STUDIO SANCH | Accessoires">
+    <meta property="og:image" content="https://studiosanch.com/images/hero.jpg">
+    <meta property="og:url" content="https://studiosanch.com/fr/accessoires">
+    <title>ACCESSOIRES - STUDIO SANCH</title>
+    <!-- Favicon -->
+    <link rel="icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../images/Address bar image.jpg">
+    <link rel="shortcut icon" href="../images/Address bar image.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="../css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        main {
+            display: block;
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* ---------- Editorial masthead ---------- */
+        .maison-hero {
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 1.35rem;
+        }
+
+        .hero-title {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+            line-height: 1.4;
+            color: #fff;
+            margin: 0 0 1.5rem;
+            text-indent: 0.34em;
+        }
+
+        .hero-rule {
+            width: 1px;
+            height: 2rem;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
+            margin: 0 auto;
+        }
+
+        /* ---------- Category rail ---------- */
+        .category-rail {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.25rem;
+            padding: 1.6rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .category-rail::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-link {
+            position: relative;
+            flex: 0 0 auto;
+            background: none;
+            border: none;
+            padding: 0.25rem 0;
+            cursor: pointer;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 300;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.42);
+            transition: color 0.5s ease;
+        }
+
+        .category-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.35rem;
+            width: 0;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.65);
+            transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .category-link:hover,
+        .category-link.active {
+            color: #fff;
+        }
+
+        .category-link.active::after {
+            width: 100%;
+        }
+
+        /* ---------- Vitrine grid ---------- */
+        .vitrine {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            column-gap: 1px;
+            row-gap: 0;
+            background-color: rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .piece {
+            position: relative;
+            background-color: #000;
+            padding: 3.25rem 1.75rem 3.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            opacity: 1;
+            transition: opacity 0.6s ease;
+        }
+
+        .piece.is-hidden {
+            display: none;
+        }
+
+        .piece-media {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background-color: #060606;
+        }
+
+        .piece-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transform: scale(1.01);
+            transition: opacity 1.1s ease, transform 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .piece-media img.loaded {
+            opacity: 1;
+        }
+
+        .piece:hover .piece-media img.loaded {
+            transform: scale(1.045);
+        }
+
+        /* Secondary photograph, revealed on hover */
+        .piece-media img.piece-alt {
+            position: absolute;
+            inset: 0;
+        }
+
+        .piece-media img.piece-alt.loaded {
+            opacity: 0;
+        }
+
+        .piece:hover .piece-media img.piece-alt.loaded {
+            opacity: 1;
+        }
+
+        /* Belt is a landscape product shot on white — keep it fully visible, never cropped */
+        .belt-piece .piece-media {
+            background-color: #fff;
+        }
+
+        .belt-piece .piece-media img {
+            object-fit: contain;
+        }
+
+        .piece-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.1rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .piece-placeholder span {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.55rem;
+            font-weight: 300;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.22);
+        }
+
+        .piece-placeholder .placeholder-mark {
+            font-family: var(--font-logo);
+            font-size: 1.35rem;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.12);
+        }
+
+        .piece-media img.loaded ~ .piece-placeholder {
+            display: none;
+        }
+
+        .piece-caption {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1.6rem;
+        }
+
+        .piece-name {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 300;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: #fff;
+            margin: 0;
+        }
+
+        .piece-price {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            white-space: nowrap;
+        }
+
+        .piece-meta {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3);
+            margin: 0.75rem 0 0;
+        }
+
+        .piece-description {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.75;
+            letter-spacing: 0.01em;
+            color: rgba(255, 255, 255, 0.55);
+            margin: 0.9rem 0 0;
+        }
+
+        .piece-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding-bottom: 0.4rem;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+            transition: color 0.5s ease, border-color 0.5s ease, letter-spacing 0.5s ease;
+        }
+
+        .piece-link:hover {
+            color: #fff;
+            border-bottom-color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 0.34em;
+        }
+
+        /* ---------- Section break ---------- */
+        .section-break {
+            padding: 5rem 2rem;
+            text-align: center;
+            background-color: #000;
+        }
+
+        .section-break-line {
+            width: 1px;
+            height: 3rem;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
+        }
+
+        /* ---------- Maison services ---------- */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .service {
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            border-left: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .service:first-child {
+            border-left: none;
+        }
+
+        .service h3 {
+            font-family: 'Jost', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #fff;
+            margin: 0 0 1.1rem;
+        }
+
+        .service p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 300;
+            line-height: 1.9;
+            letter-spacing: 0.06em;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 2.25rem;
+        }
+
+        .cta-text-sanch {
+            font-family: var(--font-logo);
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--logo-color);
+        }
+
+        .invitation-button {
+            display: inline-block;
+            padding: 0.85rem 0;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            transition: letter-spacing 0.5s ease, border-color 0.5s ease;
+        }
+
+        .invitation-button:hover {
+            letter-spacing: 0.36em;
+            border-bottom-color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 1280px) {
+            .vitrine {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .piece {
+                padding: 3rem 2.5rem 3.5rem;
+            }
+
+            .piece-index {
+                left: 2.5rem;
+            }
+
+            .services {
+                grid-template-columns: 1fr;
+            }
+
+            .service {
+                border-left: none;
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
+                padding: 3.25rem 2rem;
+            }
+
+            .service:first-child {
+                border-top: none;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .maison-hero {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 0.85rem;
+                letter-spacing: 0.26em;
+                text-indent: 0.26em;
+            }
+
+            .category-rail {
+                justify-content: flex-start;
+                gap: 2.25rem;
+                padding: 1.25rem 1.5rem;
+            }
+
+            .vitrine {
+                grid-template-columns: 1fr;
+                column-gap: 0;
+            }
+
+            .piece {
+                padding: 2.5rem 1.5rem 3rem;
+            }
+
+            .invitation {
+                padding: 5rem 1.5rem 6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">ACCUEIL</a></li>
+                <li><a href="about.html">À PROPOS</a></li>
+                <li><a href="atelier.html">ATELIER</a></li>
+                <li><a href="/haute-couture.html">HAUTE COUTURE</a></li>
+                <li><a href="accessoires.html" class="active">ACCESSOIRES</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main>
+        <section class="maison-hero">
+            <p class="hero-eyebrow">Studio Sanch &middot; Paris</p>
+            <h1 class="hero-title">Accessoires</h1>
+            <div class="hero-rule"></div>
+        </section>
+
+        <nav class="category-rail" aria-label="Catégories d'accessoires">
+            <button type="button" class="category-link active" data-filter="all">Tout</button>
+            <button type="button" class="category-link" data-filter="bags">Sacs</button>
+            <button type="button" class="category-link" data-filter="belts">Ceintures</button>
+            <button type="button" class="category-link" data-filter="jewellery">Bijoux</button>
+            <button type="button" class="category-link" data-filter="small-leather">Petite Maroquinerie</button>
+        </nav>
+
+        <section class="vitrine">
+            <!-- 01 — SAC -->
+            <article class="piece" data-category="bags">
+                <div class="piece-media">
+                    <img src="../images/Accessoires/Sanch%20Suede/HD_Image_3_optimized.jpg" alt="Le sac en daim SANCH et son fermoir doré signature">
+                    <img class="piece-alt" src="../images/Accessoires/Sanch%20Suede/HD_Image_1_optimized.jpg" alt="Le sac en daim SANCH porté à une terrasse parisienne" loading="lazy">
+                    <div class="piece-placeholder">
+                        <span class="placeholder-mark">SANCH</span>
+                        <span>Bientôt disponible</span>
+                    </div>
+                </div>
+                <div class="piece-caption">
+                    <h2 class="piece-name">Le Sac</h2>
+                    <p class="piece-price">Prix sur demande</p>
+                </div>
+                <p class="piece-meta">Daim &middot; Fini à la main</p>
+                <p class="piece-description">Une silhouette sculpturale tenue par sa propre structure, adoucie par un daim entièrement travaillé à la main.</p>
+                <a href="/inquire.html" class="piece-link">Demander</a>
+            </article>
+
+            <!-- 02 — CEINTURE -->
+            <article class="piece belt-piece" data-category="belts">
+                <div class="piece-media">
+                    <img src="../images/Accessoires/Belt/main-belt.jpg" alt="La ceinture SANCH et sa boucle sculptée signature">
+                    <img class="piece-alt" src="../images/Accessoires/Belt/belt-4.jpg" alt="La ceinture SANCH portée à la taille" loading="lazy">
+                    <div class="piece-placeholder">
+                        <span class="placeholder-mark">SANCH</span>
+                        <span>Bientôt disponible</span>
+                    </div>
+                </div>
+                <div class="piece-caption">
+                    <h2 class="piece-name">La Ceinture</h2>
+                    <p class="piece-price">Prix sur demande</p>
+                </div>
+                <p class="piece-meta">Cuir &middot; Sur mesure</p>
+                <p class="piece-description">Une ligne précise à la taille, fermée par une boucle signature volontairement discrète.</p>
+                <a href="/inquire.html" class="piece-link">Demander</a>
+            </article>
+
+            <!-- 03 — BRACELET -->
+            <article class="piece" data-category="jewellery">
+                <div class="piece-media">
+                    <img src="../images/Accessoires/bracelet.jpg" alt="Le Bracelet SANCH">
+                    <div class="piece-placeholder">
+                        <span class="placeholder-mark">SANCH</span>
+                        <span>Bientôt disponible</span>
+                    </div>
+                </div>
+                <div class="piece-caption">
+                    <h2 class="piece-name">Le Bracelet</h2>
+                    <p class="piece-price">Prix sur demande</p>
+                </div>
+                <p class="piece-meta">Cuir &middot; Métal</p>
+                <p class="piece-description">Une parure épurée, portée seule ou superposée, frappée du sceau SANCH.</p>
+                <a href="/inquire.html" class="piece-link">Demander</a>
+            </article>
+
+            <!-- 04 — PORTEFEUILLE -->
+            <article class="piece" data-category="small-leather">
+                <div class="piece-media">
+                    <img src="../images/Accessoires/wallet.jpg" alt="Le Portefeuille SANCH">
+                    <div class="piece-placeholder">
+                        <span class="placeholder-mark">SANCH</span>
+                        <span>Bientôt disponible</span>
+                    </div>
+                </div>
+                <div class="piece-caption">
+                    <h2 class="piece-name">Le Portefeuille</h2>
+                    <p class="piece-price">Prix sur demande</p>
+                </div>
+                <p class="piece-meta">Cuir &middot; Cousu main</p>
+                <p class="piece-description">Fin, essentiel, conçu pour prendre sa patine au fil des jours.</p>
+                <a href="/inquire.html" class="piece-link">Demander</a>
+            </article>
+        </section>
+
+        <div class="section-break" aria-hidden="true">
+            <div class="section-break-line"></div>
+        </div>
+
+        <section class="services">
+            <div class="service">
+                <h3>Fait à l'atelier</h3>
+                <p>Chaque pièce est coupée, assemblée et finie à la main à Paris.</p>
+            </div>
+            <div class="service">
+                <h3>Édition limitée</h3>
+                <p>Éditée en petit nombre, avec des matières choisies pièce par pièce.</p>
+            </div>
+            <div class="service">
+                <h3>Rendez-vous privé</h3>
+                <p>Découvrez la collection en personne, présentée par le studio.</p>
+            </div>
+        </section>
+
+        <section class="invitation" aria-hidden="true">
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUE</h3>
+            </div>
+
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2>SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
+                        <ul class="language-options">
+                            <li><a href="javascript:void(0)" id="english-link" data-lang="en">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link" data-lang="fr" class="active">Français</a></li>
+                        </ul>
+                        <p class="notice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>SERVICE CLIENT</h3>
+                <ul>
+                    <li><a href="track-order.html">SUIVRE LA COMMANDE</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link">S'ABONNER À LA NEWSLETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Entrez votre adresse e-mail" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text">Envoyer</span>
+                                    <input type="submit" value="" class="hidden-submit">
+                                </div>
+                            </form>
+                            <div class="success-message">Merci de vous être abonné à notre newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACTEZ-NOUS</h3>
+                <ul>
+                    <li><a href="appointment.html">PRENDRE UN RENDEZ-VOUS</a></li>
+                    <li><a href="contact.html">ÉCRIVEZ-NOUS</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>MENTIONS LÉGALES</h3>
+                <ul>
+                    <li><a href="legal-notice.html">MENTIONS LÉGALES</a></li>
+                    <li><a href="#">ACCESSIBILITÉ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section career-section">
+                <h3>CARRIÈRE</h3>
+            </div>
+        </div>
+
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanch/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p>© studiosanch 2026</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/ios-fix.js"></script>
+    <script src="../js/newsletter-handler.js"></script>
+    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
+    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="../js/i18n.js"></script>
+    <script src="../js/menu.js"></script>
+    <script>
+    // Reveal photographs once loaded; keep the placeholder when a photo is absent
+    document.querySelectorAll('.piece-media img').forEach(img => {
+        const reveal = () => img.classList.add('loaded');
+        if (img.complete && img.naturalWidth > 0) {
+            reveal();
+        } else {
+            img.addEventListener('load', reveal);
+        }
+        img.addEventListener('error', () => img.classList.remove('loaded'));
+    });
+
+    // Category rail filtering
+    const categoryLinks = document.querySelectorAll('.category-link');
+    const pieces = document.querySelectorAll('.piece');
+
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const filter = link.getAttribute('data-filter');
+
+            categoryLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            pieces.forEach(piece => {
+                const matches = filter === 'all' || piece.getAttribute('data-category') === filter;
+                piece.classList.toggle('is-hidden', !matches);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

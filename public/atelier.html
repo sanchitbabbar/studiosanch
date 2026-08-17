@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATELIER - STUDIO SANCH</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styling for CREATE WITH SANCH heading */
+        .custom-heading-create {
+            font-family: 'Syne', sans-serif; 
+            font-size: 1.8rem; 
+            font-weight: 600; 
+            letter-spacing: 0.1em; 
+            text-transform: uppercase; 
+            color: var(--logo-color);
+        }
+        
+        .cta-text-sanch {
+            font-family: var(--font-logo);
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--logo-color);
+        }
+        
+        .custom-heading-sanch {
+            font-family: var(--font-logo);
+            font-size: 1.8rem; 
+            font-weight: 400; 
+            letter-spacing: 0.14em; 
+            text-transform: uppercase; 
+            color: var(--logo-color);
+        }
+        
+        /* Mobile-specific hero section */
+        .mobile-hero-container {
+            display: none; /* Hidden by default */
+            padding: 2rem 0;
+        }
+        
+        /* Desktop-specific hero section */
+        .desktop-hero {
+            display: flex; /* Visible by default */
+        }
+        
+        /* Media query for small mobile devices */
+        @media screen and (max-width: 767px) {
+            /* Layout adjustments */
+            .desktop-hero {
+                display: none !important; /* Hide on mobile and tablet */
+            }
+            
+            .mobile-hero-container {
+                display: block !important; /* Show on mobile and tablet */
+                padding: 2rem 0 !important;
+            }
+            
+            /* Media adjustments */
+            .fashion-gallery {
+                /* Adjust size based on screen width - larger for tablets */
+                width: 80% !important; 
+                max-width: 600px !important; /* Cap max width for tablets */
+                min-width: 80% !important;
+                height: auto !important;
+                margin: 0 auto 2rem auto !important;
+                aspect-ratio: 9/16 !important; /* Maintain video aspect ratio */
+                order: 1 !important;
+            }
+            
+            /* Typography adjustments */
+            .quote-text {
+                font-size: 1.2rem !important;
+                line-height: 1.6 !important;
+                text-align: center !important; /* Center-align quotes for all mobile devices */
+            }
+            
+            .quote-author {
+                text-align: center !important; /* Center-align author for all mobile devices */
+            }
+            
+            .quote-block {
+                text-align: center !important; /* Ensure the entire quote block is center-aligned */
+                width: 90% !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Content section adjustments */
+            .process-section {
+                padding: 3rem 1.5rem !important;
+                text-align: center !important;
+            }
+            
+            .process-headline {
+                text-align: center !important;
+                width: 100% !important;
+                margin: 0 auto 3rem auto !important;
+                font-size: 2rem !important; /* Reduce font size on mobile */
+                letter-spacing: 0.12em !important; /* Adjust letter spacing */
+                padding: 0 1rem !important; /* Add padding to prevent text from getting cut off */
+                box-sizing: border-box !important; /* Ensure padding is included in width */
+                white-space: nowrap !important; /* Prevent wrapping */
+            }
+            
+            .gallery-container {
+                gap: 4rem !important;
+                align-items: center !important;
+            }
+            
+            /* Center the first gallery item (first video) */
+            .gallery-container {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            
+            .gallery-item-1 {
+                margin: 0 auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+                order: 1 !important; /* First video appears first */
+            }
+            
+            .gallery-item-1-text {
+                order: 2 !important; /* Text for 01 appears immediately after first video */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-2 {
+                order: 3 !important; /* Video for 02 appears between 01 text and 02 text */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-2 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-2-text {
+                order: 4 !important; /* Text for 02 appears after its video */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-3 {
+                order: 5 !important; /* Video for 03 */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-3 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-3-text {
+                order: 6 !important; /* Text for 03 */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-4 {
+                order: 7 !important; /* Photo appears between 03 text and 04 text */
+                margin: 3rem auto 2rem auto !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .gallery-item-4 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            .gallery-item-4-text {
+                order: 8 !important; /* Text for 04 appears after the photo */
+                margin-top: 2rem !important;
+                text-align: center !important;
+            }
+            
+            .gallery-item-1 .step-media {
+                max-width: 85% !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Center the step number and descriptions */
+            .step-details {
+                text-align: center !important;
+                margin: 0 auto !important;
+                max-width: 90% !important;
+            }
+            
+            .vertical-media {
+                max-height: 65vh !important;
+            }
+            
+            .horizontal-media {
+                min-height: 40vh !important; /* Ensure horizontal videos aren't too short */
+                height: auto !important;
+                aspect-ratio: 16/9 !important; /* Maintain proper aspect ratio */
+            }
+            
+            /* CTA section adjustments */
+            .cta-section {
+                padding: 4rem 1.5rem 3rem !important;
+            }
+            
+            .cta-title {
+                font-size: 1.3rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            .cta-text {
+                font-size: 1rem !important;
+                margin-bottom: 2.5rem !important;
+            }
+        }
+        
+        /* Tablet-specific overrides */
+        @media (min-width: 481px) and (max-width: 768px) {
+            .fashion-gallery {
+                width: 65% !important; /* Exactly 65% width for tablets as requested */
+                max-width: 65% !important;
+                min-width: 65% !important;
+            }
+        }
+        
+        /* Luxury Haute Couture Museum styling */
+        main {
+            background-color: black;
+            color: white;
+        }
+        
+        /* Fullscreen intro video */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 3rem;
+            margin-bottom: 2rem;
+            min-height: 80vh;
+            max-height: 90vh;
+        }
+        
+        .fashion-gallery {
+            position: relative;
+            width: 33%;
+            max-width: 385px;
+            min-width: 275px;
+            height: 82.5vh;
+            overflow: visible;
+            background-color: transparent;
+        }
+        
+        .gallery-header {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+        }
+        
+        .gallery-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: block;
+        }
+        
+        /* Mobile-first for the step info text */
+        .step-info {
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 90%;
+            width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+        }
+        
+        /* Elegant quote styling */
+        .quote-block {
+            width: 50%;
+            text-align: left;
+            padding: 0 2rem 0 4rem;
+        }
+        
+        .quote-text {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-style: italic;
+            line-height: 1.6;
+            color: white;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        
+        .quote-author {
+            font-family: var(--font-primary);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+        
+        /* Museum Gallery Styling */
+        .process-section {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 8rem 2rem;
+        }
+        
+        .process-header {
+            margin-bottom: 6rem;
+            text-align: center;
+        }
+        
+        .process-headline {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--logo-color);
+            width: 100%;
+            text-align: center;
+            overflow-wrap: break-word;
+            max-width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        
+        .process-title {
+            font-family: var(--font-primary);
+            font-size: 2rem;
+            letter-spacing: 0.25em;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5rem 1.5rem;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+        }
+        
+        .gallery-item-1 {
+            grid-column: 1 / 7;
+            grid-row: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .gallery-item-1-text {
+            grid-column: 7 / 13;
+            grid-row: 1;
+            align-self: center;
+        }
+        
+        .gallery-item-2 {
+            grid-column: 6 / 13;
+            grid-row: 2;
+        }
+        
+        .gallery-item-2-text {
+            grid-column: 1 / 6;
+            grid-row: 2;
+            align-self: center;
+        }
+        
+        .gallery-item-3 {
+            grid-column: 1 / 7;
+            grid-row: 3;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .gallery-item-3-text {
+            grid-column: 7 / 13;
+            grid-row: 3;
+            align-self: center;
+        }
+        
+        .gallery-item-4 {
+            grid-column: 6 / 13;
+            grid-row: 4;
+        }
+        
+        .gallery-item-4-text {
+            grid-column: 1 / 6;
+            grid-row: 4;
+            align-self: center;
+        }
+        
+        .step-media {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .horizontal-media {
+            aspect-ratio: 16/9;
+        }
+        
+        .vertical-media {
+            aspect-ratio: 9/16;
+            max-height: 75vh;
+            margin: 0 auto;
+            width: auto;
+        }
+        
+        .step-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+        
+        .sketch-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            filter: grayscale(30%) contrast(1.1);
+        }
+        
+        .step-number {
+            font-family: 'Jost', sans-serif;
+            font-size: 8rem;
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        
+        .step-title {
+            font-family: var(--font-primary);
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.15em;
+            color: white;
+            text-transform: uppercase;
+        }
+        
+        .step-description {
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            line-height: 1.8;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+        }
+        
+        /* Final CTA Section */
+        .cta-section {
+            padding: 8rem 2rem 6rem;
+            background-color: black;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cta-title {
+            font-family: 'Jost', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: white;
+        }
+        
+        .cta-text {
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 0.8rem 0;
+            background-color: transparent;
+            color: white;
+            font-family: 'Jost', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+            font-weight: 300;
+            position: relative;
+            margin-top: 1rem;
+        }
+        
+        .cta-button:hover {
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom-color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.22em;
+        }
+        
+        .cta-button:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s ease;
+        }
+        
+        .cta-button:hover:after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .step-details {
+                margin-left: 4rem;
+                max-width: 450px;
+            }
+            
+            .even-step .step-details {
+                margin-right: 4rem;
+            }
+            
+            .step-number {
+                font-size: 8rem;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .process-step {
+                width: 90%;
+                height: 60vh;
+            }
+            
+            .step-details {
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            
+            .even-step .step-details {
+                margin: 0 auto;
+                text-align: center;
+            }
+            
+            .step-number {
+                font-size: 6rem;
+                top: -3rem;
+            }
+            
+            .step-title {
+                font-size: 1.6rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .step-number {
+                font-size: 5rem;
+            }
+            
+            .step-title {
+                font-size: 1.4rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+        
+        /* This media query has been merged with the one at the top of the stylesheet */
+
+        /* Additional mobile adjustments - keeping these in case they're needed */
+        @media (max-width: 768px) {
+            .gallery-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .step-number {
+                font-size: 5rem;
+            }
+            
+            .step-title {
+                font-size: 1.4rem;
+            }
+            
+            .step-description {
+                font-size: 1rem;
+            }
+        }
+        /* iPhone-specific fixes - Complete alignment fix for all elements */
+        @media screen and (max-width: 480px) {
+            /* Center THE PROCESS section and fix width */
+            .process-section {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 auto !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            
+            /* Center process header */
+            .process-header {
+                width: 100% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                display: flex !important;
+                justify-content: center !important;
+                margin: 0 auto 2rem !important;
+            }
+            
+            /* Fix THE PROCESS headline alignment */
+            .process-headline {
+                font-size: 1.5rem;
+                letter-spacing: 0.07em;
+                text-align: center !important;
+                width: 85% !important;
+                margin: 0 auto 2rem !important;
+                padding: 0 !important;
+                overflow-wrap: break-word;
+                display: block !important;
+            }
+            
+            /* Force single column and center alignment for gallery container */
+            .gallery-container {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                align-items: center !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                gap: 3rem !important;
+            }
+            
+            /* Fix alignment for ALL gallery items - both media and text */
+            .gallery-item, .gallery-item-1, .gallery-item-2, .gallery-item-3, .gallery-item-4,
+            .gallery-item-text, .gallery-item-1-text, .gallery-item-2-text, .gallery-item-3-text, .gallery-item-4-text {
+                width: 85% !important;
+                max-width: 85% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                position: static !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            
+            /* Center all media containers */
+            .step-media, .vertical-media, .horizontal-media {
+                width: 100% !important;
+                max-width: 100% !important;
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                margin: 0 auto !important;
+            }
+            
+            /* Fix step details alignment */
+            .step-details {
+                text-align: center !important;
+                width: 90% !important;
+                max-width: 90% !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+            }
+            
+            /* Style text blocks properly */
+            .step-description {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                width: 90%;
+                margin: 0 auto !important;
+                text-align: center !important;
+                overflow-wrap: break-word;
+            }
+            
+            /* Center step numbers */
+            .step-number {
+                margin: 0 auto 1rem !important;
+                text-align: center !important;
+            }
+            
+            /* Center step titles */
+            .step-title {
+                margin: 0 auto 1.5rem !important;
+                text-align: center !important;
+                width: 90% !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">SANCH</a>
+        </div>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <div class="menu-close">&times;</div>
+            <ul class="menu-items">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="atelier.html" class="active">ATELIER</a></li>
+                <li><a href="haute-couture.html">HAUTE COUTURE</a></li>
+                <li><a href="accessoires.html" data-i18n="header.accessoires">ACCESSOIRES</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main style="max-width: 100%; overflow-x: hidden; background-color: black;">
+        <!-- Add a mobile-only container that will only be visible on mobile -->
+        <div class="mobile-hero-container" style="display: none;">
+            <div class="fashion-gallery" style="width: 80%; margin: 0 auto;">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata" style="width: 100%; height: auto;">
+                            <source src="/Videos/1.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <div class="quote-block" style="width: 100%; padding: 1.5rem 1rem; margin-top: 2rem;">
+                <p class="quote-text"><span style="font-weight: 500;">An Ode to Femininity</span> — Revealing the delicate interplay between masculine and feminine, defined by style and elegance.</p>
+                <p class="quote-author">BY SANCHIT BABBAR</p>
+            </div>
+        </div>
+
+        <!-- Desktop hero section that will be hidden on mobile -->
+        <section class="hero-section desktop-hero">
+            <div class="fashion-gallery">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
+                    <source src="/Videos/1.webm" type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            
+            <div class="quote-block">
+                <p class="quote-text"><span style="font-weight: 500;">An Ode to Femininity</span> — Revealing the delicate interplay between masculine and feminine, defined by style and elegance.</p>
+                <p class="quote-author">BY SANCHIT BABBAR</p>
+            </div>
+        </section>
+
+        <section class="process-section">
+            <div class="process-header">
+                <h2 class="process-headline">THE PROCESS</h2>
+            </div>
+            
+            <div class="gallery-container">
+                <!-- Gallery Item 1 - Video (Vertical/iPhone) -->
+                <div class="gallery-item gallery-item-1">
+                    <div class="step-media vertical-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="/Videos/4.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 1 - Text -->
+                <div class="gallery-item-text gallery-item-1-text">
+                    <div class="step-details">
+                        <div class="step-number">01</div>
+                        <h3 class="step-title">Personalized Consultation</h3>
+                        <p class="step-description">Every creation begins with a personal consultation to understand your preferences and requirements.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 - Text -->
+                <div class="gallery-item-text gallery-item-2-text">
+                    <div class="step-details">
+                        <div class="step-number">02</div>
+                        <h3 class="step-title">Designing Your Masterpiece</h3>
+                        <p class="step-description">Personally view and select original designs sketched by Sanchit himself. Together, we'll ensure every detail aligns perfectly with your vision.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 2 - Video (Horizontal) -->
+                <div class="gallery-item gallery-item-2">
+                    <div class="step-media horizontal-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="/Videos/Atelier_ultrahq_curved.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 - Video (Vertical/iPhone) -->
+                <div class="gallery-item gallery-item-3">
+                    <div class="step-media vertical-media">
+                        <video class="step-video" autoplay muted loop playsinline>
+                            <source src="/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 3 - Text -->
+                <div class="gallery-item-text gallery-item-3-text">
+                    <div class="step-details">
+                        <div class="step-number">03</div>
+                        <h3 class="step-title">Selecting Premium Materials</h3>
+                        <p class="step-description">We source only the finest fabrics from around the world to craft a clothing that feels as luxurious as it looks.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 - Text -->
+                <div class="gallery-item-text gallery-item-4-text">
+                    <div class="step-details">
+                        <div class="step-number">04</div>
+                        <h3 class="step-title">Tailoring to Perfection</h3>
+                        <p class="step-description">Whether you prefer a standard EU, UK, or US size or a completely custom fit, our expert tailors will bring your design to life with precise attention to detail.</p>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item 4 - Image (Horizontal) -->
+                <div class="gallery-item gallery-item-4">
+                    <div class="step-media horizontal-media">
+                        <img class="sketch-image" src="images/sketch1.jpg" alt="Design Development Sketch" style="object-position: top center;">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <p class="cta-text">Refine your elegance with <span class="cta-text-sanch">SANCH</span>.</p>
+            <a href="appointment.html" class="cta-button">BEGIN</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 id="language-selector-trigger">LANGUAGE</h3>
+            </div>
+            
+            <!-- Language Selector Panel -->
+            <div class="language-panel-overlay">
+                <div class="language-panel">
+                    <div class="panel-close">&times;</div>
+                    <div class="panel-content">
+                        <h2>SELECT LOCATION AND LANGUAGE</h2>
+                        <ul class="language-options">
+                            <li><a href="javascript:void(0)" id="english-link" class="active">English</a></li>
+                            <li><a href="javascript:void(0)" id="french-link">Français</a></li>
+                        </ul>
+                        <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>CLIENT SERVICE</h3>
+                <ul>
+                    <li><a href="#">TRACK ORDER</a></li>
+                    <li class="newsletter-item">
+                        <a href="#" id="newsletter-link">SUBSCRIBE TO NEWS LETTER</a>
+                        <div class="newsletter-dropdown">
+                            <span class="dropdown-close">&times;</span>
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-form">
+                                <input type="email" placeholder="Enter your email address" required>
+                                <div class="send-button-wrapper">
+                                    <span class="send-text">Send</span>
+                                    <input type="submit" value="" class="hidden-submit">
+                                </div>
+                            </form>
+                            <div class="success-message">Thank you for subscribing to our newsletter.</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>CONTACT US</h3>
+                <ul>
+                    <li><a href="appointment.html">MAKE AN APPOINTMENT</a></li>
+                    <li><a href="contact.html">WRITE TO US</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <ul>
+                    <li><a href="#">LEGAL NOTICE</a></li>
+                    <li><a href="#">ACCESSIBILITY</a></li>
+                </ul>
+            </div>
+            <div class="footer-section career-section">
+                <h3>CAREER</h3>
+            </div>
+        </div>
+        
+        <div class="copyright-container">
+            <div class="social-links footer-social">
+                <a href="https://www.facebook.com/profile.php?id=61559840979690" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/studiosanch/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/company/studiosanch/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://youtube.com/@studiosanch" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.tiktok.com/@studiosanch" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="copyright">
+                <p data-i18n="copyright"> studiosanch 2026</p>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="js/main.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/newsletter-handler.js"></script>
+    
+    <!-- Video Performance Optimization Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all videos
+            const videos = document.querySelectorAll('.step-video');
+            
+            // Create Intersection Observer with higher priority for vertical videos
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Check if this is the problematic video in step 3
+                    const isStep3Video = entry.target.closest('.gallery-item-3') !== null;
+                    
+                    // If element is in view
+                    if (entry.isIntersecting) {
+                        // Make sure video is playing
+                        const playPromise = entry.target.play();
+                        
+                        // Handle play promise to avoid errors
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                // Auto-play was prevented, try again with user interaction
+                                document.addEventListener('click', () => {
+                                    entry.target.play();
+                                }, { once: true });
+                            });
+                        }
+                    } else {
+                        // Don't pause the step 3 video to prevent stuttering
+                        if (!isStep3Video) {
+                            // Only pause if video is actually playing
+                            if (!entry.target.paused) {
+                                entry.target.pause();
+                            }
+                        }
+                    }
+                });
+            }, { threshold: 0.2, rootMargin: '0px 0px 100px 0px' }); // More sensitive threshold and root margin
+            
+            // Add each video to the observer
+            videos.forEach(video => {
+                observer.observe(video);
+                
+                // Ensure video plays on click as fallback
+                video.addEventListener('click', () => {
+                    if (video.paused) {
+                        video.play();
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        // Newsletter Dropdown
+        const newsletterLink = document.getElementById('newsletter-link');
+        const newsletterDropdown = document.querySelector('.newsletter-dropdown');
+        const dropdownClose = document.querySelector('.dropdown-close');
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const successMessage = document.querySelector('.success-message');
+
+        newsletterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            newsletterDropdown.classList.add('active');
+            
+            // Position the dropdown relative to the link
+            const linkRect = this.getBoundingClientRect();
+            
+            // Calculate position relative to viewport
+            const top = linkRect.top;
+            const left = linkRect.left;
+            
+            // Position above the link if near the bottom of the screen
+            const isNearBottom = top + 300 > window.innerHeight;
+            
+            // Set the position
+            newsletterDropdown.style.position = 'fixed';
+            newsletterDropdown.style.top = isNearBottom ? (top - 250) + 'px' : top + 'px';
+            newsletterDropdown.style.left = left + 'px';
+        });
+
+        dropdownClose.addEventListener('click', function() {
+            newsletterDropdown.classList.remove('active');
+            successMessage.classList.remove('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.newsletter-item') && newsletterDropdown.classList.contains('active')) {
+                newsletterDropdown.classList.remove('active');
+                successMessage.classList.remove('active');
+            }
+        });
+
+        // Newsletter form submission is now handled by the newsletter-handler.js script
+        
+        // Language Panel Functionality
+        const languageTrigger = document.getElementById('language-selector-trigger');
+        const languagePanel = document.querySelector('.language-panel-overlay');
+        const panelClose = document.querySelector('.panel-close');
+
+        languageTrigger.addEventListener('click', function() {
+            openLanguagePanel();
+        });
+
+        // Keep track of panel state
+        let isPanelAnimating = false;
+        
+        // Helper function to open panel with proper timing
+        function openLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            languagePanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                isPanelAnimating = false;
+            }, 2200);
+        }
+        
+        // Helper function for closing with proper timing
+        function closeLanguagePanel() {
+            if (isPanelAnimating) return;
+            
+            isPanelAnimating = true;
+            const panel = document.querySelector('.language-panel');
+            
+            // Add a class to trigger the slide back transition
+            panel.classList.add('sliding-back');
+            
+            // Make backdrop fade out with delay
+            setTimeout(() => {
+                languagePanel.style.opacity = 0;
+            }, 500);
+            
+            // Only remove active class after animation completes
+            setTimeout(() => {
+                languagePanel.classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset styles for next open
+                languagePanel.style.opacity = '';
+                panel.classList.remove('sliding-back');
+                isPanelAnimating = false;
+            }, 2200);
+        }
+
+        panelClose.addEventListener('click', function() {
+            closeLanguagePanel();
+        });
+
+        languagePanel.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLanguagePanel();
+            }
+        });
+
+        // Close panel with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && languagePanel.classList.contains('active')) {
+                closeLanguagePanel();
+            }
+        });
+        
+        // Handle language switching
+        document.getElementById('english-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Already on the English page, no need to navigate
+            closeLanguagePanel();
+        });
+        
+        document.getElementById('french-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = 'comment créer.html';
+        });
+    </script>
+</body>
+</html>
