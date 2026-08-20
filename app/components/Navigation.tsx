@@ -13,10 +13,11 @@ interface MenuItem {
 // Mirrors the menu in the existing static pages, with a direct Boutique route.
 const menuItems: MenuItem[] = [
   { href: '/', label: 'HOME' },
-  { href: '/about.html', label: 'ABOUT' },
-  { href: '/atelier.html', label: 'ATELIER' },
-  { href: '/haute-couture.html', label: 'HAUTE COUTURE' },
   { href: '/boutique/', label: 'BOUTIQUE' },
+  { href: '/haute-couture.html', label: 'HAUTE COUTURE' },
+  { href: '/productions/', label: 'PRODUCTIONS' },
+  { href: '/atelier.html', label: 'ATELIER' },
+  { href: '/about.html', label: 'ABOUT' },
 ];
 
 const LanguageSelector = () => {

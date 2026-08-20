@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Keep the Boutique destination available in every page's menu, including
     // legacy pages whose static navigation has not yet been updated.
-    const boutiqueLink = menuList.querySelector('a[href$="accessoires.html"]');
+    const boutiqueLink = menuList.querySelector('a[href$="accessoires.html"]') || menuList.querySelector('a[href="/boutique/"]');
     if (boutiqueLink) {
         boutiqueLink.textContent = 'BOUTIQUE';
         boutiqueLink.removeAttribute('data-i18n');
@@ -21,6 +21,26 @@ document.addEventListener('DOMContentLoaded', function() {
         boutiqueItem.innerHTML = '<a href="/boutique/">BOUTIQUE</a>';
         menuList.appendChild(boutiqueItem);
     }
+
+    // Make the Studio's creative-production offering discoverable everywhere.
+    // It deliberately remains the final navigation destination.
+    if (!menuList.querySelector('a[href="/productions/"]')) {
+        const productionsItem = document.createElement('li');
+        productionsItem.innerHTML = '<a href="/productions/">PRODUCTIONS</a>';
+        menuList.appendChild(productionsItem);
+    }
+
+    // Keep the same intentional order on every legacy static page.
+    const itemFor = (selector) => menuList.querySelector(selector)?.closest('li');
+    const orderedItems = [
+        itemFor('a[href="index.html"], a[href="/"], a[href="/"]'),
+        itemFor('a[href="/boutique/"]'),
+        itemFor('a[href$="haute-couture.html"]'),
+        itemFor('a[href="/productions/"]'),
+        itemFor('a[href$="atelier.html"]'),
+        itemFor('a[href$="about.html"]')
+    ].filter(Boolean);
+    orderedItems.forEach((item) => menuList.appendChild(item));
 
     const menuItems = document.querySelectorAll('.menu-items li');
     

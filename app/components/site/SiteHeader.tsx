@@ -11,10 +11,11 @@ interface MenuItem {
 // Same menu as the original static pages, with BOUTIQUE added.
 const menuItems: MenuItem[] = [
   { href: '/', label: 'HOME', i18n: 'header.home' },
-  { href: '/about.html', label: 'ABOUT', i18n: 'header.about' },
-  { href: '/atelier.html', label: 'ATELIER', i18n: 'header.atelier' },
-  { href: '/haute-couture.html', label: 'HAUTE COUTURE', i18n: 'header.hauteCouture' },
   { href: '/boutique', label: 'BOUTIQUE', i18n: 'header.boutique' },
+  { href: '/haute-couture.html', label: 'HAUTE COUTURE', i18n: 'header.hauteCouture' },
+  { href: '/productions/', label: 'PRODUCTIONS', i18n: 'header.productions' },
+  { href: '/atelier.html', label: 'ATELIER', i18n: 'header.atelier' },
+  { href: '/about.html', label: 'ABOUT', i18n: 'header.about' },
 ];
 
 export default function SiteHeader({ active }: { active?: string }) {
