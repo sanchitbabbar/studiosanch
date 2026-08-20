@@ -43,7 +43,7 @@ export default function ProductionsPage() {
           </p>
           <div className="productions-reel">
             <CinematicReel
-              src="/Videos/productions-gallery-montage.mp4"
+              src="/Videos/productions-gallery-montage.mp4?v=9"
               poster="/images/productions-hero-reel.png"
               label="A fashion film being directed in a contemporary gallery setting"
             />
@@ -107,7 +107,6 @@ export default function ProductionsPage() {
         .productions-card p { max-width: 390px; margin: 0; color: rgba(255,255,255,.58); font-size: .78rem; font-weight: 300; letter-spacing: .065em; line-height: 1.85; }
         .productions-closing { padding-bottom: clamp(6rem, 12vw, 11rem); }
         .productions-closing h2 { font-size: clamp(1.8rem, 3.6vw, 3.6rem); }
-        @media (prefers-reduced-motion: reduce) { .productions-reel video { display: none; } .productions-reel { background: #070707 url('/images/productions-hero-reel.png') center 52% / cover no-repeat; } }
         @media (max-width: 700px) { .productions-hero { padding: 4.5rem 1.5rem 0; } .productions-hero h1 { font-size: 1.215rem; letter-spacing: .12em; text-indent: .12em; } .productions-reel { width: calc(100% + 3rem); aspect-ratio: 1.38 / 1; margin-inline: -1.5rem; } .productions-services { padding-inline: 1.5rem; } .productions-services-heading { display: block; } .productions-services-heading h2 { margin-top: 1rem; } .productions-grid { grid-template-columns: 1fr; } .productions-card { min-height: 220px; padding: 1.5rem; } .productions-statement, .productions-closing { padding-inline: 1.5rem; } }
       `}</style>
     </>

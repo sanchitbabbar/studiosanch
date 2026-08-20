@@ -31,6 +31,7 @@ export default function CinematicReel({ src, poster, label }: CinematicReelProps
 
   return (
     <video
+      key={src}
       ref={videoRef}
       autoPlay
       muted
