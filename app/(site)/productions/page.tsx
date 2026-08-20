@@ -71,7 +71,7 @@ export default function ProductionsPage() {
         </section>
 
         <section className="productions-closing">
-          <p className="productions-eyebrow">PRIVATE COMMISSIONS / COLLABORATIONS</p>
+          <p className="productions-eyebrow">THE FIRST FRAME</p>
           <h2>Let the work begin.</h2>
           <a className="productions-cta" href="/contact.html">
             START A PROJECT <span>→</span>
