@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
+import CinematicReel from '../../components/site/CinematicReel';
 
 export const metadata: Metadata = {
   title: 'PRODUCTIONS - STUDIO SANCH',
@@ -41,9 +42,10 @@ export default function ProductionsPage() {
             For those seeking to realise a singular idea as a film, an image, an exhibition—or a world that could be remembered.
           </p>
           <div className="productions-reel">
-            <img
-              src="/images/productions-hero-reel.png"
-              alt="A fashion film being directed in a contemporary gallery setting"
+            <CinematicReel
+              src="/Videos/productions-gallery-montage.mp4"
+              poster="/images/productions-hero-reel.png"
+              label="A fashion film being directed in a contemporary gallery setting"
             />
           </div>
         </section>
@@ -86,8 +88,7 @@ export default function ProductionsPage() {
         .productions-hero h1 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: clamp(1.17rem, 2vw, 1.9rem); font-weight: 600; letter-spacing: .22em; line-height: 1; text-indent: .22em; text-transform: uppercase; }
         .productions-intro { max-width: 590px; margin: 2.15rem auto 0; color: rgba(255,255,255,.68); font-size: clamp(.76rem, 1.3vw, .9rem); font-weight: 300; letter-spacing: .115em; line-height: 1.9; }
         .productions-reel { width: 100%; max-width: 1200px; aspect-ratio: 2.32 / 1; margin: clamp(3.5rem, 6vw, 5.25rem) auto 0; overflow: hidden; background: #070707; border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); }
-        .productions-reel img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; filter: saturate(.72) contrast(1.06) brightness(.78); transform: scale(1.045); animation: productions-reel-drift 16s ease-in-out infinite alternate; }
-        @keyframes productions-reel-drift { from { transform: scale(1.045) translate3d(0, 0, 0); } to { transform: scale(1.1) translate3d(-1.4%, 0, 0); } }
+        .productions-reel video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; filter: saturate(.72) contrast(1.06) brightness(.78); }
         .productions-cta { display: inline-flex; gap: 1rem; align-items: center; margin-top: 2.8rem; padding: .8rem 0; color: rgba(255,255,255,.9); font-size: .63rem; font-weight: 400; letter-spacing: .3em; text-decoration: none; transition: color .35s ease, letter-spacing .35s ease; }
         .productions-cta::after { content: ''; position: absolute; }
         .productions-cta:hover { color: #fff; letter-spacing: .34em; }
@@ -106,7 +107,7 @@ export default function ProductionsPage() {
         .productions-card p { max-width: 390px; margin: 0; color: rgba(255,255,255,.58); font-size: .78rem; font-weight: 300; letter-spacing: .065em; line-height: 1.85; }
         .productions-closing { padding-bottom: clamp(6rem, 12vw, 11rem); }
         .productions-closing h2 { font-size: clamp(1.8rem, 3.6vw, 3.6rem); }
-        @media (prefers-reduced-motion: reduce) { .productions-reel img { animation: none; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { .productions-reel video { display: none; } .productions-reel { background: #070707 url('/images/productions-hero-reel.png') center 52% / cover no-repeat; } }
         @media (max-width: 700px) { .productions-hero { padding: 4.5rem 1.5rem 0; } .productions-hero h1 { font-size: 1.215rem; letter-spacing: .12em; text-indent: .12em; } .productions-reel { width: calc(100% + 3rem); aspect-ratio: 1.38 / 1; margin-inline: -1.5rem; } .productions-services { padding-inline: 1.5rem; } .productions-services-heading { display: block; } .productions-services-heading h2 { margin-top: 1rem; } .productions-grid { grid-template-columns: 1fr; } .productions-card { min-height: 220px; padding: 1.5rem; } .productions-statement, .productions-closing { padding-inline: 1.5rem; } }
       `}</style>
     </>
