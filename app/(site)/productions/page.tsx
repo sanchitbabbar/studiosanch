@@ -51,7 +51,7 @@ export default function ProductionsPage() {
         <section className="productions-statement" aria-labelledby="production-statement-title">
           <p className="productions-eyebrow">THE STUDIO</p>
           <h2 id="production-statement-title">
-            From an initial idea to a lasting image, every production is composed with clarity, sensitivity and disciplined precision.
+            From an initial idea to a lasting form, every production is composed with clarity, sensitivity and disciplined precision.
           </h2>
         </section>
 
