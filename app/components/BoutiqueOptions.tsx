@@ -93,6 +93,19 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
       }
     }
   }, [isOpen, initialCategory, initialSection]);
+
+  // Category cards sit near the bottom of the mobile page. Once a category
+  // replaces the grid, return the page to its beginning so the primary action
+  // is immediately visible instead of preserving the old footer scroll point.
+  useEffect(() => {
+    if (!pageMode || !selectedCategory || typeof window === 'undefined') return;
+
+    const frame = window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [pageMode, selectedCategory]);
   
   const handleCategorySelect = (id: string) => {
     setSelectedCategory(id);
