@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '../context/LanguageContext';
 
 interface AccessoryCategory {
   id: string;
@@ -86,6 +87,8 @@ const AccessoriesPopup = () => {
   const [currentSubItems, setCurrentSubItems] = useState<SubItem[]>([]);
   const [subItemTitle, setSubItemTitle] = useState('');
   const router = useRouter();
+  const { language } = useLanguage();
+  const fr = language === 'fr';
 
   // Handle click on a main category
   const handleCategoryClick = (category: AccessoryCategory) => {
@@ -119,7 +122,7 @@ const AccessoriesPopup = () => {
 
   return (
     <div className="py-12 max-w-4xl mx-auto relative">
-      <h2 className="text-2xl tracking-[0.15em] uppercase font-light text-center mb-14 font-syne">SIGNATURE DESIGNS</h2>
+      <h2 className="text-2xl tracking-[0.15em] uppercase font-light text-center mb-14 font-syne">{fr ? 'CRÉATIONS SIGNATURE' : 'SIGNATURE DESIGNS'}</h2>
       
       {showSubItems ? (
         <>
@@ -127,7 +130,7 @@ const AccessoriesPopup = () => {
             onClick={handleBack}
             className="absolute top-0 left-0 text-white/50 hover:text-white/90 transition-colors duration-300"
           >
-            ← Back to Categories
+            ← {fr ? 'Retour aux catégories' : 'Back to Categories'}
           </button>
           
           <motion.div

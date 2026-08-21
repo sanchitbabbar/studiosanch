@@ -8,7 +8,6 @@ import Link from 'next/link';
 import Navigation from '../../../components/Navigation';
 import { accessoryProducts, AccessoryProduct } from '../../../data/accessories';
 import ProductCheckoutModal from '../../../components/ProductCheckoutModal';
-import SiteFooter from '../../../components/site/SiteFooter';
 import { useLanguage } from '../../../context/LanguageContext';
 
 // Using imported AccessoryProduct type and accessoryProducts array from data/accessories.ts
@@ -111,7 +110,7 @@ export default function ProductDetail() {
               href="/"
               className="hover:text-white transition-colors"
             >
-              Home
+              {language === 'fr' ? 'Accueil' : 'Home'}
             </Link>
             <span>/</span>
             <Link 
@@ -125,7 +124,7 @@ export default function ProductDetail() {
               href="/boutique/?category=accessories"
               className="hover:text-white transition-colors"
             >
-              Collection
+              {language === 'fr' ? 'Collection' : 'Collection'}
             </Link>
             <span>/</span>
             <span className="text-white">{product.name}</span>
@@ -138,7 +137,7 @@ export default function ProductDetail() {
               className="text-white/60 hover:text-white text-[10px] uppercase tracking-[0.25em] transition-all duration-500 font-light flex items-center gap-2 group"
             >
               <span className="text-[8px] opacity-60 transform group-hover:translate-x-[-4px] transition-all duration-500 ease-in-out">←</span>
-              <span className="group-hover:tracking-[0.3em] transition-all duration-500 ease-in-out">RETURN TO COLLECTION</span>
+              <span className="group-hover:tracking-[0.3em] transition-all duration-500 ease-in-out">{language === 'fr' ? 'RETOUR À LA COLLECTION' : 'RETURN TO COLLECTION'}</span>
             </Link>
           </div>
 
@@ -211,7 +210,7 @@ export default function ProductDetail() {
                 
                 {/* Subtle instruction for zoom */}
                 <div className={`absolute bottom-4 right-4 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full text-[10px] uppercase tracking-wider transition-opacity duration-500 ${isZoomed ? 'opacity-0' : 'opacity-70'}`}>
-                  Hover to zoom
+                  {language === 'fr' ? 'Survoler pour zoomer' : 'Hover to zoom'}
                 </div>
               </div>
               
@@ -228,7 +227,7 @@ export default function ProductDetail() {
                       key={index}
                       className={`w-12 h-12 relative overflow-hidden rounded-md transition-all duration-300 ${selectedImage === imageSrc ? 'opacity-100 border-b border-white' : 'opacity-50 hover:opacity-90 border-b border-transparent'}`}
                       onClick={() => setSelectedImage(imageSrc)}
-                      aria-label={`View image ${index + 1}`}
+                      aria-label={`${language === 'fr' ? 'Voir l’image' : 'View image'} ${index + 1}`}
                     >
                       <Image 
                         src={imageSrc}
@@ -281,7 +280,7 @@ export default function ProductDetail() {
               
               {/* Description with luxury typography */}
               <div className="prose prose-invert max-w-none opacity-90 mb-10 font-light leading-relaxed tracking-wide text-white/80 text-sm">
-                <p className="mb-6">{product?.description}</p>
+                <p className="mb-6">{language === 'fr' && product?.descriptionFr ? product.descriptionFr : product?.description}</p>
                 <p className="text-white/70">{language === 'fr' && product?.longDescriptionFr ? product?.longDescriptionFr : product?.longDescription}</p>
               </div>
               
@@ -300,9 +299,9 @@ export default function ProductDetail() {
                                       product.stockStatus === 'limited' ? 'text-amber-400/90' : 
                                       product.stockStatus === 'pre-order' ? 'text-indigo-400/90' : 'text-rose-400/90'}`}
                     >
-                      {product.stockStatus === 'in-stock' ? 'In Stock' : 
-                       product.stockStatus === 'limited' ? 'Limited Stock' : 
-                       product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock'}
+                      {language === 'fr'
+                        ? (product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Stock limité' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
+                        : (product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
                     </span>
                   </div>
                 )}
@@ -311,14 +310,14 @@ export default function ProductDetail() {
                 <div className="border-t border-b border-white/10 py-4">
                   <details className="group">
                     <summary className="flex justify-between items-center cursor-pointer list-none">
-                      <span className="text-xs tracking-[0.2em] uppercase font-light">Details & Features</span>
+                      <span className="text-xs tracking-[0.2em] uppercase font-light">{language === 'fr' ? 'Détails et caractéristiques' : 'Details & Features'}</span>
                       <span className="text-xs opacity-60 transition-transform duration-300 group-open:rotate-45">+</span>
                     </summary>
                     <div className="pt-4 pb-2 text-sm text-white/70 font-light space-y-2">
                       {product?.id === 'sanch-canvas' && (
                         <>
-                          <p>• 100% cotton canvas</p>
-                          <p>• Designed and hand-crafted in Paris</p>
+                          <p>• {language === 'fr' ? 'Toile 100 % coton' : '100% cotton canvas'}</p>
+                          <p>• {language === 'fr' ? 'Conçu et fabriqué à la main à Paris' : 'Designed and hand-crafted in Paris'}</p>
                         </>
                       )}
                       {product?.id === 'mug-sketch' && (
@@ -348,16 +347,16 @@ export default function ProductDetail() {
                       )}
                       {product?.id === 'sanch-suede' && (
                         <>
-                          <p>• 100% suede leather</p>
-                          <p>• Micron gold plated brass logo</p>
-                          <p>• Sophisticated minimalist design</p>
-                          <p>• Interior suede lining with refined pocket detail</p>
-                          <p>• Designed and hand-crafted in Paris</p>
-                          <p>• Exclusively made-to-order (6-8 weeks delivery)</p>
+                          <p>• {language === 'fr' ? 'Cuir suédé 100 %' : '100% suede leather'}</p>
+                          <p>• {language === 'fr' ? 'Logo en laiton plaqué or micron' : 'Micron gold plated brass logo'}</p>
+                          <p>• {language === 'fr' ? 'Design minimaliste sophistiqué' : 'Sophisticated minimalist design'}</p>
+                          <p>• {language === 'fr' ? 'Doublure intérieure en daim et poche raffinée' : 'Interior suede lining with refined pocket detail'}</p>
+                          <p>• {language === 'fr' ? 'Conçu et fabriqué à la main à Paris' : 'Designed and hand-crafted in Paris'}</p>
+                          <p>• {language === 'fr' ? 'Exclusivement réalisé sur commande (livraison sous 6 à 8 semaines)' : 'Exclusively made-to-order (6-8 weeks delivery)'}</p>
                         </>
                       )}
                       {product?.id !== 'sanch-canvas' && product?.id !== 'sanch-suede' && product?.id !== 'mug-sketch' && product?.id !== 'mug-black' && product?.id !== 'artbook-main' && product?.id !== 'belt-sanch' && product?.id !== 'sunglasses-black' && (
-                        <p>• Premium quality craftsmanship</p>
+                        <p>• {language === 'fr' ? 'Savoir-faire de qualité supérieure' : 'Premium quality craftsmanship'}</p>
                       )}
                     </div>
                   </details>
@@ -365,15 +364,15 @@ export default function ProductDetail() {
                 
                 {/* No refund policy */}
                 <div className="mt-6 mb-6">
-                  <p className="text-xs italic text-white/60">As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.</p>
+                  <p className="text-xs italic text-white/60">{language === 'fr' ? 'Les œuvres, services artistiques et créations personnalisées étant uniques, aucun remboursement ni échange ne sera possible.' : 'As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.'}</p>
                 </div>
 
                 {/* Purchase Options with Elevated Styling */}
                 {product?.comingSoon ? (
                   <div className="space-y-4">
-                    <p className="text-xs tracking-[0.15em] uppercase font-light mb-4 text-white/80">EXCLUSIVE PRE-RELEASE</p>
+                    <p className="text-xs tracking-[0.15em] uppercase font-light mb-4 text-white/80">{language === 'fr' ? 'AVANT-PREMIÈRE EXCLUSIVE' : 'EXCLUSIVE PRE-RELEASE'}</p>
                     <button className="w-full py-3 px-1 border border-white/40 hover:border-white tracking-[0.2em] text-[11px] uppercase bg-transparent hover:bg-white/5 transition-all duration-300 font-light">
-                      JOIN PRIORITY WAITLIST
+                      {language === 'fr' ? "S’INSCRIRE À LA LISTE PRIORITAIRE" : 'JOIN PRIORITY WAITLIST'}
                     </button>
                   </div>
                 ) : product?.stockStatus === 'out-of-stock' ? (
@@ -383,10 +382,10 @@ export default function ProductDetail() {
                       disabled
                       className="w-full py-3.5 bg-white/20 text-black/40 cursor-not-allowed tracking-[0.2em] text-[11px] uppercase font-light transition-all duration-500"
                     >
-                      PURCHASE
+                      {language === 'fr' ? 'COMMANDER' : 'PURCHASE'}
                     </button>
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 bg-black/40 px-3 py-1 rounded-full">Out of Stock</span>
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-white/60 bg-black/40 px-3 py-1 rounded-full">{language === 'fr' ? 'Épuisé' : 'Out of Stock'}</span>
                     </div>
                   </div>
                 ) : (
@@ -394,7 +393,9 @@ export default function ProductDetail() {
                     onClick={() => setIsCheckoutOpen(true)}
                     className="w-full py-3.5 bg-white text-black hover:bg-white/90 transition-colors tracking-[0.2em] text-[11px] uppercase font-light"
                   >
-                    {product?.stockStatus === 'in-stock' || product?.stockStatus === 'limited' ? 'PURCHASE' : 'PRE-ORDER NOW'}
+                    {language === 'fr'
+                      ? (product?.stockStatus === 'in-stock' || product?.stockStatus === 'limited' ? 'COMMANDER' : 'PRÉCOMMANDER')
+                      : (product?.stockStatus === 'in-stock' || product?.stockStatus === 'limited' ? 'PURCHASE' : 'PRE-ORDER NOW')}
                   </button>
                 )}
               </div>
@@ -411,9 +412,9 @@ export default function ProductDetail() {
             <div className="mb-16">
               <div className="flex items-center space-x-3 mb-3">
                 <div className="h-px w-12 bg-white/20"></div>
-                <h2 className="uppercase text-[9px] tracking-[0.38em] font-light text-white/60">Desire Beyond</h2>
+                <h2 className="uppercase text-[9px] tracking-[0.38em] font-light text-white/60">{language === 'fr' ? 'AU-DELÀ DU DÉSIR' : 'DESIRE BEYOND'}</h2>
               </div>
-              <h2 className="text-lg font-extralight tracking-wide text-white/90">Whispered Luxury</h2>
+              <h2 className="text-lg font-extralight tracking-wide text-white/90">{language === 'fr' ? 'Luxe murmuré' : 'Whispered Luxury'}</h2>
             </div>
             
             <div className="relative overflow-hidden" style={{ height: '300px' }}>
@@ -453,7 +454,7 @@ export default function ProductDetail() {
                       
                       {/* Overlay */}
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                        <span className="text-sm tracking-[0.2em] uppercase font-light">View Details</span>
+                        <span className="text-sm tracking-[0.2em] uppercase font-light">{language === 'fr' ? 'Voir les détails' : 'View Details'}</span>
                       </div>
                     </div>
                     <h3 className="text-md mb-1">{relatedProduct.name}</h3>
@@ -475,12 +476,6 @@ export default function ProductDetail() {
       )}
 
       </main>
-      <link rel="stylesheet" href="/css/styles.css" />
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-      <SiteFooter backgroundColor="#000" />
     </>
   );
 }

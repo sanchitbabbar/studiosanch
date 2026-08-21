@@ -346,7 +346,7 @@
             font-weight: 600;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--logo-color);
+            color: #e0e0e0;
             width: 100%;
             text-align: center;
             overflow-wrap: break-word;
@@ -446,15 +446,16 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6;
+            opacity: 1;
+            filter: contrast(1.08) brightness(1.05);
         }
         
         .sketch-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6;
-            filter: grayscale(30%) contrast(1.1);
+            opacity: 1;
+            filter: contrast(1.08) brightness(1.05);
         }
         
         .step-number {
@@ -889,7 +890,6 @@
         </section>
         
         <section class="cta-section">
-            <p class="cta-text">Raffinez votre élégance avec <span class="cta-text-sanch">SANCH</span>.</p>
             <a href="appointment.html" class="cta-button">COMMENCER</a>
         </section>
     </main>
@@ -897,60 +897,27 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger">LANGUE</h3>
+                <h3 id="language-selector-trigger" role="button" tabindex="0" onclick="document.querySelector('.language-panel-overlay').classList.add('active'); document.body.style.overflow='hidden';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">LANGUE</h3>
             </div>
             
             <!-- Language Selector Panel -->
             <div class="language-panel-overlay">
                 <div class="language-panel">
-                    <div class="panel-close">&times;</div>
+                    <div class="panel-close" role="button" tabindex="0" onclick="this.closest('.language-panel-overlay').classList.remove('active'); document.body.style.overflow='';">&times;</div>
                     <div class="panel-content">
                         <h2>SÉLECTIONNER L'EMPLACEMENT ET LA LANGUE</h2>
                         <ul class="language-options">
-                            <li><a href="javascript:void(0)" id="english-link">English</a></li>
-                            <li><a href="javascript:void(0)" id="french-link" class="active">Français</a></li>
+                            <li><a href="/atelier.html" id="english-link">English</a></li>
+                            <li><a href="/fr/atelier.html" id="french-link" class="active">Français</a></li>
                         </ul>
-                        <p class="notice">SI VOUS AVEZ DÉJÀ DES ARTICLES DANS VOTRE PANIER, VEUILLEZ NOTER QU'ILS SERONT EXPÉDIÉS VERS LE PAYS/RÉGION QUE VOUS SÉLECTIONNEREZ</p>
                     </div>
                 </div>
             </div>
             <div class="footer-section">
-                <h3>SERVICE CLIENT</h3>
-                <ul>
-                    <li><a href="track-order.html">SUIVRE LA COMMANDE</a></li>
-                    <li class="newsletter-item">
-                        <a href="#" id="newsletter-link">S'ABONNER À LA NEWSLETTER</a>
-                        <div class="newsletter-dropdown">
-                            <span class="dropdown-close">&times;</span>
-                            <h3>Newsletter</h3>
-                            <form class="newsletter-form">
-                                <input type="email" placeholder="Entrez votre adresse e-mail" required>
-                                <div class="send-button-wrapper">
-                                    <span class="send-text">Envoyer</span>
-                                    <input type="submit" value="" class="hidden-submit">                                    
-                                </div>
-                            </form>
-                            <div class="success-message">Merci de vous être abonné à notre newsletter.</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>CONTACTEZ-NOUS</h3>
                 <ul>
                     <li><a href="appointment.html">PRENDRE UN RENDEZ-VOUS</a></li>
                     <li><a href="contact.html">ÉCRIVEZ-NOUS</a></li>
                 </ul>
-            </div>
-            <div class="footer-section">
-                <h3>LÉGAL</h3>
-                <ul>
-                    <li><a href="legal-notice.html">MENTIONS LÉGALES</a></li>
-                    <li><a href="#">ACCESSIBILITÉ</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>CARRIÈRE</h3>
             </div>
 
         </div>
@@ -965,6 +932,7 @@
             </div>
             <div class="copyright">
                 <p>© studiosanch 2026</p>
+                <div class="footer-policy-links" aria-label="Informations légales"><a href="/privacy-policy.html">CONFIDENTIALITÉ</a><span aria-hidden="true">|</span><a href="/terms">CONDITIONS</a><span aria-hidden="true">|</span><a href="/legal-notice.html">LÉGAL</a></div>
             </div>
         </div>
     </footer>
@@ -974,8 +942,8 @@
     <script src="../js/main.js"></script>
     <script src="../js/menu.js"></script>
     <script src="../js/newsletter-handler.js"></script>
-    <script src="../node_modules/i18next/dist/umd/i18next.min.js"></script>
-    <script src="../node_modules/i18next-browser-languagedetector/dist/umd/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="/js/vendor/i18next.min.js"></script>
+    <script src="/js/vendor/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="../js/i18n.js"></script>
     
     <!-- Video Performance Optimization Script -->
@@ -1143,7 +1111,7 @@
         // Handle language switching
         document.getElementById('english-link').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'atelier.html';
+            window.location.href = '/atelier.html';
         });
         
         document.getElementById('french-link').addEventListener('click', function(e) {

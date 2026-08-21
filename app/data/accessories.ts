@@ -4,6 +4,7 @@ export interface AccessoryProduct {
   id: string;
   name: string;
   description: string;
+  descriptionFr?: string;
   longDescription: string;
   longDescriptionFr?: string;
   price: string;
@@ -23,7 +24,9 @@ export const accessoryProducts: AccessoryProduct[] = [
     id: 'sunglasses-black',
     name: 'Designer Sunglasses',
     description: 'Crafted from premium black acetate, these oversized frames offer a classic aesthetic with a comfortable fit and 100% UV protection.',
+    descriptionFr: 'Réalisée en acétate noir haut de gamme, cette monture oversize offre une esthétique intemporelle, un port confortable et une protection UV à 100 %.',
     longDescription: 'A subtle soft silver SANCH logo and signature emblem are discreetly incorporated on the temple.',
+    longDescriptionFr: 'Un délicat logo SANCH argenté et son emblème signature sont discrètement intégrés sur la branche.',
     price: '€375',
     image: '/images/Accesories /Sunglasses/Render 2.jpg',
     additionalImages: [
@@ -70,7 +73,9 @@ export const accessoryProducts: AccessoryProduct[] = [
     id: 'sanch-suede',
     name: 'Sanch Suede',
     description: 'Suede Leather Bag',
+    descriptionFr: 'Sac en cuir suédé',
     longDescription: "Crafted in fine suede with a micron gold-plated SANCH logo — an expression of quiet elegance and refined design.",
+    longDescriptionFr: "Réalisé en daim fin avec un logo SANCH plaqué or micron — une expression d’élégance discrète et de design raffiné.",
     price: '€4250', // Updated Feb 2026
     image: '/images/Accesories/SanchBagSuede/9.jpg',
     additionalImages: [
@@ -124,6 +129,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     id: 'artbook-main',
     name: 'Art Book',
     description: 'SANCH : De la couleur au noir et blanc',
+    descriptionFr: 'SANCH : De la couleur au noir et blanc',
     longDescription: 'This limited edition art book highlights Sanchit\'s artistic journey, moving from the ancient wisdom of colors to the refined elegance of black and white. Tracing his origins in New Delhi, India, Sanchit\'s creative path has led him across continents—from New York, San Francisco, and Los Angeles to his base in Paris, France. The volume features Sanchit\'s own poetic memoir, written in French, chronicling his artistic evolution.',
     longDescriptionFr: "Ciselée en édition limitée, la monographie recueille le sillage artistique de Sanchit Babbar, où se dessine une évolution subtile, de la sagesse des couleurs vers l'élégance épurée du noir et blanc. Enracinée dans ses origines à New Delhi, en Inde, son odyssée créative trace les horizons de New York, San Francisco et Los Angeles, jusqu'à son ancrage actuel à Paris. Cet ouvrage intègre le mémoire poétique conçu et écrit par l'artiste, où sa créativité se déploie à travers danse, poésie, design et mode.",
     price: '€295',
@@ -158,6 +164,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     id: 'belt-sanch',
     name: 'The SANCH Belt',
     description: 'Signature Sanch buckle with thin belt in smooth leather',
+    descriptionFr: 'Boucle Sanch signature sur une fine ceinture en cuir lisse',
     longDescription: '',
     price: '€375',
     image: '/images/Accesories%20/Sanch%20Belt/belt-main.jpg',
@@ -177,7 +184,9 @@ export const accessoryProducts: AccessoryProduct[] = [
     id: 'artwork-featured',
     name: 'Œuvres d\'Art',
     description: 'Original artworks by Sanchit Babbar',
+    descriptionFr: 'Œuvres originales de Sanchit Babbar',
     longDescription: 'Explore the original art collection by Sanchit Babbar.',
+    longDescriptionFr: 'Découvrez la collection d’œuvres originales de Sanchit Babbar.',
     price: 'Explore',
     image: '/images/boutique/prints.jpg',
     comingSoon: false,

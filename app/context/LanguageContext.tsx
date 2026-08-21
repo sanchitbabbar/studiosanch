@@ -382,7 +382,7 @@ type LanguageContextType = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguageState] = useState('en');
   const [isLanguageReady, setIsLanguageReady] = useState(false);
 
   // Function to get nested translation by dot notation
@@ -428,11 +428,23 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       const preferredLanguage = pathLanguage || siteLanguage || savedLanguage;
 
       if (preferredLanguage === 'en' || preferredLanguage === 'fr') {
-        setLanguage(preferredLanguage);
+        setLanguageState(preferredLanguage);
       }
       setIsLanguageReady(true);
     }
   }, []);
+
+  // Update the interface immediately and persist the choice synchronously so
+  // navigation between React and legacy pages cannot restore a stale language.
+  const setLanguage = (code: string) => {
+    if (code !== 'en' && code !== 'fr') return;
+    setLanguageState(code);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', code);
+      localStorage.setItem('i18nextLng', code);
+      document.documentElement.lang = code;
+    }
+  };
 
   return (
     <LanguageContext.Provider value={{ language, t, setLanguage, getFullTranslation }}>

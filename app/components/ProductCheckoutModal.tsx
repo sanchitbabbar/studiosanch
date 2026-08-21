@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 interface ProductCheckoutModalProps {
   isOpen: boolean;
@@ -15,6 +16,8 @@ interface ProductCheckoutModalProps {
 
 export default function ProductCheckoutModal({ isOpen, onClose, product }: ProductCheckoutModalProps) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const { language } = useLanguage();
+  const fr = language === 'fr';
 
   if (!isOpen) return null;
 
@@ -52,7 +55,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
             <div className="relative p-6">
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-white/90 text-lg font-light tracking-wider">Place Your Request</h3>
+                <h3 className="text-white/90 text-lg font-light tracking-wider">{fr ? 'Envoyer votre demande' : 'Place Your Request'}</h3>
                 <button
                   onClick={onClose}
                   className="text-white/40 hover:text-white/60 transition-colors focus:outline-none focus:ring-0 ring-0 no-ring cursor-pointer"
@@ -84,8 +87,8 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                     </svg>
                   </div>
                   <div className="text-center">
-                    <p className="text-white/80 text-sm tracking-wide font-light">Message sent successfully.</p>
-                    <p className="text-white/50 text-xs mt-1">We will contact you shortly to confirm your purchase.</p>
+                    <p className="text-white/80 text-sm tracking-wide font-light">{fr ? 'Message envoyé avec succès.' : 'Message sent successfully.'}</p>
+                    <p className="text-white/50 text-xs mt-1">{fr ? 'Nous vous contacterons prochainement pour confirmer votre demande.' : 'We will contact you shortly to confirm your purchase.'}</p>
                   </div>
                 </motion.div>
               ) : (
@@ -126,7 +129,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                   <div className="space-y-6">
                     <div className="relative">
                       <div className="flex flex-col border-b border-white/10 px-0 py-3">
-                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">Full Name</span>
+                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Nom complet' : 'Full Name'}</span>
                         <input
                           type="text"
                           name="name"
@@ -138,7 +141,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
 
                     <div className="relative">
                       <div className="flex flex-col border-b border-white/10 px-0 py-3">
-                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">Email Address</span>
+                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Adresse e-mail' : 'Email Address'}</span>
                         <input
                           type="email"
                           name="email"
@@ -150,12 +153,12 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
 
                     <div className="relative">
                       <div className="flex flex-col border-b border-white/10 px-0 py-3">
-                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">Your Message</span>
+                        <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Votre message' : 'Your Message'}</span>
                         <textarea
                           name="message"
                           required
                           rows={3}
-                          defaultValue={`I'm interested in purchasing ${product.name} (${product.price}).`}
+                          defaultValue={fr ? `Je souhaite commander ${product.name} (${product.price}).` : `I'm interested in purchasing ${product.name} (${product.price}).`}
                           className="text-white/90 text-xs leading-relaxed tracking-[0.05em] bg-transparent border-none focus:outline-none w-full resize-none mt-1"
                         />
                       </div>
@@ -168,7 +171,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                       className="w-full px-4 py-1.5 relative group bg-transparent text-white/80 hover:text-white font-extralight text-[10px] tracking-[0.25em] uppercase transition-all duration-300 overflow-hidden focus:outline-none focus:ring-0 ring-0 hover:ring-0 no-ring"
                       style={{ outline: 'none !important', boxShadow: 'none !important' }}
                     >
-                      <span className="relative z-10">SEND</span>
+                      <span className="relative z-10">{fr ? 'ENVOYER' : 'SEND'}</span>
                       <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-transparent" />
                       <div
                         className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -186,10 +189,10 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
               )}
 
               <p className="text-[9px] italic text-white/30 text-center mt-6">
-                Shipments within and outside France will incur additional delivery charges based on current FedEx rates.
+                {fr ? 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.' : 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.'}
               </p>
               <p className="text-[9px] italic text-white/30 text-center mt-2">
-                As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.
+                {fr ? 'Les œuvres, services artistiques et créations personnalisées étant uniques, aucun remboursement ni échange ne sera possible.' : 'As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.'}
               </p>
             </div>
           </div>

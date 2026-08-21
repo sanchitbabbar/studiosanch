@@ -1,37 +1,40 @@
-import type { Metadata } from 'next';
+'use client';
+
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
 import CinematicReel from '../../components/site/CinematicReel';
-
-export const metadata: Metadata = {
-  title: 'PRODUCTIONS - STUDIO SANCH',
-  description: 'Cinematic, fashion, cultural and brand production by Studio Sanch.',
-};
+import { useLanguage } from '../../context/LanguageContext';
 
 const services = [
   {
     number: '01',
     title: 'CINEMATIC',
     text: 'Direction for film, fashion, editorial and audiovisual production—from first conception to final realisation.',
+    textFr: 'Direction de films, de mode, de projets éditoriaux et audiovisuels — de la première conception à la réalisation finale.',
   },
   {
     number: '02',
     title: 'CULTURAL',
     text: 'Fashion shows, photoshoots, exhibitions and live performance formed into resonant artistic experiences.',
+    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques fortes.',
   },
   {
     number: '03',
     title: 'IDENTITY',
     text: 'Brand worlds, visual identities, art direction and digital or physical communication designed with a singular point of view.',
+    textFr: 'Univers de marque, identités visuelles, direction artistique et communication numérique ou physique conçus avec un regard singulier.',
   },
   {
     number: '04',
     title: 'DISTRIBUTION',
     text: 'Editorial, audiovisual and musical works developed for the right audience, platform and cultural context.',
+    textFr: 'Œuvres éditoriales, audiovisuelles et musicales développées pour le public, la plateforme et le contexte culturel appropriés.',
   },
 ];
 
 export default function ProductionsPage() {
+  const { language } = useLanguage();
+  const fr = language === 'fr';
   return (
     <>
       <SiteHeader active="PRODUCTIONS" />
@@ -39,44 +42,44 @@ export default function ProductionsPage() {
         <section className="productions-hero">
           <h1>PRODUCTIONS</h1>
           <p className="productions-intro">
-            For those seeking to realise a singular idea as a film, an image, an exhibition—or a world that could be remembered.
+            {fr ? 'Pour celles et ceux qui souhaitent donner forme à une idée singulière — un film, une image, une exposition ou un univers dont on se souviendra.' : 'For those seeking to realise a singular idea as a film, an image, an exhibition—or a world that could be remembered.'}
           </p>
           <div className="productions-reel">
             <CinematicReel
               src="/Videos/productions-gallery-montage.mp4?v=17"
               poster="/images/productions-hero-reel.png"
-              label="A fashion film being directed in a contemporary gallery setting"
+              label={fr ? 'Réalisation d’un film de mode dans une galerie contemporaine' : 'A fashion film being directed in a contemporary gallery setting'}
             />
           </div>
         </section>
 
         <section className="productions-statement" aria-labelledby="production-statement-title">
-          <p className="productions-eyebrow">THE STUDIO</p>
+          <p className="productions-eyebrow">{fr ? 'LE STUDIO' : 'THE STUDIO'}</p>
           <h2 id="production-statement-title">
-            From an initial idea to a lasting form, every production is composed with clarity, sensitivity and disciplined precision.
+            {fr ? 'De l’idée initiale à une forme durable, chaque production est composée avec clarté, sensibilité et une précision rigoureuse.' : 'From an initial idea to a lasting form, every production is composed with clarity, sensitivity and disciplined precision.'}
           </h2>
         </section>
 
         <section className="productions-services" aria-label="The Work">
           <div className="productions-services-heading">
-            <p className="productions-eyebrow">THE WORK</p>
+            <p className="productions-eyebrow">{fr ? 'LE TRAVAIL' : 'THE WORK'}</p>
           </div>
           <div className="productions-grid">
             {services.map((service) => (
               <article className="productions-card" key={service.number}>
                 <span>{service.number}</span>
                 <h3>{service.title}</h3>
-                <p>{service.text}</p>
+                <p>{fr ? service.textFr : service.text}</p>
               </article>
             ))}
           </div>
         </section>
 
         <section className="productions-closing">
-          <p className="productions-eyebrow">THE FIRST FRAME</p>
-          <h2>Let the work begin.</h2>
-          <a className="productions-cta" href="/contact.html">
-            START A PROJECT <span>→</span>
+          <p className="productions-eyebrow">{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</p>
+          <h2>{fr ? 'Que le travail commence.' : 'Let the work begin.'}</h2>
+          <a className="productions-cta" href={fr ? '/fr/contact.html' : '/contact.html'}>
+            {fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'} <span>→</span>
           </a>
         </section>
       </main>
@@ -85,7 +88,7 @@ export default function ProductionsPage() {
         .productions-main { display: block; width: 100%; margin-top: 3rem; background: #000; color: #fff; }
         .productions-hero { display: flex; flex-direction: column; align-items: center; padding: 5.5rem max(2rem, calc((100vw - 1200px) / 2)) 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,.1); background: #000; }
         .productions-eyebrow { margin: 0 0 1.6rem; color: rgba(255,255,255,.5); font-size: .58rem; font-weight: 400; letter-spacing: .34em; line-height: 1.5; text-transform: uppercase; }
-        .productions-hero h1 { margin: 0; font-family: 'Montserrat', sans-serif; font-size: clamp(1.17rem, 2vw, 1.9rem); font-weight: 600; letter-spacing: .22em; line-height: 1; text-indent: .22em; text-transform: uppercase; }
+        .productions-hero h1 { margin: 0; padding: 0 15px; box-sizing: border-box; color: #e0e0e0; font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 600; letter-spacing: .1em; line-height: normal; text-align: center; text-transform: uppercase; }
         .productions-intro { max-width: 590px; margin: 2.15rem auto 0; color: rgba(255,255,255,.68); font-size: clamp(.76rem, 1.3vw, .9rem); font-weight: 300; letter-spacing: .115em; line-height: 1.9; }
         .productions-reel { width: 100%; max-width: 1200px; aspect-ratio: 2.32 / 1; margin: clamp(3.5rem, 6vw, 5.25rem) auto 0; overflow: hidden; background: #070707; border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); }
         .productions-reel video { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; filter: saturate(.72) contrast(1.06) brightness(.78); }
@@ -107,7 +110,8 @@ export default function ProductionsPage() {
         .productions-card p { max-width: 390px; margin: 0; color: rgba(255,255,255,.58); font-size: .78rem; font-weight: 300; letter-spacing: .065em; line-height: 1.85; }
         .productions-closing { padding-bottom: clamp(6rem, 12vw, 11rem); }
         .productions-closing h2 { font-size: clamp(1.8rem, 3.6vw, 3.6rem); }
-        @media (max-width: 700px) { .productions-hero { padding: 4.5rem 1.5rem 0; } .productions-hero h1 { font-size: 1.215rem; letter-spacing: .12em; text-indent: .12em; } .productions-reel { width: calc(100% + 3rem); aspect-ratio: 1.38 / 1; margin-inline: -1.5rem; } .productions-services { padding-inline: 1.5rem; } .productions-services-heading { display: block; } .productions-services-heading h2 { margin-top: 1rem; } .productions-grid { grid-template-columns: 1fr; } .productions-card { min-height: 220px; padding: 1.5rem; } .productions-statement, .productions-closing { padding-inline: 1.5rem; } }
+        @media (max-width: 700px) { .productions-hero { padding: 4.5rem 1.5rem 0; } .productions-hero h1 { font-size: 2rem; letter-spacing: .12em; white-space: nowrap; } .productions-reel { width: calc(100% + 3rem); aspect-ratio: 1.38 / 1; margin-inline: -1.5rem; } .productions-services { padding-inline: 1.5rem; } .productions-services-heading { display: block; } .productions-services-heading h2 { margin-top: 1rem; } .productions-grid { grid-template-columns: 1fr; } .productions-card { min-height: 220px; padding: 1.5rem; } .productions-statement, .productions-closing { padding-inline: 1.5rem; } }
+        @media (max-width: 480px) { .productions-hero h1 { width: 85%; padding: 0; font-size: 1.5rem; letter-spacing: .07em; } }
       `}</style>
     </>
   );

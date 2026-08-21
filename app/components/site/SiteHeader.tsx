@@ -1,25 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface MenuItem {
   href: string;
-  label: string;
-  i18n: string;
+  en: string;
+  fr: string;
 }
 
 // Same menu as the original static pages, with BOUTIQUE added.
 const menuItems: MenuItem[] = [
-  { href: '/', label: 'HOME', i18n: 'header.home' },
-  { href: '/boutique', label: 'BOUTIQUE', i18n: 'header.boutique' },
-  { href: '/haute-couture.html', label: 'HAUTE COUTURE', i18n: 'header.hauteCouture' },
-  { href: '/productions/', label: 'PRODUCTIONS', i18n: 'header.productions' },
-  { href: '/atelier.html', label: 'ATELIER', i18n: 'header.atelier' },
-  { href: '/about.html', label: 'ABOUT', i18n: 'header.about' },
+  { href: '/', en: 'HOME', fr: 'ACCUEIL' },
+  { href: '/boutique', en: 'BOUTIQUE', fr: 'BOUTIQUE' },
+  { href: '/haute-couture.html', en: 'HAUTE COUTURE', fr: 'HAUTE COUTURE' },
+  { href: '/productions/', en: 'PRODUCTIONS', fr: 'PRODUCTIONS' },
+  { href: '/atelier.html', en: 'ATELIER', fr: 'ATELIER' },
+  { href: '/about.html', en: 'ABOUT', fr: 'À PROPOS' },
 ];
 
 export default function SiteHeader({ active }: { active?: string }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { language } = useLanguage();
 
   // Lock scrolling while the overlay is open, matching js/menu.js
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function SiteHeader({ active }: { active?: string }) {
           className="hamburger-menu"
           onClick={() => setIsOpen(true)}
           role="button"
-          aria-label="Open menu"
+          aria-label={language === 'fr' ? 'Ouvrir le menu' : 'Open menu'}
         >
           <div className="hamburger-icon">
             <span
@@ -67,22 +69,21 @@ export default function SiteHeader({ active }: { active?: string }) {
         }}
       >
         <div className="menu-content">
-          <div className="menu-close" onClick={() => setIsOpen(false)} role="button" aria-label="Close menu">
+          <div className="menu-close" onClick={() => setIsOpen(false)} role="button" aria-label={language === 'fr' ? 'Fermer le menu' : 'Close menu'}>
             &times;
           </div>
           <ul className="menu-items">
             {menuItems.map((item, index) => (
               <li
-                key={item.label}
+                key={item.en}
                 style={{ ['--i' as string]: index }}
                 onClick={() => setIsOpen(false)}
               >
                 <a
                   href={item.href}
-                  data-i18n={item.i18n}
-                  className={active === item.label ? 'active' : undefined}
+                  className={active === item.en ? 'active' : undefined}
                 >
-                  {item.label}
+                  {item[language]}
                 </a>
               </li>
             ))}

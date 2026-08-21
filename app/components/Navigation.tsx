@@ -7,17 +7,18 @@ import { languages } from '../context/LanguageContext';
 
 interface MenuItem {
   href: string;
-  label: string;
+  en: string;
+  fr: string;
 }
 
 // Mirrors the menu in the existing static pages, with a direct Boutique route.
 const menuItems: MenuItem[] = [
-  { href: '/', label: 'HOME' },
-  { href: '/boutique/', label: 'BOUTIQUE' },
-  { href: '/haute-couture.html', label: 'HAUTE COUTURE' },
-  { href: '/productions/', label: 'PRODUCTIONS' },
-  { href: '/atelier.html', label: 'ATELIER' },
-  { href: '/about.html', label: 'ABOUT' },
+  { href: '/', en: 'HOME', fr: 'ACCUEIL' },
+  { href: '/boutique/', en: 'BOUTIQUE', fr: 'BOUTIQUE' },
+  { href: '/haute-couture.html', en: 'HAUTE COUTURE', fr: 'HAUTE COUTURE' },
+  { href: '/productions/', en: 'PRODUCTIONS', fr: 'PRODUCTIONS' },
+  { href: '/atelier.html', en: 'ATELIER', fr: 'ATELIER' },
+  { href: '/about.html', en: 'ABOUT', fr: 'À PROPOS' },
 ];
 
 const LanguageSelector = () => {
@@ -32,7 +33,7 @@ const LanguageSelector = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="text-xs font-light tracking-[0.2em] flex items-center gap-2 group text-white/70 hover:text-white transition-colors"
       >
-        <span className="group-hover:tracking-[0.3em] transition-all duration-300">LANGUAGE</span>
+        <span className="group-hover:tracking-[0.3em] transition-all duration-300">{language === 'fr' ? 'LANGUE' : 'LANGUAGE'}</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.3 }}
@@ -75,6 +76,7 @@ const LanguageSelector = () => {
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { language } = useLanguage();
 
   const closeMenu = () => setIsOpen(false);
 
@@ -84,7 +86,7 @@ const Navigation = () => {
         <div>
           <a
             href="/"
-            aria-label="Studio Sanch home"
+            aria-label={language === 'fr' ? 'Accueil Studio Sanch' : 'Studio Sanch home'}
             className="inline-block uppercase leading-none text-[#e0e0e0] transition-colors hover:text-white"
             style={{ fontFamily: 'Balgin, serif', fontSize: '0.864rem', fontWeight: 400, letterSpacing: '0.14em' }}
           >
@@ -94,7 +96,7 @@ const Navigation = () => {
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Menu"
+          aria-label={language === 'fr' ? 'Menu' : 'Menu'}
           className="relative z-[60] flex h-full cursor-pointer items-center"
         >
           <span className="mr-[5px] flex h-4 w-6 flex-col justify-between p-[5px]">
@@ -127,7 +129,7 @@ const Navigation = () => {
             <div className="relative w-4/5 max-w-lg text-center">
               <button
                 onClick={closeMenu}
-                aria-label="Close menu"
+                aria-label={language === 'fr' ? 'Fermer le menu' : 'Close menu'}
                 className="absolute -top-[70px] right-0 w-10 h-10 flex items-center justify-center text-2xl text-white/70 border border-white/20 rounded-full hover:rotate-90 transition-transform duration-500"
               >
                 &times;
@@ -136,7 +138,7 @@ const Navigation = () => {
               <ul className="list-none p-0 m-0">
                 {menuItems.map((item, index) => (
                   <motion.li
-                    key={item.label}
+                    key={item.en}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.4 }}
@@ -147,7 +149,7 @@ const Navigation = () => {
                       onClick={closeMenu}
                       className="text-sm tracking-[0.2em] uppercase font-light text-white/90 hover:text-white hover:tracking-[0.25em] transition-all duration-500"
                     >
-                      {item.label}
+                      {item[language]}
                     </a>
                   </motion.li>
                 ))}

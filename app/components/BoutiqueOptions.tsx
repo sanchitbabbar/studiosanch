@@ -147,7 +147,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                   }}
                   className="absolute top-4 left-4 text-white/60 hover:text-white transition-colors"
                 >
-                  ← Back
+                  ← {language === 'fr' ? 'Retour' : 'Back'}
                 </button>
                 <button
                   onClick={() => {
@@ -232,7 +232,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                             }}
                           >
                             <span className="tracking-[0.25em] uppercase text-xs font-light hover:tracking-[0.3em] inline-block pr-6 transition-all duration-500">
-                              {language === 'en' ? 'DÉCOUVRIR' : 'DÉCOUVRIR'}
+                              {language === 'en' ? 'DISCOVER' : 'DÉCOUVRIR'}
                               <span className="ml-2 opacity-60 text-sm transition-all duration-500">→</span>
                             </span>
                           </div>
