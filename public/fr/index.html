@@ -266,7 +266,10 @@
     <main>
         <section class="hero-section">
             <div class="responsive-image-container">
-                <img src="../images/hero.jpg" alt="Studio Sanch Fashion" class="responsive-image">
+                <picture>
+                    <source media="(min-width: 769px)" srcset="../images/hero-gala-desktop-wide-updated.jpg">
+                    <img src="../images/hero-gala-mobile-tablet-updated.jpg" alt="Studio Sanch Fashion" class="responsive-image">
+                </picture>
             </div>
         </section>
     </main>
@@ -472,27 +475,27 @@
     <!-- Cookie Consent Bar -->
     <div class="cookie-consent" id="cookieConsent">
         <div class="cookie-consent-text">
-            <p>This website uses cookies to enhance your experience. We use necessary cookies for essential functions, and optional cookies for analytics and personalization. For details, see our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+            <p>Ce site utilise des cookies pour améliorer votre expérience. Nous utilisons des cookies nécessaires au fonctionnement du site et, avec votre accord, des cookies optionnels d’analyse et de personnalisation. Pour en savoir plus, consultez notre <a href="privacy-policy.html">Politique de confidentialité</a>.</p>
         </div>
         <div>
-            <button id="customizeCookies">Customize</button>
-            <button id="acceptAllCookies">Accept All</button>
-            <button id="acceptNecessaryCookies">Necessary Only</button>
+            <button id="customizeCookies">Personnaliser</button>
+            <button id="acceptAllCookies">Tout accepter</button>
+            <button id="acceptNecessaryCookies">Nécessaires uniquement</button>
         </div>
     </div>
 
     <!-- Cookie Settings Panel -->
     <div class="cookie-settings-panel" id="cookieSettings">
         <div class="settings-header">
-            <h4>COOKIE PREFERENCES</h4>
+            <h4>PRÉFÉRENCES DE COOKIES</h4>
             <div class="settings-close">&times;</div>
         </div>
         
         <!-- Necessary Cookies -->
         <div class="cookie-type">
             <div class="cookie-type-info">
-                <h5>NECESSARY COOKIES</h5>
-                <p>Essential cookies that enable basic website functionality. These cannot be disabled.</p>
+                <h5>COOKIES NÉCESSAIRES</h5>
+                <p>Ces cookies sont indispensables au fonctionnement de base du site et ne peuvent pas être désactivés.</p>
             </div>
             <label class="cookie-toggle">
                 <input type="checkbox" checked disabled>
@@ -503,8 +506,8 @@
         <!-- Analytics Cookies -->
         <div class="cookie-type">
             <div class="cookie-type-info">
-                <h5>ANALYTICS COOKIES</h5>
-                <p>These cookies allow us to count visits and traffic sources so we can measure and improve site performance.</p>
+                <h5>COOKIES D’ANALYSE</h5>
+                <p>Ces cookies nous permettent de mesurer les visites et les sources de trafic afin d’améliorer les performances du site.</p>
             </div>
             <label class="cookie-toggle">
                 <input type="checkbox" id="analyticsCookies">
@@ -515,8 +518,8 @@
         <!-- Marketing Cookies -->
         <div class="cookie-type">
             <div class="cookie-type-info">
-                <h5>MARKETING COOKIES</h5>
-                <p>These cookies may be set by our advertising partners to build a profile of your interests and show relevant advertisements.</p>
+                <h5>COOKIES MARKETING</h5>
+                <p>Ces cookies peuvent être déposés par nos partenaires publicitaires afin de proposer des contenus adaptés à vos centres d’intérêt.</p>
             </div>
             <label class="cookie-toggle">
                 <input type="checkbox" id="marketingCookies">
@@ -527,8 +530,8 @@
         <!-- Functional Cookies -->
         <div class="cookie-type">
             <div class="cookie-type-info">
-                <h5>FUNCTIONAL COOKIES</h5>
-                <p>These cookies enable enhanced functionality and personalization, such as language selection and remembering your preferences.</p>
+                <h5>COOKIES FONCTIONNELS</h5>
+                <p>Ces cookies permettent des fonctionnalités et une personnalisation avancées, comme la sélection de la langue et la mémorisation de vos préférences.</p>
             </div>
             <label class="cookie-toggle">
                 <input type="checkbox" id="functionalCookies">
@@ -537,7 +540,7 @@
         </div>
         
         <div class="settings-actions">
-            <button id="saveSettings">Save Preferences</button>
+            <button id="saveSettings">Enregistrer les préférences</button>
         </div>
     </div>
 
