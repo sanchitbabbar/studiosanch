@@ -148,18 +148,18 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger">LANGUAGE</h3>
+                <h3 id="language-selector-trigger" role="button" tabindex="0" onclick="document.querySelector('.language-panel-overlay').classList.add('active'); document.body.style.overflow='hidden';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click();}">LANGUAGE</h3>
             </div>
             
             <!-- Language Selector Panel -->
             <div class="language-panel-overlay">
                 <div class="language-panel">
-                    <div class="panel-close">&times;</div>
+                    <div class="panel-close" role="button" tabindex="0" onclick="this.closest('.language-panel-overlay').classList.remove('active'); document.body.style.overflow='';">&times;</div>
                     <div class="panel-content">
                         <h2>SELECT LOCATION AND LANGUAGE</h2>
                         <ul class="language-options">
-                            <li><a href="javascript:void(0)" id="english-link" class="active">English</a></li>
-                            <li><a href="javascript:void(0)" id="french-link">Français</a></li>
+                            <li><a href="/about.html" id="english-link" class="active">English</a></li>
+                            <li><a href="/fr/about.html" id="french-link">Français</a></li>
                         </ul>
                         <p class="notice">IF YOU ALREADY HAVE ITEMS IN YOUR BASKET, PLEASE NOTE THAT THEY WILL BE SHIPPED TO THE COUNTRY/REGION YOU WILL SELECT</p>
                     </div>
@@ -314,7 +314,7 @@
         
         document.getElementById('french-link').addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.href = 'fr/about.html';
+            window.location.href = '/fr/about.html';
         });
     </script>
 </body>

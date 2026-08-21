@@ -145,7 +145,7 @@ const Navigation = () => {
                     className="my-6"
                   >
                     <a
-                      href={item.href}
+                      href={language === 'fr' && item.en === 'ABOUT' ? '/fr/about.html' : item.href}
                       onClick={closeMenu}
                       className="text-sm tracking-[0.2em] uppercase font-light text-white/90 hover:text-white hover:tracking-[0.25em] transition-all duration-500"
                     >

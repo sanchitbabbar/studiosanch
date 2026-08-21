@@ -80,7 +80,7 @@ export default function SiteHeader({ active }: { active?: string }) {
                 onClick={() => setIsOpen(false)}
               >
                 <a
-                  href={item.href}
+                  href={language === 'fr' && item.en === 'ABOUT' ? '/fr/about.html' : item.href}
                   className={active === item.en ? 'active' : undefined}
                 >
                   {item[language]}

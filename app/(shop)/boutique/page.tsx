@@ -21,7 +21,10 @@ function BoutiqueContent() {
 
   const handleClose = () => {
     setIsOpen(false);
-    window.setTimeout(() => router.push('/'), 520);
+    // Let the Boutique finish its fade while its current content remains
+    // frozen, then navigate. This prevents the category grid flashing during
+    // the closing frame.
+    window.setTimeout(() => router.push('/'), 650);
   };
 
   return (

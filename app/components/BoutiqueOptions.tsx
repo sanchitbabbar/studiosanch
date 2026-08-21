@@ -163,10 +163,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                   ← {language === 'fr' ? 'Retour' : 'Back'}
                 </button>
                 <button
-                  onClick={() => {
-                    handleBack();
-                    onClose();
-                  }}
+                  onClick={onClose}
                   className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
                 >
                   ✕
