@@ -382,7 +382,7 @@ main {
     height: 100%;
     transform-origin: center 48%;
     will-change: transform;
-    animation: homepage-camera-drift 28s ease-in-out infinite alternate;
+    animation: homepage-camera-orbit 20s linear infinite;
 }
 
 .homepage-hero-stage {
@@ -399,12 +399,15 @@ main {
     z-index: 2;
     opacity: 0;
     animation: homepage-film-stock 14s steps(1, end) infinite,
-               homepage-camera-drift 28s ease-in-out infinite alternate;
+               homepage-camera-orbit 20s linear infinite;
 }
 
-@keyframes homepage-camera-drift {
-    from { transform: translate3d(0, 0, 0) scale(1); }
-    to { transform: translate3d(-.35%, -.65%, 0) scale(1.04); }
+@keyframes homepage-camera-orbit {
+    0% { transform: translate3d(0, .25%, 0) scale(1.018); }
+    25% { transform: translate3d(-.4%, 0, 0) scale(1.024); }
+    50% { transform: translate3d(0, -.3%, 0) scale(1.03); }
+    75% { transform: translate3d(.4%, 0, 0) scale(1.024); }
+    100% { transform: translate3d(0, .25%, 0) scale(1.018); }
 }
 
 @keyframes homepage-exposure-flicker {
