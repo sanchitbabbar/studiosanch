@@ -382,6 +382,7 @@ main {
 
 .homepage-hero {
     object-position: center 8%;
+    filter: saturate(0) brightness(1.04) contrast(1.06);
 }
 
 @media (min-width: 1201px) {
