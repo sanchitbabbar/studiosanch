@@ -19,9 +19,9 @@ export default function HomePage() {
 
       <main>
         <section className="hero-section">
-          <div className="responsive-image-container">
+          <div className="responsive-image-container homepage-hero-stage">
             {/* Portrait artwork is used through iPad widths; desktop gets the expanded set. */}
-            <picture className="homepage-hero-picture">
+            <picture className="homepage-hero-picture homepage-hero-picture--colour">
               <source
                 media="(min-width: 1201px)"
                 srcSet="/images/hero-gala-desktop-wide-updated.jpg"
@@ -30,6 +30,18 @@ export default function HomePage() {
               <img
                 src="/images/hero-gala-mobile-tablet-updated.jpg"
                 alt="Studio Sanch couture portrait"
+                className="responsive-image homepage-hero"
+              />
+            </picture>
+            <picture className="homepage-hero-picture homepage-hero-picture--monochrome" aria-hidden="true">
+              <source
+                media="(min-width: 1201px)"
+                srcSet="/images/archive/homepage-black-white-2026-08-21-desktop-wide.png"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/archive/homepage-black-white-2026-08-21-mobile-tablet.png"
+                alt=""
                 className="responsive-image homepage-hero"
               />
             </picture>
