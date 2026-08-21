@@ -515,6 +515,15 @@ main {
     cursor: pointer;
 }
 
+.language-options li button {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0 0 3px;
+    text-align: left;
+}
+
 .language-options li a::after,
 .language-options li button::after {
     content: '';

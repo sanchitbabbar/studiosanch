@@ -510,6 +510,24 @@ main {
     padding-bottom: 3px;
 }
 
+.language-options li button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    padding: 0 0 3px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font: inherit;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-align: left;
+    cursor: pointer;
+}
+
 .language-options li a::after {
     content: '';
     position: absolute;
