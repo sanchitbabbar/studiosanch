@@ -380,14 +380,18 @@ main {
     display: block;
     width: 100%;
     height: 100%;
-    transform-origin: center 48%;
+    transform-origin: center 34%;
+    -webkit-transform-origin: center 34%;
+    -webkit-backface-visibility: hidden;
     will-change: transform;
+    -webkit-animation: homepage-camera-orbit 20s linear infinite;
     animation: homepage-camera-orbit 20s linear infinite;
 }
 
 .homepage-hero-stage {
     position: relative;
     will-change: filter;
+    -webkit-animation: homepage-exposure-flicker 14s steps(1, end) infinite;
     animation: homepage-exposure-flicker 14s steps(1, end) infinite;
 }
 
@@ -398,16 +402,26 @@ main {
 .homepage-hero-picture--monochrome {
     z-index: 2;
     opacity: 0;
+    -webkit-animation: homepage-film-stock 14s steps(1, end) infinite,
+                       homepage-camera-orbit 20s linear infinite;
     animation: homepage-film-stock 14s steps(1, end) infinite,
                homepage-camera-orbit 20s linear infinite;
 }
 
+@-webkit-keyframes homepage-camera-orbit {
+    0% { -webkit-transform: translate3d(0, .15%, 0) scale(1.018); }
+    25% { -webkit-transform: translate3d(-.4%, .35%, 0) scale(1.024); }
+    50% { -webkit-transform: translate3d(0, .55%, 0) scale(1.03); }
+    75% { -webkit-transform: translate3d(.4%, .35%, 0) scale(1.024); }
+    100% { -webkit-transform: translate3d(0, .15%, 0) scale(1.018); }
+}
+
 @keyframes homepage-camera-orbit {
-    0% { transform: translate3d(0, .25%, 0) scale(1.018); }
-    25% { transform: translate3d(-.4%, 0, 0) scale(1.024); }
-    50% { transform: translate3d(0, -.3%, 0) scale(1.03); }
-    75% { transform: translate3d(.4%, 0, 0) scale(1.024); }
-    100% { transform: translate3d(0, .25%, 0) scale(1.018); }
+    0% { transform: translate3d(0, .15%, 0) scale(1.018); }
+    25% { transform: translate3d(-.4%, .35%, 0) scale(1.024); }
+    50% { transform: translate3d(0, .55%, 0) scale(1.03); }
+    75% { transform: translate3d(.4%, .35%, 0) scale(1.024); }
+    100% { transform: translate3d(0, .15%, 0) scale(1.018); }
 }
 
 @keyframes homepage-exposure-flicker {
@@ -417,6 +431,29 @@ main {
     43%, 43.35%, 44.2%, 44.43%, 87%, 87.35%, 88.2%, 88.43% {
         filter: brightness(1.24) contrast(1.06);
     }
+}
+
+@-webkit-keyframes homepage-exposure-flicker {
+    0%, 42.99%, 43.36%, 44.19%, 44.44%, 86.99%, 87.36%, 88.19%, 88.44%, 100% {
+        -webkit-filter: brightness(1) contrast(1);
+    }
+    43%, 43.35%, 44.2%, 44.43%, 87%, 87.35%, 88.2%, 88.43% {
+        -webkit-filter: brightness(1.24) contrast(1.06);
+    }
+}
+
+@-webkit-keyframes homepage-film-stock {
+    0%, 42.99% { opacity: 0; }
+    43%, 43.35% { opacity: 1; }
+    43.36%, 44.19% { opacity: 0; }
+    44.2%, 44.43% { opacity: 1; }
+    44.44%, 44.67% { opacity: 0; }
+    44.68%, 86.99% { opacity: 1; }
+    87%, 87.35% { opacity: 0; }
+    87.36%, 88.19% { opacity: 1; }
+    88.2%, 88.43% { opacity: 0; }
+    88.44%, 88.67% { opacity: 1; }
+    88.68%, 100% { opacity: 0; }
 }
 
 @keyframes homepage-film-stock {
