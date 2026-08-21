@@ -391,8 +391,8 @@ main {
 .homepage-hero-stage {
     position: relative;
     will-change: filter;
-    -webkit-animation: homepage-exposure-flicker 14s steps(1, end) infinite;
-    animation: homepage-exposure-flicker 14s steps(1, end) infinite;
+    -webkit-animation: homepage-exposure-flicker 6s steps(1, end) infinite;
+    animation: homepage-exposure-flicker 6s steps(1, end) infinite;
 }
 
 .homepage-hero-picture--colour {
@@ -402,9 +402,9 @@ main {
 .homepage-hero-picture--monochrome {
     z-index: 2;
     opacity: 0;
-    -webkit-animation: homepage-film-stock 14s steps(1, end) infinite,
+    -webkit-animation: homepage-film-stock 6s steps(1, end) infinite,
                        homepage-camera-orbit 20s linear infinite;
-    animation: homepage-film-stock 14s steps(1, end) infinite,
+    animation: homepage-film-stock 6s steps(1, end) infinite,
                homepage-camera-orbit 20s linear infinite;
 }
 
@@ -454,6 +454,23 @@ main {
     88.2%, 88.43% { opacity: 0; }
     88.44%, 88.67% { opacity: 1; }
     88.68%, 100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .homepage-hero-stage {
+        -webkit-animation-duration: 6s;
+        animation-duration: 6s;
+    }
+
+    .homepage-hero-picture--colour {
+        -webkit-animation-duration: 14s;
+        animation-duration: 14s;
+    }
+
+    .homepage-hero-picture--monochrome {
+        -webkit-animation-duration: 6s, 14s;
+        animation-duration: 6s, 14s;
+    }
 }
 
 @keyframes homepage-film-stock {
