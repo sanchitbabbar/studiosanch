@@ -46,7 +46,7 @@ export default function ProductionsPage() {
           </p>
           <div className="productions-reel">
             <CinematicReel
-              src="/Videos/productions-gallery-montage.mp4?v=17"
+              src="/Videos/productions-gallery-montage-selective-monochrome.mp4?v=1"
               poster="/images/productions-hero-reel.png"
               label={fr ? 'Réalisation d’un film de mode dans une galerie contemporaine' : 'A fashion film being directed in a contemporary gallery setting'}
             />
