@@ -2,8 +2,8 @@
   const trigger = document.querySelector('[data-purchase-inquiry]');
   if (!trigger) return;
 
-  const productName = trigger.dataset.productName || 'SANCH Private Collection';
-  const productPrice = trigger.dataset.productPrice || 'Private consultation';
+  const productName = trigger.dataset.productName || 'Private Collection Consultation';
+  const productPrice = trigger.dataset.productPrice || '';
 
   const modal = document.createElement('div');
   modal.className = 'purchase-inquiry-modal';
@@ -47,6 +47,7 @@
   const success = modal.querySelector('.purchase-inquiry-success');
   summaryTitle.textContent = productName;
   summaryPrice.textContent = productPrice;
+  summaryPrice.hidden = !productPrice;
   message.value = `I would like to enquire about the SANCH Private Collection.`;
 
   const close = () => {
@@ -75,7 +76,7 @@
     event.preventDefault();
     const data = new FormData(form);
     data.append('product', productName);
-    data.append('productPrice', productPrice);
+    if (productPrice) data.append('productPrice', productPrice);
     data.append('_subject', `Purchase Inquiry: ${productName}`);
     data.append('_replyto', data.get('email'));
     try {
