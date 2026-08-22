@@ -41,7 +41,7 @@ export default function HomePage() {
             </picture>
             <picture
               className="homepage-hero-picture homepage-hero-picture--monochrome"
-              style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 0 }}
+              style={{ position: 'absolute', inset: 0, zIndex: 2, opacity: 1 }}
               aria-hidden="true"
             >
               <source

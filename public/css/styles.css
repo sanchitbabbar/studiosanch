@@ -384,15 +384,15 @@ main {
     -webkit-transform-origin: center 34%;
     -webkit-backface-visibility: hidden;
     will-change: transform;
-    -webkit-animation: homepage-camera-orbit 20s linear infinite;
-    animation: homepage-camera-orbit 20s linear infinite;
+    -webkit-animation: homepage-camera-orbit 32s linear infinite;
+    animation: homepage-camera-orbit 32s linear infinite;
 }
 
 .homepage-hero-stage {
     position: relative;
     will-change: filter;
-    -webkit-animation: homepage-exposure-flicker 6s steps(1, end) infinite;
-    animation: homepage-exposure-flicker 6s steps(1, end) infinite;
+    -webkit-animation: homepage-exposure-flicker 10s steps(1, end) infinite;
+    animation: homepage-exposure-flicker 10s steps(1, end) infinite;
 }
 
 .homepage-hero-picture--colour {
@@ -401,11 +401,11 @@ main {
 
 .homepage-hero-picture--monochrome {
     z-index: 2;
-    opacity: 0;
-    -webkit-animation: homepage-film-stock 6s steps(1, end) infinite,
-                       homepage-camera-orbit 20s linear infinite;
-    animation: homepage-film-stock 6s steps(1, end) infinite,
-               homepage-camera-orbit 20s linear infinite;
+    opacity: 1;
+    -webkit-animation: homepage-film-stock 10s steps(1, end) infinite,
+                       homepage-camera-orbit 32s linear infinite;
+    animation: homepage-film-stock 10s steps(1, end) infinite,
+               homepage-camera-orbit 32s linear infinite;
 }
 
 @-webkit-keyframes homepage-camera-orbit {
@@ -425,41 +425,41 @@ main {
 }
 
 @keyframes homepage-exposure-flicker {
-    0%, 42.99%, 43.36%, 44.19%, 44.44%, 86.99%, 87.36%, 88.19%, 88.44%, 100% {
+    0%, 39.99%, 40.36%, 41.19%, 41.44%, 87.99%, 88.36%, 89.19%, 89.44%, 100% {
         filter: brightness(1) contrast(1);
     }
-    43%, 43.35%, 44.2%, 44.43%, 87%, 87.35%, 88.2%, 88.43% {
+    40%, 40.35%, 41.2%, 41.43%, 88%, 88.35%, 89.2%, 89.43% {
         filter: brightness(1.24) contrast(1.06);
     }
 }
 
 @-webkit-keyframes homepage-exposure-flicker {
-    0%, 42.99%, 43.36%, 44.19%, 44.44%, 86.99%, 87.36%, 88.19%, 88.44%, 100% {
+    0%, 39.99%, 40.36%, 41.19%, 41.44%, 87.99%, 88.36%, 89.19%, 89.44%, 100% {
         -webkit-filter: brightness(1) contrast(1);
     }
-    43%, 43.35%, 44.2%, 44.43%, 87%, 87.35%, 88.2%, 88.43% {
+    40%, 40.35%, 41.2%, 41.43%, 88%, 88.35%, 89.2%, 89.43% {
         -webkit-filter: brightness(1.24) contrast(1.06);
     }
 }
 
 @-webkit-keyframes homepage-film-stock {
-    0%, 42.99% { opacity: 0; }
-    43%, 43.35% { opacity: 1; }
-    43.36%, 44.19% { opacity: 0; }
-    44.2%, 44.43% { opacity: 1; }
-    44.44%, 44.67% { opacity: 0; }
-    44.68%, 86.99% { opacity: 1; }
-    87%, 87.35% { opacity: 0; }
-    87.36%, 88.19% { opacity: 1; }
-    88.2%, 88.43% { opacity: 0; }
-    88.44%, 88.67% { opacity: 1; }
-    88.68%, 100% { opacity: 0; }
+    0%, 39.99% { opacity: 1; }
+    40%, 40.35% { opacity: 0; }
+    40.36%, 41.19% { opacity: 1; }
+    41.2%, 41.43% { opacity: 0; }
+    41.44%, 41.67% { opacity: 1; }
+    41.68%, 87.99% { opacity: 0; }
+    88%, 88.35% { opacity: 1; }
+    88.36%, 89.19% { opacity: 0; }
+    89.2%, 89.43% { opacity: 1; }
+    89.44%, 89.67% { opacity: 0; }
+    89.68%, 100% { opacity: 1; }
 }
 
 @media (max-width: 768px) {
     .homepage-hero-stage {
-        -webkit-animation-duration: 6s;
-        animation-duration: 6s;
+        -webkit-animation-duration: 10s;
+        animation-duration: 10s;
     }
 
     .homepage-hero-picture--colour {
@@ -468,23 +468,23 @@ main {
     }
 
     .homepage-hero-picture--monochrome {
-        -webkit-animation-duration: 6s, 14s;
-        animation-duration: 6s, 14s;
+        -webkit-animation-duration: 10s, 14s;
+        animation-duration: 10s, 14s;
     }
 }
 
 @keyframes homepage-film-stock {
-    0%, 42.99% { opacity: 0; }
-    43%, 43.35% { opacity: 1; }
-    43.36%, 44.19% { opacity: 0; }
-    44.2%, 44.43% { opacity: 1; }
-    44.44%, 44.67% { opacity: 0; }
-    44.68%, 86.99% { opacity: 1; }
-    87%, 87.35% { opacity: 0; }
-    87.36%, 88.19% { opacity: 1; }
-    88.2%, 88.43% { opacity: 0; }
-    88.44%, 88.67% { opacity: 1; }
-    88.68%, 100% { opacity: 0; }
+    0%, 39.99% { opacity: 1; }
+    40%, 40.35% { opacity: 0; }
+    40.36%, 41.19% { opacity: 1; }
+    41.2%, 41.43% { opacity: 0; }
+    41.44%, 41.67% { opacity: 1; }
+    41.68%, 87.99% { opacity: 0; }
+    88%, 88.35% { opacity: 1; }
+    88.36%, 89.19% { opacity: 0; }
+    89.2%, 89.43% { opacity: 1; }
+    89.44%, 89.67% { opacity: 0; }
+    89.68%, 100% { opacity: 1; }
 }
 
 .homepage-hero {
