@@ -335,7 +335,7 @@ export default function CinematicHome() {
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
           <span>{fr ? 'LE STUDIO' : 'THE STUDIO'}</span>
           <h2>{fr ? 'De l’idée initiale à une forme durable, chaque production est composée avec sensibilité et une précision minutieuse.' : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}</h2>
-          <a href="/productions/">PRODUCTIONS <i>↗</i></a>
+          <a href="/productions/">PRODUCTIONS <i>{'\u2197\uFE0E'}</i></a>
         </motion.div>
       </section>
 
@@ -372,7 +372,7 @@ export default function CinematicHome() {
               ? "Tactile Monochromes de qualité muséale — des dessins originaux, imprimés sur papier Hahnemühle Photo Rag 308 g/m² avec des encres archivistiques, en éditions de cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
               : "Tactile Monochromes — original works drawn entirely by Sanchit's hand with graphic-ink pens, discerningly rendered on Hahnemühle Photo Rag 308gsm with archival inks, in editions of five. Each is accompanied by a signed certificate of authenticity."}
           </p>
-          <a href="/boutique">BOUTIQUE <i>↗</i></a>
+          <a href="/boutique">BOUTIQUE <i>{'\u2197\uFE0E'}</i></a>
         </motion.div>
       </section>
 

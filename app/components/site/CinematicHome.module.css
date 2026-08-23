@@ -78,7 +78,7 @@
 .heroCopy span { padding-bottom: .7em; text-align: right; }
 
 .manifesto {
-  min-height: 105vh;
+  min-height: 64vh;
   padding: 18vh clamp(28px, 8vw, 130px) 14vh;
   display: grid;
   grid-template-columns: 1fr 4fr;
@@ -226,7 +226,7 @@
   .heroCopy p { margin-bottom: 22px; }
   .heroCopy h1 { font-size: clamp(52px, 14.8vw, 72px); line-height: .8; letter-spacing: 0; }
   .heroCopy span { display: block; margin-top: 28px; text-align: left; }
-  .manifesto { min-height: 90vh; display: block; padding-top: 15vh; }
+  .manifesto { min-height: 56svh; display: block; padding-top: 15vh; }
   .manifesto h2 { margin-top: 11vh; font-size: clamp(39px, 10vw, 66px); }
   .manifestoAside { margin: 11vh 0 0 18vw; }
   .reelSection { height: 105svh; min-height: 700px; }
