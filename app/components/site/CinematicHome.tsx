@@ -1,10 +1,40 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import CinematicReel from './CinematicReel';
 import styles from './CinematicHome.module.css';
+
+function DeferredVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const sourceRef = useRef<HTMLSourceElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const source = sourceRef.current;
+    if (!video || !source) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || source.src) return;
+        source.src = src;
+        video.load();
+        void video.play().catch(() => undefined);
+      },
+      { rootMargin: '700px 0px' },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [src]);
+
+  return (
+    <video ref={videoRef} autoPlay muted loop playsInline preload="none">
+      <source ref={sourceRef} type="video/webm" />
+    </video>
+  );
+}
 
 const chapters = [
   {
@@ -24,7 +54,7 @@ const chapters = [
       fr: 'Pour celles et ceux qui souhaitent donner forme à une idée singulière — un film, une image, une exposition ou un univers dont on se souviendra.',
     },
     href: '/productions/',
-    image: '/images/productions-hero-reel.png',
+    image: '/images/productions-hero-reel.webp',
     className: styles.chapterLandscape,
   },
   {
@@ -168,7 +198,7 @@ function ChapterScene({
           style={{ y: mediaY, x: mediaX, scale: mediaScale, rotate: mediaRotate, opacity: mediaOpacity }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={chapter.image} alt="" />
+          <img src={chapter.image} alt="" loading="lazy" decoding="async" />
         </motion.div>
       )}
       {index === 0 && (
@@ -178,7 +208,7 @@ function ChapterScene({
             style={{ x: supportAX, y: supportAY, scale: supportAScale, rotate: supportARotate, opacity: supportAOpacity }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%205/2.jpg" alt="" loading="lazy" decoding="async" />
+            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%205/2.webp" alt="" loading="lazy" decoding="async" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className={styles.coutureCarouselSlide} src="/images/haute-couture-landing/grace-in-motion-15.webp" alt="" loading="lazy" decoding="async" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -201,26 +231,20 @@ function ChapterScene({
             style={{ x: supportBX, y: supportBY, scale: supportBScale, rotate: supportBRotate, opacity: supportBOpacity }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%205/1.jpg" alt="" />
+            <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%205/1.webp" alt="" loading="lazy" decoding="async" />
           </motion.figure>
         </div>
       )}
       {index === 2 && (
         <div className={styles.atelierSequence} aria-hidden="true">
           <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideSketch}`}>
-            <video autoPlay muted loop playsInline preload="metadata">
-              <source src="/Videos/5_ultrahq_curved_optimized.webm" type="video/webm" />
-            </video>
+            <DeferredVideo src="/Videos/5_ultrahq_curved_optimized.webm" />
           </figure>
           <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideFirstVideo}`}>
-            <video autoPlay muted loop playsInline preload="metadata">
-              <source src="/Videos/4.webm" type="video/webm" />
-            </video>
+            <DeferredVideo src="/Videos/4.webm" />
           </figure>
           <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideSecondVideo}`}>
-            <video autoPlay muted loop playsInline preload="metadata">
-              <source src="/Videos/Atelier_ultrahq_curved.webm" type="video/webm" />
-            </video>
+            <DeferredVideo src="/Videos/Atelier_ultrahq_curved.webm" />
           </figure>
         </div>
       )}
@@ -285,12 +309,12 @@ export default function CinematicHome() {
           <picture className="homepage-hero-picture homepage-hero-picture--colour">
             <source media="(min-width: 1201px)" srcSet="/images/hero-gala-desktop-wide-updated.jpg" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/hero-gala-mobile-tablet-updated.jpg" alt="Studio Sanch couture portrait" />
+            <img src="/images/hero-gala-mobile-tablet-updated.jpg" alt="Studio Sanch couture portrait" fetchPriority="high" decoding="async" />
           </picture>
           <picture className="homepage-hero-picture homepage-hero-picture--monochrome" aria-hidden="true">
-            <source media="(min-width: 1201px)" srcSet="/images/archive/homepage-black-white-2026-08-21-desktop-wide.png" />
+            <source media="(min-width: 1201px)" srcSet="/images/archive/homepage-black-white-2026-08-21-desktop-wide.webp" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/archive/homepage-black-white-2026-08-21-mobile-tablet.png" alt="" />
+            <img src="/images/archive/homepage-black-white-2026-08-21-mobile-tablet.webp" alt="" decoding="async" />
           </picture>
         </motion.div>
         <motion.div className={styles.heroShade} style={{ opacity: heroShade }} />
@@ -313,7 +337,7 @@ export default function CinematicHome() {
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>
           <CinematicReel
             src="/Videos/productions-gallery-montage-selective-monochrome.mp4"
-            poster="/images/productions-hero-reel.png"
+            poster="/images/productions-hero-reel.webp"
             label={fr ? 'Film de productions Studio Sanch' : 'Studio Sanch productions film'}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}

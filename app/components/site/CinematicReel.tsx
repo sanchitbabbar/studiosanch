@@ -10,24 +10,33 @@ type CinematicReelProps = {
 
 export default function CinematicReel({ src, poster, label }: CinematicReelProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sourceRef = useRef<HTMLSourceElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    const source = sourceRef.current;
+    if (!video || !source) return;
 
     const beginPlayback = () => {
       void video.play().catch(() => undefined);
     };
 
-    beginPlayback();
-    video.addEventListener('canplay', beginPlayback);
-    document.addEventListener('visibilitychange', beginPlayback);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || source.src) return;
+        source.src = src;
+        video.load();
+        beginPlayback();
+      },
+      { rootMargin: '700px 0px' },
+    );
+
+    observer.observe(video);
 
     return () => {
-      video.removeEventListener('canplay', beginPlayback);
-      document.removeEventListener('visibilitychange', beginPlayback);
+      observer.disconnect();
     };
-  }, []);
+  }, [src]);
 
   return (
     <video
@@ -37,11 +46,11 @@ export default function CinematicReel({ src, poster, label }: CinematicReelProps
       muted
       loop
       playsInline
-      preload="auto"
+      preload="none"
       poster={poster}
       aria-label={label}
     >
-      <source src={src} type="video/mp4" />
+      <source ref={sourceRef} type="video/mp4" />
     </video>
   );
 }

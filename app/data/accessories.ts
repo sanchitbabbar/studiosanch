@@ -94,13 +94,13 @@ export const accessoryProducts: AccessoryProduct[] = [
     description: 'Each black onyx bead in this bracelet showcases a distinct, handcrafted quality.',
     longDescription: 'Each black onyx bead in this bracelet showcases a distinct, handcrafted quality, giving the piece a unique and tactile appeal. The deep, rich black of the onyx creates a sophisticated and versatile accessory.',
     price: '€120',
-    image: '/images/Accesories /Bracelets/Bracelet_1.jpg',
+    image: '/images/Accesories /Bracelets/Bracelet_1.webp',
     comingSoon: false,
     categoryId: 'jewelry',
     stockStatus: 'limited',
     additionalImages: [
-      '/images/Accesories /Bracelets/Bracelet_2.jpg?v=1',
-      '/images/Accesories /Bracelets/Bracelet_3.jpg?v=1'
+      '/images/Accesories /Bracelets/Bracelet_2.webp?v=1',
+      '/images/Accesories /Bracelets/Bracelet_3.webp?v=1'
     ]
   },
   {
@@ -109,7 +109,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     description: 'Sophisticated black beaded necklace with an elegant, timeless appeal.',
     longDescription: 'This black beaded necklace combines contemporary design with timeless sophistication. Each bead is meticulously selected for its texture and finish, creating a versatile piece that elevates any outfit with its subtle luxury.',
     price: '€5',
-    image: '/images/Accesories%20/Necklaces/main photo.jpg?v=1',
+    image: '/images/Accesories%20/Necklaces/main photo.webp?v=1',
     comingSoon: false,
     categoryId: 'necklaces',
     stockStatus: 'limited'
@@ -120,7 +120,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     description: 'Distinctive matte black spiral necklace with contemporary architectural design.',
     longDescription: 'This statement spiral necklace features a modern architectural design in sophisticated matte black. The fluid spiral form creates a bold yet elegant piece that embodies Sanchit\'s minimalist aesthetic while making a distinctive style statement.',
     price: '€125',
-    image: '/images/Accesories%20/Necklaces/main photo.jpg?v=1',
+    image: '/images/Accesories%20/Necklaces/main photo.webp?v=1',
     comingSoon: false,
     categoryId: 'necklaces',
     stockStatus: 'limited'

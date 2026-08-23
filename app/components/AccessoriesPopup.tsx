@@ -54,7 +54,7 @@ const jewelryItems: SubItem[] = [
   {
     id: 'bracelet',
     name: 'Bracelet',
-    image: '/images/Accesories /Bracelets/Bracelet_1.jpg',
+    image: '/images/Accesories /Bracelets/Bracelet_1.webp',
     linkTo: '/product/bracelet-gold'
   }
   // Necklace option hidden until launch
