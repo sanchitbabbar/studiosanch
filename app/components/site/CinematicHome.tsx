@@ -309,7 +309,7 @@ export default function CinematicHome() {
         <motion.div style={{ opacity: manifestoOpacity, y: manifestoY }}>
           <h2>
             {fr
-              ? 'Un studio créatif pour la mode et les films numériques.'
+              ? 'spécialisé dans la mode et les films numériques.'
               : 'Versed in high fashion and digital films.'}
           </h2>
         </motion.div>
