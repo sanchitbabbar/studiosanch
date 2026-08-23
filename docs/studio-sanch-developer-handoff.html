@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Studio Sanch — Website Developer Handoff</title>
+  <style>
+    :root {
+      --black: #050505;
+      --panel: #0d0d0d;
+      --panel-2: #141414;
+      --line: rgba(255,255,255,.13);
+      --white: #e0e0e0;
+      --muted: #969696;
+      --soft: #c4c4c4;
+      --accent: #d9c8b6;
+      --green: #a9c7b2;
+      --amber: #d7b98b;
+      --red: #d89b9b;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--black);
+      color: var(--white);
+      font-family: Montserrat, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      letter-spacing: .025em;
+      line-height: 1.7;
+    }
+    a { color: inherit; }
+    button { font: inherit; }
+    code, pre { font-family: "SFMono-Regular", Consolas, monospace; }
+    code { color: #ddd2c7; }
+    .layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); min-height: 100vh; }
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 34px 26px;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #080808;
+    }
+    .brand { margin-bottom: 36px; font-size: 1.05rem; font-weight: 600; letter-spacing: .32em; }
+    .brand small { display: block; margin-top: 9px; color: var(--muted); font-size: .57rem; font-weight: 400; letter-spacing: .21em; }
+    nav a {
+      display: block;
+      margin: 0 -10px 3px;
+      padding: 8px 10px;
+      border-radius: 4px;
+      color: var(--muted);
+      font-size: .67rem;
+      letter-spacing: .14em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    nav a:hover, nav a.active { background: var(--panel-2); color: var(--white); }
+    .aside-meta { margin-top: 36px; color: #666; font-size: .62rem; line-height: 1.8; }
+    main { min-width: 0; }
+    .hero {
+      min-height: 72vh;
+      display: flex;
+      align-items: end;
+      padding: clamp(54px, 8vw, 100px) clamp(24px, 7vw, 90px);
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.78), rgba(0,0,0,.18)),
+        url("../public/images/hero-gala-desktop-wide-updated.jpg") center / cover no-repeat;
+    }
+    .hero-inner { width: min(760px, 100%); }
+    .eyebrow { margin: 0 0 22px; color: var(--muted); font-size: .62rem; letter-spacing: .34em; text-transform: uppercase; }
+    h1, h2, h3 { margin-top: 0; font-weight: 300; }
+    h1 { margin-bottom: 25px; font-size: clamp(2.5rem, 7vw, 6.8rem); letter-spacing: .08em; line-height: .95; }
+    .hero p { max-width: 650px; margin: 0; color: #d0d0d0; font-size: clamp(.9rem, 1.4vw, 1.1rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 17px;
+      border: 1px solid rgba(255,255,255,.28);
+      background: rgba(0,0,0,.35);
+      color: var(--white);
+      font-size: .62rem;
+      letter-spacing: .18em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .button:hover { background: var(--white); color: #000; }
+    .content { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 40px 0 120px; }
+    section.doc { padding: 70px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 20px; }
+    section.doc:last-child { border-bottom: 0; }
+    h2 { margin-bottom: 16px; font-size: clamp(1.65rem, 3.2vw, 2.8rem); letter-spacing: .04em; }
+    h3 { margin: 36px 0 12px; color: var(--soft); font-size: .95rem; font-weight: 400; letter-spacing: .14em; text-transform: uppercase; }
+    p { margin: 0 0 18px; }
+    .lead { max-width: 790px; color: var(--soft); font-size: 1rem; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { padding: 24px; border: 1px solid var(--line); background: var(--panel); }
+    .card h3 { margin-top: 0; }
+    .metric { margin-bottom: 6px; font-size: 2rem; font-weight: 300; letter-spacing: 0; }
+    .label { color: var(--muted); font-size: .64rem; letter-spacing: .17em; text-transform: uppercase; }
+    .note { margin: 24px 0; padding: 17px 19px; border-left: 2px solid var(--accent); background: #11100f; color: var(--soft); }
+    .note.warning { border-color: var(--amber); }
+    .note.danger { border-color: var(--red); }
+    .note.good { border-color: var(--green); }
+    table { width: 100%; margin-top: 28px; border-collapse: collapse; font-size: .76rem; }
+    th, td { padding: 14px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: .6rem; font-weight: 400; letter-spacing: .15em; text-transform: uppercase; }
+    td:first-child { white-space: nowrap; }
+    .tag { display: inline-block; margin: 2px 4px 2px 0; padding: 3px 8px; border: 1px solid var(--line); border-radius: 99px; color: var(--soft); font-size: .55rem; letter-spacing: .11em; text-transform: uppercase; }
+    .tag.react { border-color: rgba(169,199,178,.4); color: var(--green); }
+    .tag.static { border-color: rgba(215,185,139,.4); color: var(--amber); }
+    .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 24px 0; }
+    .flow span { padding: 10px 12px; border: 1px solid var(--line); background: var(--panel); font-size: .69rem; }
+    .flow b { color: #777; font-weight: 300; }
+    pre { overflow: auto; margin: 20px 0; padding: 20px; border: 1px solid var(--line); background: #080808; color: #d3d3d3; font-size: .72rem; line-height: 1.65; white-space: pre; }
+    .mock-browser { margin-top: 28px; overflow: hidden; border: 1px solid var(--line); background: #000; }
+    .mock-bar { display: flex; align-items: center; gap: 7px; height: 35px; padding: 0 12px; border-bottom: 1px solid var(--line); background: #0b0b0b; }
+    .mock-bar i { width: 7px; height: 7px; border-radius: 50%; background: #454545; }
+    .mock-url { margin-left: 8px; color: #686868; font-size: .58rem; }
+    .mock-stage { position: relative; aspect-ratio: 16/8; overflow: hidden; }
+    .mock-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .mock-stage .bw { animation: doc-film 14s steps(1,end) infinite; }
+    @keyframes doc-film { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    .mock-caption { position: absolute; left: 18px; bottom: 14px; padding: 6px 9px; background: rgba(0,0,0,.65); color: #ccc; font-size: .55rem; letter-spacing: .12em; text-transform: uppercase; }
+    .checklist { list-style: none; margin: 24px 0; padding: 0; }
+    .checklist li { position: relative; padding: 11px 0 11px 30px; border-bottom: 1px solid rgba(255,255,255,.07); color: var(--soft); }
+    .checklist li::before { content: "□"; position: absolute; left: 2px; color: #888; }
+    .footer { padding: 45px 24px; border-top: 1px solid var(--line); color: #666; text-align: center; font-size: .61rem; letter-spacing: .13em; text-transform: uppercase; }
+    @media print {
+      aside, .hero-actions { display: none; }
+      .layout { display: block; }
+      .hero { min-height: 330px; print-color-adjust: exact; }
+      section.doc { break-inside: avoid; }
+      body { background: #fff; color: #111; }
+      .card, pre, .note { background: #f5f5f5; color: #222; }
+    }
+    @media (max-width: 860px) {
+      .layout { display: block; }
+      aside { position: relative; width: 100%; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      nav { display: flex; gap: 5px; overflow-x: auto; }
+      nav a { flex: 0 0 auto; margin: 0; }
+      .aside-meta { display: none; }
+      .hero { min-height: 62vh; }
+      .grid, .grid.three { grid-template-columns: 1fr; }
+      .table-wrap { overflow-x: auto; }
+      table { min-width: 720px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <div class="brand">SANCH<small>DEVELOPER HANDOFF</small></div>
+      <nav id="nav">
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#routes">Page map</a>
+        <a href="#design">Design system</a>
+        <a href="#homepage">Homepage film</a>
+        <a href="#responsive">Responsive rules</a>
+        <a href="#language">English / French</a>
+        <a href="#commerce">Boutique &amp; requests</a>
+        <a href="#forms">Forms &amp; data</a>
+        <a href="#assets">Media assets</a>
+        <a href="#development">Local development</a>
+        <a href="#deployment">Build &amp; deployment</a>
+        <a href="#qa">QA checklist</a>
+        <a href="#risks">Known risks</a>
+      </nav>
+      <div class="aside-meta">Prepared 22 August 2026<br>Repository commit: f1eb40b<br>Project: studio-sanch</div>
+    </aside>
+
+    <main>
+      <header class="hero">
+        <div class="hero-inner">
+          <p class="eyebrow">Website specification · implementation map · maintenance guide</p>
+          <h1>STUDIO<br>SANCH</h1>
+          <p>A self-contained technical and visual handoff for the production website at studiosanch.com.</p>
+          <div class="hero-actions">
+            <a class="button" href="https://studiosanch.com" target="_blank" rel="noreferrer">Open live website</a>
+            <button class="button" type="button" onclick="window.print()">Print / Save PDF</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="doc" id="overview">
+          <p class="eyebrow">01 · Overview</p>
+          <h2>What this website is</h2>
+          <p class="lead">Studio Sanch is a bilingual, editorial luxury website combining a cinematic studio presentation, couture and production services, a request-led boutique, artwork presentations, and French legal information. It is exported as static files and does not use a conventional checkout.</p>
+          <div class="grid three">
+            <article class="card"><div class="metric">Next 15</div><div class="label">React application layer</div></article>
+            <article class="card"><div class="metric">EN / FR</div><div class="label">Two-language experience</div></article>
+            <article class="card"><div class="metric">Static export</div><div class="label">Hosting model</div></article>
+          </div>
+          <div class="note good"><strong>Commercial model:</strong> visitors submit an enquiry or consultation request. Studio Sanch responds with a quotation (“devis”). There is no live card checkout on the current site.</div>
+        </section>
+
+        <section class="doc" id="architecture">
+          <p class="eyebrow">02 · Architecture</p>
+          <h2>Hybrid application structure</h2>
+          <p>The repository contains two systems that share assets and styling. A developer must preserve this distinction unless undertaking a deliberate migration.</p>
+          <div class="grid">
+            <article class="card">
+              <h3>Next.js / React routes</h3>
+              <p>Homepage, productions, terms, boutique, artworks, and dynamic product pages live under <code>app/</code>. React provides state, language context, animation, product data, and reusable header/footer components.</p>
+              <span class="tag react">React</span><span class="tag react">TypeScript</span><span class="tag react">Framer Motion</span>
+            </article>
+            <article class="card">
+              <h3>Standalone HTML routes</h3>
+              <p>About, Atelier, Haute Couture, contact, appointments, accessories, legal and related French pages live under <code>public/</code>. They use shared CSS and vanilla JavaScript.</p>
+              <span class="tag static">HTML</span><span class="tag static">CSS</span><span class="tag static">Vanilla JS</span>
+            </article>
+          </div>
+          <div class="flow"><span>Source in <code>app/</code> + <code>public/</code></span><b>→</b><span><code>npm run build</code></span><b>→</b><span>Next static export in <code>out/</code></span><b>→</b><span>Static hosting</span></div>
+          <div class="note warning"><strong>Important:</strong> the root layout intentionally carries no global stylesheet. The site and shop route groups load different CSS systems to prevent the Tailwind boutique styles from leaking into the original editorial pages.</div>
+        </section>
+
+        <section class="doc" id="routes">
+          <p class="eyebrow">03 · Page map</p>
+          <h2>Public routes and ownership</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Public route</th><th>Purpose</th><th>Source of truth</th><th>System</th></tr></thead>
+              <tbody>
+                <tr><td><code>/</code></td><td>Cinematic homepage</td><td><code>app/(site)/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/productions/</code></td><td>Studio production services and film reel</td><td><code>app/(site)/productions/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/boutique/</code></td><td>Art book, merchandise and artworks entry</td><td><code>app/(shop)/boutique/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/artworks/</code></td><td>Artwork gallery</td><td><code>app/(shop)/artworks/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/product/[id]/</code></td><td>Dynamic product detail pages</td><td><code>app/(shop)/product/[id]/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/terms/</code></td><td>Terms of sale and service</td><td><code>app/(site)/terms/page.tsx</code></td><td><span class="tag react">React</span></td></tr>
+                <tr><td><code>/about.html</code></td><td>Studio / artist biography</td><td><code>public/about.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/atelier.html</code></td><td>Process and atelier media gallery</td><td><code>public/atelier.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/haute-couture.html</code></td><td>Couture presentation and private consultation request</td><td><code>public/haute-couture.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/accessoires.html</code></td><td>Accessories presentation</td><td><code>public/accessoires.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/contact.html</code></td><td>Studio contact</td><td><code>public/contact.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/appointment.html</code></td><td>Appointment request</td><td><code>public/appointment.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/privacy-policy.html</code></td><td>Privacy and cookies</td><td><code>public/privacy-policy.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/legal-notice.html</code></td><td>French legal identity and notices</td><td><code>public/legal-notice.html</code></td><td><span class="tag static">Static</span></td></tr>
+                <tr><td><code>/fr/*.html</code></td><td>French equivalents of static editorial pages</td><td><code>public/fr/</code></td><td><span class="tag static">Static</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note"><strong>Navigation order:</strong> Home, Boutique, Haute Couture, Productions, Atelier, About. Shared React navigation is in <code>SiteHeader.tsx</code>; legacy/static navigation is normalized by <code>public/js/menu.js</code>.</div>
+        </section>
+
+        <section class="doc" id="design">
+          <p class="eyebrow">04 · Design system</p>
+          <h2>Visual language</h2>
+          <div class="grid">
+            <article class="card"><h3>Palette</h3><p>Black backgrounds, restrained off-white text, low-opacity borders, soft grey secondary copy, and very limited warm editorial grading in photography.</p><div><span class="tag">#000000</span><span class="tag">#e0e0e0</span><span class="tag">rgba white</span></div></article>
+            <article class="card"><h3>Typography</h3><p>Montserrat is the principal interface and editorial font. Syne is reserved for selected studio headings. Letter spacing and light font weights are integral to the luxury tone.</p><div><span class="tag">Montserrat 300–600</span><span class="tag">Syne 400–800</span></div></article>
+            <article class="card"><h3>Interaction</h3><p>Motion is slow, restrained and cinematic. Hover states increase luminosity and remain active while the pointer is present. Abrupt sliding or visibly mechanical transitions should be avoided.</p></article>
+            <article class="card"><h3>Layout</h3><p>Full-bleed media, generous black space, thin dividers, uppercase micro-labels, centered statements, and responsive edge-to-edge presentation on mobile.</p></article>
+          </div>
+          <div class="note warning">Do not replace the site’s restrained off-white with pure white indiscriminately. Major headings were calibrated to match the SANCH logo rather than appear brighter than it.</div>
+        </section>
+
+        <section class="doc" id="homepage">
+          <p class="eyebrow">05 · Homepage film treatment</p>
+          <h2>Two photographs, one locked frame</h2>
+          <p class="lead">The homepage layers the approved color photograph and its archived monochrome treatment in exactly the same geometry. The page starts in black and white, flickers like film stock, and changes to color without moving the subject between layers.</p>
+          <div class="mock-browser">
+            <div class="mock-bar"><i></i><i></i><i></i><span class="mock-url">studiosanch.com</span></div>
+            <div class="mock-stage">
+              <img src="../public/images/hero-gala-desktop-wide-updated.jpg" alt="Homepage color artwork">
+              <img class="bw" src="../public/images/archive/homepage-black-white-2026-08-21-desktop-wide.png" alt="Homepage monochrome artwork">
+              <span class="mock-caption">Documentation preview · alternates every 7 seconds</span>
+            </div>
+          </div>
+          <div class="grid three">
+            <article class="card"><div class="metric">7 sec</div><div class="label">Monochrome before first switch</div></article>
+            <article class="card"><div class="metric">14 sec</div><div class="label">Complete film-stock cycle</div></article>
+            <article class="card"><div class="metric">32 / 14 sec</div><div class="label">Desktop / mobile camera orbit</div></article>
+          </div>
+          <h3>Source assets</h3>
+          <pre>Color desktop:  public/images/hero-gala-desktop-wide-updated.jpg
+Color mobile:   public/images/hero-gala-mobile-tablet-updated.jpg
+B/W desktop:    public/images/archive/homepage-black-white-2026-08-21-desktop-wide.png
+B/W mobile:     public/images/archive/homepage-black-white-2026-08-21-mobile-tablet.png
+Markup:         app/(site)/page.tsx
+Animation:      public/css/styles.css (homepage-film-stock / exposure-flicker / camera-orbit)</pre>
+          <div class="note danger"><strong>Never allow the two picture elements to enter normal flex layout.</strong> Their absolute positioning is defined both in CSS and inline as a fail-safe. Removing it can place the color and monochrome photographs side by side.</div>
+          <div class="note"><strong>Camera movement rule:</strong> the orbit is anchored around the head and shoulders. It alternates subtly left/right and crops excess floor rather than moving upward and cropping the model’s head.</div>
+        </section>
+
+        <section class="doc" id="responsive">
+          <p class="eyebrow">06 · Responsive behavior</p>
+          <h2>Desktop, iPad and mobile</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Width</th><th>Homepage image</th><th>Motion</th><th>Key behavior</th></tr></thead>
+              <tbody>
+                <tr><td><code>≥1201px</code></td><td>Desktop-wide master</td><td>32-second orbit</td><td>Wide background ambience; model remains centered and at approved closeness.</td></tr>
+                <tr><td><code>769–1200px</code></td><td>Mobile/tablet portrait master</td><td>32-second orbit</td><td>Portrait crop preserves model scale and headroom.</td></tr>
+                <tr><td><code>≤768px</code></td><td>Mobile/tablet portrait master</td><td>14-second orbit</td><td>Same 14-second film cycle; touch-first layouts; boutique category selection scrolls to top.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="checklist">
+            <li>Test at 390×844, 768×1024, 1024×1366, 1440×900 and an ultrawide desktop.</li>
+            <li>Verify the model’s head and hair never crop during maximum zoom.</li>
+            <li>Verify color and monochrome layers have identical bounding rectangles.</li>
+            <li>Test Safari/iOS, Chromium/Edge and Firefox. WebKit-prefixed animation declarations are intentionally retained.</li>
+          </ul>
+        </section>
+
+        <section class="doc" id="language">
+          <p class="eyebrow">07 · Language</p>
+          <h2>English and French must remain complete</h2>
+          <p>The language preference is stored in both <code>language</code> and <code>i18nextLng</code> local-storage keys. React routes use <code>LanguageContext.tsx</code>. Static pages use <code>public/js/i18n.js</code>, JSON locale files, or dedicated pages under <code>public/fr/</code>.</p>
+          <div class="grid">
+            <article class="card"><h3>React pages</h3><p>Text is selected through <code>useLanguage()</code>. The language panel updates state and persistence without requiring a page reload.</p></article>
+            <article class="card"><h3>Static pages</h3><p>French routes generally live at <code>/fr/[page].html</code>. Language buttons must link to the exact equivalent page, not simply the French homepage.</p></article>
+          </div>
+          <div class="note warning">The website is not yet a single unified internationalization system. When adding a page, the developer must explicitly provide every visible label, button, form message, modal, cookie string, footer item and accessibility label in both languages.</div>
+        </section>
+
+        <section class="doc" id="commerce">
+          <p class="eyebrow">08 · Boutique and private requests</p>
+          <h2>Request-led, not checkout-led</h2>
+          <p>Products and services are discovered through the boutique, artwork gallery, product pages, Haute Couture page and private consultation modal. The current sales process is:</p>
+          <div class="flow"><span>Visitor selects a work or service</span><b>→</b><span>Request form</span><b>→</b><span>Studio receives enquiry</span><b>→</b><span>Studio issues quotation</span><b>→</b><span>Agreement and payment handled separately</span></div>
+          <h3>Product source</h3>
+          <p>Accessory products are maintained in <code>app/data/accessories.ts</code>. Each record includes ID, English/French copy, price, primary/additional images, category, visibility, availability and feature lists.</p>
+          <h3>Private Collection Consultation</h3>
+          <p>The Haute Couture enquiry card must display one summary heading only: <strong>Private Collection Consultation</strong>. Its behavior is implemented in <code>public/js/purchase-inquiry-modal.js</code>.</p>
+          <div class="note danger">Do not introduce card fields or claim that the website takes payment unless a real, legally reviewed checkout system is intentionally implemented.</div>
+        </section>
+
+        <section class="doc" id="forms">
+          <p class="eyebrow">09 · Forms and stored data</p>
+          <h2>External and browser-side services</h2>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Feature</th><th>Mechanism</th><th>Location</th><th>Maintenance note</th></tr></thead>
+              <tbody>
+                <tr><td>Artwork/product enquiries</td><td>Formspree</td><td><code>https://formspree.io/f/mdkzyqaq</code></td><td>Verify ownership, delivery address and spam protection before launch changes.</td></tr>
+                <tr><td>Private consultation</td><td>Formspree fetch</td><td><code>purchase-inquiry-modal.js</code></td><td>Current UI displays confirmation after submission attempt.</td></tr>
+                <tr><td>Language preference</td><td>localStorage</td><td><code>LanguageContext.tsx</code>, <code>i18n.js</code></td><td>Keys: <code>language</code> and <code>i18nextLng</code>.</td></tr>
+                <tr><td>Cookie preference</td><td>localStorage</td><td>Legacy French homepage</td><td>Key: <code>cookiePreferences</code>.</td></tr>
+                <tr><td>Newsletter legacy fallback</td><td>PHP / localStorage</td><td><code>newsletter-handler.js</code></td><td>Confirm server PHP support before relying on it.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note warning">Form handling currently catches submission errors and can preserve the success treatment. A developer should add monitoring and ensure failed enquiries cannot be silently lost.</div>
+        </section>
+
+        <section class="doc" id="assets">
+          <p class="eyebrow">10 · Media assets</p>
+          <h2>Images, films and archives</h2>
+          <div class="grid three">
+            <article class="card"><div class="metric">≈189 MB</div><div class="label">public/images</div></article>
+            <article class="card"><div class="metric">≈87 MB</div><div class="label">public/Videos</div></article>
+            <article class="card"><div class="metric">60 fps</div><div class="label">Production montage</div></article>
+          </div>
+          <h3>Key production media</h3>
+          <pre>public/Videos/productions-gallery-montage-selective-monochrome.mp4  ≈23 MB
+public/Videos/productions-gallery-montage.mp4                       ≈18 MB (preserved original)
+public/Videos/Atelier_ultrahq_curved.webm                           ≈25 MB
+public/Videos/5_ultrahq_curved_optimized.webm                       ≈16 MB</pre>
+          <p>The production reel deliberately alternates warm color and selected monochrome movements. The original montage remains preserved. Homepage source-image history is documented in <code>public/images/archive/HOMEPAGE-IMAGE-ARCHIVE.md</code>.</p>
+          <div class="note good">Preserve masters and archives. Create new optimized derivatives with clear filenames instead of overwriting approved original media.</div>
+        </section>
+
+        <section class="doc" id="development">
+          <p class="eyebrow">11 · Local development</p>
+          <h2>Start and inspect the project</h2>
+          <pre># Requirements
+Node.js 20 or later
+
+# Install
+npm install
+
+# Development server (default)
+npm run dev
+
+# If port 3000 is occupied
+npm run dev -- -p 3001
+
+# TypeScript validation
+npx tsc --noEmit
+
+# Production export
+npm run build</pre>
+          <p>The development URL is normally <code>http://localhost:3000/</code> or <code>http://localhost:3001/</code>. Standalone public pages are available at their exact filenames, such as <code>/atelier.html</code>.</p>
+          <h3>Principal source directories</h3>
+          <pre>app/(site)/          React editorial pages
+app/(shop)/          React boutique and product pages
+app/components/      Shared interactive components
+app/context/         Language state and translations
+app/data/            Product catalog
+public/css/          Original site CSS
+public/js/           Static-page behavior and forms
+public/fr/           French standalone pages
+public/images/       Image masters and derivatives
+public/Videos/       Film assets
+docs/                Developer handoff documentation</pre>
+        </section>
+
+        <section class="doc" id="deployment">
+          <p class="eyebrow">12 · Build and deployment</p>
+          <h2>Static export contract</h2>
+          <p><code>next.config.js</code> uses <code>output: 'export'</code>, <code>trailingSlash: true</code> and unoptimized Next images. The production build writes a deployable site to <code>out/</code>.</p>
+          <pre>npm run build
+
+# Expected output
+out/
+  index.html
+  productions/index.html
+  boutique/index.html
+  product/.../index.html
+  copied public assets and standalone HTML pages</pre>
+          <div class="note danger"><strong>Build quality warning:</strong> the present config ignores TypeScript and ESLint build errors. A maintainer should run <code>npx tsc --noEmit</code> separately and should not treat a successful export alone as complete validation.</div>
+          <ul class="checklist">
+            <li>Confirm all generated routes and standalone <code>.html</code> pages are included in the deployed artifact.</li>
+            <li>Confirm the host maps directory routes with trailing slashes correctly.</li>
+            <li>Confirm large MP4/WebM assets support byte-range requests and suitable cache headers.</li>
+            <li>Confirm the custom domain, HTTPS and canonical URLs after each deployment.</li>
+            <li>Keep Git <code>main</code> deployable; use feature branches for structural migrations.</li>
+          </ul>
+        </section>
+
+        <section class="doc" id="qa">
+          <p class="eyebrow">13 · Quality assurance</p>
+          <h2>Release checklist</h2>
+          <ul class="checklist">
+            <li>Homepage begins in black and white; first flicker starts after seven seconds; color/monochrome layers never separate.</li>
+            <li>Homepage camera motion never crops the model’s head or exposes additional floor at the wrong moment.</li>
+            <li>Header menu opens, closes by X/backdrop/Escape and routes correctly in English and French.</li>
+            <li>Footer is visually consistent on every page; order is Make an Appointment, Write to Us, Language.</li>
+            <li>Language panel styling and persistent hover luminosity match the other footer links.</li>
+            <li>Every English page contains only English UI; every French page contains only French UI.</li>
+            <li>Boutique mobile category selection reveals the primary action without requiring an upward scroll.</li>
+            <li>Boutique close animation has no abrupt leftward content spill.</li>
+            <li>Production reel autoplays muted, loops, uses the selective monochrome version and shows its poster while loading.</li>
+            <li>Atelier images/videos retain original light with restrained luminosity and contrast; no unintended dark overlay.</li>
+            <li>All forms have labels, required validation, keyboard access, a visible success state and confirmed message delivery.</li>
+            <li>Privacy, Terms and Legal links appear in that order and legal identity remains available.</li>
+            <li>Phone number appears only where legally required, currently within legal identity.</li>
+            <li>Test Safari iOS/macOS, Chrome, Firefox and Edge at mobile, tablet and desktop widths.</li>
+            <li>Run <code>npx tsc --noEmit</code>, <code>npm run build</code>, link checks and a final visual comparison before deployment.</li>
+          </ul>
+        </section>
+
+        <section class="doc" id="risks">
+          <p class="eyebrow">14 · Known risks and recommended next work</p>
+          <h2>Developer attention areas</h2>
+          <div class="grid">
+            <article class="card"><h3>Hybrid duplication</h3><p>Header, footer and language behavior exist in both React and static implementations. Changes can drift. Long term, migrate static pages into shared React components or introduce a controlled template build.</p></article>
+            <article class="card"><h3>French route consistency</h3><p>Some French pages are dedicated files while React pages switch copy in place. Define a single URL strategy and add route-level automated checks.</p></article>
+            <article class="card"><h3>Asset weight</h3><p>The media library is large. Add responsive derivatives, preload only critical media, lazy-load below the fold, and review video bitrates without modifying visual grading.</p></article>
+            <article class="card"><h3>Form observability</h3><p>Add real error states, delivery monitoring, spam protection and retention documentation. Never show success when the request was not received.</p></article>
+            <article class="card"><h3>Build enforcement</h3><p>Remove ignored TypeScript/ESLint errors after the current codebase is clean, then enforce checks in continuous integration.</p></article>
+            <article class="card"><h3>Legal review</h3><p>Terms, privacy, cookies and legal notices should be reviewed by qualified French counsel whenever selling process, analytics, data collection or business identity changes.</p></article>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">Studio Sanch developer handoff · generated from the production repository · 22 August 2026</footer>
+    </main>
+  </div>
+
+  <script>
+    const links = [...document.querySelectorAll('#nav a')];
+    const sections = links.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver(entries => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      links.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${visible.target.id}`));
+    }, { rootMargin: '-20% 0px -65% 0px', threshold: [0, .2, .5] });
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>

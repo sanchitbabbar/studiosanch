@@ -134,14 +134,14 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
 
           {/* Content */}
           <motion.div
-            initial={pageMode ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
-            animate={pageMode ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-            exit={pageMode ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+            initial={pageMode ? { opacity: 0, scale: 0.992, y: 8, filter: 'blur(5px)' } : { opacity: 0, scale: 0.95 }}
+            animate={pageMode ? { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' } : { opacity: 1, scale: 1 }}
+            exit={pageMode ? { opacity: 0, scale: 0.985, y: -10, filter: 'blur(10px)' } : { opacity: 0, scale: 0.95 }}
             transition={pageMode
-              ? { duration: 0.5, ease: [0.77, 0, 0.175, 1] }
+              ? { duration: 0.34, ease: [0.22, 1, 0.36, 1] }
               : { duration: 0.2, ease: 'easeOut' }}
             className={pageMode
-              ? 'relative z-50 min-h-screen flex items-start justify-center px-5 pb-16 pt-24 md:items-center md:px-8'
+              ? 'relative z-50 min-h-screen bg-black/35 backdrop-blur-sm flex items-start justify-center px-5 pb-16 pt-24 md:items-center md:px-8'
               : 'fixed inset-0 z-50 overflow-auto flex items-start md:items-center justify-center pt-[180px] md:pt-0'}
           >
             <div className={pageMode

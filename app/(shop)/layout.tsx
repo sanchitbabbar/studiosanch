@@ -1,6 +1,7 @@
 import '../globals.css';
 import Navigation from '../components/Navigation';
 import SiteFooter from '../components/site/SiteFooter';
+import CinematicPageTransition from '../components/site/CinematicPageTransition';
 import { LanguageProvider } from '../context/LanguageContext';
 
 // Layout for the boutique section. Tailwind + the boutique providers are scoped
@@ -12,6 +13,7 @@ export default function ShopLayout({
 }) {
   return (
     <LanguageProvider>
+      <CinematicPageTransition />
       <link rel="stylesheet" href="/css/styles.css" />
       <link
         rel="stylesheet"

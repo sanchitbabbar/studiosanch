@@ -98,6 +98,92 @@ ul {
 }
 
 /* Header & Navigation */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.34);
+    opacity: 0;
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+    transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), backdrop-filter 0.42s cubic-bezier(0.22, 1, 0.36, 1), -webkit-backdrop-filter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.cinematic-page-exit {
+    overflow: hidden !important;
+    background: #000;
+}
+
+body.cinematic-page-exit::after {
+    opacity: 1;
+    -webkit-backdrop-filter: blur(7px);
+    backdrop-filter: blur(7px);
+}
+
+body.cinematic-page-enter::after {
+    opacity: 1;
+    animation: cinematic-page-veil-arrival 0.56s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+body.cinematic-page-enter > header,
+body.cinematic-page-enter > main,
+body.cinematic-page-enter > footer,
+body.cinematic-page-enter > div {
+    animation: cinematic-page-arrival 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+body.cinematic-page-exit > header,
+body.cinematic-page-exit > main,
+body.cinematic-page-exit > footer,
+body.cinematic-page-exit > div,
+body.cinematic-page-exit > .menu-overlay {
+    animation: cinematic-page-fade 0.42s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    pointer-events: none;
+}
+
+body.cinematic-page-exit-fast::after {
+    transition-duration: 0.26s;
+}
+
+body.cinematic-page-exit-fast > header,
+body.cinematic-page-exit-fast > main,
+body.cinematic-page-exit-fast > footer,
+body.cinematic-page-exit-fast > div,
+body.cinematic-page-exit-fast > .menu-overlay {
+    animation-duration: 0.26s;
+}
+
+@keyframes cinematic-page-fade {
+    from { opacity: 1; filter: blur(0); transform: scale(1); }
+    to { opacity: 0.68; filter: blur(7px); transform: scale(0.996); }
+}
+
+@keyframes cinematic-page-veil-arrival {
+    from { opacity: 1; -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+    to { opacity: 0; -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); }
+}
+
+@keyframes cinematic-page-arrival {
+    from { opacity: 0.68; filter: blur(7px); transform: scale(1.004); }
+    to { opacity: 1; filter: blur(0); transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body::after { transition-duration: 0.18s; }
+    body.cinematic-page-exit > header,
+    body.cinematic-page-exit > main,
+    body.cinematic-page-exit > footer,
+    body.cinematic-page-exit > div,
+    body.cinematic-page-exit > .menu-overlay { animation-duration: 0.18s; filter: none; transform: none; }
+    body.cinematic-page-enter::after,
+    body.cinematic-page-enter > header,
+    body.cinematic-page-enter > main,
+    body.cinematic-page-enter > footer,
+    body.cinematic-page-enter > div { animation-duration: 0.18s; }
+}
+
 header {
     position: fixed;
     top: 0;
@@ -133,7 +219,7 @@ header {
     font-family: var(--font-logo);
     line-height: 1;
     /* Keep the brand mark crisp against the black navigation bar. */
-    color: #e0e0e0;
+    color: #fff;
     text-transform: uppercase;
     display: inline-block;
     position: relative;

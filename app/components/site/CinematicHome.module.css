@@ -1,0 +1,262 @@
+.home {
+  --paper: #e8e6e1;
+  --muted: #969696;
+  width: 100%;
+  background: #000;
+  color: var(--paper);
+  overflow: clip;
+}
+
+.home a { color: inherit; text-decoration: none; }
+.home h1, .home h2, .home h3, .home p { margin: 0; }
+.home > section { width: 100%; }
+
+.hero {
+  position: relative;
+  height: 118vh;
+  min-height: 760px;
+  overflow: hidden;
+  background: #050505;
+}
+
+.heroMedia, .heroMedia picture, .heroMedia img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.heroMedia { transform-origin: 50% 42%; }
+.heroMedia img { object-fit: cover; object-position: center 33%; }
+
+.heroShade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0,0,0,.18) 0%, rgba(0,0,0,.02) 38%, rgba(0,0,0,.78) 100%);
+}
+
+.grain {
+  position: absolute;
+  inset: -50%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .075;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+  animation: grain 1s steps(2) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(2%, -3%, 0); }
+  50% { transform: translate3d(-3%, 2%, 0); }
+  75% { transform: translate3d(3%, 4%, 0); }
+  100% { transform: translate3d(-2%, -2%, 0); }
+}
+
+.heroCopy {
+  position: absolute;
+  z-index: 3;
+  left: clamp(28px, 5vw, 78px);
+  right: clamp(28px, 5vw, 78px);
+  bottom: 10vh;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+}
+
+.heroCopy p, .heroCopy span, .eyebrow {
+  font: 400 clamp(10px, .85vw, 13px)/1.4 'Montserrat', sans-serif;
+  letter-spacing: .28em;
+}
+
+.heroCopy p { grid-column: 1 / -1; margin-bottom: 3.2vh; }
+.heroCopy h1 {
+  font: 400 clamp(68px, 13.6vw, 208px)/.72 'Balgin', 'Syne', sans-serif;
+  letter-spacing: .025em;
+}
+.heroCopy span { padding-bottom: .7em; text-align: right; }
+
+.manifesto {
+  min-height: 105vh;
+  padding: 18vh clamp(28px, 8vw, 130px) 14vh;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 8vh 5vw;
+  align-items: start;
+}
+.manifesto h2 {
+  grid-column: 2;
+  max-width: 1180px;
+  font: 300 clamp(42px, 6.4vw, 106px)/1.02 'Montserrat', sans-serif;
+  letter-spacing: -.052em;
+}
+.manifestoAside { grid-column: 2; justify-self: end; max-width: 520px; }
+.manifestoAside p { font-size: clamp(16px, 1.45vw, 23px); line-height: 1.65; color: #aaa; }
+
+.reelSection { position: relative; height: 130vh; min-height: 900px; overflow: hidden; }
+.reelMedia, .reelMedia video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.reelMedia { z-index: 0; background: #000; }
+.reelMedia video { object-fit: contain; filter: none; }
+.reelStill { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 18s cubic-bezier(.45,.05,.2,1) infinite; }
+@keyframes reelStillReveal {
+  0%, 34% { opacity: 0; transform: scale(1.035); }
+  42%, 70% { opacity: 1; transform: scale(1); }
+  78%, 100% { opacity: 0; transform: scale(.985); }
+}
+.reelVeil { position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(0,0,0,.52), rgba(0,0,0,.025) 58%, rgba(0,0,0,.15)); }
+.reelCopy { position: absolute; inset: 0; z-index: 3; padding: 16vh clamp(28px, 6vw, 96px) 10vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
+.reelCopy > span { font-size: 9px; letter-spacing: .3em; margin-bottom: 24px; color: rgba(255,255,255,.72); }
+.reelCopy h2 { max-width: 690px; font: 300 clamp(22px, 2.25vw, 36px)/1.5 'Montserrat', sans-serif; letter-spacing: .018em; }
+.reelCopy a, .boutiqueCopy a { margin-top: 38px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.45); font-size: 10px; letter-spacing: .23em; }
+.reelCopy a i, .boutiqueCopy a i { margin-left: 22px; font-style: normal; transition: transform .35s ease; display: inline-block; }
+.reelCopy a:hover i, .boutiqueCopy a:hover i { transform: translate(4px, -4px); }
+
+.chapters { padding: 20vh clamp(22px, 5vw, 78px); }
+.chaptersLead { padding-bottom: 0; }
+.chaptersTail { padding-top: 20vh; }
+.chapter { position: relative; display: block; width: 100%; min-height: 110vh; margin-bottom: 16vh; }
+.chapterMedia { position: absolute; z-index: 2; overflow: hidden; border-radius: 18px; background: transparent; will-change: transform, opacity; transform-origin: center center; }
+.chapterMedia img { display: block; width: 100%; height: auto; object-fit: contain; filter: saturate(.72); transition: transform 1.6s cubic-bezier(.2,.8,.2,1), filter .8s ease; }
+.chapter:hover .chapterMedia img { transform: scale(1.035); filter: saturate(1); }
+.chapterCopy { position: absolute; z-index: 5; }
+.chapterCopy h3 {
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  line-height: normal;
+  text-transform: uppercase;
+}
+.chapterCopy p { max-width: 470px; color: #999; margin-top: 28px; font-size: clamp(15px, 1.3vw, 20px); line-height: 1.65; }
+.flowLine { display: block; }
+.flowWordMask { display: inline-block; overflow: hidden; vertical-align: bottom; margin-right: .28em; padding: .08em 0 .1em; }
+.flowWordMask:last-child { margin-right: 0; }
+.flowWord { display: inline-block; will-change: transform, opacity, filter; }
+.chapterPortrait .chapterMedia { width: min(34vw, 500px); left: 7vw; top: 8vh; }
+.chapterPortrait .chapterMedia { border-radius: 18px; -webkit-mask-image: linear-gradient(160deg, transparent 0%, #000 14%, #000 84%, transparent 100%); mask-image: linear-gradient(160deg, transparent 0%, #000 14%, #000 84%, transparent 100%); }
+.chapterPortrait .chapterCopy { width: min(38vw, 520px); right: 6vw; top: 36vh; }
+
+.chapterLandscape { min-height: 105vh; }
+.chapterLandscape .chapterMedia { width: min(80vw, 1220px); right: -4vw; top: 9vh; }
+.chapterLandscape .chapterCopy { width: min(37vw, 500px); left: 3vw; top: 50vh; padding: 3vw; background: rgba(0,0,0,.78); backdrop-filter: blur(9px); }
+
+.chapterDetail { min-height: 125vh; }
+.chapterDetail .chapterMedia { width: min(36vw, 520px); right: 8vw; top: 4vh; }
+.chapterDetail .chapterMedia { border-radius: 18px; -webkit-mask-image: radial-gradient(ellipse 72% 86% at 50% 50%, #000 48%, rgba(0,0,0,.78) 70%, transparent 100%); mask-image: radial-gradient(ellipse 72% 86% at 50% 50%, #000 48%, rgba(0,0,0,.78) 70%, transparent 100%); }
+.chapterDetail .chapterMedia img { filter: grayscale(1) contrast(1.05); }
+.chapterDetail .chapterCopy { width: min(42vw, 570px); left: 7vw; top: 46vh; }
+.coutureSequence { position: absolute; inset: 0; z-index: auto; pointer-events: none; }
+.atelierSequence { position: absolute; z-index: 2; width: min(44vw, 680px); height: min(64vh, 650px); right: 3vw; top: 7vh; pointer-events: none; }
+.sequenceFrame { position: absolute; margin: 0; overflow: hidden; border-radius: 18px; background: transparent; will-change: transform, opacity; transform-origin: center center; }
+.sequenceFrame img, .sequenceFrame video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.coutureFrameLeft { z-index: 1; width: min(34vw, 530px); height: min(39vh, 410px); left: -5vw; top: 43vh; -webkit-mask-image: radial-gradient(ellipse 78% 68% at 50% 50%, #000 48%, rgba(0,0,0,.76) 65%, transparent 100%); mask-image: radial-gradient(ellipse 78% 68% at 50% 50%, #000 48%, rgba(0,0,0,.76) 65%, transparent 100%); }
+.coutureFrameRight { z-index: 4; width: min(27vw, 420px); height: min(52vh, 545px); right: 0; top: 4vh; -webkit-mask-image: linear-gradient(145deg, transparent 0%, #000 18%, #000 78%, transparent 100%); mask-image: linear-gradient(145deg, transparent 0%, #000 18%, #000 78%, transparent 100%); }
+.coutureFrameLeft img { object-fit: contain; object-position: center top; }
+.coutureFrameRight img { object-fit: contain; object-position: center 28%; filter: grayscale(1) contrast(1.04); }
+.coutureFrameLeft .coutureCarouselSlide { position: absolute; inset: 0; opacity: 0; animation: coutureCarousel 25s cubic-bezier(.45,.05,.2,1) infinite; }
+.coutureFrameLeft .coutureCarouselSlide:nth-child(2) { animation-delay: -5s; }
+.coutureFrameLeft .coutureCarouselSlide:nth-child(3) { animation-delay: -10s; }
+.coutureFrameLeft .coutureCarouselSlide:nth-child(4) { animation-delay: -15s; }
+.coutureFrameLeft .coutureCarouselSlide:nth-child(5) { animation-delay: -20s; }
+@keyframes coutureCarousel {
+  0% { opacity: 0; transform: scale(.965); }
+  3% { opacity: 1; transform: scale(1); }
+  17% { opacity: 1; transform: scale(1.018); }
+  20% { opacity: 0; transform: scale(1.035); }
+  100% { opacity: 0; transform: scale(1.035); }
+}
+.atelierSlide { inset: 0; width: 100%; height: 100%; opacity: 0; border-radius: 6px; animation: atelierCarousel 18s cubic-bezier(.45,.05,.2,1) infinite; }
+.atelierSlide img, .atelierSlide video { object-fit: contain; border-radius: 6px; filter: grayscale(1) contrast(1.06) brightness(.94); }
+.atelierSlideSketch { animation-delay: -1.5s; }
+.atelierSlideFirstVideo { animation-delay: -7.5s; }
+.atelierSlideSecondVideo { animation-delay: -13.5s; }
+@keyframes atelierCarousel {
+  0% { opacity: 0; transform: translate3d(14%, 2%, 0) scale(.92); }
+  8% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+  26% { opacity: 1; transform: translate3d(-1.5%, -1%, 0) scale(1.025); }
+  32% { opacity: 0; transform: translate3d(-15%, -2%, 0) scale(1.06); }
+  100% { opacity: 0; transform: translate3d(-15%, -2%, 0) scale(1.06); }
+}
+.atelierCopy { transform-origin: left center; will-change: transform, opacity, filter; }
+.atelierAtmosphere { position: absolute; inset: 0; z-index: 4; overflow: hidden; pointer-events: none; }
+.atelierAtmosphere span { position: absolute; display: block; width: 68vw; height: 46vh; border-radius: 50%; will-change: transform, opacity; }
+.atelierMistBack { top: 15vh; left: 8vw; background: radial-gradient(ellipse at center, rgba(210,210,210,.15) 0%, rgba(110,110,110,.07) 42%, rgba(0,0,0,0) 72%); filter: blur(34px); }
+.atelierMistFront { bottom: 8vh; left: 2vw; background: radial-gradient(ellipse at center, rgba(235,235,235,.2) 0%, rgba(135,135,135,.08) 38%, rgba(0,0,0,0) 70%); filter: blur(48px); }
+
+.boutiqueScene { min-height: 180vh; display: grid; grid-template-columns: 1.18fr .82fr; align-items: start; background: #fff; color: #111; overflow: hidden; }
+.boutiqueImage { position: sticky; top: 9vh; height: min(82vh, 900px); margin: 9vh 0 0 3vw; will-change: transform; transform-origin: center center; perspective: 1400px; }
+.boutiqueArtwork { position: absolute; margin: 0; overflow: hidden; border-radius: 18px; background: transparent; opacity: 0; will-change: transform, opacity; transform-origin: center center; animation: museumOrbit 18s cubic-bezier(.45,.05,.2,1) infinite; }
+.boutiqueArtwork img { display: block; width: 100%; height: auto; object-fit: contain; filter: none; }
+.boutiqueArtworkPrimary { width: 92%; left: 0; top: 2%; animation-delay: 0s; }
+.boutiqueArtworkSecondary { width: 96%; left: -8%; top: 10%; animation-delay: -6s; }
+.boutiqueArtworkTertiary { width: 72%; right: 2%; top: 4%; animation-delay: -12s; }
+@keyframes museumOrbit {
+  0% { z-index: 3; opacity: 1; transform: translate3d(0, 0, 90px) scale(1) rotate(0deg); }
+  22% { z-index: 3; opacity: 1; transform: translate3d(1.5%, -1%, 90px) scale(1.025) rotate(.25deg); }
+  32% { z-index: 2; opacity: .16; transform: translate3d(34%, -7%, -80px) scale(.64) rotate(2.2deg); }
+  55% { z-index: 1; opacity: .08; transform: translate3d(28%, 7%, -130px) scale(.55) rotate(1.4deg); }
+  65% { z-index: 1; opacity: .06; transform: translate3d(-31%, 8%, -150px) scale(.52) rotate(-2.4deg); }
+  88% { z-index: 2; opacity: .14; transform: translate3d(-35%, -5%, -85px) scale(.63) rotate(-1.7deg); }
+  100% { z-index: 3; opacity: 1; transform: translate3d(0, 0, 90px) scale(1) rotate(0deg); }
+}
+.boutiqueCopy { position: sticky; top: 14vh; min-height: 72vh; padding: 13vh 7vw; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+.boutiqueCopy h2 { margin-top: 9vh; font: 300 clamp(48px, 6.5vw, 104px)/.98 'Montserrat', sans-serif; letter-spacing: -.055em; }
+.boutiqueCopy p { margin-top: 35px; color: #555; font-size: clamp(15px, 1.3vw, 20px); }
+.boutiqueCopy a { border-color: rgba(0,0,0,.35); }
+
+.finale { min-height: 105vh; padding: 17vh clamp(28px, 8vw, 130px); display: flex; flex-direction: column; justify-content: center; }
+.finale h2 { max-width: 1150px; margin-top: 11vh; font: 300 clamp(56px, 9vw, 145px)/.94 'Montserrat', sans-serif; letter-spacing: -.06em; }
+.finaleLinks { display: flex; gap: 7vw; margin-top: 13vh; }
+.finaleLinks a { padding-bottom: 12px; border-bottom: 1px solid #555; font-size: 11px; letter-spacing: .22em; transition: color .3s ease, border-color .3s ease; }
+.finaleLinks a:hover { color: #fff; border-color: #fff; }
+
+@media (max-width: 900px) {
+  .hero { height: 104svh; min-height: 640px; }
+  .heroMedia img { object-position: center top; }
+  .heroCopy { bottom: 10vh; display: block; }
+  .heroCopy p { margin-bottom: 22px; }
+  .heroCopy h1 { font-size: clamp(52px, 14.8vw, 72px); line-height: .8; letter-spacing: 0; }
+  .heroCopy span { display: block; margin-top: 28px; text-align: left; }
+  .manifesto { min-height: 90vh; display: block; padding-top: 15vh; }
+  .manifesto h2 { margin-top: 11vh; font-size: clamp(39px, 10vw, 66px); }
+  .manifestoAside { margin: 11vh 0 0 18vw; }
+  .reelSection { height: 105svh; min-height: 700px; }
+  .reelCopy { padding-bottom: 8vh; }
+  .reelCopy h2 { max-width: 88%; font-size: clamp(21px, 6vw, 29px); line-height: 1.55; letter-spacing: .015em; }
+  .chapters { padding-top: 15vh; }
+  .chapter, .chapterLandscape, .chapterDetail { display: flex; flex-direction: column; min-height: 0; margin-bottom: 18vh; }
+  .chapterMedia, .chapterPortrait .chapterMedia, .chapterLandscape .chapterMedia, .chapterDetail .chapterMedia { position: relative; inset: auto; }
+  .chapterPortrait .chapterMedia { width: 68%; margin-left: 2vw; }
+  .chapterLandscape .chapterMedia { width: 108%; margin-left: 4vw; }
+  .chapterDetail .chapterMedia { width: 74%; margin-left: auto; margin-right: 2vw; }
+  .coutureSequence { position: absolute; inset: 0; }
+  .atelierSequence { position: relative; inset: auto; order: 1; width: 86%; height: 52svh; margin: 0 auto; }
+  .coutureFrameLeft { width: 58vw; height: 28svh; left: -15vw; top: 44svh; }
+  .coutureFrameRight { width: 46vw; height: 36svh; right: -9vw; top: 1svh; }
+  .atelierAtmosphere span { width: 115vw; height: 38svh; }
+  .atelierMistBack { top: 8svh; left: -12vw; }
+  .atelierMistFront { bottom: 18svh; left: -18vw; }
+  .chapterMedia, .boutiqueArtwork, .sequenceFrame { border-radius: 12px; }
+  .atelierSlide img, .atelierSlide video { border-radius: 12px; }
+  .chapterCopy, .chapterPortrait .chapterCopy, .chapterLandscape .chapterCopy, .chapterDetail .chapterCopy { position: relative; inset: auto; width: auto; margin: 0; padding: 48px 8px 0; background: transparent; backdrop-filter: none; }
+  .chapterDetail .chapterCopy { order: 2; }
+  .chapterCopy i { margin-top: 34px; }
+  .boutiqueScene { display: block; min-height: 150svh; }
+  .boutiqueImage { position: sticky; top: 10svh; min-height: 0; height: 72svh; margin: 0 0 0 5vw; }
+  .boutiqueArtworkPrimary { width: 116%; left: -18%; top: 6%; }
+  .boutiqueArtworkSecondary { width: 128%; left: -30%; top: 13%; }
+  .boutiqueArtworkTertiary { width: 92%; right: -10%; top: 8%; }
+  .boutiqueCopy { position: relative; top: auto; min-height: 75svh; padding: 12vh 8vw; background: #fff; z-index: 5; }
+  .boutiqueCopy h2 { font-size: clamp(48px, 13vw, 82px); }
+  .finale { min-height: 90svh; padding-inline: 8vw; }
+  .finale h2 { font-size: clamp(50px, 13vw, 88px); }
+  .finaleLinks { flex-direction: column; align-items: flex-start; gap: 34px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .chapterMedia img { transition: none; }
+}

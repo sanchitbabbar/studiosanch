@@ -19,6 +19,12 @@ const menuItems: MenuItem[] = [
   { href: '/about.html', en: 'ABOUT', fr: 'À PROPOS' },
 ];
 
+const frenchRoutes: Record<string, string> = {
+  HOME: '/fr/',
+  ATELIER: '/fr/atelier.html',
+  ABOUT: '/fr/about.html',
+};
+
 export default function SiteHeader({ active }: { active?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguage();
@@ -77,10 +83,9 @@ export default function SiteHeader({ active }: { active?: string }) {
               <li
                 key={item.en}
                 style={{ ['--i' as string]: index }}
-                onClick={() => setIsOpen(false)}
               >
                 <a
-                  href={language === 'fr' && item.en === 'ABOUT' ? '/fr/about.html' : item.href}
+                  href={language === 'fr' ? (frenchRoutes[item.en] || item.href) : item.href}
                   className={active === item.en ? 'active' : undefined}
                 >
                   {item[language]}
