@@ -96,14 +96,16 @@
 .manifestoAside p { font-size: clamp(16px, 1.45vw, 23px); line-height: 1.65; color: #aaa; }
 
 .reelSection { position: relative; height: 130vh; min-height: 900px; overflow: hidden; }
-.reelMedia, .reelMedia video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.reelMedia { position: absolute; inset: 0; width: 100%; height: 100%; }
 .reelMedia { z-index: 0; background: #000; }
-.reelMedia video { object-fit: contain; filter: none; }
-.reelStill { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 18s cubic-bezier(.45,.05,.2,1) infinite; }
-@keyframes reelStillReveal {
-  0%, 34% { opacity: 0; transform: scale(1.035); }
-  42%, 70% { opacity: 1; transform: scale(1); }
-  78%, 100% { opacity: 0; transform: scale(.985); }
+.reelSlide { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; filter: none; animation: studioCarousel 24s cubic-bezier(.45,.05,.2,1) infinite; }
+.reelSlideFirst { animation-delay: 0s; object-position: center 42%; }
+.reelSlideSecond { animation-delay: 8s; object-position: center 38%; }
+.reelSlideThird { animation-delay: 16s; object-position: center; }
+@keyframes studioCarousel {
+  0%, 4% { opacity: 1; transform: scale(1); }
+  29% { opacity: 1; transform: scale(1.025); }
+  33%, 100% { opacity: 0; transform: scale(1.04); }
 }
 .reelVeil { position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(0,0,0,.52), rgba(0,0,0,.025) 58%, rgba(0,0,0,.15)); }
 .reelCopy { position: absolute; inset: 0; z-index: 3; padding: 16vh clamp(28px, 6vw, 96px) 10vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
@@ -232,7 +234,8 @@
   .reelSection { height: 105svh; min-height: 700px; }
   .reelCopy { padding-bottom: 8vh; }
   .reelCopy h2 { max-width: 88%; font-size: clamp(21px, 6vw, 29px); line-height: 1.55; letter-spacing: .015em; }
-  .chapters { padding-top: 15vh; }
+  .chapters { padding-top: 6svh; }
+  .chaptersLead { padding-top: 3svh; }
   .chapter, .chapterLandscape, .chapterDetail { display: flex; flex-direction: column; min-height: 0; margin-bottom: 18vh; }
   .chapterMedia, .chapterPortrait .chapterMedia, .chapterLandscape .chapterMedia, .chapterDetail .chapterMedia { position: relative; inset: auto; }
   .chapterPortrait .chapterMedia { width: 68%; margin-left: 2vw; }
@@ -265,4 +268,6 @@
 @media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
   .chapterMedia img { transition: none; }
+  .reelSlide { animation: none; }
+  .reelSlideFirst { opacity: 1; }
 }
