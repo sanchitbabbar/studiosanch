@@ -226,8 +226,8 @@
   .heroCopy p { margin-bottom: 22px; }
   .heroCopy h1 { font-size: clamp(52px, 14.8vw, 72px); line-height: .8; letter-spacing: 0; }
   .heroCopy span { display: block; margin-top: 28px; text-align: left; }
-  .manifesto { min-height: 56svh; display: block; padding-top: 15vh; }
-  .manifesto h2 { margin-top: 11vh; font-size: clamp(39px, 10vw, 66px); }
+  .manifesto { min-height: 0; display: block; padding: 8svh 8vw 7svh; }
+  .manifesto h2 { margin-top: 6svh; font-size: clamp(39px, 10vw, 66px); }
   .manifestoAside { margin: 11vh 0 0 18vw; }
   .reelSection { height: 105svh; min-height: 700px; }
   .reelCopy { padding-bottom: 8vh; }
@@ -238,7 +238,7 @@
   .chapterPortrait .chapterMedia { width: 68%; margin-left: 2vw; }
   .chapterLandscape .chapterMedia { width: 108%; margin-left: 4vw; }
   .chapterDetail .chapterMedia { width: 74%; margin-left: auto; margin-right: 2vw; }
-  .coutureSequence { position: absolute; inset: 0; }
+  .coutureSequence { display: none; }
   .atelierSequence { position: relative; inset: auto; order: 1; width: 86%; height: 52svh; margin: 0 auto; }
   .coutureFrameLeft { width: 58vw; height: 28svh; left: -15vw; top: 44svh; }
   .coutureFrameRight { width: 46vw; height: 36svh; right: -9vw; top: 1svh; }
@@ -250,11 +250,11 @@
   .chapterCopy, .chapterPortrait .chapterCopy, .chapterLandscape .chapterCopy, .chapterDetail .chapterCopy { position: relative; inset: auto; width: auto; margin: 0; padding: 48px 8px 0; background: transparent; backdrop-filter: none; }
   .chapterDetail .chapterCopy { order: 2; }
   .chapterCopy i { margin-top: 34px; }
-  .boutiqueScene { display: block; min-height: 150svh; }
-  .boutiqueImage { position: sticky; top: 10svh; min-height: 0; height: 72svh; margin: 0 0 0 5vw; }
-  .boutiqueArtworkPrimary { width: 116%; left: -18%; top: 6%; }
-  .boutiqueArtworkSecondary { width: 128%; left: -30%; top: 13%; }
-  .boutiqueArtworkTertiary { width: 92%; right: -10%; top: 8%; }
+  .boutiqueScene { display: block; min-height: 178svh; }
+  .boutiqueImage { position: sticky; top: 6svh; min-height: 0; height: 100svh; margin: 0; }
+  .boutiqueArtworkPrimary { width: 100%; left: 0; top: 0; }
+  .boutiqueArtworkSecondary { width: 100%; left: 0; top: 5%; }
+  .boutiqueArtworkTertiary { width: 88%; right: 0; top: 3%; }
   .boutiqueCopy { position: relative; top: auto; min-height: 75svh; padding: 12vh 8vw; background: #fff; z-index: 5; }
   .boutiqueCopy h2 { font-size: clamp(48px, 13vw, 82px); }
   .finale { min-height: 90svh; padding-inline: 8vw; }
