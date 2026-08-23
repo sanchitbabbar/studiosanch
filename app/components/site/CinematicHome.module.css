@@ -131,13 +131,15 @@
   text-transform: uppercase;
 }
 .chapterCopy p { max-width: 470px; color: #999; margin-top: 28px; font-size: clamp(15px, 1.3vw, 20px); line-height: 1.65; }
-.flowLine { display: block; }
-.flowWordMask { display: inline-block; overflow: hidden; vertical-align: bottom; margin-right: .28em; padding: .08em 0 .1em; }
-.flowWordMask:last-child { margin-right: 0; }
-.flowWord { display: inline-block; will-change: transform, opacity, filter; }
 .chapterPortrait .chapterMedia { width: min(34vw, 500px); left: 7vw; top: 8vh; }
 .chapterPortrait .chapterMedia { border-radius: 18px; -webkit-mask-image: linear-gradient(160deg, transparent 0%, #000 14%, #000 84%, transparent 100%); mask-image: linear-gradient(160deg, transparent 0%, #000 14%, #000 84%, transparent 100%); }
-.chapterPortrait .chapterCopy { width: min(38vw, 520px); right: 6vw; top: 36vh; }
+.chapterPortrait .chapterCopy {
+  width: min(38vw, 520px);
+  right: 6vw;
+  top: 36vh;
+  padding: 20px 24px 24px;
+  background: linear-gradient(90deg, #000 0%, #000 82%, rgba(0,0,0,.9) 100%);
+}
 
 .chapterLandscape { min-height: 105vh; }
 .chapterLandscape .chapterMedia { width: min(80vw, 1220px); right: -4vw; top: 9vh; }

@@ -69,31 +69,13 @@ const chapters = [
   },
 ];
 
-function FlowingWords({ text }: { text: string }) {
+function MultilineText({ text }: { text: string }) {
   return (
     <>
       {text.split('\n').map((line, lineIndex) => (
-        <span className={styles.flowLine} key={`${line}-${lineIndex}`}>
-          {line.split(/\s+/).map((word, wordIndex) => (
-            <span className={styles.flowWordMask} key={`${word}-${wordIndex}`}>
-              <motion.span
-                className={styles.flowWord}
-                initial={false}
-                animate={{
-                  y: [0, wordIndex % 2 === 0 ? -3 : 3, 0],
-                  opacity: [0.88, 1, 0.88],
-                }}
-                transition={{
-                  duration: 5.6 + (wordIndex % 4) * 0.45,
-                  delay: wordIndex * 0.08,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                {word}
-              </motion.span>
-            </span>
-          ))}
+        <span key={`${line}-${lineIndex}`}>
+          {line}
+          {lineIndex < text.split('\n').length - 1 && <br />}
         </span>
       ))}
     </>
@@ -258,8 +240,8 @@ function ChapterScene({
         className={`${styles.chapterCopy} ${index === 2 ? styles.atelierCopy : ''}`}
         style={{ y: copyY, x: copyX, opacity: copyOpacity, filter: copyBlur, scale: copyScale }}
       >
-        <h3><FlowingWords text={chapter.title[language]} /></h3>
-        <p><FlowingWords text={chapter.text[language]} /></p>
+        <h3><MultilineText text={chapter.title[language]} /></h3>
+        <p><MultilineText text={chapter.text[language]} /></p>
       </motion.div>
     </motion.a>
   );
