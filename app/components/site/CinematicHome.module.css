@@ -226,7 +226,7 @@
   .heroCopy p { margin-bottom: 22px; }
   .heroCopy h1 { font-size: clamp(52px, 14.8vw, 72px); line-height: .8; letter-spacing: 0; }
   .heroCopy span { display: block; margin-top: 28px; text-align: left; }
-  .manifesto { min-height: 0; height: auto; display: block; gap: 0; padding: 5svh 8vw 3svh; }
+  .manifesto { min-height: 0; height: auto; display: block; gap: 0; padding: 5svh 8vw 1.5svh; }
   .manifesto h2 { margin-top: 2svh; font-size: clamp(39px, 10vw, 66px); }
   .manifestoAside { margin: 11vh 0 0 18vw; }
   .reelSection { height: 105svh; min-height: 700px; }
