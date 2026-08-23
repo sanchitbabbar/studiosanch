@@ -142,7 +142,7 @@
         
         .thumbnail-container:nth-child(2) .thumbnail-images {
             display: flex;
-            width: 1000%;
+            width: 800%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -154,7 +154,7 @@
         
         .thumbnail-container:nth-child(3) .thumbnail-images {
             display: flex;
-            width: 1100.001%;
+            width: 1000%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -166,7 +166,7 @@
         
         .thumbnail-container:nth-child(4) .thumbnail-images {
             display: flex;
-            width: 800%;
+            width: 1100.001%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -177,6 +177,18 @@
         }
         
         .thumbnail-container:nth-child(5) .thumbnail-images {
+            display: flex;
+            width: 800%;
+            height: 100%;
+            transition: transform 2.2s linear;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+
+        .thumbnail-container:nth-child(6) .thumbnail-images {
             display: flex;
             width: 900%;
             height: 100%;
@@ -199,26 +211,6 @@
         }
         
         .thumbnail-container:nth-child(2) .thumbnail-images img {
-            width: 10%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(3) .thumbnail-images img {
-            width: 9.0909%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(4) .thumbnail-images img {
             width: 12.5%;
             height: 100%;
             object-fit: cover;
@@ -228,7 +220,37 @@
             animation-delay: 0.1s;
         }
         
+        .thumbnail-container:nth-child(3) .thumbnail-images img {
+            width: 10%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+        
+        .thumbnail-container:nth-child(4) .thumbnail-images img {
+            width: 9.0909%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+        
         .thumbnail-container:nth-child(5) .thumbnail-images img {
+            width: 12.5%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: fadeIn 0.3s ease-in-out forwards;
+            animation-delay: 0.1s;
+        }
+
+        .thumbnail-container:nth-child(6) .thumbnail-images img {
             width: 11.111%;
             height: 100%;
             object-fit: cover;
@@ -534,6 +556,24 @@
                     </div>
                     <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
+
+                <div class="thumbnail-container">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/1.webp" alt="Haute Couture Editorial - View 1" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/2.webp" alt="Haute Couture Editorial - View 2" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/3.webp" alt="Haute Couture Editorial - View 3" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/4.webp" alt="Haute Couture Editorial - View 4" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/5.webp" alt="Haute Couture Editorial - View 5" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/6.webp" alt="Haute Couture Editorial - View 6" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/7.webp" alt="Haute Couture Editorial - View 7" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/8.webp" alt="Haute Couture Editorial - View 8" loading="lazy" decoding="async">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                </div>
             </div>
             
             <div class="haute-couture-info">
@@ -552,7 +592,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <h3 id="language-selector-trigger" data-i18n="footer.language">LANGUAGE</h3>
+                <h3 id="language-selector-trigger" data-i18n="footer.language">EN · FR</h3>
             </div>
             
             <!-- Language Selector Panel -->
@@ -602,6 +642,15 @@
     <script src="js/purchase-inquiry-modal.js?v=private-collection-inquiry-1"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Keep the newest editorial slider directly after the opening slider.
+        const gallery = document.querySelector('.haute-couture-gallery');
+        const newestSlider = Array.from(gallery.querySelectorAll('.thumbnail-container')).find((container) =>
+            container.querySelector('img[src*="Slider%20Thumbnail%206"]')
+        );
+        if (newestSlider) {
+            gallery.insertBefore(newestSlider, gallery.children[1]);
+        }
+
         // Shuffle function
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -635,21 +684,24 @@
             
             // Define max index based on container
             // Container 0: 9 images (0-8) - Slider 4 in position 1
-            // Container 1: 10 images (0-9) - Slider 2 in position 2
-            // Container 2: 11 images (0-10) - Slider 5 in position 3 (moved here)
-            // Container 3: 8 images (0-7) - Slider 1 in position 4 (moved here)
-            // Container 4: 9 images (0-8) - Slider 3 in position 5
+            // Container 1: 8 images (0-7) - Slider 6 in position 2
+            // Container 2: 10 images (0-9) - Slider 2 in position 3
+            // Container 3: 11 images (0-10) - Slider 5 in position 4
+            // Container 4: 8 images (0-7) - Slider 1 in position 5
+            // Container 5: 9 images (0-8) - Slider 3 in position 6
             let maxIndex;
             if (containerIndex === 0) {
                 maxIndex = 8; // First slider (slider 4) has 9 images (0-8)
             } else if (containerIndex === 1) {
-                maxIndex = 9; // Second slider (slider 2) has 10 images (0-9)
+                maxIndex = 7; // Second slider (slider 6) has 8 images (0-7)
             } else if (containerIndex === 2) {
-                maxIndex = 10; // Third slider (slider 5) has 11 images (0-10)
+                maxIndex = 9; // Third slider (slider 2) has 10 images (0-9)
             } else if (containerIndex === 3) {
-                maxIndex = 7; // Fourth slider (slider 1) has 8 images (0-7)
+                maxIndex = 10; // Fourth slider (slider 5) has 11 images (0-10)
             } else if (containerIndex === 4) {
-                maxIndex = 8; // Fifth slider (slider 3) has 9 images (0-8)
+                maxIndex = 7; // Fifth slider (slider 1) has 8 images (0-7)
+            } else if (containerIndex === 5) {
+                maxIndex = 8; // Sixth slider (slider 3) has 9 images (0-8)
             }
             
             // Set up touch events for mobile swipe
@@ -710,12 +762,14 @@
                 if (containerIndex === 0) {
                     slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
                 } else if (containerIndex === 1) {
-                    slidePercentage = 10;      // 10 images at 10% each (100/10)
-                } else if (containerIndex === 2) {
-                    slidePercentage = 9.0909;  // 11 images at 9.0909% each (100/11)
-                } else if (containerIndex === 3) {
                     slidePercentage = 12.5;    // 8 images at 12.5% each (100/8)
+                } else if (containerIndex === 2) {
+                    slidePercentage = 10;      // 10 images at 10% each (100/10)
+                } else if (containerIndex === 3) {
+                    slidePercentage = 9.0909;  // 11 images at 9.0909% each (100/11)
                 } else if (containerIndex === 4) {
+                    slidePercentage = 12.5;    // 8 images at 12.5% each (100/8)
+                } else if (containerIndex === 5) {
                     slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
                 }
                 

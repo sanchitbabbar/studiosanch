@@ -113,7 +113,7 @@ function ChapterScene({
   const copyOpacity = useTransform(
     scrollYProgress,
     [0.04, 0.2, 0.34, 0.7, 0.88, 0.98],
-    [0, 0.5, 1, 1, 0.35, 0],
+    [0.72, 0.9, 1, 1, 0.86, 0.72],
   );
   const copyX = useTransform(
     scrollYProgress,
@@ -123,7 +123,7 @@ function ChapterScene({
   const copyBlur = useTransform(
     scrollYProgress,
     [0.06, 0.28, 0.72, 0.95],
-    ['blur(8px)', 'blur(0px)', 'blur(0px)', 'blur(7px)'],
+    ['blur(2px)', 'blur(0px)', 'blur(0px)', 'blur(2px)'],
   );
   const copyScale = useTransform(
     scrollYProgress,
@@ -187,6 +187,14 @@ function ChapterScene({
             <img className={styles.coutureCarouselSlide} src="/images/haute-couture-landing/img-3673.webp" alt="" loading="lazy" decoding="async" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className={styles.coutureCarouselSlide} src="/images/haute-couture-landing/5f100405.webp" alt="" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%206/1.webp" alt="" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%206/3.webp" alt="" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%206/5.webp" alt="" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={styles.coutureCarouselSlide} src="/images/Haute%20Couture%20/Slider%20Thumbnail%206/7.webp" alt="" loading="lazy" decoding="async" />
           </motion.figure>
           <motion.figure
             className={`${styles.sequenceFrame} ${styles.coutureFrameRight}`}
@@ -260,14 +268,14 @@ export default function CinematicHome() {
   const titleY = useTransform(heroProgress, [0, 1], ['0%', '-32%']);
   const reelScale = useTransform(reelProgress, [0, 0.5, 1], [1.08, 1, 1.08]);
   const reelY = useTransform(reelProgress, [0, 1], ['-3%', '3%']);
-  const reelCopyOpacity = useTransform(reelProgress, [0.12, 0.3, 0.7, 0.9], [0, 1, 1, 0]);
+  const reelCopyOpacity = useTransform(reelProgress, [0.12, 0.3, 0.7, 0.9], [0.72, 1, 1, 0.72]);
   const reelCopyY = useTransform(reelProgress, [0.12, 0.35, 0.9], ['10%', '0%', '-7%']);
-  const manifestoOpacity = useTransform(manifestoProgress, [0.08, 0.27, 0.72, 0.92], [0, 1, 1, 0]);
+  const manifestoOpacity = useTransform(manifestoProgress, [0.08, 0.27, 0.72, 0.92], [0.72, 1, 1, 0.72]);
   const manifestoY = useTransform(manifestoProgress, [0.08, 0.34, 0.9], ['12%', '0%', '-10%']);
   const boutiqueImageY = useTransform(boutiqueProgress, [0, 1], ['12%', '-12%']);
-  const boutiqueCopyOpacity = useTransform(boutiqueProgress, [0.12, 0.32, 0.72, 0.9], [0, 1, 1, 0]);
+  const boutiqueCopyOpacity = useTransform(boutiqueProgress, [0.12, 0.32, 0.72, 0.9], [0.72, 1, 1, 0.72]);
   const boutiqueCopyY = useTransform(boutiqueProgress, [0.12, 0.36, 0.9], ['12%', '0%', '-8%']);
-  const finaleOpacity = useTransform(finaleProgress, [0.1, 0.34, 0.78, 0.96], [0, 1, 1, 0]);
+  const finaleOpacity = useTransform(finaleProgress, [0.1, 0.34, 0.78, 0.96], [0.72, 1, 1, 0.72]);
   const finaleY = useTransform(finaleProgress, [0.1, 0.38, 0.94], ['14%', '0%', '-8%']);
 
   return (

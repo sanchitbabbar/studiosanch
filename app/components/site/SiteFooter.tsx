@@ -28,7 +28,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
             onClick={() => setIsLanguagePanelOpen(true)}
             style={{ cursor: 'pointer' }}
           >
-            {fr ? 'LANGUE' : 'LANGUAGE'}
+            {fr ? 'LANGUE' : 'EN · FR'}
           </h3>
         </div>
 
