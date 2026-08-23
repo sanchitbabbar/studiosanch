@@ -96,30 +96,36 @@
 .manifestoAside p { font-size: clamp(16px, 1.45vw, 23px); line-height: 1.65; color: #aaa; }
 
 .reelSection { position: relative; height: 130vh; min-height: 900px; overflow: hidden; }
-.reelMedia, .reelMedia video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.reelMedia { position: absolute; inset: 0; width: 100%; height: 100%; }
 .reelMedia { z-index: 0; background: #000; }
-.reelMedia video { object-fit: contain; filter: none; }
-.reelStill { position: absolute; top: 50%; right: 0; left: 0; z-index: 1; width: 100%; height: min(100%, 56.25vw); object-fit: cover; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 60s cubic-bezier(.45,.05,.2,1) infinite; }
+.reelViewport { position: absolute; top: 50%; right: 0; left: 0; width: 100%; height: min(100%, 56.25vw); overflow: hidden; transform: translateY(-50%); background: #000; }
+.reelViewport video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: none; }
+.reelStill { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
 @keyframes reelStillReveal {
-  0%, 22% { opacity: 0; transform: translateY(-50%) scale(1.015); }
-  26%, 38% { opacity: 1; transform: translateY(-50%) scale(1); }
-  42%, 100% { opacity: 0; transform: translateY(-50%) scale(1); }
+  0%, 22% { opacity: 0; transform: translate3d(-.9%, .7%, 0) scale(1.045); }
+  26% { opacity: 1; }
+  38% { opacity: 1; transform: translate3d(.85%, -.65%, 0) scale(1.02); }
+  42%, 100% { opacity: 0; transform: translate3d(1.1%, -.85%, 0) scale(1.018); }
 }
-.reelFeature { position: absolute; top: 50%; right: 0; left: 0; z-index: 2; width: 100%; height: min(100%, 56.25vw); opacity: 0; object-fit: cover; object-position: center; animation: studioFeatureReveal 60s cubic-bezier(.45,.05,.2,1) infinite; }
-.reelFeatureRiver { animation: studioFeatureReveal 60s cubic-bezier(.45,.05,.2,1) 20s infinite, studioRiverDrift 60s ease-in-out 20s infinite; }
-.reelFeatureStudio { animation: studioFeatureReveal 60s cubic-bezier(.45,.05,.2,1) 40s infinite, studioStudioDrift 60s ease-in-out 40s infinite; }
+.reelFeature { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; opacity: 0; object-fit: cover; object-position: center; animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
+.reelFeatureRiver { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 35s infinite, studioRiverDrift 80s ease-in-out 35s infinite; }
+.reelFeatureStudio { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 55s infinite, studioStudioDrift 80s ease-in-out 55s infinite; }
 @keyframes studioFeatureReveal {
-  0%, 4% { opacity: 0; transform: translateY(-50%); }
-  8%, 20% { opacity: 1; transform: translateY(-50%); }
-  24%, 100% { opacity: 0; transform: translateY(-50%); }
+  0%, 4% { opacity: 0; transform: translate3d(-.8%, .6%, 0) scale(1.045); }
+  8% { opacity: 1; }
+  20% { opacity: 1; transform: translate3d(.8%, -.6%, 0) scale(1.02); }
+  24%, 100% { opacity: 0; transform: translate3d(1.05%, -.8%, 0) scale(1.018); }
 }
 @keyframes studioRiverDrift {
   0%, 4% { object-position: 56% 56%; }
+  12% { object-position: 54% 52%; }
+  20%, 24% { object-position: 51% 49%; }
   68%, 100% { object-position: 46% 47%; }
 }
 @keyframes studioStudioDrift {
-  0%, 4% { object-position: 58% 50%; }
-  20%, 24%, 100% { object-position: 43% 50%; }
+  0%, 4% { object-position: 58% 53%; }
+  12% { object-position: 53% 48%; }
+  20%, 24%, 100% { object-position: 47% 51%; }
 }
 .reelVeil { position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(0,0,0,.52), rgba(0,0,0,.025) 58%, rgba(0,0,0,.15)); }
 .reelCopy { position: absolute; inset: 0; z-index: 3; padding: 16vh clamp(28px, 6vw, 96px) 10vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
