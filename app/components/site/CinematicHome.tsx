@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import CinematicReel from './CinematicReel';
 import styles from './CinematicHome.module.css';
 
 function DeferredVideo({ src }: { src: string }) {
@@ -316,18 +317,21 @@ export default function CinematicHome() {
 
       <section ref={reelRef} className={styles.reelSection}>
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>
+          <CinematicReel src="/Videos/productions-gallery-montage-selective-monochrome.mp4" poster="/images/productions-hero-reel.webp" label={fr ? 'Film de productions Studio Sanch' : 'Studio Sanch productions film'} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className={`${styles.reelSlide} ${styles.reelSlideFirst}`}
-            src="/images/studio-carousel/sanch-17.webp"
-            alt={fr ? 'Image Studio Sanch' : 'Studio Sanch image'}
-            fetchPriority="high"
+            className={styles.reelStill}
+            src="/images/haute-couture-landing/grace-in-motion-15.webp"
+            alt={fr ? 'Trois silhouettes vêtues de rouge en mouvement' : 'Three figures in red dresses in motion'}
+            loading="lazy"
             decoding="async"
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className={`${styles.reelSlide} ${styles.reelSlideSecond}`} src="/images/studio-carousel/img-4696.webp" alt="" loading="lazy" decoding="async" />
+          <img className={`${styles.reelFeature} ${styles.reelFeatureRiver}`} src="/images/studio-carousel/sanch-17.webp" alt="Olga près de l'eau" loading="lazy" decoding="async" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className={`${styles.reelSlide} ${styles.reelSlideThird}`} src="/images/studio-carousel/image-7-21-26.webp" alt="" loading="lazy" decoding="async" />
+          <img className={`${styles.reelFeature} ${styles.reelFeatureStudio}`} src="/images/studio-carousel/img-4696.webp" alt="Trois silhouettes photographiées en studio" loading="lazy" decoding="async" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className={`${styles.reelFeature} ${styles.reelFeatureEiffel}`} src="/images/studio-carousel/image-7-21-26.webp" alt="Danseuse devant la tour Eiffel" loading="lazy" decoding="async" />
         </motion.div>
         <div className={styles.reelVeil} />
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
