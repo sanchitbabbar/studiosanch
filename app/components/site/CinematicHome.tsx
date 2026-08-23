@@ -41,7 +41,7 @@ const chapters = [
     title: { en: 'HAUTE COUTURE', fr: 'HAUTE COUTURE' },
     text: {
       en: 'A second skin sighed around the feminine\nUnfurled for your silhouette alone',
-      fr: "Une Ode à la Féminité — Où se révèle la délicate interaction entre le masculin et le féminin, dans une grâce auréolée d'élégance.",
+      fr: 'Une peau déployée pour le féminin\nSculptée pour la silhouette',
     },
     href: '/haute-couture.html',
     image: '/images/Haute%20Couture%20/Slider%20Thumbnail%202/10.webp',
