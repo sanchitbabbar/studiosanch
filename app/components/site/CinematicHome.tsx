@@ -330,8 +330,6 @@ export default function CinematicHome() {
           <img className={`${styles.reelFeature} ${styles.reelFeatureRiver}`} src="/images/studio-carousel/sanch-17.webp" alt="Olga près de l'eau" loading="lazy" decoding="async" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className={`${styles.reelFeature} ${styles.reelFeatureStudio}`} src="/images/studio-carousel/img-4696.webp" alt="Trois silhouettes photographiées en studio" loading="lazy" decoding="async" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className={`${styles.reelFeature} ${styles.reelFeatureEiffel}`} src="/images/studio-carousel/image-7-21-26.webp" alt="Danseuse devant la tour Eiffel" loading="lazy" decoding="async" />
         </motion.div>
         <div className={styles.reelVeil} />
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
