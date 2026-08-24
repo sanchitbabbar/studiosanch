@@ -56,7 +56,7 @@ export default function ProductionsPage() {
         <section className="productions-statement" aria-labelledby="production-statement-title">
           <p className="productions-eyebrow">{fr ? 'LE STUDIO' : 'THE STUDIO'}</p>
           <h2 id="production-statement-title">
-            {fr ? 'De l’idée initiale à une forme durable, chaque production est composée avec sensibilité et une précision minutieuse.' : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}
+            {fr ? "De l'idée originelle à la forme pérenne, chaque création est bercée de sensibilité et ciselée d'une précision absolue." : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}
           </h2>
         </section>
 

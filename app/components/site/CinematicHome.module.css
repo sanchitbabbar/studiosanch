@@ -102,19 +102,19 @@
 .reelViewport video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: none; }
 .reelStill { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
 @keyframes reelStillReveal {
-  0%, 4% { opacity: 0; transform: scale(1.03); }
-  8%, 20% { opacity: 1; transform: scale(1.015); }
-  24%, 100% { opacity: 0; transform: scale(1.015); }
+  0%, 2.5% { opacity: 0; transform: scale(1.03); }
+  5%, 12.5% { opacity: 1; transform: scale(1.015); }
+  15%, 100% { opacity: 0; transform: scale(1.015); }
 }
 .reelFeature { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; opacity: 0; object-fit: cover; object-position: center; animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
 .reelFeatureRiver { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 20s infinite, studioRiverDrift 80s ease-in-out 20s infinite; }
 .reelFeatureStudio { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 40s infinite, studioStudioDrift 80s ease-in-out 40s infinite; }
 .reelFeatureMonochrome { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 60s infinite, studioMonochromeDrift 80s ease-in-out 60s infinite; }
 @keyframes studioFeatureReveal {
-  0%, 4% { opacity: 0; transform: translate3d(-.8%, .6%, 0) scale(1.045); }
-  8% { opacity: 1; }
-  20% { opacity: 1; transform: translate3d(.8%, -.6%, 0) scale(1.02); }
-  24%, 100% { opacity: 0; transform: translate3d(1.05%, -.8%, 0) scale(1.018); }
+  0%, 2.5% { opacity: 0; transform: translate3d(-.8%, .6%, 0) scale(1.045); }
+  5% { opacity: 1; }
+  12.5% { opacity: 1; transform: translate3d(.8%, -.6%, 0) scale(1.02); }
+  15%, 100% { opacity: 0; transform: translate3d(1.05%, -.8%, 0) scale(1.018); }
 }
 @keyframes studioRiverDrift {
   0%, 4% { object-position: 56% 56%; }
@@ -136,7 +136,7 @@
 .reelCopy { position: absolute; inset: 0; z-index: 3; padding: 16vh clamp(28px, 6vw, 96px) 10vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }
 .reelCopy > span { font-size: 9px; letter-spacing: .3em; margin-bottom: 24px; color: rgba(255,255,255,.72); }
 .reelCopy h2 { max-width: 690px; font: 300 clamp(22px, 2.25vw, 36px)/1.5 'Montserrat', sans-serif; letter-spacing: .018em; }
-.reelCopy a, .boutiqueCopy a { margin-top: 38px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.45); font-size: 10px; letter-spacing: .23em; }
+.reelCopy a, .boutiqueCopy a { margin-top: 38px; padding-bottom: 10px; font-size: 10px; letter-spacing: .23em; }
 .reelCopy a i, .boutiqueCopy a i { margin-left: 22px; font-style: normal; transition: transform .35s ease; display: inline-block; }
 .reelCopy a:hover i, .boutiqueCopy a:hover i { transform: translate(4px, -4px); }
 
@@ -238,13 +238,19 @@
 .boutiqueCopy { position: sticky; top: 14vh; min-height: 72vh; padding: 13vh 7vw; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
 .boutiqueCopy h2 { margin-top: 9vh; font: 300 clamp(48px, 6.5vw, 104px)/.98 'Montserrat', sans-serif; letter-spacing: -.055em; }
 .boutiqueCopy p { margin-top: 35px; color: #555; font-size: clamp(15px, 1.3vw, 20px); }
-.boutiqueCopy a { border-color: rgba(0,0,0,.35); }
 
 .finale { min-height: 105vh; padding: 17vh clamp(28px, 8vw, 130px); display: flex; flex-direction: column; justify-content: center; }
 .finale h2 { max-width: 1150px; margin-top: 11vh; font: 300 clamp(56px, 9vw, 145px)/.94 'Montserrat', sans-serif; letter-spacing: -.06em; }
 .finaleLinks { display: flex; gap: 7vw; margin-top: 13vh; }
-.finaleLinks a { padding-bottom: 12px; border-bottom: 1px solid #555; font-size: 11px; letter-spacing: .22em; transition: color .3s ease, border-color .3s ease; }
-.finaleLinks a:hover { color: #fff; border-color: #fff; }
+.finaleLinks a { padding-bottom: 12px; font-size: 11px; letter-spacing: .22em; }
+.finaleLinks a, .reelCopy a, .boutiqueCopy a { position: relative; display: inline-block; overflow: hidden; transition: color .3s ease; }
+.finaleLinks a::before, .reelCopy a::before, .boutiqueCopy a::before { position: absolute; bottom: 0; left: -42%; z-index: 1; width: 38%; height: 1px; content: ''; opacity: 0; transition: opacity .24s ease; }
+.finaleLinks a::before, .reelCopy a::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), #fff, rgba(255,255,255,.5), transparent); }
+.boutiqueCopy a::before { background: linear-gradient(90deg, transparent, rgba(20,20,20,.42), #151515, rgba(20,20,20,.42), transparent); }
+.finaleLinks a:hover, .finaleLinks a:focus-visible, .reelCopy a:hover, .reelCopy a:focus-visible { color: #fff; }
+.boutiqueCopy a:hover, .boutiqueCopy a:focus-visible { color: #161616; }
+.finaleLinks a:hover::before, .finaleLinks a:focus-visible::before, .reelCopy a:hover::before, .reelCopy a:focus-visible::before, .boutiqueCopy a:hover::before, .boutiqueCopy a:focus-visible::before { opacity: 1; animation: finaleLaserSweep 2.35s linear infinite; }
+@keyframes finaleLaserSweep { from { transform: translateX(0); } to { transform: translateX(370%); } }
 
 @media (max-width: 900px) {
   .hero { height: 104svh; min-height: 640px; }

@@ -1339,6 +1339,44 @@ footer {
     display: none;
 }
 
+/* Shared return control for every interior page. */
+.studio-back-control {
+    position: relative;
+    display: grid;
+    width: 32px;
+    height: 26px;
+    margin: 64px auto calc(34px + env(safe-area-inset-bottom, 0px));
+    padding: 0;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.studio-back-control:hover,
+.studio-back-control:focus-visible {
+    opacity: 1;
+    outline: none;
+    transform: translateX(-4px);
+}
+
+.studio-back-control svg {
+    width: 26px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1;
+}
+
+.copyright-container > .studio-back-control {
+    margin: 0 auto 0.35rem;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     .menu-toggle {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
+import BackNavigation from './BackNavigation';
 
 export default function SiteFooter({ backgroundColor = '#000' }: { backgroundColor?: string }) {
   const [isLanguagePanelOpen, setIsLanguagePanelOpen] = useState(false);
@@ -89,6 +90,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
       </div>
 
       <div className="copyright-container">
+        <BackNavigation />
         <div className="social-links footer-social">
           <a
             href="https://www.facebook.com/profile.php?id=61559840979690"

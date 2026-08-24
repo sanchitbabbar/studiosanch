@@ -1,10 +1,13 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import CinematicReel from './CinematicReel';
 import styles from './CinematicHome.module.css';
+
+const MotionLink = motion.create(Link);
 
 function DeferredVideo({ src }: { src: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -165,7 +168,7 @@ function ChapterScene({
   );
 
   return (
-    <motion.a
+    <MotionLink
       ref={sceneRef}
       href={chapter.href}
       className={`${styles.chapter} ${chapter.className}`}
@@ -243,7 +246,7 @@ function ChapterScene({
         <h3><MultilineText text={chapter.title[language]} /></h3>
         <p><MultilineText text={chapter.text[language]} /></p>
       </motion.div>
-    </motion.a>
+    </MotionLink>
   );
 }
 
@@ -309,7 +312,7 @@ export default function CinematicHome() {
         <motion.div style={{ opacity: manifestoOpacity, y: manifestoY }}>
           <h2>
             {fr
-              ? 'spécialisé dans la mode et les films numériques.'
+              ? 'spécialisé dans la mode et les créations.'
               : 'Versed in high fashion and digital films.'}
           </h2>
         </motion.div>
@@ -339,7 +342,7 @@ export default function CinematicHome() {
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
           <span>{fr ? 'LE STUDIO' : 'THE STUDIO'}</span>
           <h2>{fr ? 'De l’idée initiale à une forme durable, chaque production est composée avec sensibilité et une précision minutieuse.' : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}</h2>
-          <a href="/productions/">PRODUCTIONS <i>{'\u2197\uFE0E'}</i></a>
+          <Link href="/productions">PRODUCTIONS <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
       </section>
 
@@ -376,7 +379,7 @@ export default function CinematicHome() {
               ? "Tactile Monochromes de qualité muséale — des dessins originaux, imprimés sur papier Hahnemühle Photo Rag 308 g/m² avec des encres archivistiques, en éditions de cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
               : "Tactile Monochromes — original works drawn entirely by Sanchit's hand with graphic-ink pens, discerningly rendered on Hahnemühle Photo Rag 308gsm with archival inks, in editions of five. Each is accompanied by a signed certificate of authenticity."}
           </p>
-          <a href="/boutique">BOUTIQUE <i>{'\u2197\uFE0E'}</i></a>
+          <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
       </section>
 
@@ -391,7 +394,7 @@ export default function CinematicHome() {
         <span className={styles.eyebrow}>{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</span>
           <h2>{fr ? 'Que le travail commence.' : 'Let the work begin.'}</h2>
         <div className={styles.finaleLinks}>
-          <a href={fr ? '/fr/contact.html' : '/contact.html'}>{fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'}</a>
+          <Link href={fr ? '/fr/contact.html' : '/contact.html'}>{fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'}</Link>
         </div>
         </motion.div>
       </section>
