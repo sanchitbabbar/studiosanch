@@ -102,14 +102,14 @@
 .reelViewport video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: none; }
 .reelStill { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; object-fit: cover; object-position: center; opacity: 0; filter: none; animation: reelStillReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
 @keyframes reelStillReveal {
-  0%, 22% { opacity: 0; transform: translate3d(-.9%, .7%, 0) scale(1.045); }
-  26% { opacity: 1; }
-  38% { opacity: 1; transform: translate3d(.85%, -.65%, 0) scale(1.02); }
-  42%, 100% { opacity: 0; transform: translate3d(1.1%, -.85%, 0) scale(1.018); }
+  0%, 4% { opacity: 0; transform: scale(1.03); }
+  8%, 20% { opacity: 1; transform: scale(1.015); }
+  24%, 100% { opacity: 0; transform: scale(1.015); }
 }
 .reelFeature { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; opacity: 0; object-fit: cover; object-position: center; animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) infinite; }
-.reelFeatureRiver { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 35s infinite, studioRiverDrift 80s ease-in-out 35s infinite; }
-.reelFeatureStudio { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 55s infinite, studioStudioDrift 80s ease-in-out 55s infinite; }
+.reelFeatureRiver { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 20s infinite, studioRiverDrift 80s ease-in-out 20s infinite; }
+.reelFeatureStudio { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 40s infinite, studioStudioDrift 80s ease-in-out 40s infinite; }
+.reelFeatureMonochrome { animation: studioFeatureReveal 80s cubic-bezier(.45,.05,.2,1) 60s infinite, studioMonochromeDrift 80s ease-in-out 60s infinite; }
 @keyframes studioFeatureReveal {
   0%, 4% { opacity: 0; transform: translate3d(-.8%, .6%, 0) scale(1.045); }
   8% { opacity: 1; }
@@ -126,6 +126,11 @@
   0%, 4% { object-position: 58% 53%; }
   12% { object-position: 53% 48%; }
   20%, 24%, 100% { object-position: 47% 51%; }
+}
+@keyframes studioMonochromeDrift {
+  0%, 4% { object-position: 48% 54%; }
+  12% { object-position: 52% 49%; }
+  20%, 24%, 100% { object-position: 55% 47%; }
 }
 .reelVeil { position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgba(0,0,0,.52), rgba(0,0,0,.025) 58%, rgba(0,0,0,.15)); }
 .reelCopy { position: absolute; inset: 0; z-index: 3; padding: 16vh clamp(28px, 6vw, 96px) 10vh; display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start; }

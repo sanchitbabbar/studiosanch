@@ -318,7 +318,7 @@ export default function CinematicHome() {
       <section ref={reelRef} className={styles.reelSection}>
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>
           <div className={styles.reelViewport}>
-            <CinematicReel src="/Videos/productions-gallery-montage-selective-monochrome.mp4" poster="/images/productions-hero-reel.webp" label={fr ? 'Film de productions Studio Sanch' : 'Studio Sanch productions film'} />
+            <CinematicReel src="/Videos/productions-gallery-montage-selective-monochrome-loop.mp4" poster="/images/productions-hero-reel.webp" label={fr ? 'Film de productions Studio Sanch' : 'Studio Sanch productions film'} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.reelStill}
@@ -331,6 +331,8 @@ export default function CinematicHome() {
             <img className={`${styles.reelFeature} ${styles.reelFeatureRiver}`} src="/images/studio-carousel/sanch-17.webp" alt="Olga près de l'eau" loading="lazy" decoding="async" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img className={`${styles.reelFeature} ${styles.reelFeatureStudio}`} src="/images/studio-carousel/img-4696.webp" alt="Trois silhouettes photographiées en studio" loading="lazy" decoding="async" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={`${styles.reelFeature} ${styles.reelFeatureMonochrome}`} src="/images/studio-carousel/untitled-11.webp" alt={fr ? 'Silhouette dans un intérieur sculptural' : 'Silhouette in a sculptural interior'} loading="lazy" decoding="async" />
           </div>
         </motion.div>
         <div className={styles.reelVeil} />
