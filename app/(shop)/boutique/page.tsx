@@ -31,22 +31,13 @@ function BoutiqueContent() {
 
   const handleClose = () => {
     setIsOpen(false);
-    // Let the Boutique finish its fade while its current content remains
-    // frozen, then navigate. This prevents the category grid flashing during
-    // the closing frame.
-    window.setTimeout(() => router.push(originPath), 650);
+    // Keep the close motion brief and use the client router so this remains
+    // one continuous transition rather than a delayed document reload.
+    window.setTimeout(() => router.push(originPath), 220);
   };
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-black">
-      <iframe
-        src={originPath}
-        title="Previous page"
-        aria-hidden="true"
-        tabIndex={-1}
-        className="pointer-events-none fixed inset-0 h-full w-full border-0 scale-[1.025] opacity-70 blur-[7px] brightness-[0.48] saturate-[0.75]"
-      />
-      <div className="pointer-events-none fixed inset-0 bg-black/30" />
       <div className="relative z-10 min-h-screen">
         <BoutiqueOptions
           isOpen={isOpen}

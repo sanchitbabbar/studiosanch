@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import DesignGallery from './DesignGallery';
 import AccessoriesPopup from './AccessoriesPopup';
 import { useLanguage } from '../context/LanguageContext';
@@ -72,6 +73,7 @@ const getCategoryDescription = (id: string, lang: string) => {
 
 const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pageMode = false }: BoutiqueOptionsProps) => {
   const { language } = useLanguage();
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory || null);
   const [showDesignGallery, setShowDesignGallery] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(initialSection || null);
@@ -136,9 +138,9 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
           <motion.div
             initial={pageMode ? { opacity: 0, scale: 0.992, y: 8, filter: 'blur(5px)' } : { opacity: 0, scale: 0.95 }}
             animate={pageMode ? { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' } : { opacity: 1, scale: 1 }}
-            exit={pageMode ? { opacity: 0, scale: 0.985, y: -10, filter: 'blur(10px)' } : { opacity: 0, scale: 0.95 }}
+            exit={pageMode ? { opacity: 0, scale: 0.992, y: -4, filter: 'blur(2px)' } : { opacity: 0, scale: 0.95 }}
             transition={pageMode
-              ? { duration: 0.34, ease: [0.22, 1, 0.36, 1] }
+              ? { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
               : { duration: 0.2, ease: 'easeOut' }}
             className={pageMode
               ? 'relative z-50 min-h-screen bg-black/35 backdrop-blur-sm flex items-start justify-center px-5 pb-16 pt-24 md:items-center md:px-8'
@@ -196,25 +198,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                           <div className="inline-block">
                             <div 
                               className="inline-block cursor-pointer px-8 py-2 border-b border-white/40 hover:border-white transition-all duration-500"
-                              onClick={() => {
-                                // Set a navigation flag first
-                                if (typeof window !== 'undefined') {
-                                  // This flag helps ensure navigation happens properly
-                                  sessionStorage.setItem('navigate_to_artworks', 'true');
-                                }
-                                
-                                // Close this modal first
-                                onClose();
-                                
-                                // Immediate navigation seems more reliable than setTimeout
-                                // Use a small timeout just to ensure modal closing has started
-                                setTimeout(() => {
-                                  if (typeof window !== 'undefined') {
-                                    // Navigate to clean artworks route
-                                    window.location.href = '/artworks';
-                                  }
-                                }, 50); // Reduced delay for more responsive feel
-                              }}
+                              onClick={() => router.push('/artworks')}
                             >
                               <span className="tracking-[0.25em] uppercase text-xs font-light hover:tracking-[0.3em] inline-block pr-6 transition-all duration-500">
                               {language === 'en' ? 'View Collection' : 'Voir la Collection'}
@@ -229,17 +213,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                         <div className="inline-block">
                           <div 
                             className="inline-block cursor-pointer px-8 py-2 border-b border-white/40 hover:border-white transition-all duration-500"
-                            onClick={() => {
-                              // Close this modal first
-                              onClose();
-                              
-                              // Navigate to the Art Book product page
-                              setTimeout(() => {
-                                if (typeof window !== 'undefined') {
-                                  window.location.href = '/product/artbook-main';
-                                }
-                              }, 400); 
-                            }}
+                            onClick={() => router.push('/product/artbook-main')}
                           >
                             <span className="tracking-[0.25em] uppercase text-xs font-light hover:tracking-[0.3em] inline-block pr-6 transition-all duration-500">
                               {language === 'en' ? 'DISCOVER' : 'DÉCOUVRIR'}
