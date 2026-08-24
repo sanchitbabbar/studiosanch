@@ -14,6 +14,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
     const isLandingPage = currentPath === '/' || currentPath === '/index.html' || currentPath === '/fr' || currentPath === '/fr/index.html';
+    const internalHistoryKey = 'studio-sanch-internal-history';
+    const currentPage = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    let internalHistory = [];
+
+    try {
+        const storedHistory = window.sessionStorage.getItem(internalHistoryKey);
+        internalHistory = storedHistory ? JSON.parse(storedHistory) : [];
+        if (!Array.isArray(internalHistory)) internalHistory = [];
+        if (internalHistory[internalHistory.length - 1] !== currentPage) {
+            internalHistory.push(currentPage);
+            window.sessionStorage.setItem(internalHistoryKey, JSON.stringify(internalHistory.slice(-20)));
+        }
+    } catch (error) {
+        internalHistory = [];
+    }
 
     if (!isLandingPage && !document.querySelector('.studio-back-control')) {
         const backButton = document.createElement('button');
@@ -22,8 +37,15 @@ document.addEventListener('DOMContentLoaded', function() {
         backButton.setAttribute('aria-label', 'Go back');
         backButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5M8.5 12H20" /></svg>';
         backButton.addEventListener('click', function() {
-            if (window.history.length > 1) {
-                window.history.back();
+            const currentIndex = internalHistory.lastIndexOf(currentPage);
+            if (currentIndex > 0) {
+                const previousPage = internalHistory[currentIndex - 1];
+                try {
+                    window.sessionStorage.setItem(internalHistoryKey, JSON.stringify(internalHistory.slice(0, currentIndex)));
+                } catch (error) {
+                    // Navigation remains safe even when storage is unavailable.
+                }
+                window.location.assign(previousPage);
             } else {
                 window.location.assign(currentPath.indexOf('/fr/') === 0 ? '/fr/' : '/');
             }
