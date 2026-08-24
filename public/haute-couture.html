@@ -142,7 +142,7 @@
         
         .thumbnail-container:nth-child(2) .thumbnail-images {
             display: flex;
-            width: 700%;
+            width: 1000%;
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -211,7 +211,7 @@
         }
         
         .thumbnail-container:nth-child(2) .thumbnail-images img {
-            width: 14.285714%;
+            width: 10%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
@@ -260,11 +260,6 @@
             animation-delay: 0.1s;
         }
 
-        /* A subtle overscan removes the hairline seams around Lia's portrait. */
-        .thumbnail-images img.lia-full-bleed {
-            transform: scale(1.07);
-        }
-        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -427,6 +422,25 @@
                 margin-bottom: 3px;
             }
         }
+
+        /* Keep each couture gallery card isolated on narrow and tablet screens. */
+        @media (max-width: 900px) {
+            .haute-couture-gallery {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+            }
+
+            .haute-couture-gallery .thumbnail-container {
+                flex: 0 0 auto;
+                width: 80% !important;
+                max-width: 80%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -569,14 +583,17 @@
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/1.webp" alt="Haute Couture Editorial - View 1" loading="lazy" decoding="async">
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/2.webp" alt="Haute Couture Editorial - View 2" loading="lazy" decoding="async">
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/3.webp" alt="Haute Couture Editorial - View 3" loading="lazy" decoding="async">
-                                <img class="lia-full-bleed" src="images/Haute%20Couture%20/Slider%20Thumbnail%206/4.webp" alt="Haute Couture Editorial - View 4" loading="lazy" decoding="async">
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/5.webp" alt="Haute Couture Editorial - View 5" loading="lazy" decoding="async">
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/7.webp" alt="Haute Couture Editorial - View 7" loading="lazy" decoding="async">
                                 <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/8.webp" alt="Haute Couture Editorial - View 8" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/9.webp" alt="Haute Couture Editorial - Douce" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/10.webp" alt="Haute Couture Editorial - Lia" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/11.webp" alt="Haute Couture Editorial - Madeleine 1" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%206/12.webp" alt="Haute Couture Editorial - Madeleine 2" loading="lazy" decoding="async">
                             </div>
                         </div>
                     </div>
-                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
+                    <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
             </div>
             
@@ -697,7 +714,7 @@
             if (containerIndex === 0) {
                 maxIndex = 8; // First slider (slider 4) has 9 images (0-8)
             } else if (containerIndex === 1) {
-                maxIndex = 6; // Second slider (slider 6) has 7 images (0-6)
+                maxIndex = 9; // Second slider (slider 6) has 10 images (0-9)
             } else if (containerIndex === 2) {
                 maxIndex = 9; // Third slider (slider 2) has 10 images (0-9)
             } else if (containerIndex === 3) {
@@ -766,7 +783,7 @@
                 if (containerIndex === 0) {
                     slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
                 } else if (containerIndex === 1) {
-                    slidePercentage = 14.285714; // 7 images at 14.285714% each (100/7)
+                    slidePercentage = 10;      // 10 images at 10% each (100/10)
                 } else if (containerIndex === 2) {
                     slidePercentage = 10;      // 10 images at 10% each (100/10)
                 } else if (containerIndex === 3) {
