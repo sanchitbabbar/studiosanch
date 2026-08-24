@@ -339,7 +339,7 @@ export default function CinematicHome() {
         <div className={styles.reelVeil} />
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
           <span>{fr ? 'LE STUDIO' : 'THE STUDIO'}</span>
-          <h2>{fr ? 'De l’idée initiale à une forme durable, chaque production est composée avec sensibilité et une précision minutieuse.' : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}</h2>
+          <h2>{fr ? "De l'idée originelle à la forme pérenne, chaque création est bercée de sensibilité et ciselée d'une précision absolue." : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}</h2>
           <Link href="/productions">PRODUCTIONS <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
       </section>
