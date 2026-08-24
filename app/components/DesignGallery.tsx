@@ -228,7 +228,7 @@ const designs: Design[] = [
       printSizes[3], // grand
     ],
     qualities: printQualities,
-    availablePieces: 0,
+    availablePieces: 2,
   },
   {
     id: '8',
