@@ -206,6 +206,20 @@
 .atelierSlideSketch { animation-delay: -1.5s; }
 .atelierSlideFirstVideo { animation-delay: -7.5s; }
 .atelierSlideSecondVideo { animation-delay: -13.5s; }
+.atelierSlideSecondVideo,
+.atelierSlideSecondVideo video { border-radius: 8px; }
+@media (min-width: 901px) {
+  .atelierSlideSketch {
+    inset: auto;
+    top: -5vh;
+    left: 50%;
+    width: auto;
+    height: min(75vh, 760px);
+    aspect-ratio: 9 / 16;
+    translate: -50% 0;
+  }
+  .atelierSlideSketch video { object-fit: cover; }
+}
 @keyframes atelierCarousel {
   0% { opacity: 0; transform: translate3d(14%, 2%, 0) scale(.92); }
   8% { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
