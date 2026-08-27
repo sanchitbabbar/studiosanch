@@ -8,11 +8,12 @@
 .welcome { position: relative; isolation: isolate; flex: 1; min-height: 0; display: grid; place-items: center; padding: clamp(16px, 5svh, 65px) 24px; overflow: hidden; }
 .atmosphere { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, #080808 0%, transparent 40%, #080808 100%), linear-gradient(90deg, #080808 5%, #08080880 50%, #08080880), url('/images/productions-hero-reel.webp') center 45% / cover; opacity: .28; filter: grayscale(1); }
 .welcomeContent { text-align: center; width: min(100%, 770px); animation: arrive 1s ease both; }
+.visuallyHidden { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .eyebrow { font-size: 9px; letter-spacing: .28em; color: #b3a690; margin-bottom: 32px; }
 .space h1 { font-family: 'Montserrat', sans-serif; font-weight: 300; font-size: clamp(45px, 6.3vw, 94px); line-height: 1.09; letter-spacing: -.06em; margin: 0; }
 .space h1 span { color: #a9a39a; }
 /* Unadorned language choices; generous targets retain keyboard/touch access. */
-.languages { display: flex; justify-content: center; align-items: center; gap: clamp(28px, 5vw, 72px); margin: 38px auto 0; }
+.languages { display: flex; justify-content: center; align-items: center; gap: clamp(28px, 5vw, 72px); margin: 0 auto; }
 .languages button { position: relative; min-height: 48px; padding: 14px 12px; border: none; color: #aaa59d; font-size: 12px; font-weight: 300; letter-spacing: .19em; transition: color .5s ease, text-shadow .5s ease; }
 .languages button:hover, .languages button:focus-visible { color: #f3eee5; text-shadow: 0 0 22px #e6d8bd55; }
 .content { width: 100%; padding: 60px 6vw 70px; flex: 1; animation: arrive .7s ease both; }

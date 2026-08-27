@@ -74,8 +74,7 @@ export default function ClientSpace() {
         <section className={styles.welcome} aria-labelledby="client-title">
           <div className={styles.atmosphere} aria-hidden="true" />
           <div className={styles.welcomeContent}>
-            <p className={styles.eyebrow}>STUDIO SANCH</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1} lang="fr">Éclosion</h1>
+            <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>Choose your language / Choisissez votre langue</h1>
             <div className={styles.languages}>
               <button onClick={() => chooseLanguage('en')} lang="en">English</button>
               <button onClick={() => chooseLanguage('fr')} lang="fr">Français</button>
