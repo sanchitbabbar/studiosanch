@@ -18,6 +18,7 @@ function error(status: number, code: string): Response {
 }
 
 function relayError(reason: string): Response {
+  console.error('client-relay failure:', reason);
   const response = error(502, 'service_unavailable');
   // Only static categories or HTTP status codes; never upstream content or exception messages.
   response.headers.set('X-Sanch-Relay-Error', reason);
