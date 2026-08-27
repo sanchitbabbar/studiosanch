@@ -65,3 +65,31 @@ test('fails closed for redirects, HTML, broken JSON and connection errors', asyn
     }
   } finally { globalThis.fetch = previous; }
 });
+
+test('202 diagnostics correlate requests without exposing bodies, cookies or credentials', async () => {
+  const previous = globalThis.fetch;
+  const previousError = console.error;
+  const logs = [];
+  let sentId;
+  console.error = (...args) => logs.push(args.join(' '));
+  globalThis.fetch = async (_target, options) => {
+    assert.equal(options.headers.get('User-Agent'), 'StudioSanchClientRelay/1.0');
+    sentId = options.headers.get('X-Sanch-Request-ID');
+    assert.match(sentId, /^[a-f0-9-]{36}$/);
+    return new Response('<html><script>challenge("BODY_SECRET")</script></html>', {
+      status: 202,
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': 'COOKIE_SECRET', 'Authorization': 'AUTH_SECRET', 'Location': '/?token=LOCATION_SECRET' },
+    });
+  };
+  try {
+    const response = await onRequest({ request: new Request(url) });
+    assert.equal(response.status, 502);
+    assert.equal(response.headers.get('X-Sanch-Relay-Error'), 'upstream-http-202');
+    const diagnostic = JSON.parse(logs[0].slice('client-relay upstream-202: '.length));
+    assert.equal(diagnostic.requestId, sentId);
+    assert.equal(diagnostic.content.html, true);
+    assert.equal(diagnostic.content.challengeMentioned, true);
+    assert.equal(diagnostic.headers['content-type'], 'text/html');
+    assert.doesNotMatch(logs.join('\n'), /BODY_SECRET|COOKIE_SECRET|AUTH_SECRET|LOCATION_SECRET/);
+  } finally { globalThis.fetch = previous; console.error = previousError; }
+});

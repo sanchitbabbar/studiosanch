@@ -1,6 +1,32 @@
 const ORIGIN = 'https://studiosanch.com';
 const UPSTREAM = 'https://api-origin.studiosanch.com/api/client.php';
 const COOKIE = '__Host-sanch_client';
+const RELAY_AGENT = 'StudioSanchClientRelay/1.0';
+
+async function diagnoseAccepted(response: Response, requestId: string, startedAt: string): Promise<void> {
+  // Deliberately not a raw dump: challenge bodies and cookies may contain secrets.
+  const technicalHeaders: Record<string, string> = {};
+  for (const name of ['date', 'content-type', 'content-length', 'server', 'cf-ray', 'x-request-id']) {
+    const value = response.headers.get(name);
+    if (value && value.length <= 160 && /^[a-zA-Z0-9 .,:;/=_+-]+$/.test(value)) technicalHeaders[name] = value;
+  }
+  let content: Record<string, unknown> = { read: 'unavailable' };
+  try {
+    const bytes = await limitedBody(response.body, 65536);
+    const text = new TextDecoder().decode(bytes);
+    content = {
+      read: 'complete', bytes: bytes.byteLength,
+      html: /<!doctype html|<html[\s>]/i.test(text),
+      javascript: /<script[\s>]/i.test(text),
+      challengeMentioned: /captcha|challenge|checking your browser|verify you are human/i.test(text),
+    };
+  } catch { /* Keep the original upstream status, even when its body cannot be read. */ }
+  console.error('client-relay upstream-202:', JSON.stringify({
+    startedAt, receivedAt: new Date().toISOString(), requestId,
+    upstream: UPSTREAM, userAgent: RELAY_AGENT, headers: technicalHeaders, content,
+    sourceIp: 'not available to the relay',
+  }));
+}
 
 function headers(): Headers {
   return new Headers({
@@ -63,7 +89,8 @@ export async function onRequest({ request }: { request: Request }): Promise<Resp
   }
   if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return error(403, 'request_rejected');
   let body: ArrayBuffer | undefined;
-  const outgoing = new Headers({ Accept: 'application/json' });
+  const requestId = crypto.randomUUID();
+  const outgoing = new Headers({ Accept: 'application/json', 'User-Agent': RELAY_AGENT, 'X-Sanch-Request-ID': requestId });
   const cookie = (request.headers.get('Cookie') || '').split(';').map(s => s.trim())
     .find(s => s.startsWith(`${COOKIE}=`));
   if (cookie) outgoing.set('Cookie', cookie);
@@ -84,11 +111,16 @@ export async function onRequest({ request }: { request: Request }): Promise<Resp
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
   let stage = 'connection';
+  const startedAt = new Date().toISOString();
   try {
     const upstream = await fetch(UPSTREAM, {
       method: request.method, headers: outgoing, body,
       redirect: 'manual', cache: 'no-store', signal: controller.signal,
     });
+    if (upstream.status === 202) {
+      await diagnoseAccepted(upstream, requestId, startedAt);
+      return relayError('upstream-http-202');
+    }
     if (![200, 400, 401, 403, 405, 413, 415, 429, 503].includes(upstream.status) ||
         upstream.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') {
       await upstream.body?.cancel();
