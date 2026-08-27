@@ -17,6 +17,7 @@ const menuItems: MenuItem[] = [
   { href: '/productions/', en: 'PRODUCTIONS', fr: 'PRODUCTIONS' },
   { href: '/atelier.html', en: 'ATELIER', fr: 'ATELIER' },
   { href: '/about.html', en: 'ABOUT', fr: 'À PROPOS' },
+  { href: '/client/', en: 'ACCESS', fr: 'ACCÈS' },
 ];
 
 const frenchRoutes: Record<string, string> = {

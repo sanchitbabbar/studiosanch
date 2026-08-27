@@ -33,3 +33,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Private client-auth configuration (never publish or commit credentials)
+/backend/client-auth/config.php

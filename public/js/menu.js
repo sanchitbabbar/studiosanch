@@ -88,6 +88,14 @@ document.addEventListener('DOMContentLoaded', function() {
         menuList.appendChild(productionsItem);
     }
 
+    // Make the language-first client entrance available on legacy pages.
+    if (!menuList.querySelector('a[href="/client/"]')) {
+        const clientItem = document.createElement('li');
+        const french = document.documentElement.lang === 'fr' || currentPath.startsWith('/fr');
+        clientItem.innerHTML = `<a href="/client/">${french ? 'ACCÈS' : 'ACCESS'}</a>`;
+        menuList.appendChild(clientItem);
+    }
+
     // Keep the same intentional order on every legacy static page.
     const itemFor = (selector) => menuList.querySelector(selector)?.closest('li');
     const orderedItems = [
@@ -96,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
         itemFor('a[href$="haute-couture.html"]'),
         itemFor('a[href="/productions/"]'),
         itemFor('a[href$="atelier.html"]'),
-        itemFor('a[href$="about.html"]')
+        itemFor('a[href$="about.html"]'),
+        itemFor('a[href="/client/"]')
     ].filter(Boolean);
     orderedItems.forEach((item) => menuList.appendChild(item));
 
