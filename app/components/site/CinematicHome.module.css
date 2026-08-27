@@ -288,6 +288,16 @@
   .chapterDetail .chapterMedia { width: 74%; margin-left: auto; margin-right: 2vw; }
   .coutureSequence { display: none; }
   .atelierSequence { position: relative; inset: auto; order: 1; width: 86%; height: 52svh; margin: 0 auto; }
+  .atelierSlideFirstVideo {
+    inset: auto;
+    top: 0;
+    left: 50%;
+    width: min(72vw, 320px);
+    height: auto;
+    aspect-ratio: 9 / 16;
+    translate: -50% 0;
+  }
+  .atelierSlideFirstVideo video { object-fit: cover; }
   .coutureFrameLeft { width: 58vw; height: 28svh; left: -15vw; top: 44svh; }
   .coutureFrameRight { width: 46vw; height: 36svh; right: -9vw; top: 1svh; }
   .atelierAtmosphere span { width: 115vw; height: 38svh; }
