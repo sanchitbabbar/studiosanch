@@ -2,8 +2,10 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import ts from 'typescript';
+import { generateKeyPairSync, privateDecrypt, createDecipheriv, constants } from 'node:crypto';
+const diagnosticKeys = generateKeyPairSync('rsa', { modulusLength: 2048 });
 
-const source = readFileSync(new URL('../../functions/api/client.php.ts', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../../functions/api/client.php.ts', import.meta.url), 'utf8').replace(/const DIAGNOSTIC_PUBLIC_KEY: JsonWebKey = .*?;/, `const DIAGNOSTIC_PUBLIC_KEY: JsonWebKey = ${JSON.stringify(diagnosticKeys.publicKey.export({ format: 'jwk' }))};`);
 const compiled = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText;
 const { onRequest } = await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 const url = 'https://studiosanch.com/api/client.php';
@@ -70,6 +72,8 @@ test('202 diagnostics correlate requests without exposing bodies, cookies or cre
   const previous = globalThis.fetch;
   const previousError = console.error;
   const logs = [];
+  const previousNow = Date.now;
+  Date.now = () => Date.parse('2026-08-28T00:00:00Z');
   let sentId;
   console.error = (...args) => logs.push(args.join(' '));
   globalThis.fetch = async (_target, options) => {
@@ -85,11 +89,29 @@ test('202 diagnostics correlate requests without exposing bodies, cookies or cre
     const response = await onRequest({ request: new Request(url) });
     assert.equal(response.status, 502);
     assert.equal(response.headers.get('X-Sanch-Relay-Error'), 'upstream-http-202');
-    const diagnostic = JSON.parse(logs[0].slice('client-relay upstream-202: '.length));
+    const diagnostic = JSON.parse(logs.find(line => line.startsWith('client-relay upstream-202: ')).slice('client-relay upstream-202: '.length));
     assert.equal(diagnostic.requestId, sentId);
     assert.equal(diagnostic.content.html, true);
     assert.equal(diagnostic.content.challengeMentioned, true);
     assert.equal(diagnostic.headers['content-type'], 'text/html');
     assert.doesNotMatch(logs.join('\n'), /BODY_SECRET|COOKIE_SECRET|AUTH_SECRET|LOCATION_SECRET/);
-  } finally { globalThis.fetch = previous; console.error = previousError; }
+    const parts = logs.filter(line => line.startsWith('client-relay encrypted-202: ')).map(line => JSON.parse(line.slice('client-relay encrypted-202: '.length)));
+    assert.ok(parts.length > 0);
+    const envelope = JSON.parse(parts.map(part => part.data).join(''));
+    const key = privateDecrypt({ key: diagnosticKeys.privateKey, oaepHash: 'sha256', padding: constants.RSA_PKCS1_OAEP_PADDING }, Buffer.from(envelope.key, 'base64'));
+    const encrypted = Buffer.from(envelope.ciphertext, 'base64');
+    const decipher = createDecipheriv('aes-256-gcm', key, Buffer.from(envelope.iv, 'base64'));
+    decipher.setAuthTag(encrypted.subarray(-16));
+    const snapshot = JSON.parse(Buffer.concat([decipher.update(encrypted.subarray(0, -16)), decipher.final()]).toString());
+    assert.match(snapshot.body, /BODY_SECRET/);
+    assert.equal(snapshot.headers.find(([name]) => name === 'set-cookie')[1], 'COOKIE_SECRET');
+    assert.equal(snapshot.redirectPolicy, 'manual');
+    logs.length = 0;
+    await onRequest({ request: new Request(url, { headers: { Cookie: '__Host-sanch_client=private' } }) });
+    assert.ok(!logs.some(line => line.startsWith('client-relay encrypted-202: ')));
+    logs.length = 0;
+    Date.now = () => Date.parse('2026-08-29T00:00:00Z');
+    await onRequest({ request: new Request(url) });
+    assert.ok(!logs.some(line => line.startsWith('client-relay encrypted-202: ')));
+  } finally { globalThis.fetch = previous; console.error = previousError; Date.now = previousNow; }
 });

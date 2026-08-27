@@ -3,7 +3,27 @@ const UPSTREAM = 'https://api-origin.studiosanch.com/api/client.php';
 const COOKIE = '__Host-sanch_client';
 const RELAY_AGENT = 'StudioSanchClientRelay/1.0';
 
-async function diagnoseAccepted(response: Response, requestId: string, startedAt: string): Promise<void> {
+// Temporary diagnostic: only anonymous GET failures, encrypted before logging.
+// The private key is kept locally, never deployed. Remove after investigation.
+const DIAGNOSTIC_PUBLIC_KEY: JsonWebKey = {"kty":"RSA","n":"qHRboQx5T2zBmRgw8jpWx_b-8OBBPapEEKBcP2iK147BiBNsXBa-or_LFmapFpWCz1PI0_heyVE3y6SP8siOGI60Y94WdmH3aP5vh8vCt932RSu7ijbxIuw9A5UrcPEz1gkdKr0cD9AX7NSpiZhXhuieaVbe7jgA4xzaBdSBhWDqn1vLFq_vtXGLVYH1x7KuyWF67e334e__W9dIFhJOJiQ2Ty19xHjKXP3nIMEziyyDgXrSDAHdMs-IfB9ugv9jOpqGfMZpulalrWG6FFgNkasqoU8OtJnVxfVKC8_MK2bzXa9whJ5gnNbYWi6c-h0ck00d0Sr5dhdqeHE12lRW5w","e":"AQAB"};
+async function encryptedSnapshot(response: Response, bytes: ArrayBuffer, requestId: string): Promise<void> {
+  if (Date.now() >= Date.parse('2026-08-29T00:00:00Z')) return;
+  const key = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt']);
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const publicKey = await crypto.subtle.importKey('jwk', DIAGNOSTIC_PUBLIC_KEY, { name: 'RSA-OAEP', hash: 'SHA-256' }, false, ['encrypt']);
+  const wrapped = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, publicKey, await crypto.subtle.exportKey('raw', key));
+  const payload = JSON.stringify({ requestId, capturedAt: new Date().toISOString(), requestedUrl: UPSTREAM,
+    responseUrl: response.url, redirected: response.redirected, redirectPolicy: 'manual', status: response.status,
+    headers: Array.from(response.headers.entries()), body: new TextDecoder().decode(bytes) });
+  if (payload.length > 100000) return;
+  const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(payload));
+  const base64 = (value: ArrayBuffer | Uint8Array) => btoa(Array.from(new Uint8Array(value instanceof Uint8Array ? value.buffer : value), b => String.fromCharCode(b)).join(''));
+  const envelope = JSON.stringify({ iv: base64(iv), key: base64(wrapped), ciphertext: base64(ciphertext) });
+  const count = Math.ceil(envelope.length / 3000);
+  for (let i = 0; i < count; i++) console.error('client-relay encrypted-202:', JSON.stringify({ requestId, part: i + 1, count, data: envelope.slice(i * 3000, (i + 1) * 3000) }));
+}
+
+async function diagnoseAccepted(response: Response, requestId: string, startedAt: string, anonymousGet: boolean): Promise<void> {
   // Deliberately not a raw dump: challenge bodies and cookies may contain secrets.
   const technicalHeaders: Record<string, string> = {};
   for (const name of ['date', 'content-type', 'content-length', 'server', 'cf-ray', 'x-request-id']) {
@@ -13,6 +33,9 @@ async function diagnoseAccepted(response: Response, requestId: string, startedAt
   let content: Record<string, unknown> = { read: 'unavailable' };
   try {
     const bytes = await limitedBody(response.body, 65536);
+    if (anonymousGet) {
+      try { await encryptedSnapshot(response, bytes, requestId); } catch { /* Diagnostics must not affect authentication. */ }
+    }
     const text = new TextDecoder().decode(bytes);
     content = {
       read: 'complete', bytes: bytes.byteLength,
@@ -118,7 +141,7 @@ export async function onRequest({ request }: { request: Request }): Promise<Resp
       redirect: 'manual', cache: 'no-store', signal: controller.signal,
     });
     if (upstream.status === 202) {
-      await diagnoseAccepted(upstream, requestId, startedAt);
+      await diagnoseAccepted(upstream, requestId, startedAt, request.method === 'GET' && !cookie);
       return relayError('upstream-http-202');
     }
     if (![200, 400, 401, 403, 405, 413, 415, 429, 503].includes(upstream.status) ||
