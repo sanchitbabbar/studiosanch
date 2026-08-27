@@ -68,7 +68,6 @@ export default function ClientSpace() {
       <div className={styles.topline}>
         {(step === 'project' || step === 'brief') && <button onClick={signOut} disabled={signingOut}>{fr ? 'Se déconnecter' : 'Sign out'}</button>}
         {logoutError && <span role="status">{fr ? 'Déconnexion indisponible. Réessayez.' : 'Sign-out unavailable. Please retry.'}</span>}
-        {step !== 'language' && <button onClick={() => setLanguage(fr ? 'en' : 'fr')} aria-label={fr ? 'Switch to English' : 'Passer en français'}>{fr ? 'FR' : 'EN'} <span aria-hidden="true">↗</span></button>}
       </div>
       {step === 'language' ? (
         <section className={styles.welcome} aria-labelledby="client-title">

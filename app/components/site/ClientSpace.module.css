@@ -56,13 +56,13 @@
 .signIn { width: min(100%, 300px); margin: 38px auto 0; }
 .usernameLabel { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .signIn input { width: 100%; min-height: 50px; border: 0; border-radius: 2px; padding: 14px 20px; background: #ffffff05; color: #eeeae3; font: 300 16px/1.5 'Montserrat', sans-serif; letter-spacing: .08em; text-align: center; }
-.signIn input::placeholder { color: #aaa59d; font-size: 12px; letter-spacing: .16em; }
-.signIn button { display: block; min-height: 48px; margin: 16px auto 0; padding: 14px 24px; font-size: 12px; font-weight: 300; letter-spacing: .19em; color: #c5bdb0; transition: color .5s ease, text-shadow .5s ease; }
+.signIn input::placeholder { color: #e9e5de; opacity: 1; font-size: 12px; letter-spacing: .16em; }
+.signIn button { display: block; min-height: 48px; margin: 16px auto 0; padding: 14px 24px; font-size: 12px; font-weight: 300; letter-spacing: .19em; color: #e9e5de; transition: color .5s ease, text-shadow .5s ease; }
 .signIn button:hover, .signIn button:focus-visible { color: #f3eee5; text-shadow: 0 0 22px #e6d8bd55; }
 .signInNote { min-height: 36px; margin-top: 16px; font-size: 10px; line-height: 1.8; color: #aaa59d; }
-.space .signInBack { min-height: 44px; margin-top: 12px; padding: 12px 20px; font-size: 9px; letter-spacing: .14em; color: #aaa59d; }
+.space .signInBack { min-height: 44px; margin-top: 12px; padding: 12px 20px; font-size: 9px; letter-spacing: .14em; color: #e9e5de; }
 @media (prefers-reduced-motion: reduce) { .signIn button { transition: none; } }
 
 .signIn input + label + input { margin-top: 10px; }
 .signIn button:disabled { opacity: .5; cursor: wait; }
-.recovery { display: inline-block; padding: 10px; font-size: 9px; letter-spacing: .08em; color: #aaa59d; }
+.recovery { display: inline-block; padding: 10px; font-size: 9px; letter-spacing: .08em; color: #e9e5de; }
