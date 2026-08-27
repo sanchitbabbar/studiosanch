@@ -85,8 +85,7 @@ export default function ClientSpace() {
         <section className={styles.welcome} aria-labelledby="client-title">
           <div className={styles.atmosphere} aria-hidden="true" />
           <div className={styles.welcomeContent}>
-            <p className={styles.eyebrow}>STUDIO SANCH</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1} lang="fr">Éclosion</h1>
+            <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Connexion' : 'Sign in'}</h1>
             <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={() => setStep('project')} />
             <button className={styles.signInBack} onClick={() => setStep('language')}>{fr ? 'Langue' : 'Language'}</button>
           </div>
