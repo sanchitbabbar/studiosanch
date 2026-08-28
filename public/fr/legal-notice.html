@@ -16,96 +16,33 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .legal-section {
-            max-width: 900px;
-            margin: 60px auto;
-            padding: 0 30px;
-        }
-        
-        .legal-section h1 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            letter-spacing: 0.15em;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-        
-        .legal-section h2 {
-            font-size: 1rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            margin: 35px 0 15px;
-            text-transform: uppercase;
-        }
-
-        .legal-section h3 {
-            font-size: 0.9rem;
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            margin: 25px 0 10px;
-            text-transform: uppercase;
-        }
-        
-        .legal-section p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            font-weight: 300;
-            margin-bottom: 15px;
-            letter-spacing: 0.05em;
-            color: rgba(255,255,255,0.8);
-        }
-        
-        .legal-section ul {
-            padding-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .legal-section li {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            font-weight: 300;
-            margin-bottom: 8px;
-            letter-spacing: 0.05em;
-            color: rgba(255,255,255,0.8);
-        }
-        
-        .legal-section a {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .legal-section a:hover {
-            color: white;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-        
-        .legal-update {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.6);
-        }
-
-        .legal-toc {
-            background: rgba(255,255,255,0.05);
-            padding: 20px 25px;
-            margin: 30px 0;
-            border-radius: 4px;
-        }
-
-        .legal-toc a {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.8rem;
-        }
-
-        .section-divider {
-            margin: 40px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
+        /* Quiet legal typography, scoped to this document. */
+        .legal-section { max-width: 720px; margin: 96px auto 100px; padding: 0 32px; }
+        .legal-section h1 { color: #d1cec8; font-size: 20px; font-weight: 400; letter-spacing: .16em; margin-bottom: 40px; text-align: left; }
+        .legal-section h2, .legal-section h3 { color: #b8b5af; font-size: 12px; font-weight: 500; line-height: 1.6; letter-spacing: .13em; margin: 0 0 24px; text-transform: uppercase; }
+        .legal-section p, .legal-section li { color: #aaa7a1; font-size: 14px; font-weight: 400; line-height: 1.85; letter-spacing: .012em; margin: 0 0 20px; }
+        .legal-section ul { padding-left: 20px; }
+        .legal-section a { color: #bdbab4; text-decoration: none; border-bottom: 1px solid #484642; transition: color .2s; }
+        .legal-section a:hover { color: #eee9df; text-shadow: none; }
+        .legal-section a:focus-visible { outline: 1px solid #d1cec8; outline-offset: 5px; }
+        .legal-toc { margin: 32px 0 40px; padding: 0; border: 0; }
+        .legal-toc summary { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #272624; list-style: none; cursor: pointer; color: #aaa7a1; font-size: 11px; font-weight: 300; letter-spacing: .1em; text-transform: uppercase; }
+        .legal-toc summary::-webkit-details-marker { display: none; }
+        .legal-toc summary::after { content: '+'; font-size: 16px; font-weight: 300; }
+        .legal-toc[open] summary::after { content: '−'; }
+        .legal-toc summary:hover { color: #d1cec8; }
+        .legal-toc summary:focus-visible { outline: 1px solid #aaa7a1; outline-offset: 5px; }
+        .legal-toc nav { display: flex; flex-direction: column; padding: 16px 0 4px; }
+        .legal-toc a { display: block; padding: 9px 0; font-size: 12px; line-height: 1.6; letter-spacing: .1em; border: none; margin: 0; color: #aaa7a1; font-weight: 300; text-transform: uppercase; }
+        .legal-toc + .section-divider { border: 0; }
+        .section-divider { margin: 48px 0 32px; border-top: 1px solid #272624; scroll-margin-top: 100px; }
+        .legal-update { margin-top: 48px; padding-top: 20px; border-top: 1px solid #272624; }
+        .legal-update p { font-size: 11px; color: #96938d; }
+        .legal-section .legal-details p { font-size: 12px; line-height: 1.85; color: #aaa7a1; margin-bottom: 12px; }
+        .legal-section .legal-details span { color: inherit !important; }
+        @media (max-width: 600px) {
+            .legal-section { margin: 72px auto; padding: 0 24px; }
+            .legal-section h1 { font-size: 18px; }
         }
     </style>
 </head>
@@ -141,59 +78,49 @@
             
             <p data-i18n="legal.intro">Ces mentions légales fournissent des informations importantes sur STUDIO SANCH, la structure juridique de l'entreprise et les conditions dans lesquelles nous opérons.</p>
 
-            <div class="legal-toc">
-                <h3 data-i18n="legal.tableOfContents">TABLE DES MATIÈRES</h3>
-                <a href="#identity">1. IDENTITÉ LÉGALE</a>
-                <a href="#operator">2. EXPLOITANT DU SITE</a>
-                <a href="#intellectual">3. PROPRIÉTÉ INTELLECTUELLE</a>
-                <a href="#artworks">4. ŒUVRES ET CRÉATIONS</a>
-                <a href="#limited">5. ÉDITIONS LIMITÉES</a>
-                <a href="#authenticity">6. AUTHENTICITÉ ET ORIGINALITÉ</a>
-                <a href="#transactions">7. CONDITIONS DE TRANSACTION</a>
-                <a href="#liability">8. RESPONSABILITÉ</a>
-                <a href="#applicable">9. LOI APPLICABLE</a>
-                <a href="#contact">10. INFORMATIONS DE CONTACT</a>
-            </div>
+            <details class="legal-toc" open>
+                <summary><span data-i18n="legal.contentsToggle">Parcourir les rubriques</span></summary>
+                <nav aria-label="Rubriques des mentions légales">
+                    <a href="#identity" data-i18n="legal.nav1">Identité</a>
+                    <a href="#operator" data-i18n="legal.nav2">Éditeur</a>
+                    <a href="#intellectual" data-i18n="legal.nav3">Propriété intellectuelle</a>
+                    <a href="#artworks" data-i18n="legal.nav4">Œuvres et créations</a>
+                    <a href="#limited" data-i18n="legal.nav5">Éditions limitées</a>
+                    <a href="#authenticity" data-i18n="legal.nav6">Authenticité</a>
+                    <a href="#transactions" data-i18n="legal.nav7">Transactions</a>
+                    <a href="#liability" data-i18n="legal.nav8">Responsabilité</a>
+                    <a href="#applicable" data-i18n="legal.nav9">Droit applicable</a>
+                    <a href="#contact" data-i18n="legal.nav10">Contact</a>
+                </nav>
+            </details>
 
             <div id="identity" class="section-divider"></div>
             <h2 data-i18n="legal.section1Title">1. IDENTITÉ LÉGALE</h2>
-            <p data-i18n="legal.section1Para1">STUDIO SANCH est un studio de création où Sanchit Babbar, artiste-auteur et entrepreneur individuel établi à Paris, en France, crée ses designs de haute couture, photoshoots et films numériques originaux.</p>
+            <p data-i18n="legal.section1Para1">Studio Sanch est une société par actions simplifiée unipersonnelle (SASU) au capital de 500,00 €, dont le siège social est situé au 13 Rue du Ruisseau, 75018 Paris, France.</p>
             
-            <p data-i18n="legal.section1Para2">Le statut professionnel de Sanchit Babbar est celui d'un « artiste-auteur » enregistré auprès des autorités administratives et sociales françaises appropriées.</p>
+            <p data-i18n="legal.section1Para2">Sanchit Babbar, président de Studio Sanch SASU, demeure le créateur original et artiste-auteur de ses œuvres et créations, diffusées par Studio Sanch.</p>
             
-            <p data-i18n="legal.section1Para3">Contrairement aux entités corporatives, STUDIO SANCH représente le studio de création et les activités commerciales par lesquelles Sanchit Babbar produit et distribue ses œuvres originales. Toutes les transactions, contrats et accords sont conclus directement avec Sanchit Babbar opérant sous le nom du studio de création STUDIO SANCH.</p>
+            <p data-i18n="legal.section1Para3">Studio Sanch SASU est une personne morale distincte de Sanchit Babbar. La société diffuse et commercialise ses œuvres dans le cadre des droits qui lui sont accordés ; sa constitution ne transfère pas, à elle seule, les droits d’auteur de Sanchit Babbar.</p>
 
             <div id="operator" class="section-divider"></div>
             <h2 data-i18n="legal.section2Title">2. EXPLOITANT DU SITE</h2>
-            <p data-i18n="legal.section2Para1">Ce site web (studiosanch.com) est exploité par Sanchit Babbar, basé à Paris, en France.</p>
+            <p data-i18n="legal.section2Para1">Le site studiosanch.com est édité et exploité par Studio Sanch SASU. Le directeur de la publication est Sanchit Babbar, président de la société.</p>
             
             <p data-i18n="legal.section2Para2">Pour toute question concernant le site web, veuillez contacter : privacy@studiosanch.com</p>
 
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-                <p style="font-size: 0.75rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 15px;">Identité Légale</p>
-                <p style="font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.9);">Artiste-Auteur</span> — Babbar Sanchit - Entreprise Individuelle
-                </p>
-                <p style="font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 8px;">
-                    <span style="color: rgba(255,255,255,0.9);">SIRET</span> : 98367661000014
-                </p>
-                <p style="font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 8px;">
-                    13 Rue du Ruisseau 75018, Paris, France
-                </p>
-                <p style="font-size: 0.85rem; line-height: 1.6; color: rgba(255,255,255,0.7); margin-bottom: 20px;">
-                    +33 768978364
-                </p>
-                
-                <p style="font-size: 0.65rem; letter-spacing: 0.2em; color: rgba(255,255,255,0.4); text-transform: uppercase; margin-bottom: 12px; margin-top: 20px;">Infrastructure</p>
-                <div style="font-size: 0.8rem; line-height: 1.5; color: rgba(255,255,255,0.6);">
-                    <p style="margin-bottom: 6px;"><span style="color: rgba(255,255,255,0.8);">Hébergement</span> — SiteGround Spain S.L., Calle de Prim 19, 28004 Madrid, Espagne</p>
-                    <p><span style="color: rgba(255,255,255,0.8);">Sécurité &amp; CDN</span> — Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA</p>
-                </div>
+            <div class="legal-details">
+                <p data-i18n="legal.identityLabel">Identité juridique</p>
+                <p data-i18n="legal.companyCapital">Studio Sanch SASU — Capital social : 500,00 €</p>
+                <p data-i18n="legal.tradeName">Nom commercial : SANCH</p>
+                <p data-i18n="legal.companyRegistration">SIRET : 10860695500012 · SIREN : 108606955 · Immatriculation au RNE le 27 août 2026</p>
+                <p>13 Rue du Ruisseau, 75018 Paris, France<br>+33 7 68 97 83 64</p>
+                <p data-i18n="legal.hostingLine">Hébergement — SiteGround Spain S.L., Calle de Prim 19, 28004 Madrid, Espagne</p>
+                <p data-i18n="legal.cdnLine">Sécurité &amp; CDN — Cloudflare, Inc., 101 Townsend St, San Francisco, CA 94107, USA</p>
             </div>
 
             <div id="intellectual" class="section-divider"></div>
             <h2 data-i18n="legal.section3Title">3. PROPRIÉTÉ INTELLECTUELLE</h2>
-            <p data-i18n="legal.section3Para1">Tout le contenu de ce site web, y compris mais non limité au texte, aux graphiques, aux logos, aux images, aux extraits audio, aux téléchargements numériques, aux compilations de données et aux logiciels, est la propriété de Sanchit Babbar (STUDIO SANCH) et est protégé par les lois françaises et internationales sur le droit d'auteur et la propriété intellectuelle.</p>
+            <p data-i18n="legal.section3Para1">Sanchit Babbar conserve sa qualité d’auteur des œuvres originales qu’il crée. Studio Sanch diffuse et exploite ces œuvres dans le cadre des droits et accords applicables. Les contenus du site sont protégés par le droit français et international de la propriété intellectuelle ; les contenus de tiers restent soumis aux droits de leurs titulaires respectifs.</p>
             
             <p data-i18n="legal.section3Para2">La reproduction, la modification, la distribution, la transmission, la republication, l'affichage ou l'exécution du contenu de ce site web est strictement interdite sans le consentement écrit exprès de Sanchit Babbar.</p>
             
@@ -227,9 +154,9 @@
 
             <div id="transactions" class="section-divider"></div>
             <h2 data-i18n="legal.section7Title">7. CONDITIONS DE TRANSACTION</h2>
-            <p data-i18n="legal.section7Para1">Tous les achats de STUDIO SANCH constituent une transaction directe entre l'acheteur et Sanchit Babbar en tant qu'artiste-auteur et entrepreneur individuel.</p>
+            <p data-i18n="legal.section7Para1">Les achats et contrats avec Studio Sanch sont conclus avec Studio Sanch SASU, exerçant sous le nom commercial SANCH, représentée par son président Sanchit Babbar.</p>
             
-            <p data-i18n="legal.section7Para2">Les factures émises pour les achats seront au nom de Sanchit Babbar, avec les informations fiscales et d'enregistrement d'entreprise appropriées, conformément à la loi française pour le statut d'artiste-auteur.</p>
+            <p data-i18n="legal.section7Para2">Les factures relatives aux ventes et prestations de Studio Sanch sont émises au nom de Studio Sanch SASU et comportent ses informations d’identification et les mentions fiscales applicables.</p>
             
             <p data-i18n="legal.section7Para3">Pour des conditions détaillées concernant les achats, les livraisons, les retours et les remboursements, veuillez nous contacter directement à contact@studiosanch.com.</p>
 
@@ -237,15 +164,15 @@
             <h2 data-i18n="legal.section8Title">8. RESPONSABILITÉ</h2>
             <p data-i18n="legal.section8Para1">Bien que nous nous efforcions de maintenir l'exactitude et l'actualité des informations présentées sur ce site, STUDIO SANCH ne peut garantir l'absence d'erreurs. Les informations sont fournies 'telles quelles' sans garantie d'aucune sorte.</p>
             
-            <p data-i18n="legal.section8Para2">STUDIO SANCH ne sera pas responsable des dommages directs, indirects, accessoires, consécutifs ou punitifs résultant de l'accès ou de l'utilisation de ce site web ou de son contenu.</p>
+            <p data-i18n="legal.section8Para2">La responsabilité de Studio Sanch demeure régie par le droit applicable. Aucune disposition des présentes mentions ne limite ni n’exclut une responsabilité qui ne peut légalement l’être.</p>
             
-            <p data-i18n="legal.section8Para3">L'utilisation des informations fournies sur ce site web est à vos propres risques. STUDIO SANCH ne sera pas responsable des dommages résultant de l'utilisation ou de l'impossibilité d'utiliser les matériaux sur ce site web.</p>
+            <p data-i18n="legal.section8Para3">Vos droits impératifs, notamment les droits des consommateurs et les garanties légales applicables, demeurent intégralement préservés.</p>
 
             <div id="applicable" class="section-divider"></div>
             <h2 data-i18n="legal.section9Title">9. LOI APPLICABLE</h2>
             <p data-i18n="legal.section9Para1">Cette Notice Légale et votre utilisation de ce site web sont régies par les lois de la France. Tout litige relatif à ce site sera soumis à la juridiction exclusive des tribunaux français.</p>
             
-            <p data-i18n="legal.section9Para2">Tout litige relatif à cette Notice Légale ou à l'utilisation de ce site web sera soumis à la juridiction exclusive des tribunaux de Paris, France.</p>
+            <p data-i18n="legal.section9Para2">Les litiges relèvent des juridictions compétentes selon les règles légales applicables. Les consommateurs conservent le droit de saisir toute juridiction compétente en vertu des dispositions impératives.</p>
             
             <p data-i18n="legal.section9Para3">Si une disposition de cette Notice Légale est jugée invalide ou inapplicable, les dispositions restantes demeureront en vigueur.</p>
 
@@ -253,10 +180,10 @@
             <h2 data-i18n="legal.section10Title">10. INFORMATIONS DE CONTACT</h2>
             <p data-i18n="legal.section10Para1">Pour toute question concernant cette Notice Légale, veuillez contacter :</p>
             
-            <p data-i18n="legal.section10Para2">Email: privacy@studiosanch.com</p>
+            <p data-i18n="legal.section10Para2">Studio Sanch SASU — nom commercial SANCH — 13 Rue du Ruisseau, 75018 Paris, France. Courriel : privacy@studiosanch.com</p>
             
             <div class="legal-update">
-                <p data-i18n="legal.lastUpdated">Dernière mise à jour: 25 avril 2026</p>
+                <p data-i18n="legal.lastUpdated">Dernière mise à jour : 28 août 2026</p>
             </div>
         </section>
     </main>

@@ -226,24 +226,7 @@
             });
         }
 
-        if (newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                this.style.display = 'none';
-                successMessage.style.display = 'block';
-                
-                // Hide the success message after 5 seconds
-                setTimeout(function() {
-                    newsletterDropdown.classList.remove('active');
-                    // Reset form after dropdown is hidden
-                    setTimeout(function() {
-                        newsletterForm.reset();
-                        newsletterForm.style.display = 'flex';
-                        successMessage.style.display = 'none';
-                    }, 300);
-                }, 3000);
-            });
-        }
+        // Submission is handled exclusively by newsletter-handler.js.
 
         // Language Selector Panel
         const languageTrigger = document.getElementById('language-selector-trigger');

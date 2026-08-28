@@ -53,20 +53,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Newsletter form submission (placeholder)
-    const newsletterForm = document.querySelector('.newsletter-form');
-    
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const emailInput = newsletterForm.querySelector('input[type="email"]');
-            
-            if (emailInput && emailInput.value) {
-                // In a real implementation, you would send this to a server
-                console.log('Newsletter subscription:', emailInput.value);
-                alert('Thank you for subscribing to our newsletter!');
-                emailInput.value = '';
-            }
-        });
-    }
+    // Newsletter requests are handled by newsletter-handler.js.
 });

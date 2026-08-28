@@ -17,8 +17,8 @@ export default function TermsPage() {
 
           <p>
             These General Terms of Sale and Service (“Terms”) govern every quotation, commission, order,
-            sale, licence and service supplied by Sanchit Babbar, an artiste-auteur and individual
-            entrepreneur trading under the creative studio name STUDIO SANCH (“Studio Sanch”, “Studio”,
+            sale, licence and service supplied by Studio Sanch SASU, represented by its president
+            Sanchit Babbar (“Studio Sanch”, “Studio”,
             “we”, “us”). They apply together with the product page, written quotation, order confirmation
             and any project-specific agreement accepted by the customer (“Customer”, “you”). Mandatory
             consumer law prevails wherever it grants greater protection.
@@ -26,11 +26,13 @@ export default function TermsPage() {
 
           <h2>1. Seller and contact details</h2>
           <p>
-            Babbar Sanchit – Entreprise Individuelle, 13 Rue du Ruisseau, 75018 Paris, France. SIRET:
-            98367661000014. Email:{' '}
-            <a href="mailto:contact@studiosanch.com">contact@studiosanch.com</a>. Studio Sanch is the
-            creative and commercial name under which Sanchit Babbar produces and distributes original
-            fashion, visual, audiovisual, artistic and design work.
+            Studio Sanch SASU, trading as SANCH, share capital €500.00, 13 Rue du Ruisseau, 75018 Paris, France.
+            SIREN: 108606955. SIRET: 10860695500012. Registered with the RNE on August 27, 2026.
+            President: Sanchit Babbar. Email:{' '}
+            <a href="mailto:contact@studiosanch.com">contact@studiosanch.com</a>.
+            Sanchit Babbar remains the original creator and artiste-auteur of his works and creations.
+            Studio Sanch distributes and commercialises them within the rights granted to the company;
+            incorporation does not itself transfer his copyright.
           </p>
 
           <h2>2. Scope, hierarchy and acceptance</h2>
@@ -312,8 +314,7 @@ export default function TermsPage() {
 
           <h2>26. Model withdrawal form</h2>
           <p>
-            Complete and send this form only if you wish to withdraw from an eligible contract: “To Sanchit
-            Babbar – Studio Sanch, 13 Rue du Ruisseau, 75018 Paris, France,
+            Complete and send this form only if you wish to withdraw from an eligible contract: “To Studio Sanch SASU, 13 Rue du Ruisseau, 75018 Paris, France,
             contact@studiosanch.com: I hereby give notice that I withdraw from my contract for the sale of the
             following goods / provision of the following service: [describe]. Ordered on / received on:
             [date]. Consumer name: [name]. Consumer address: [address]. Signature (only if submitted on
@@ -321,7 +322,7 @@ export default function TermsPage() {
           </p>
 
           <div className="terms-update">
-            <p>Version effective and last updated: August 21, 2026</p>
+            <p>Version effective and last updated: August 28, 2026</p>
           </div>
         </section>
       </main>
