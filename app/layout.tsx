@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import CookieConsent from './components/site/CookieConsent';
 
 // Deliberately carries no stylesheet: the boutique (Tailwind) and the original
 // studio-sanch pages (css/styles.css) each load their own CSS in their route
@@ -23,7 +24,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <CookieConsent />
+      </body>
     </html>
   );
 }
