@@ -4,14 +4,15 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from './ClientSpace.module.css';
 import ClientSignIn from './ClientSignIn';
-import { clientAuth } from '../../utils/clientAuth';
+import { clientAuth, ProjectAccess } from '../../utils/clientAuth';
 
 const disciplines = [
-  { en: 'Film', fr: 'Film', detail: 'Direction · Movement · Emotion', detailFr: 'Réalisation · Mouvement · Émotion' },
-  { en: 'Photoshoot', fr: 'Séance photo', detail: 'Portrait · Fashion · Editorial', detailFr: 'Portrait · Mode · Éditorial' },
-  { en: 'Exhibition', fr: 'Exposition', detail: 'Art · Space · Dialogue', detailFr: 'Art · Espace · Dialogue' },
-  { en: 'Art installation', fr: 'Installation artistique', detail: 'Form · Presence · Experience', detailFr: 'Forme · Présence · Expérience' },
+  { slug: 'film' as const, en: 'Film', fr: 'Film', detail: 'Narrative · Direction · Production', detailFr: 'Narration · Réalisation · Production' },
+  { slug: 'photoshoot' as const, en: 'Photoshoot', fr: 'Séance photo', detail: 'Theater · Dance · Fashion', detailFr: 'Théâtre · Danse · Mode' },
+  { slug: 'installation' as const, en: 'Installation', fr: 'Installation', detail: 'Exhibition · Gesture · Experience', detailFr: 'Exposition · Geste · Expérience' },
+  { slug: 'identity' as const, en: 'Identity', fr: 'Identité', detail: 'Digital · Edition · Brand', detailFr: 'Digital · Édition · Marque' },
 ];
+const allProjectAccess: ProjectAccess[] = disciplines.map(item => item.slug);
 
 export default function ClientSpace() {
   const { language, setLanguage } = useLanguage();
@@ -21,13 +22,26 @@ export default function ClientSpace() {
   const [invitation, setInvitation] = useState('');
   const [logoutError, setLogoutError] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
+  const [projectAccess, setProjectAccess] = useState<ProjectAccess[]>([]);
+  const [accessNotice, setAccessNotice] = useState(false);
+  const [restrictedSelection, setRestrictedSelection] = useState<ProjectAccess | null>(null);
+  const noticeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
+    const preview = new URLSearchParams(window.location.search).get('preview');
+    if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && preview === 'project') {
+      const requestedAccess = new URLSearchParams(window.location.search).get('access');
+      const previewAccess = requestedAccess?.split(',').filter((item): item is ProjectAccess => allProjectAccess.includes(item as ProjectAccess)) || [];
+      setProjectAccess(previewAccess.length ? previewAccess : allProjectAccess);
+      setStep('project');
+      return;
+    }
     const token = new URLSearchParams(window.location.hash.slice(1)).get('invite');
     if (token && /^[a-f0-9]{64}$/.test(token)) {
       setInvitation(token);
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
     }
   }, []);
+  useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
   async function signOut() {
     if (signingOut) return;
     setSigningOut(true);
@@ -35,7 +49,7 @@ export default function ClientSpace() {
       const session = await clientAuth();
       await clientAuth({ action: 'logout' }, session.csrf);
       setDraft({ name: '', email: '', organisation: '', location: '', timing: '', vision: '' });
-      setPrepared(false); setStep('signin'); setLogoutError(false);
+      setProjectAccess([]); setPrepared(false); setStep('signin'); setLogoutError(false);
     } catch { setLogoutError(true); }
     finally { setSigningOut(false); }
   }
@@ -50,6 +64,18 @@ export default function ClientSpace() {
   }, [step]);
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
+  const permittedNames = disciplines
+    .filter(item => projectAccess.includes(item.slug))
+    .map(item => fr ? item.fr : item.en)
+    .join(' · ');
+  function showAccessNotice() {
+    if (noticeTimer.current) clearTimeout(noticeTimer.current);
+    setAccessNotice(true);
+    noticeTimer.current = setTimeout(() => {
+      setAccessNotice(false);
+      setRestrictedSelection(null);
+    }, 7000);
+  }
   const brief = [fr ? 'Nouveau projet — Studio Sanch' : 'New project — Studio Sanch', '', `${fr ? 'Projet' : 'Project'}: ${fr ? project.fr : project.en}`, `${fr ? 'Nom' : 'Name'}: ${draft.name}`, `Email: ${draft.email}`, `${fr ? 'Organisation' : 'Organisation'}: ${draft.organisation}`, `${fr ? 'Lieu' : 'Location'}: ${draft.location}`, `${fr ? 'Calendrier' : 'Timing'}: ${draft.timing}`, '', draft.vision].join('\n');
   function prepareEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,22 +111,37 @@ export default function ClientSpace() {
           <div className={styles.atmosphere} aria-hidden="true" />
           <div className={styles.welcomeContent}>
             <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Connexion' : 'Sign in'}</h1>
-            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={() => setStep('project')} />
+            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={user => { setProjectAccess(user.access); setStep('project'); }} />
             <button className={styles.signInBack} onClick={() => setStep('language')}>{fr ? 'Langue' : 'Language'}</button>
           </div>
         </section>
       ) : step === 'project' ? (
-        <section className={styles.content} aria-labelledby="client-title">
+        <section className={`${styles.content} ${styles.projectScene}`} aria-labelledby="client-title">
+          <div className={`${styles.sceneReveal} ${styles.revealBottomLeft}`} aria-hidden="true" />
+          <div className={`${styles.sceneReveal} ${styles.revealBottomRight}`} aria-hidden="true" />
+          <div className={`${styles.sceneReveal} ${styles.revealTopLeft}`} aria-hidden="true" />
+          <div className={`${styles.sceneReveal} ${styles.revealTopRight}`} aria-hidden="true" />
+          <div className={`${styles.stageLaser} ${styles.laserBottomLeft}`} aria-hidden="true" />
+          <div className={`${styles.stageLaser} ${styles.laserBottomRight}`} aria-hidden="true" />
+          <div className={`${styles.stageLaser} ${styles.laserTopLeft}`} aria-hidden="true" />
+          <div className={`${styles.stageLaser} ${styles.laserTopRight}`} aria-hidden="true" />
           <div className={styles.intro}>
             <h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Tout commence' : 'It begins'}<br /><span>{fr ? 'par une idée.' : 'with an idea.'}</span></h1>
             <p>{fr ? <>Certaines créations naissent d’une vision.<br />D’autres, d’une sensation.<br /><strong>Par où commencer ?</strong></> : <>Some creations begin with a vision.<br />Others, with a sensation.<br /><strong>Where shall we begin?</strong></>}</p>
           </div>
-          <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => <button key={item.en} className={styles.project} onClick={() => { setSelected(index); setPrepared(false); setStep('brief'); }}>
+          <div className={styles.accessNoticeSlot}>
+            <div className={`${styles.accessNotice} ${accessNotice ? styles.accessNoticeVisible : ''}`} role="status" aria-live="polite" aria-hidden={!accessNotice}>
+              <i aria-hidden="true" />
+              <p>{fr ? 'Accès privé' : 'Private access'}</p>
+              <strong>{permittedNames}</strong>
+              <span>{fr ? 'D’autres possibilités sur demande.' : 'Further possibilities upon request.'}</span>
+            </div>
+          </div>
+          <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => { const permitted = projectAccess.includes(item.slug); return <button key={item.en} className={`${styles.project} ${!permitted ? styles.restricted : ''} ${restrictedSelection === item.slug && accessNotice ? styles.restrictedSelection : ''}`} aria-disabled={!permitted} aria-label={!permitted ? `${fr ? item.fr : item.en} — ${fr ? 'accès non inclus' : 'access not included'}` : undefined} onClick={() => { if (!permitted) { setRestrictedSelection(item.slug); showAccessNotice(); return; } setAccessNotice(false); setRestrictedSelection(null); setSelected(index); setPrepared(false); setStep('brief'); }}>
             <span className={styles.projectNumber}>0{index + 1}</span>
             <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
             <span className={styles.projectDetail}>{fr ? item.detailFr : item.detail}</span>
-            <span className={styles.projectArrow} aria-hidden="true">↗</span>
-          </button>)}</div>
+          </button>; })}</div>
           <button className={styles.back} onClick={() => setStep('language')}>← {fr ? 'Choisir une langue' : 'Choose a language'}</button>
         </section>
       ) : (

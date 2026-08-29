@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS client_accounts (
   username TEXT NOT NULL UNIQUE COLLATE NOCASE,
   email TEXT NOT NULL,
   booking_reference TEXT NOT NULL,
+  project_access TEXT NOT NULL DEFAULT 'film,photoshoot,installation,identity',
   password_hash TEXT,
   status TEXT NOT NULL DEFAULT 'invited' CHECK(status IN ('invited','active','disabled')),
   session_version INTEGER NOT NULL DEFAULT 1,

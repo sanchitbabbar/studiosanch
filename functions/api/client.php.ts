@@ -13,8 +13,18 @@ type D1Statement = { bind(...values: unknown[]): D1Statement; first<T = Record<s
 type D1Database = { prepare(sql: string): D1Statement; batch(statements: D1Statement[]): Promise<D1Result[]>; };
 type Env = { CLIENT_DB: D1Database; CLIENT_RATE_SECRET: string; };
 type Context = { request: Request; env: Env; };
-type Account = { id: string; username: string; status: string; session_version: number; password_hash: string | null; invitation_hash: string | null; invitation_expires: number | null; };
-type Session = { tokenHash: string; csrf: string; user: { id: string; username: string } | null; };
+type ProjectAccess = 'film' | 'photoshoot' | 'installation' | 'identity';
+type Account = { id: string; username: string; status: string; session_version: number; password_hash: string | null; invitation_hash: string | null; invitation_expires: number | null; project_access: string };
+type SessionUser = { id: string; username: string; access: ProjectAccess[] };
+type Session = { tokenHash: string; csrf: string; user: SessionUser | null; };
+
+const PROJECT_ACCESS = new Set<ProjectAccess>(['film', 'photoshoot', 'installation', 'identity']);
+function parseProjectAccess(value: unknown): ProjectAccess[] {
+  return [...new Set(String(value || '').split(',').map(item => item.trim()).filter((item): item is ProjectAccess => PROJECT_ACCESS.has(item as ProjectAccess)))];
+}
+function accountUser(account: Pick<Account, 'id' | 'username' | 'project_access'>): SessionUser {
+  return { id: account.id, username: account.username, access: parseProjectAccess(account.project_access) };
+}
 
 function secureHeaders(): Headers {
   return new Headers({
@@ -66,12 +76,12 @@ async function openSession(request: Request, db: D1Database): Promise<{ session:
   if (token) {
     const tokenHash = await sha256(token);
     const row = await db.prepare(`SELECT s.csrf, s.account_id, s.session_version, s.created_at, s.last_seen, s.expires_at,
-      a.id AS user_id, a.username, a.status, a.session_version AS current_version
+      a.id AS user_id, a.username, a.status, a.session_version AS current_version, a.project_access
       FROM client_sessions s LEFT JOIN client_accounts a ON a.id = s.account_id WHERE s.token_hash = ?`).bind(tokenHash).first<Record<string, unknown>>();
     if (row && Number(row.expires_at) > now && now - Number(row.last_seen) <= SESSION_IDLE && now - Number(row.created_at) <= SESSION_ABSOLUTE &&
         (!row.account_id || (row.status === 'active' && Number(row.session_version) === Number(row.current_version)))) {
       await db.prepare('UPDATE client_sessions SET last_seen = ? WHERE token_hash = ?').bind(now, tokenHash).run();
-      return { session: { tokenHash, csrf: String(row.csrf), user: row.account_id ? { id: String(row.user_id), username: String(row.username) } : null } };
+      return { session: { tokenHash, csrf: String(row.csrf), user: row.account_id ? accountUser({ id: String(row.user_id), username: String(row.username), project_access: String(row.project_access || '') }) : null } };
     }
     await db.prepare('DELETE FROM client_sessions WHERE token_hash = ?').bind(tokenHash).run();
   }
@@ -85,7 +95,7 @@ async function rotateSession(db: D1Database, oldHash: string, account?: Account)
     db.prepare('DELETE FROM client_sessions WHERE token_hash = ?').bind(oldHash),
     db.prepare('INSERT INTO client_sessions(token_hash, csrf, account_id, session_version, created_at, last_seen, expires_at) VALUES (?, ?, ?, ?, ?, ?, ?)').bind(tokenHash, csrf, account?.id || null, account?.session_version || null, now, now, now + SESSION_ABSOLUTE),
   ]);
-  return { session: { tokenHash, csrf, user: account ? { id: account.id, username: account.username } : null }, cookie: token };
+  return { session: { tokenHash, csrf, user: account ? accountUser(account) : null }, cookie: token };
 }
 async function rateLimit(db: D1Database, secret: string, scope: string, identifier: string, maximum: number): Promise<number | null> {
   const now = Math.floor(Date.now() / 1000); const bucket = await hmac(secret, `${scope}:${identifier}`);
@@ -135,7 +145,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
     if (!retry) retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'username', username, 10);
     if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
     stage = 'load-account';
-    const account = await env.CLIENT_DB.prepare('SELECT id, username, status, session_version, password_hash, invitation_hash, invitation_expires FROM client_accounts WHERE username = ?').bind(username).first<Account>();
+    const account = await env.CLIENT_DB.prepare('SELECT id, username, status, session_version, password_hash, invitation_hash, invitation_expires, project_access FROM client_accounts WHERE username = ?').bind(username).first<Account>();
     if (action === 'activate') {
       const token = String(parsed.token || '');
       if (!/^[a-f0-9]{64}$/.test(token)) return fail(400, 'invalid_invitation');

@@ -16,7 +16,7 @@ class Statement {
     if (this.sql.startsWith('SELECT s.csrf')) {
       const session = this.db.sessions.get(this.values[0]); if (!session) return null;
       const account = session.account_id ? this.db.accounts.get(session.account_id) : null;
-      return { ...session, user_id: account?.id, username: account?.username, status: account?.status, current_version: account?.session_version };
+      return { ...session, user_id: account?.id, username: account?.username, project_access: account?.project_access, status: account?.status, current_version: account?.session_version };
     }
     if (this.sql.startsWith('SELECT attempts')) return this.db.limits.get(this.values[0]) || null;
     if (this.sql.startsWith('SELECT id, username')) return [...this.db.accounts.values()].find(a => a.username === this.values[0]) || null;
@@ -66,14 +66,14 @@ test('creates secure session and rejects invalid origin and CSRF', async () => {
 
 test('invitation activation, login and logout work end to end', async () => {
   const db = new Database(); const token = 'b'.repeat(64); const now = Math.floor(Date.now()/1000);
-  db.accounts.set('account-1', { id: 'account-1', username: 'test.client', status: 'invited', session_version: 1, password_hash: null, invitation_hash: createHash('sha256').update(token).digest('hex'), invitation_expires: now + 3600 });
+  db.accounts.set('account-1', { id: 'account-1', username: 'test.client', project_access: 'photoshoot', status: 'invited', session_version: 1, password_hash: null, invitation_hash: createHash('sha256').update(token).digest('hex'), invitation_expires: now + 3600 });
   const start = await onRequest({ request: new Request(url), env: envFor(db) }); const startData = await start.json();
   const activation = await onRequest({ request: post(cookieFrom(start), startData.csrf, { action: 'activate', username: 'test.client', password: 'correct horse battery staple', token }), env: envFor(db) });
   assert.equal(activation.status, 200); assert.equal((await activation.clone().json()).activated, true);
   const activated = await activation.json(); const activationCookie = cookieFrom(activation);
   const wrong = await onRequest({ request: post(activationCookie, activated.csrf, { action: 'login', username: 'test.client', password: 'wrong password' }), env: envFor(db) }); assert.equal(wrong.status, 401);
   const login = await onRequest({ request: post(activationCookie, activated.csrf, { action: 'login', username: 'test.client', password: 'correct horse battery staple' }), env: envFor(db) });
-  assert.equal(login.status, 200); const loginData = await login.json(); assert.deepEqual(loginData.user, { id: 'account-1', username: 'test.client' });
+  assert.equal(login.status, 200); const loginData = await login.json(); assert.deepEqual(loginData.user, { id: 'account-1', username: 'test.client', access: ['photoshoot'] });
   const logout = await onRequest({ request: post(cookieFrom(login), loginData.csrf, { action: 'logout' }), env: envFor(db) });
   assert.equal(logout.status, 200); assert.equal((await logout.json()).user, null);
 });

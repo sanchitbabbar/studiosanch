@@ -1,6 +1,7 @@
+export type ProjectAccess = 'film' | 'photoshoot' | 'installation' | 'identity';
 export interface ClientSession {
   csrf: string;
-  user: { id: string; username: string } | null;
+  user: { id: string; username: string; access: ProjectAccess[] } | null;
   activated?: boolean;
 }
 export class ClientAuthError extends Error {

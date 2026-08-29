@@ -64,7 +64,7 @@ const chapters = [
     title: { en: 'ATELIER', fr: 'ATELIER' },
     text: {
       en: 'An Ode to Femininity — Revealing the delicate interplay between masculine and feminine, defined by style and elegance.',
-      fr: "Une Ode à la Féminité — Où se révèle la délicate interaction entre le masculin et le féminin, dans une grâce auréolée d'élégance.",
+      fr: "Une Ode à la Féminité — Où se révèle la délicate interaction entre le masculin et le féminin, dans une résonance auréolée d'élégance.",
     },
     href: '/atelier.html',
     image: '/images/sketch1.jpg',
@@ -312,7 +312,7 @@ export default function CinematicHome() {
         <motion.div style={{ opacity: manifestoOpacity, y: manifestoY }}>
           <h2>
             {fr
-              ? 'spécialisé dans la mode et les créations.'
+              ? 'spécialisé dans la mode et les films numériques.'
               : 'Versed in high fashion and digital films.'}
           </h2>
         </motion.div>

@@ -1,10 +1,10 @@
 'use client';
 import { FormEvent, useState } from 'react';
-import { clientAuth, ClientAuthError } from '../../utils/clientAuth';
+import { clientAuth, ClientAuthError, ClientSession } from '../../utils/clientAuth';
 import styles from './ClientSpace.module.css';
 
 export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }: {
-  fr: boolean; invitation: string; onActivated: () => void; onSignedIn: () => void;
+  fr: boolean; invitation: string; onActivated: () => void; onSignedIn: (user: NonNullable<ClientSession['user']>) => void;
 }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
@@ -33,7 +33,7 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
       const session = await clientAuth();
       const result = await clientAuth({ action: invitation ? 'activate' : 'login', username: String(values.get('username') || ''), password: String(values.get('password') || ''), ...(invitation ? { token: invitation } : {}) }, session.csrf);
       if (invitation && result.activated === true) { form.reset(); setActivated(true); onActivated(); }
-      else if (result.user && typeof result.user.id === 'string') { form.reset(); onSignedIn(); }
+      else if (result.user && typeof result.user.id === 'string') { form.reset(); onSignedIn(result.user); }
       else throw new ClientAuthError('service_unavailable');
     } catch (error) { setMessage(error instanceof ClientAuthError ? error.code : 'service_unavailable'); }
     finally { setBusy(false); }
