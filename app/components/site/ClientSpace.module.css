@@ -73,4 +73,5 @@
 .recoveryForm textarea::placeholder { color: #aaa59d; opacity: 1; font-size: 11px; }
 .space .recoveryForm textarea:focus-visible { outline: none; border-bottom-color: #d6c5a6a8; box-shadow: 0 7px 14px -13px #d6c5a6; }
 .recoveryConfirmation { margin: 0 auto 18px; color: #c3bbaa; font-size: 11px; line-height: 2; }
+.recoveryConfirmation strong { color: #e7e2d9; font-weight: 400; }
 .honeypot { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }

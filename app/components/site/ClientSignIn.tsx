@@ -58,7 +58,11 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
   }
   if (recovery) return <form className={`${styles.signIn} ${styles.recoveryForm}`} onSubmit={requestAssistance} aria-describedby="recovery-status" aria-busy={recoveryBusy}>
     {recoverySent ? <>
-      <p id="recovery-status" className={styles.recoveryConfirmation} role="status">{fr ? 'Votre demande a bien été transmise au studio. Après vérification, nous vous adresserons un nouveau lien personnel par e-mail.' : 'Your request has been sent to the studio. After verification, we will email you a new personal link.'}</p>
+      <p id="recovery-status" className={styles.recoveryConfirmation} role="status">
+        <strong>{fr ? 'Votre demande a bien été reçue.' : 'Your request has been received.'}</strong>
+        <br />
+        {fr ? 'Le studio vous contactera prochainement.' : 'The studio will contact you shortly.'}
+      </p>
       <button type="button" onClick={() => { setRecovery(false); setRecoverySent(false); }}>{fr ? 'Retour à la connexion' : 'Return to sign in'}</button>
     </> : <>
       <p className={styles.recoveryTitle}>{fr ? 'Assistance accès client' : 'Client access assistance'}</p>
