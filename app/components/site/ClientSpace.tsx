@@ -7,10 +7,10 @@ import ClientSignIn from './ClientSignIn';
 import { clientAuth } from '../../utils/clientAuth';
 
 const disciplines = [
-  { en: 'Film', fr: 'Film', detail: 'Direction · Movement · Emotion', detailFr: 'Réalisation · Mouvement · Émotion', image: '/images/productions-hero-reel.webp' },
-  { en: 'Photoshoot', fr: 'Séance photo', detail: 'Portrait · Fashion · Editorial', detailFr: 'Portrait · Mode · Éditorial', image: '/images/studio-carousel/sanch-17.webp' },
-  { en: 'Exhibition', fr: 'Exposition', detail: 'Art · Space · Dialogue', detailFr: 'Art · Espace · Dialogue', image: '/images/art-prints/londe-interieure.jpg' },
-  { en: 'Art installation', fr: 'Installation artistique', detail: 'Form · Presence · Experience', detailFr: 'Forme · Présence · Expérience', image: '/images/productions-montage/frame-04.png' },
+  { en: 'Film', fr: 'Film', detail: 'Direction · Movement · Emotion', detailFr: 'Réalisation · Mouvement · Émotion' },
+  { en: 'Photoshoot', fr: 'Séance photo', detail: 'Portrait · Fashion · Editorial', detailFr: 'Portrait · Mode · Éditorial' },
+  { en: 'Exhibition', fr: 'Exposition', detail: 'Art · Space · Dialogue', detailFr: 'Art · Espace · Dialogue' },
+  { en: 'Art installation', fr: 'Installation artistique', detail: 'Form · Presence · Experience', detailFr: 'Forme · Présence · Expérience' },
 ];
 
 export default function ClientSpace() {
@@ -91,11 +91,12 @@ export default function ClientSpace() {
         </section>
       ) : step === 'project' ? (
         <section className={styles.content} aria-labelledby="client-title">
-          <p className={styles.eyebrow}>{fr ? '01 / VOTRE UNIVERS' : '01 / YOUR WORLD'}</p>
-          <div className={styles.intro}><h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Tout commence' : 'It begins'}<br /><span>{fr ? 'par une idée.' : 'with an idea.'}</span></h1><p>{fr ? 'Une intention, une intuition, un univers à imaginer. Quelle forme souhaitez-vous lui donner ?' : 'An intention, an intuition, a world waiting to take shape. What would you like to create?'}</p></div>
-          <div className={styles.projects}>{disciplines.map((item, index) => <button key={item.en} className={styles.project} onClick={() => { setSelected(index); setPrepared(false); setStep('brief'); }}>
-            <div className={styles.projectImage}><img src={item.image} alt="" /><span className={styles.projectNumber}>0{index + 1}</span><span className={styles.projectArrow} aria-hidden="true">↗</span></div>
-            <h2>{fr ? item.fr : item.en}</h2><p>{fr ? item.detailFr : item.detail}</p>
+          <div className={styles.intro}><h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Certaines créations naissent d’une vision.' : 'Some creations begin with a vision.'}<br /><span>{fr ? 'D’autres, d’une sensation.' : 'Others, with a sensation.'}</span></h1><p>{fr ? 'Par où commencer ?' : 'Where shall we begin?'}</p></div>
+          <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => <button key={item.en} className={styles.project} onClick={() => { setSelected(index); setPrepared(false); setStep('brief'); }}>
+            <span className={styles.projectNumber}>0{index + 1}</span>
+            <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
+            <span className={styles.projectDetail}>{fr ? item.detailFr : item.detail}</span>
+            <span className={styles.projectArrow} aria-hidden="true">↗</span>
           </button>)}</div>
           <button className={styles.back} onClick={() => setStep('language')}>← {fr ? 'Choisir une langue' : 'Choose a language'}</button>
         </section>
