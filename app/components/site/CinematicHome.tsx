@@ -390,7 +390,7 @@ export default function CinematicHome() {
       <section ref={finaleRef} className={styles.finale}>
         <motion.div style={{ opacity: finaleOpacity, y: finaleY }}>
         <span className={styles.eyebrow}>{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</span>
-          <h2>{fr ? 'Que le travail commence.' : 'Let the work begin.'}</h2>
+          <h2>{fr ? 'L’idée se révèle.' : 'Let the work begin.'}</h2>
         <div className={styles.finaleLinks}>
           <Link href={fr ? '/fr/contact.html' : '/contact.html'}>{fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'}</Link>
         </div>
