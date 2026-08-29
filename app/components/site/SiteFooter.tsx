@@ -140,7 +140,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
             <span aria-hidden="true">|</span>
             <a href="/terms">{fr ? 'CONDITIONS' : 'TERMS'}</a>
             <span aria-hidden="true">|</span>
-            <a href={fr ? '/fr/legal-notice.html' : '/legal-notice.html'}>{fr ? 'LÉGAL' : 'LEGAL'}</a>
+            <a href={fr ? '/fr/legal-notice.html' : '/legal-notice.html'}>{fr ? 'LÉGALE' : 'LEGAL'}</a>
           </div>
         </div>
         <button
