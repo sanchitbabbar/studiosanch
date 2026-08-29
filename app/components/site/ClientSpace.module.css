@@ -20,6 +20,7 @@
 .intro { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(180px, .65fr); align-items: end; gap: clamp(40px, 8vw, 130px); max-width: 1350px; }
 .intro h1 { max-width: 980px; font-size: clamp(38px, 5vw, 78px); line-height: 1.16; }
 .intro > p { margin: 0 0 10px; font-size: 12px; line-height: 1.9; letter-spacing: .11em; color: #c4b9a8; }
+.intro > p strong { display: inline-block; margin-top: 10px; color: #eeeae3; font-weight: 300; }
 .projects { position: relative; isolation: isolate; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: clamp(8px, 2.6vw, 46px); min-height: clamp(280px, 38vw, 490px); margin: 35px 0 12px; padding: 35px 2vw; perspective: 1100px; overflow: hidden; }
 .projects::before { content: ''; position: absolute; z-index: -1; width: 74%; aspect-ratio: 1; left: 13%; top: 50%; transform: translateY(-50%) rotateX(72deg); border: 1px solid #d6c5a612; border-radius: 50%; box-shadow: 0 0 120px #a88c5a0b; }
 .projects::after { content: ''; position: absolute; z-index: -2; inset: 14% 8%; background: radial-gradient(ellipse, #b99e6e0b, transparent 67%); filter: blur(18px); }

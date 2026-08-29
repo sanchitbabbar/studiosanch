@@ -91,7 +91,10 @@ export default function ClientSpace() {
         </section>
       ) : step === 'project' ? (
         <section className={styles.content} aria-labelledby="client-title">
-          <div className={styles.intro}><h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Certaines créations naissent d’une vision.' : 'Some creations begin with a vision.'}<br /><span>{fr ? 'D’autres, d’une sensation.' : 'Others, with a sensation.'}</span></h1><p>{fr ? 'Par où commencer ?' : 'Where shall we begin?'}</p></div>
+          <div className={styles.intro}>
+            <h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Tout commence' : 'It begins'}<br /><span>{fr ? 'par une idée.' : 'with an idea.'}</span></h1>
+            <p>{fr ? <>Certaines créations naissent d’une vision.<br />D’autres, d’une sensation.<br /><strong>Par où commencer ?</strong></> : <>Some creations begin with a vision.<br />Others, with a sensation.<br /><strong>Where shall we begin?</strong></>}</p>
+          </div>
           <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => <button key={item.en} className={styles.project} onClick={() => { setSelected(index); setPrepared(false); setStep('brief'); }}>
             <span className={styles.projectNumber}>0{index + 1}</span>
             <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
