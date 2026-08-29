@@ -92,8 +92,7 @@ export default function CookieConsent() {
       }
     }
 
-    const timer = window.setTimeout(() => setVisible(true), 900);
-    return () => window.clearTimeout(timer);
+    setVisible(true);
   }, []);
 
   const persist = (preferences: Preferences) => {
