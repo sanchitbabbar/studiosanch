@@ -1224,11 +1224,32 @@ footer {
 }
 
 .copyright-container {
+    position: relative;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 4rem;
     padding-bottom: 2rem;
+}
+
+.footer-cookie-control {
+    position: absolute;
+    right: clamp(18px, 3vw, 48px);
+    bottom: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.34);
+    font: 400 0.5rem/1.4 var(--font-primary);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.35s ease;
+}
+
+.footer-cookie-control:hover {
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .copyright-container .social-links {
