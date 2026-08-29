@@ -1,10 +1,12 @@
-import { pbkdf2Sync } from 'node:crypto';
+import { scryptSync } from 'node:crypto';
 
 const ORIGIN = 'https://studiosanch.com';
 const COOKIE = '__Host-sanch_client';
 const SESSION_IDLE = 1800;
 const SESSION_ABSOLUTE = 28800;
-const PBKDF2_ITERATIONS = 600000;
+const SCRYPT_N = 16384;
+const SCRYPT_R = 8;
+const SCRYPT_P = 1;
 
 type D1Result<T = Record<string, unknown>> = { results?: T[]; success?: boolean; meta?: { changes?: number } };
 type D1Statement = { bind(...values: unknown[]): D1Statement; first<T = Record<string, unknown>>(): Promise<T | null>; run(): Promise<D1Result>; };
@@ -44,13 +46,13 @@ function equalHex(left: string, right: string): boolean {
   return difference === 0;
 }
 async function passwordHash(password: string, salt = randomHex(16)): Promise<string> {
-  const derived = pbkdf2Sync(password, salt, PBKDF2_ITERATIONS, 32, 'sha256');
-  return `pbkdf2-sha256$${PBKDF2_ITERATIONS}$${salt}$${derived.toString('hex')}`;
+  const derived = scryptSync(password, salt, 32, { N: SCRYPT_N, r: SCRYPT_R, p: SCRYPT_P, maxmem: 32 * 1024 * 1024 });
+  return `scrypt$${SCRYPT_N}$${SCRYPT_R}$${SCRYPT_P}$${salt}$${derived.toString('hex')}`;
 }
 async function passwordVerify(password: string, encoded: string): Promise<boolean> {
-  const [algorithm, iterations, salt, expected] = encoded.split('$');
-  if (algorithm !== 'pbkdf2-sha256' || Number(iterations) !== PBKDF2_ITERATIONS || !/^[a-f0-9]{32}$/.test(salt || '') || !/^[a-f0-9]{64}$/.test(expected || '')) return false;
-  const actual = (await passwordHash(password, salt)).split('$')[3];
+  const [algorithm, n, r, p, salt, expected] = encoded.split('$');
+  if (algorithm !== 'scrypt' || Number(n) !== SCRYPT_N || Number(r) !== SCRYPT_R || Number(p) !== SCRYPT_P || !/^[a-f0-9]{32}$/.test(salt || '') || !/^[a-f0-9]{64}$/.test(expected || '')) return false;
+  const actual = (await passwordHash(password, salt)).split('$')[5];
   return equalHex(actual, expected);
 }
 function cookieValue(request: Request): string | null {
@@ -151,7 +153,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       return reply(200, { activated: true, csrf: rotated.session.csrf }, rotated.cookie);
     }
     // The fixed dummy hash makes unknown-user and known-user attempts perform the same expensive verification.
-    const dummy = 'pbkdf2-sha256$600000$00000000000000000000000000000000$13e767c33082bd8f41d804441cf59e4758653ad8f6174cce6ff0a0b87f7d23c2';
+    const dummy = 'scrypt$16384$8$1$00000000000000000000000000000000$87f8b88e3c7a8e7dd9f302c48c6297125ffe76f3cdb8010708f796beeb875a32';
     stage = 'password-verify';
     const valid = await passwordVerify(password, account?.password_hash || dummy);
     if (!valid || !account || account.status !== 'active') return fail(401, 'invalid_credentials');
