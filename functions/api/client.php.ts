@@ -100,6 +100,7 @@ async function parseBody(request: Request): Promise<Record<string, unknown> | Re
   catch { return fail(400, 'invalid_request'); }
 }
 export async function onRequest({ request, env }: Context): Promise<Response> {
+  let stage = 'request-validation';
   const url = new URL(request.url);
   if (url.origin !== ORIGIN || url.pathname !== '/api/client.php') return fail(403, 'request_rejected');
   if (!env.CLIENT_DB || !env.CLIENT_RATE_SECRET || env.CLIENT_RATE_SECRET.length < 32) return fail(503, 'service_unavailable');
@@ -109,23 +110,28 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
   if (request.method === 'POST' && request.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return fail(415, 'invalid_request');
   if (request.method === 'POST' && Number(request.headers.get('Content-Length') || 0) > 8192) return fail(413, 'invalid_request');
   try {
+    stage = 'rate-limit';
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     if (request.method === 'GET' && !cookieValue(request)) {
       const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'new-session', ip, 120);
       if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
     }
+    stage = 'open-session';
     const { session, cookie } = await openSession(request, env.CLIENT_DB);
     if (request.method === 'GET') return reply(200, { user: session.user, csrf: session.csrf }, cookie);
     if (request.headers.get('X-CSRF-Token') !== session.csrf) return fail(403, 'request_rejected');
+    stage = 'parse-body';
     const parsed = await parseBody(request); if (parsed instanceof Response) return parsed;
     const action = String(parsed.action || '');
     if (action === 'logout') { const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash); return reply(200, { user: null, csrf: rotated.session.csrf }, rotated.cookie); }
     if (!['login', 'activate'].includes(action)) return fail(400, 'invalid_request');
     const username = String(parsed.username || '').toLowerCase().trim(); const password = String(parsed.password || '');
     if (!/^[a-z0-9][a-z0-9._-]{2,63}$/.test(username) || !password || password.length > 1024) return fail(401, 'invalid_credentials');
+    stage = 'authentication-rate-limit';
     let retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'ip', ip, 30);
     if (!retry) retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'username', username, 10);
     if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
+    stage = 'load-account';
     const account = await env.CLIENT_DB.prepare('SELECT id, username, status, session_version, password_hash, invitation_hash, invitation_expires FROM client_accounts WHERE username = ?').bind(username).first<Account>();
     if (action === 'activate') {
       const token = String(parsed.token || '');
@@ -133,18 +139,26 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       if ([...password].length < 15 || [...password].length > 128) return fail(400, 'password_length');
       const invitationHash = await sha256(token); const now = Math.floor(Date.now() / 1000);
       if (!account || account.status === 'disabled' || account.invitation_hash !== invitationHash || Number(account.invitation_expires) <= now) return fail(400, 'invalid_invitation');
+      stage = 'password-hash';
       const encoded = await passwordHash(password);
+      stage = 'activate-account';
       const result = await env.CLIENT_DB.prepare(`UPDATE client_accounts SET password_hash = ?, status = 'active', session_version = session_version + 1,
         invitation_hash = NULL, invitation_expires = NULL WHERE id = ? AND invitation_hash = ? AND invitation_expires > ? AND status <> 'disabled'`).bind(encoded, account.id, invitationHash, now).run();
       if (!result.success || result.meta?.changes !== 1) return fail(400, 'invalid_invitation');
+      stage = 'rotate-activation-session';
       const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash);
       return reply(200, { activated: true, csrf: rotated.session.csrf }, rotated.cookie);
     }
     // The fixed dummy hash makes unknown-user and known-user attempts perform the same expensive verification.
     const dummy = 'pbkdf2-sha256$600000$00000000000000000000000000000000$13e767c33082bd8f41d804441cf59e4758653ad8f6174cce6ff0a0b87f7d23c2';
+    stage = 'password-verify';
     const valid = await passwordVerify(password, account?.password_hash || dummy);
     if (!valid || !account || account.status !== 'active') return fail(401, 'invalid_credentials');
+    stage = 'rotate-login-session';
     const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash, account);
     return reply(200, { user: rotated.session.user, csrf: rotated.session.csrf }, rotated.cookie);
-  } catch { return fail(503, 'service_unavailable'); }
+  } catch (error) {
+    console.error('client-auth failure', { stage, name: error instanceof Error ? error.name : 'UnknownError' });
+    return fail(503, 'service_unavailable');
+  }
 }
