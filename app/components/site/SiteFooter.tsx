@@ -142,14 +142,14 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
             <span aria-hidden="true">|</span>
             <a href={fr ? '/fr/legal-notice.html' : '/legal-notice.html'}>{fr ? 'LÉGALE' : 'LEGAL'}</a>
           </div>
+          <button
+            className="footer-cookie-control"
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('studio-sanch:open-cookie-preferences'))}
+          >
+            COOKIES
+          </button>
         </div>
-        <button
-          className="footer-cookie-control"
-          type="button"
-          onClick={() => window.dispatchEvent(new Event('studio-sanch:open-cookie-preferences'))}
-        >
-          COOKIES
-        </button>
       </div>
     </footer>
   );

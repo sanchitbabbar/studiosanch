@@ -1234,9 +1234,8 @@ footer {
 }
 
 .footer-cookie-control {
-    position: absolute;
-    right: clamp(18px, 3vw, 48px);
-    bottom: 0;
+    display: block;
+    margin: 0.85rem auto 0;
     padding: 0;
     border: 0;
     background: transparent;
