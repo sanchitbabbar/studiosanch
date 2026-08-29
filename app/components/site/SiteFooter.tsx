@@ -141,6 +141,13 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
             <a href="/terms">{fr ? 'CONDITIONS' : 'TERMS'}</a>
             <span aria-hidden="true">|</span>
             <a href={fr ? '/fr/legal-notice.html' : '/legal-notice.html'}>{fr ? 'LÉGAL' : 'LEGAL'}</a>
+            <span aria-hidden="true">|</span>
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('studio-sanch:open-cookie-preferences'))}
+            >
+              COOKIES
+            </button>
           </div>
         </div>
       </div>

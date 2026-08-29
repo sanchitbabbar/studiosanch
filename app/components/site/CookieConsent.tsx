@@ -70,6 +70,7 @@ export default function CookieConsent() {
   const [hasChoice, setHasChoice] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [functional, setFunctional] = useState(false);
+  const [leaving, setLeaving] = useState(false);
 
   const privacyHref = useMemo(() => '/privacy-policy.html', []);
 
@@ -95,14 +96,33 @@ export default function CookieConsent() {
     setVisible(true);
   }, []);
 
+  useEffect(() => {
+    const openPreferences = () => {
+      setVisible(false);
+      setSettingsOpen(true);
+    };
+    window.addEventListener('studio-sanch:open-cookie-preferences', openPreferences);
+    return () => window.removeEventListener('studio-sanch:open-cookie-preferences', openPreferences);
+  }, []);
+
+  const afterExit = (callback: () => void) => {
+    setLeaving(true);
+    window.setTimeout(() => {
+      callback();
+      setLeaving(false);
+    }, 460);
+  };
+
   const persist = (preferences: Preferences) => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
     window.dispatchEvent(new CustomEvent('studio-sanch:cookie-preferences', { detail: preferences }));
     setAnalytics(preferences.analytics);
     setFunctional(preferences.functional);
     setHasChoice(true);
-    setVisible(false);
-    setSettingsOpen(false);
+    afterExit(() => {
+      setVisible(false);
+      setSettingsOpen(false);
+    });
   };
 
   const allowAll = () => persist({ necessary: true, analytics: true, marketing: true, functional: true });
@@ -110,14 +130,8 @@ export default function CookieConsent() {
 
   return (
     <>
-      {hasChoice && !visible && !settingsOpen && (
-        <button className={styles.trigger} type="button" onClick={() => setSettingsOpen(true)}>
-          {text.manage}
-        </button>
-      )}
-
       {visible && !settingsOpen && (
-        <section className={styles.bar} aria-label={text.title}>
+        <section className={`${styles.bar} ${leaving ? styles.leaving : ''}`} aria-label={text.title}>
           <div>
             <p className={styles.eyebrow}>{text.eyebrow}</p>
             <p className={styles.copy}>
@@ -126,7 +140,7 @@ export default function CookieConsent() {
             </p>
           </div>
           <div className={styles.actions}>
-            <button className={styles.action} type="button" onClick={() => { setVisible(false); setSettingsOpen(true); }}>
+            <button className={styles.action} type="button" onClick={() => afterExit(() => { setVisible(false); setSettingsOpen(true); })}>
               {text.preferences}
             </button>
             <button className={styles.action} type="button" onClick={() => persist(essentialOnly)}>
@@ -140,7 +154,7 @@ export default function CookieConsent() {
       )}
 
       {settingsOpen && (
-        <section className={styles.panel} role="dialog" aria-modal="true" aria-label={text.title}>
+        <section className={`${styles.panel} ${leaving ? styles.leaving : ''}`} role="dialog" aria-modal="true" aria-label={text.title}>
           <div className={styles.panelHeader}>
             <div>
               <p className={styles.panelTitle}>{text.title}</p>
@@ -150,7 +164,7 @@ export default function CookieConsent() {
               className={styles.close}
               type="button"
               aria-label={text.close}
-              onClick={() => { setSettingsOpen(false); if (!hasChoice) setVisible(true); }}
+              onClick={() => afterExit(() => { setSettingsOpen(false); if (!hasChoice) setVisible(true); })}
             >
               ×
             </button>

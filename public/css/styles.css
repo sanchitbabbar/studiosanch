@@ -1258,13 +1258,18 @@ footer {
     text-transform: uppercase;
 }
 
-.footer-policy-links a {
+.footer-policy-links a,
+.footer-policy-links button {
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: inherit;
     font: inherit;
     letter-spacing: inherit;
     line-height: inherit;
     text-transform: inherit;
     transition: color 0.3s ease;
+    cursor: pointer;
 }
 
 .footer-policy-links span {
@@ -1273,7 +1278,8 @@ footer {
     line-height: inherit;
 }
 
-.footer-policy-links a:hover {
+.footer-policy-links a:hover,
+.footer-policy-links button:hover {
     color: rgba(255, 255, 255, 0.72);
 }
 
