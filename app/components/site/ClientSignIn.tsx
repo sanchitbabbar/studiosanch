@@ -9,6 +9,11 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [activated, setActivated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [recovery, setRecovery] = useState(false);
+  const [recoveryBusy, setRecoveryBusy] = useState(false);
+  const [recoverySent, setRecoverySent] = useState(false);
+  const [recoveryError, setRecoveryError] = useState(false);
   const messages: Record<string, string> = {
     service_unavailable: fr ? 'La connexion est momentanément indisponible. Veuillez réessayer plus tard.' : 'Sign-in is currently unavailable. Please try again later.',
     invalid_credentials: fr ? 'Identifiant ou mot de passe incorrect.' : 'The username or password is incorrect.',
@@ -33,13 +38,51 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
     } catch (error) { setMessage(error instanceof ClientAuthError ? error.code : 'service_unavailable'); }
     finally { setBusy(false); }
   }
+  async function requestAssistance(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (recoveryBusy) return;
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    formData.append('request_type', 'Client access assistance');
+    formData.append('_subject', `Client access assistance — ${String(formData.get('username') || 'unknown account')}`);
+    formData.append('page', 'https://studiosanch.com/client/');
+    const email = String(formData.get('email') || '');
+    if (email) formData.append('_replyto', email);
+    setRecoveryBusy(true); setRecoveryError(false);
+    try {
+      const response = await fetch('https://formspree.io/f/mdkzyqaq', { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+      if (!response.ok) throw new Error('request_failed');
+      setRecoverySent(true);
+    } catch { setRecoveryError(true); }
+    finally { setRecoveryBusy(false); }
+  }
+  if (recovery) return <form className={`${styles.signIn} ${styles.recoveryForm}`} onSubmit={requestAssistance} aria-describedby="recovery-status" aria-busy={recoveryBusy}>
+    {recoverySent ? <>
+      <p id="recovery-status" className={styles.recoveryConfirmation} role="status">{fr ? 'Votre demande a bien été transmise au studio. Après vérification, nous vous adresserons un nouveau lien personnel par e-mail.' : 'Your request has been sent to the studio. After verification, we will email you a new personal link.'}</p>
+      <button type="button" onClick={() => { setRecovery(false); setRecoverySent(false); }}>{fr ? 'Retour à la connexion' : 'Return to sign in'}</button>
+    </> : <>
+      <p className={styles.recoveryTitle}>{fr ? 'Assistance accès client' : 'Client access assistance'}</p>
+      <label className={styles.usernameLabel} htmlFor="recovery-name">{fr ? 'Nom complet' : 'Full name'}</label>
+      <input id="recovery-name" name="name" type="text" autoComplete="name" required maxLength={150} disabled={recoveryBusy} placeholder={fr ? 'Nom complet' : 'Full name'} />
+      <label className={styles.usernameLabel} htmlFor="recovery-email">{fr ? 'Adresse e-mail' : 'Email address'}</label>
+      <input id="recovery-email" name="email" type="email" autoComplete="email" required maxLength={254} disabled={recoveryBusy} placeholder={fr ? 'Adresse e-mail' : 'Email address'} />
+      <label className={styles.usernameLabel} htmlFor="recovery-username">{fr ? 'Identifiant client' : 'Client username'}</label>
+      <input id="recovery-username" name="username" type="text" autoCapitalize="none" spellCheck={false} required maxLength={64} disabled={recoveryBusy} value={username} onChange={event => setUsername(event.target.value)} placeholder={fr ? 'Identifiant client' : 'Client username'} />
+      <label className={styles.usernameLabel} htmlFor="recovery-message">{fr ? 'Votre message' : 'Your message'}</label>
+      <textarea id="recovery-message" name="message" rows={3} maxLength={1000} disabled={recoveryBusy} placeholder={fr ? 'Décrivez brièvement la difficulté rencontrée.' : 'Briefly describe the difficulty you encountered.'} />
+      <input className={styles.honeypot} type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+      <button type="submit" disabled={recoveryBusy}>{recoveryBusy ? (fr ? 'Envoi…' : 'Sending…') : (fr ? 'Envoyer ma demande' : 'Send my request')}</button>
+      <p id="recovery-status" className={styles.signInNote} role="status">{recoveryError ? (fr ? 'La demande n’a pas pu être envoyée. Veuillez réessayer.' : 'Your request could not be sent. Please try again.') : (fr ? 'Ne communiquez jamais votre mot de passe. Le studio vérifiera votre identité avant de créer un nouveau lien.' : 'Never share your password. The studio will verify your identity before issuing a new link.')}</p>
+      <button type="button" className={styles.recovery} onClick={() => { setRecovery(false); setRecoveryError(false); }}>{fr ? 'Retour à la connexion' : 'Return to sign in'}</button>
+    </>}
+  </form>;
   return <form className={styles.signIn} onSubmit={submit} aria-describedby="signin-status" aria-busy={busy}>
     <label className={styles.usernameLabel} htmlFor="client-username">{fr ? 'Identifiant' : 'Username'}</label>
-    <input id="client-username" name="username" type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} required maxLength={64} disabled={busy} placeholder={fr ? 'Identifiant' : 'Username'} />
+    <input id="client-username" name="username" type="text" autoComplete="username" autoCapitalize="none" spellCheck={false} required maxLength={64} disabled={busy} value={username} onChange={event => setUsername(event.target.value)} placeholder={fr ? 'Identifiant' : 'Username'} />
     <label className={styles.usernameLabel} htmlFor="client-password">{fr ? 'Mot de passe' : 'Password'}</label>
     <input id="client-password" name="password" type="password" autoComplete={invitation ? 'new-password' : 'current-password'} required minLength={invitation ? 15 : undefined} maxLength={128} disabled={busy} placeholder={fr ? 'Mot de passe' : 'Password'} />
     <button type="submit" disabled={busy}>{busy ? (fr ? 'Un instant…' : 'One moment…') : invitation ? (fr ? 'Créer mon accès' : 'Set my password') : (fr ? 'Se connecter' : 'Sign in')}</button>
     <p id="signin-status" className={styles.signInNote} role="status">{message ? (messages[message] || messages.service_unavailable) : activated ? (fr ? 'Votre mot de passe est prêt. Vous pouvez vous connecter.' : 'Your password is ready. You can now sign in.') : invitation ? (fr ? 'Votre invitation privée. Choisissez 15 à 128 caractères.' : 'Your private invitation. Choose 15–128 characters.') : ''}</p>
-    {!invitation && <a className={styles.recovery} href="mailto:contact@studiosanch.com">{fr ? 'Besoin d’aide ?' : 'Need assistance?'}</a>}
+    {!invitation && <button type="button" className={styles.recovery} onClick={() => { setRecovery(true); setMessage(''); }}>{fr ? 'Besoin d’aide ?' : 'Need assistance?'}</button>}
   </form>;
 }

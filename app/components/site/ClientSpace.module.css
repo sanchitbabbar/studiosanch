@@ -67,3 +67,9 @@
 .signIn input + label + input { margin-top: 10px; }
 .signIn button:disabled { opacity: .5; cursor: wait; }
 .recovery { display: inline-block; padding: 10px; font-size: 9px; letter-spacing: .08em; color: #dddad3; }
+.recoveryForm { width: min(100%, 410px); }
+.recoveryTitle { margin: 0 0 20px; color: #eeeae3; font-size: 11px; font-weight: 300; letter-spacing: .18em; text-transform: uppercase; }
+.recoveryForm textarea { width: 100%; min-height: 92px; margin-top: 12px; border: 0; border-bottom: 1px solid #ffffff30; border-radius: 0; padding: 14px 20px; resize: vertical; background: transparent; color: #eeeae3; font: 300 14px/1.7 'Montserrat', sans-serif; letter-spacing: .04em; text-align: center; }
+.recoveryForm textarea::placeholder { color: #aaa59d; opacity: 1; font-size: 11px; }
+.recoveryConfirmation { margin: 0 auto 18px; color: #c3bbaa; font-size: 11px; line-height: 2; }
+.honeypot { position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important; }
