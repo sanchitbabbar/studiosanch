@@ -56,6 +56,16 @@
 .signIn { width: min(100%, 300px); margin: 38px auto 0; }
 .usernameLabel { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .signIn input { width: 100%; min-height: 50px; border: 0; border-radius: 0; padding: 14px 20px; background-color: transparent; background-image: linear-gradient(90deg, transparent, #d6c5a6, transparent), radial-gradient(ellipse, #d6c5a62b, transparent 70%); background-position: center calc(100% - 5px); background-size: 0 1px, 0 5px; background-repeat: no-repeat; color: #eeeae3; font: 300 16px/1.5 'Montserrat', sans-serif; letter-spacing: .08em; text-align: center; transition: background-size .35s ease; }
+.signIn input:-webkit-autofill,
+.signIn input:-webkit-autofill:hover,
+.signIn input:-webkit-autofill:focus,
+.signIn input:-webkit-autofill:active {
+  -webkit-text-fill-color: #eeeae3;
+  caret-color: #eeeae3;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  box-shadow: 0 0 0 1000px transparent inset;
+  transition: background-color 9999s ease-out 0s, background-size .35s ease;
+}
 .space .signIn input:focus { outline: none; box-shadow: none; background-size: 72px 1px, 84px 5px; }
 .signIn input::placeholder { color: #dddad3; opacity: 1; font-size: 12px; letter-spacing: .16em; }
 .signIn button { display: block; min-height: 48px; margin: 16px auto 0; padding: 14px 24px; font-size: 12px; font-weight: 300; letter-spacing: .19em; color: #dddad3; transition: color .5s ease, text-shadow .5s ease; }
