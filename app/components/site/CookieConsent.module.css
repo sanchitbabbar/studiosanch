@@ -120,7 +120,7 @@
   inset: -35% -30%;
   background: linear-gradient(105deg, transparent 35%, rgba(238, 225, 204, 0.12) 46%, rgba(255, 255, 255, 0.3) 50%, rgba(238, 225, 204, 0.1) 55%, transparent 67%);
   transform: translateX(-88%);
-  animation: buttonGlow 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation: buttonGlow 4.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .primary::after {
@@ -131,7 +131,7 @@
   background: linear-gradient(90deg, transparent, rgba(247, 238, 223, 0.9), transparent);
   box-shadow: 0 0 11px rgba(247, 238, 223, 0.62);
   transform: translateX(-125%);
-  animation: buttonLaser 4.2s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation: buttonLaser 4.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 .panel {
@@ -269,15 +269,18 @@
 
 @keyframes buttonLaser {
   0%, 14% { opacity: 0; transform: translateX(-125%); }
-  22% { opacity: 1; }
-  48% { opacity: 0.9; }
-  58%, 100% { opacity: 0; transform: translateX(290%); }
+  22% { opacity: 0.32; }
+  34% { opacity: 0.92; }
+  50% { opacity: 0.74; }
+  66%, 100% { opacity: 0; transform: translateX(290%); }
 }
 
 @keyframes buttonGlow {
   0%, 14% { opacity: 0; transform: translateX(-88%); }
-  25% { opacity: 0.6; }
-  55%, 100% { opacity: 0; transform: translateX(88%); }
+  24% { opacity: 0.2; }
+  36% { opacity: 0.52; }
+  52% { opacity: 0.34; }
+  68%, 100% { opacity: 0; transform: translateX(88%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
