@@ -12,7 +12,7 @@
     "lint": "next lint",
     "serve:static": "http-server out -a 127.0.0.1 -p 8080 -c-1",
     "check:export": "node scripts/check-export.mjs",
-    "test:security": "python3 backend/client-auth/test_guards.py && node backend/client-auth/test_proxy.mjs && node --test scripts/test-newsletter.mjs"
+    "test:security": "python3 backend/client-auth/test_guards.py && node --test backend/client-auth/test_d1.mjs && node --test scripts/test-newsletter.mjs"
   },
   "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
   "main": "next.config.js",
