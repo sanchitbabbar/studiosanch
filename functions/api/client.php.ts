@@ -1,3 +1,5 @@
+import { pbkdf2Sync } from 'node:crypto';
+
 const ORIGIN = 'https://studiosanch.com';
 const COOKIE = '__Host-sanch_client';
 const SESSION_IDLE = 1800;
@@ -42,9 +44,8 @@ function equalHex(left: string, right: string): boolean {
   return difference === 0;
 }
 async function passwordHash(password: string, salt = randomHex(16)): Promise<string> {
-  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: PBKDF2_ITERATIONS }, key, 256);
-  return `pbkdf2-sha256$${PBKDF2_ITERATIONS}$${salt}$${bytesToHex(new Uint8Array(bits))}`;
+  const derived = pbkdf2Sync(password, salt, PBKDF2_ITERATIONS, 32, 'sha256');
+  return `pbkdf2-sha256$${PBKDF2_ITERATIONS}$${salt}$${derived.toString('hex')}`;
 }
 async function passwordVerify(password: string, encoded: string): Promise<boolean> {
   const [algorithm, iterations, salt, expected] = encoded.split('$');
