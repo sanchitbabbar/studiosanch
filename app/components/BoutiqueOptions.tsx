@@ -47,7 +47,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
 const getCategoryTitle = (id: string, lang: string) => {
   const titles: Record<string, Record<string, string>> = {
     artbook: { fr: "Livre d'Art", en: 'Art Book' },
-    accessories: { fr: 'Accessoires', en: 'Merchandise' },
+    accessories: { fr: 'Accessoires', en: 'Accessories' },
     prints: { fr: "Œuvres d'art", en: 'Artworks' }
   };
   return titles[id]?.[lang] || titles[id]?.fr || id;

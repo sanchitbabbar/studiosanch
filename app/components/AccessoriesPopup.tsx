@@ -9,6 +9,7 @@ import { useLanguage } from '../context/LanguageContext';
 interface AccessoryCategory {
   id: string;
   name: string;
+  nameFr: string;
   description: string;
   image: string;
   linkTo: string;
@@ -27,6 +28,7 @@ const accessoryCategories: AccessoryCategory[] = [
   {
     id: 'bag',
     name: 'Bag',
+    nameFr: 'Sac',
     description: 'Statement tote bags that combine fashion and function with Sanchit\'s distinctive designs.',
     image: '/images/Accesories/SanchBagSuede/subcategory-thumbnail.jpg',
     linkTo: '/product/sanch-suede'
@@ -35,6 +37,7 @@ const accessoryCategories: AccessoryCategory[] = [
   {
     id: 'sunglasses',
     name: 'Sunglasses',
+    nameFr: 'Lunettes de soleil',
     description: 'Sophisticated eyewear that embodies Sanchit\'s aesthetic of elegant simplicity.',
     image: '/images/Accesories /Sunglasses/Render 3.jpg',
     linkTo: '/product/sunglasses-black'
@@ -42,6 +45,7 @@ const accessoryCategories: AccessoryCategory[] = [
   {
     id: 'belt',
     name: 'Belt',
+    nameFr: 'Ceinture',
     description: 'Luxurious designer belt with refined minimalist aesthetic.',
     image: '/images/Accesories%20/Sanch%20Belt/belt-main.jpg',
     linkTo: '/product/belt-sanch'
@@ -218,7 +222,7 @@ const AccessoriesPopup = () => {
                   <div className="relative h-full w-full overflow-hidden">
                     <Image 
                       src={category.image}
-                      alt={category.name}
+                      alt={fr ? category.nameFr : category.name}
                       fill
                       sizes="(max-width: 768px) 120px, 120px"
                       className="object-cover transform scale-[1.01] group-hover:scale-[1.08] transition-transform duration-[1.2s] ease-out"
@@ -249,7 +253,7 @@ const AccessoriesPopup = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.1 + index * 0.12, duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
                 >
-                  {category.name}
+                  {fr ? category.nameFr : category.name}
                 </motion.span>
               </div>
               
