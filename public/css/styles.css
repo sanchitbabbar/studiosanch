@@ -1240,7 +1240,7 @@ footer {
     border: 0;
     background: transparent;
     color: rgba(255, 255, 255, 0.34);
-    font: 400 0.5rem/1.4 var(--font-primary);
+    font: 400 0.4rem/1.4 var(--font-primary);
     letter-spacing: 0.24em;
     text-transform: uppercase;
     cursor: pointer;
@@ -1270,7 +1270,7 @@ footer {
     display: flex;
     justify-content: center;
     gap: 0.7rem;
-    color: rgba(255, 255, 255, 0.38);
+    color: rgba(255, 255, 255, 0.48);
     font-size: 0.5rem;
     font-weight: 400;
     letter-spacing: 0.24em;
