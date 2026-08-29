@@ -34,7 +34,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
     id: 'accessories',
     title: 'Merchandise',
     description: 'Exclusive lifestyle accessories, including mugs, bags, and apparel, all designed by Sanchit.',
-    image: '/images/Accesories%20/Sunglasses/Render%202.jpg'
+    image: '/images/Accesories/SanchBagSuede/9.jpg'
   },
   {
     id: 'prints',
@@ -47,7 +47,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
 const getCategoryTitle = (id: string, lang: string) => {
   const titles: Record<string, Record<string, string>> = {
     artbook: { fr: "Livre d'Art", en: 'Art Book' },
-    accessories: { fr: 'Merchandise', en: 'Merchandise' },
+    accessories: { fr: 'Accessoires', en: 'Merchandise' },
     prints: { fr: "Œuvres d'art", en: 'Artworks' }
   };
   return titles[id]?.[lang] || titles[id]?.fr || id;
@@ -251,12 +251,12 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                           <div className="aspect-[4/3] relative">
                             <Image
                               src={category.image}
-                              alt={category.title}
+                              alt={getCategoryTitle(category.id, language)}
                               fill
                               priority={true}
                               loading="eager"
                               sizes="(max-width: 768px) 100vw, 33vw"
-                              style={{ objectFit: 'cover', objectPosition: 'center 83%' }}
+                              style={{ objectFit: 'cover', objectPosition: category.id === 'accessories' ? 'center 74%' : 'center 83%' }}
                               className="transition-transform duration-700 group-hover:scale-105"
                             />
                           </div>
