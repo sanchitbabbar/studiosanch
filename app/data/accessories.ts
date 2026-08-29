@@ -80,9 +80,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     image: '/images/Accesories/SanchBagSuede/9.jpg',
     additionalImages: [
       '/images/Accesories/SanchBagSuede/10.jpg',
-      '/images/Accesories/SanchBagSuede/2.jpg',
-      '/images/Accesories/SanchBagSuede/7.jpg',
-      '/images/Accesories/SanchBagSuede/3.jpg'
+      '/images/Accesories/SanchBagSuede/7.jpg'
     ],
     comingSoon: false,
     categoryId: 'bags',
