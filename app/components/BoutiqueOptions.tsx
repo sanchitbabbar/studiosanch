@@ -39,7 +39,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
   {
     id: 'prints',
     title: 'Artworks',
-    description: 'Œuvres d\'art featuring Sanchit\'s captivating sketches and photographs.',
+    description: 'A collection of signed art editions by Sanchit.',
     image: '/images/boutique/prints.jpg'
   }
 ];
@@ -64,8 +64,8 @@ const getCategoryDescription = (id: string, lang: string) => {
       en: "Exclusive lifestyle accessories, including mugs, bags, and apparel, all designed by Sanchit."
     },
     prints: {
-      fr: "Œuvres d'art mettant en vedette les esquisses et photographies captivantes de Sanchit.",
-      en: "Artworks featuring Sanchit's captivating sketches and photographs."
+      fr: "Une collection de tirages d’art signés par Sanchit.",
+      en: "A collection of signed art editions by Sanchit."
     }
   };
   return descriptions[id]?.[lang] || descriptions[id]?.fr || '';
