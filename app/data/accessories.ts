@@ -128,7 +128,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     name: 'Art Book',
     description: 'SANCH : De la couleur au noir et blanc',
     descriptionFr: 'SANCH : De la couleur au noir et blanc',
-    longDescription: 'This limited edition art book highlights Sanchit\'s artistic journey, moving from the ancient wisdom of colors to the refined elegance of black and white. Tracing his origins in New Delhi, India, Sanchit\'s creative path has led him across continents—from New York, San Francisco, and Los Angeles to his base in Paris, France. The volume features Sanchit\'s own poetic memoir, written in French, chronicling his artistic evolution.',
+    longDescription: 'The limited edition art book highlights Sanchit\'s artistic journey, moving from the ancient wisdom of colors to the refined elegance of black and white. Tracing his origins in New Delhi, India, Sanchit\'s creative path has led him across continents—from New York, San Francisco, and Los Angeles to his base in Paris, France. The volume features Sanchit\'s own poetic memoir, written in French, chronicling his artistic evolution.',
     longDescriptionFr: "Ciselée en édition limitée, la monographie recueille le sillage artistique de Sanchit Babbar, où se dessine une évolution subtile, de la sagesse des couleurs vers l'élégance épurée du noir et blanc. Enracinée dans ses origines à New Delhi, en Inde, son odyssée créative trace les horizons de New York, San Francisco et Los Angeles, jusqu'à son ancrage actuel à Paris. Cet ouvrage intègre le mémoire poétique conçu et écrit par l'artiste, où sa créativité se déploie à travers danse, poésie, design et mode.",
     price: '€295',
     image: '/images/boutique/artbook-gallery/sanch-louvre-cover.jpg',
