@@ -156,7 +156,8 @@ export default function ProductDetail() {
             >
               {/* Main Product Image / Artbook Editorial Film */}
               <div 
-                className={`${product?.id === 'artbook-main' ? 'aspect-video max-w-2xl rounded-[12px]' : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
+                className={`${product?.id === 'artbook-main' ? `aspect-video max-w-2xl ${artbookMediaMode === 'film' ? 'rounded-md' : ''}` : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
+                style={product?.id === 'artbook-main' && artbookMediaMode === 'object' ? { borderRadius: '6px', clipPath: 'inset(0 round 6px)', backgroundColor: selectedImage === product.image ? '#000' : '#f7f7f6' } : undefined}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -183,7 +184,7 @@ export default function ProductDetail() {
                       aria-label={language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'}
                     />
 
-                    <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[11px]" />
+                    <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[5px]" />
 
                     <button
                       type="button"
@@ -200,7 +201,10 @@ export default function ProductDetail() {
                     </button>
                   </div>
                 ) : selectedImage ? (
-                  <div className="relative w-full h-full">
+                  <div
+                    className="relative w-full h-full overflow-hidden rounded-md"
+                    style={{ backgroundColor: selectedImage === product.image ? '#000' : '#f7f7f6' }}
+                  >
                     <Image 
                       src={selectedImage}
                       alt={product?.name || 'Product image'}
