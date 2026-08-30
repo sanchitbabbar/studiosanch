@@ -156,7 +156,7 @@ export default function ProductDetail() {
             >
               {/* Main Product Image / Artbook Editorial Film */}
               <div 
-                className={`${product?.id === 'artbook-main' ? 'aspect-video max-w-2xl' : 'aspect-square max-w-md'} group relative overflow-hidden bg-transparent w-full mx-auto rounded-md`}
+                className={`${product?.id === 'artbook-main' ? 'aspect-video max-w-2xl rounded-[12px]' : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -183,7 +183,7 @@ export default function ProductDetail() {
                       aria-label={language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'}
                     />
 
-                    <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[5px]" />
+                    <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[11px]" />
 
                     <button
                       type="button"
@@ -270,7 +270,7 @@ export default function ProductDetail() {
                     }}
                     className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'object' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
                   >
-                    Object
+                    {language === 'fr' ? 'Objet' : 'Object'}
                   </button>
                 </div>
               )}
