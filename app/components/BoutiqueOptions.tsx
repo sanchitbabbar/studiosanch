@@ -27,7 +27,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
   {
     id: 'artbook',
     title: 'Art Book',
-    description: 'De la couleur au noir et blanc - This limited edition showcases Sanchit\'s journey from the land of colors to the land of black and white.',
+    description: 'De la couleur au noir et blanc - This limited edition showcases Sanchit\'s journey from the land of chromatic richness to the land of monochromatic elegance.',
     image: '/images/boutique/book-cover-french-optimized.jpg'
   },
   {
@@ -56,8 +56,8 @@ const getCategoryTitle = (id: string, lang: string) => {
 const getCategoryDescription = (id: string, lang: string) => {
   const descriptions: Record<string, Record<string, string>> = {
     artbook: {
-      fr: "De la couleur au noir et blanc -\nUn voyage de l'héritage des couleurs vers la quintessence du noir et blanc.",
-      en: "From color to black and white - This limited edition showcases Sanchit's journey from the land of colors to the land of black and white."
+      fr: "De la couleur au noir et blanc -\nUn voyage de la richesse chromatique vers l’épure monochrome.",
+      en: "From color to black and white - This limited edition showcases Sanchit's journey from the land of chromatic richness to the land of monochromatic elegance."
     },
     accessories: {
       fr: "Fragments d'un univers — Une collection d'œuvres à vivre, émanations de l'esthétique Sanchit",
