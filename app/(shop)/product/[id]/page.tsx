@@ -156,7 +156,7 @@ export default function ProductDetail() {
             >
               {/* Main Product Image / Artbook Editorial Film */}
               <div 
-                className={`${product?.id === 'artbook-main' && artbookMediaMode === 'film' ? 'aspect-video max-w-2xl' : 'aspect-square max-w-md'} group relative overflow-hidden bg-transparent w-full mx-auto rounded-md`}
+                className={`${product?.id === 'artbook-main' ? 'aspect-video max-w-2xl' : 'aspect-square max-w-md'} group relative overflow-hidden bg-transparent w-full mx-auto rounded-md`}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -172,12 +172,11 @@ export default function ProductDetail() {
                     <video
                       ref={artbookFilmRef}
                       src="/Videos/sanch-artbook-editorial-film.mp4"
-                      poster={product.image}
                       autoPlay
                       muted
                       loop
                       playsInline
-                      preload="metadata"
+                      preload="auto"
                       onPlay={() => setIsFilmPlaying(true)}
                       onPause={() => setIsFilmPlaying(false)}
                       className="w-full h-full object-cover"
@@ -207,7 +206,7 @@ export default function ProductDetail() {
                       alt={product?.name || 'Product image'}
                       fill
                       style={{
-                        objectFit: 'cover', // Use cover to maintain full frame
+                        objectFit: product?.id === 'artbook-main' ? 'contain' : 'cover',
                         objectPosition: (() => {
                           // Custom positioning for sanch-suede product images to show model faces
                           if (product?.id === 'sanch-suede') {
@@ -230,8 +229,8 @@ export default function ProductDetail() {
                           return 'center bottom';
                         })(),
                         transformOrigin: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                        transform: isZoomed ? 'scale(2)' : 'scale(1)',
-                        transition: isZoomed ? 'transform 0.2s ease-out' : 'transform 0.5s ease',
+                        transform: product?.id !== 'artbook-main' && isZoomed ? 'scale(2)' : 'scale(1)',
+                        transition: product?.id !== 'artbook-main' && isZoomed ? 'transform 0.2s ease-out' : 'transform 0.5s ease',
                       }}
                       priority
                       className="transition-all duration-700"
@@ -246,7 +245,7 @@ export default function ProductDetail() {
                 )}
                 
                 {/* Subtle instruction for zoom */}
-                {!(product?.id === 'artbook-main' && artbookMediaMode === 'film') && (
+                {product?.id !== 'artbook-main' && (
                   <div className={`absolute bottom-4 right-4 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full text-[10px] uppercase tracking-wider transition-opacity duration-500 ${isZoomed ? 'opacity-0' : 'opacity-70'}`}>
                     {language === 'fr' ? 'Survoler pour zoomer' : 'Hover to zoom'}
                   </div>
@@ -260,7 +259,7 @@ export default function ProductDetail() {
                     onClick={() => setArtbookMediaMode('film')}
                     className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'film' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
                   >
-                    {language === 'fr' ? 'Film' : 'Film'}
+                    Motion
                   </button>
                   <span className="h-3 w-px bg-white/15" />
                   <button
@@ -271,13 +270,52 @@ export default function ProductDetail() {
                     }}
                     className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'object' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
                   >
-                    {language === 'fr' ? 'Objet' : 'Object'}
+                    Object
                   </button>
                 </div>
               )}
               
+              {/* Discreet artbook object navigation */}
+              {product?.id === 'artbook-main' && artbookMediaMode === 'object' && allProductImages.length > 1 && (
+                <div className="flex items-center justify-center gap-4 mt-1 text-white/45">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const currentIndex = Math.max(0, allProductImages.indexOf(selectedImage || ''));
+                      setSelectedImage(allProductImages[(currentIndex - 1 + allProductImages.length) % allProductImages.length]);
+                    }}
+                    className="h-6 w-6 flex items-center justify-center text-[11px] hover:text-white transition-colors duration-500"
+                    aria-label={language === 'fr' ? 'Image précédente' : 'Previous image'}
+                  >
+                    ←
+                  </button>
+                  <div className="flex items-center gap-[7px]" aria-label={language === 'fr' ? 'Sélection d’image' : 'Image selection'}>
+                    {allProductImages.map((imageSrc, index) => (
+                      <button
+                        key={imageSrc}
+                        type="button"
+                        onClick={() => setSelectedImage(imageSrc)}
+                        className={`h-[3px] rounded-full transition-all duration-500 ${selectedImage === imageSrc ? 'w-4 bg-white/80' : 'w-[3px] bg-white/25 hover:bg-white/55'}`}
+                        aria-label={`${language === 'fr' ? 'Voir l’image' : 'View image'} ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const currentIndex = Math.max(0, allProductImages.indexOf(selectedImage || ''));
+                      setSelectedImage(allProductImages[(currentIndex + 1) % allProductImages.length]);
+                    }}
+                    className="h-6 w-6 flex items-center justify-center text-[11px] hover:text-white transition-colors duration-500"
+                    aria-label={language === 'fr' ? 'Image suivante' : 'Next image'}
+                  >
+                    →
+                  </button>
+                </div>
+              )}
+
               {/* Thumbnail Gallery */}
-              {allProductImages.length > 1 && (
+              {product?.id !== 'artbook-main' && allProductImages.length > 1 && (
                 <motion.div 
                   className="flex justify-center gap-6 mt-4"
                   initial={{ opacity: 0, y: 10 }}
