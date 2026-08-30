@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -26,6 +26,9 @@ export default function ProductDetail() {
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
   const [allProductImages, setAllProductImages] = useState<string[]>([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [artbookMediaMode, setArtbookMediaMode] = useState<'film' | 'object'>('film');
+  const [isFilmPlaying, setIsFilmPlaying] = useState(true);
+  const artbookFilmRef = useRef<HTMLVideoElement>(null);
   
   // Find the product and related products
   useEffect(() => {
@@ -41,6 +44,7 @@ export default function ProductDetail() {
       }
       setAllProductImages(productImages);
       setSelectedImage(productImages[0]);
+      setArtbookMediaMode(foundProduct.id === 'artbook-main' ? 'film' : 'object');
       
       // Always include the belt product unless current product is the belt
       const beltProduct = accessoryProducts.find(p => p.id === 'belt-sanch');
@@ -150,9 +154,9 @@ export default function ProductDetail() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Main Product Image with Zoom */}
+              {/* Main Product Image / Artbook Editorial Film */}
               <div 
-                className="aspect-square relative overflow-hidden bg-transparent w-full max-w-md mx-auto rounded-md"
+                className={`${product?.id === 'artbook-main' && artbookMediaMode === 'film' ? 'aspect-video max-w-2xl' : 'aspect-square max-w-md'} group relative overflow-hidden bg-transparent w-full mx-auto rounded-md`}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -163,7 +167,40 @@ export default function ProductDetail() {
                 onMouseEnter={() => setIsZoomed(true)}
                 onMouseLeave={() => setIsZoomed(false)}
               >
-                {selectedImage ? (
+                {product?.id === 'artbook-main' && artbookMediaMode === 'film' ? (
+                  <div className="relative w-full h-full bg-[#080808]">
+                    <video
+                      ref={artbookFilmRef}
+                      src="/Videos/sanch-artbook-editorial-film.mp4"
+                      poster={product.image}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onPlay={() => setIsFilmPlaying(true)}
+                      onPause={() => setIsFilmPlaying(false)}
+                      className="w-full h-full object-cover"
+                      aria-label={language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'}
+                    />
+
+                    <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[5px]" />
+
+                    <button
+                      type="button"
+                      aria-label={isFilmPlaying ? (language === 'fr' ? 'Mettre le film en pause' : 'Pause film') : (language === 'fr' ? 'Lire le film' : 'Play film')}
+                      onClick={() => {
+                        const film = artbookFilmRef.current;
+                        if (!film) return;
+                        if (film.paused) void film.play();
+                        else film.pause();
+                      }}
+                      className="absolute z-10 inset-0 cursor-pointer focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-white/60"
+                    >
+                      <span className="sr-only">{isFilmPlaying ? 'Pause' : 'Play'}</span>
+                    </button>
+                  </div>
+                ) : selectedImage ? (
                   <div className="relative w-full h-full">
                     <Image 
                       src={selectedImage}
@@ -209,10 +246,35 @@ export default function ProductDetail() {
                 )}
                 
                 {/* Subtle instruction for zoom */}
-                <div className={`absolute bottom-4 right-4 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full text-[10px] uppercase tracking-wider transition-opacity duration-500 ${isZoomed ? 'opacity-0' : 'opacity-70'}`}>
-                  {language === 'fr' ? 'Survoler pour zoomer' : 'Hover to zoom'}
-                </div>
+                {!(product?.id === 'artbook-main' && artbookMediaMode === 'film') && (
+                  <div className={`absolute bottom-4 right-4 px-3 py-1.5 bg-black/40 backdrop-blur-sm rounded-full text-[10px] uppercase tracking-wider transition-opacity duration-500 ${isZoomed ? 'opacity-0' : 'opacity-70'}`}>
+                    {language === 'fr' ? 'Survoler pour zoomer' : 'Hover to zoom'}
+                  </div>
+                )}
               </div>
+
+              {product?.id === 'artbook-main' && (
+                <div className="flex justify-center items-center gap-5 text-[8px] uppercase tracking-[0.34em] font-light">
+                  <button
+                    type="button"
+                    onClick={() => setArtbookMediaMode('film')}
+                    className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'film' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
+                  >
+                    {language === 'fr' ? 'Film' : 'Film'}
+                  </button>
+                  <span className="h-3 w-px bg-white/15" />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      artbookFilmRef.current?.pause();
+                      setArtbookMediaMode('object');
+                    }}
+                    className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'object' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
+                  >
+                    {language === 'fr' ? 'Objet' : 'Object'}
+                  </button>
+                </div>
+              )}
               
               {/* Thumbnail Gallery */}
               {allProductImages.length > 1 && (
