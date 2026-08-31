@@ -134,8 +134,13 @@ export const accessoryProducts: AccessoryProduct[] = [
     image: '/images/boutique/artbook-gallery/sanch-louvre-cover.jpg',
     additionalImages: [
       '/images/boutique/artbook-gallery/cover.jpg',
+      '/images/boutique/artbook-gallery/spread-02.jpg',
       '/images/boutique/artbook-gallery/portrait-spread.jpg',
+      '/images/boutique/artbook-gallery/spread-04.jpg',
+      '/images/boutique/artbook-gallery/spread-05.jpg',
       '/images/boutique/artbook-gallery/atelier-spread.jpg',
+      '/images/boutique/artbook-gallery/spread-07.jpg',
+      '/images/boutique/artbook-gallery/spread-08.jpg',
       '/images/boutique/artbook-gallery/sketch-spread.jpg',
       '/images/boutique/artbook-gallery/binding-detail.jpg'
     ],
