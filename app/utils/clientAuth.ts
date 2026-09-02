@@ -8,7 +8,7 @@ export class ClientAuthError extends Error {
   constructor(public code: string) { super(code); }
 }
 // Cookies stay HttpOnly on the PHP server. Never persist passwords/tokens in browser storage.
-export async function clientAuth(body?: Record<string, string>, csrf?: string): Promise<ClientSession> {
+export async function clientAuth(body?: Record<string, unknown>, csrf?: string): Promise<ClientSession> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   try {

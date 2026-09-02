@@ -9,7 +9,7 @@ const SCRYPT_R = 8;
 const SCRYPT_P = 1;
 
 type D1Result<T = Record<string, unknown>> = { results?: T[]; success?: boolean; meta?: { changes?: number } };
-type D1Statement = { bind(...values: unknown[]): D1Statement; first<T = Record<string, unknown>>(): Promise<T | null>; run(): Promise<D1Result>; };
+type D1Statement = { bind(...values: unknown[]): D1Statement; first<T = Record<string, unknown>>(): Promise<T | null>; all<T = Record<string, unknown>>(): Promise<D1Result<T>>; run(): Promise<D1Result>; };
 type D1Database = { prepare(sql: string): D1Statement; batch(statements: D1Statement[]): Promise<D1Result[]>; };
 type Env = { CLIENT_DB: D1Database; CLIENT_RATE_SECRET: string; };
 type Context = { request: Request; env: Env; };
@@ -106,9 +106,9 @@ async function rateLimit(db: D1Database, secret: string, scope: string, identifi
   return row && Number(row.attempts) > maximum ? Math.max(1, Number(row.expires_at) - now) : null;
 }
 async function parseBody(request: Request): Promise<Record<string, unknown> | Response> {
-  if (Number(request.headers.get('Content-Length') || 0) > 8192) return fail(413, 'invalid_request');
+  if (Number(request.headers.get('Content-Length') || 0) > 550000) return fail(413, 'invalid_request');
   const text = await request.text();
-  if (text.length > 8192) return fail(413, 'invalid_request');
+  if (text.length > 550000) return fail(413, 'invalid_request');
   try { const data = JSON.parse(text); return data && typeof data === 'object' && !Array.isArray(data) ? data : fail(400, 'invalid_request'); }
   catch { return fail(400, 'invalid_request'); }
 }
@@ -121,7 +121,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
   if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return fail(403, 'request_rejected');
   if (request.method === 'POST' && request.headers.get('Origin') !== ORIGIN) return fail(403, 'request_rejected');
   if (request.method === 'POST' && request.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return fail(415, 'invalid_request');
-  if (request.method === 'POST' && Number(request.headers.get('Content-Length') || 0) > 8192) return fail(413, 'invalid_request');
+  if (request.method === 'POST' && Number(request.headers.get('Content-Length') || 0) > 550000) return fail(413, 'invalid_request');
   try {
     stage = 'rate-limit';
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -137,6 +137,199 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
     const parsed = await parseBody(request); if (parsed instanceof Response) return parsed;
     const action = String(parsed.action || '');
     if (action === 'logout') { const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash); return reply(200, { user: null, csrf: rotated.session.csrf }, rotated.cookie); }
+    if (action === 'list_frame_plan' || action === 'save_frame_plan') {
+      if (!session.user || !session.user.access.includes('photoshoot')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'grace-in-motion') return fail(400, 'invalid_request');
+      if (action === 'list_frame_plan') {
+        const row = await env.CLIENT_DB.prepare('SELECT details FROM client_project_frame_plans WHERE project_key = ?').bind('grace-in-motion').first<{ details: string }>();
+        return reply(200, { user: session.user, csrf: session.csrf, plan: row?.details || null }, cookie);
+      }
+      const plan = parsed.plan && typeof parsed.plan === 'object' && !Array.isArray(parsed.plan) ? parsed.plan as Record<string, unknown> : null;
+      const frames = plan && Array.isArray(plan.frames) ? plan.frames : null;
+      const framesPerDay = String(plan?.framesPerDay || '');
+      const shootDays = String(plan?.shootDays || '');
+      const allowedKeys = ['visual', 'duration', 'dancers', 'movement', 'phrase', 'repetitions'];
+      const allowedMovements = new Set(['Contemporary', 'Modern', 'Lyrical', 'Acrobat', 'Aerial', 'Neoclassical', 'Cabaret', 'Jazz']);
+      const validFrames = frames && frames.length >= 1 && frames.length <= 25 && frames.every(frame => {
+        if (!frame || typeof frame !== 'object' || Array.isArray(frame)) return false;
+        const item = frame as Record<string, unknown>;
+        return Object.keys(item).every(key => allowedKeys.includes(key)) &&
+          String(item.visual || '').length <= 100 && ['15', '30', '45'].includes(String(item.duration)) &&
+          /^(?:[1-9]|10)$/.test(String(item.dancers)) && allowedMovements.has(String(item.movement)) &&
+          ['15', '30', '45', '60', '75', '90', '105', '120'].includes(String(item.phrase)) &&
+          ['3', '5', '8', '10'].includes(String(item.repetitions));
+      });
+      if (!plan || !validFrames || !['4', '6', '8', '10'].includes(framesPerDay) || !['1', '2', '3', '4', '5'].includes(shootDays)) return fail(400, 'invalid_request');
+      const details = JSON.stringify({ frames, framesPerDay, shootDays });
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_frame_plans(project_key, details, updated_by, updated_at) VALUES (?, ?, ?, ?)
+        ON CONFLICT(project_key) DO UPDATE SET details = excluded.details, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('grace-in-motion', details, session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_frame_briefs' || action === 'save_frame_brief') {
+      if (!session.user || !session.user.access.includes('photoshoot')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'grace-in-motion') return fail(400, 'invalid_request');
+      if (action === 'list_frame_briefs') {
+        const result = await env.CLIENT_DB.prepare('SELECT frame_index, details, updated_at FROM client_project_frame_briefs WHERE project_key = ? ORDER BY frame_index').bind('grace-in-motion').all();
+        return reply(200, { user: session.user, csrf: session.csrf, briefs: result.results || [] }, cookie);
+      }
+      const frameIndex = Number(parsed.frame_index);
+      const details = parsed.details && typeof parsed.details === 'object' && !Array.isArray(parsed.details) ? parsed.details as Record<string, unknown> : null;
+      const allowed = ['vision', 'space', 'set', 'props', 'ambience', 'lighting', 'styling', 'hair', 'makeup'];
+      if (!Number.isInteger(frameIndex) || frameIndex < 0 || frameIndex > 24 || !details || Object.keys(details).some(key => !allowed.includes(key))) return fail(400, 'invalid_request');
+      const normalized = Object.fromEntries(allowed.map(key => [key, String(details[key] || '').trim()]));
+      if (Object.values(normalized).some(value => [...value].length > 1800)) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_frame_briefs(project_key, frame_index, details, updated_by, updated_at) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, frame_index) DO UPDATE SET details = excluded.details, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('grace-in-motion', frameIndex, JSON.stringify(normalized), session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_ideas' || action === 'add_idea') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_ideas') {
+        const result = await env.CLIENT_DB.prepare(`SELECT id, author, kind, body, created_at FROM client_project_ideas
+          WHERE project_key = ? ORDER BY created_at DESC LIMIT 100`).bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, ideas: result.results || [] }, cookie);
+      }
+      const kinds = new Set(['direction', 'location', 'styling', 'sound', 'story']);
+      const kind = String(parsed.kind || '').toLowerCase();
+      const body = String(parsed.body || '').trim();
+      if (!kinds.has(kind) || !body || [...body].length > 1200) return fail(400, 'invalid_request');
+      const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-idea', session.user.id, 80);
+      if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
+      const idea = { id: crypto.randomUUID(), author: session.user.username, kind, body, created_at: Math.floor(Date.now() / 1000) };
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_ideas(id, project_key, account_id, author, kind, body, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(idea.id, 'fashion-film-start', session.user.id, idea.author, idea.kind, idea.body, idea.created_at).run();
+      if (!saved.success || saved.meta?.changes !== 1) return fail(503, 'service_unavailable');
+      return reply(201, { user: session.user, csrf: session.csrf, idea }, cookie);
+    }
+    if (['list_inspirations', 'add_inspiration', 'vote_inspiration', 'select_inspiration'].includes(action)) {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_inspirations') {
+        const result = await env.CLIENT_DB.prepare(`SELECT i.id, i.author, i.owner, i.caption, i.image_data, i.selected, i.created_at,
+          SUM(CASE WHEN v.vote = 'yes' THEN 1 ELSE 0 END) AS yes_count,
+          SUM(CASE WHEN v.vote = 'no' THEN 1 ELSE 0 END) AS no_count,
+          MAX(CASE WHEN v.account_id = ? THEN v.vote ELSE NULL END) AS my_vote
+          FROM client_project_inspirations i LEFT JOIN client_project_inspiration_votes v ON v.inspiration_id = i.id
+          WHERE i.project_key = ? GROUP BY i.id ORDER BY i.created_at DESC LIMIT 60`).bind(session.user.id, 'fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, inspirations: result.results || [] }, cookie);
+      }
+      const id = String(parsed.id || '');
+      if (action === 'add_inspiration') {
+        const caption = String(parsed.caption || '').trim();
+        const imageData = String(parsed.image || '');
+        const owner = String(parsed.owner || '').toLowerCase();
+        if (!['alex', 'benjamin'].includes(owner) || [...caption].length > 240 || imageData.length > 1800000 || !/^data:(?:image\/(?:jpeg|png|webp)|video\/(?:mp4|webm|quicktime));base64,[A-Za-z0-9+/=]+$/.test(imageData)) return fail(400, 'invalid_request');
+        const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-inspiration', session.user.id, 40);
+        if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
+        const inspiration = { id: crypto.randomUUID(), author: session.user.username, owner, caption, image_data: imageData, selected: 0, created_at: Math.floor(Date.now() / 1000), yes_count: 0, no_count: 0, my_vote: null };
+        const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_inspirations(id, project_key, account_id, author, owner, caption, image_data, created_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`).bind(inspiration.id, 'fashion-film-start', session.user.id, inspiration.author, owner, caption, imageData, inspiration.created_at).run();
+        if (!saved.success || saved.meta?.changes !== 1) return fail(503, 'service_unavailable');
+        return reply(201, { user: session.user, csrf: session.csrf, inspiration }, cookie);
+      }
+      if (!/^[0-9a-f-]{36}$/i.test(id)) return fail(400, 'invalid_request');
+      if (action === 'vote_inspiration') {
+        const vote = String(parsed.vote || '');
+        if (!['yes', 'no'].includes(vote)) return fail(400, 'invalid_request');
+        await env.CLIENT_DB.prepare(`INSERT INTO client_project_inspiration_votes(inspiration_id, account_id, vote, created_at)
+          SELECT id, ?, ?, ? FROM client_project_inspirations WHERE id = ? AND project_key = ?
+          ON CONFLICT(inspiration_id, account_id) DO UPDATE SET vote = excluded.vote, created_at = excluded.created_at`)
+          .bind(session.user.id, vote, Math.floor(Date.now() / 1000), id, 'fashion-film-start').run();
+      } else {
+        await env.CLIENT_DB.prepare('UPDATE client_project_inspirations SET selected = 1 WHERE id = ? AND project_key = ?').bind(id, 'fashion-film-start').run();
+      }
+      return reply(200, { user: session.user, csrf: session.csrf, updated: true }, cookie);
+    }
+    if (action === 'list_gear' || action === 'save_gear') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_gear') {
+        const result = await env.CLIENT_DB.prepare('SELECT owner, items, updated_at FROM client_project_gear WHERE project_key = ? ORDER BY owner').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, gear: result.results || [] }, cookie);
+      }
+      const owner = String(parsed.owner || '').toLowerCase();
+      const items = String(parsed.items || '').trim();
+      if (!['alex', 'benjamin'].includes(owner) || [...items].length > 2000) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_gear(project_key, owner, items, updated_by, updated_at) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, owner) DO UPDATE SET items = excluded.items, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('fashion-film-start', owner, items, session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_roles' || action === 'save_roles') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_roles') {
+        const result = await env.CLIENT_DB.prepare('SELECT owner, roles, updated_at FROM client_project_roles WHERE project_key = ? ORDER BY owner').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, roles: result.results || [] }, cookie);
+      }
+      const owner = String(parsed.owner || '').toLowerCase();
+      const roles = Array.isArray(parsed.roles) ? parsed.roles.map(String) : [];
+      const allowedRoles = new Set(['Director', 'Co-Director', 'Creative Director', 'Director of Photography', 'Cinematographer', 'Camera Operator', 'First Assistant Director', 'Script Supervisor', 'Storyboard Artist', 'Technical Director', 'Art Director', 'Production Designer', 'Atmospheric Survey', 'Post-Production Supervisor', 'Picture Editor', 'Assistant Editor', 'Online Editor · Conform', 'Colorist', 'Finishing Artist', 'Sound Designer', 'Sound Editor', 'Re-Recording Mixer', 'VFX Supervisor']);
+      if (!['alex', 'benjamin'].includes(owner) || roles.length > allowedRoles.size || roles.some(role => !allowedRoles.has(role))) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_roles(project_key, owner, roles, updated_by, updated_at) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, owner) DO UPDATE SET roles = excluded.roles, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('fashion-film-start', owner, JSON.stringify([...new Set(roles)]), session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_narratives' || action === 'save_narrative') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_narratives') {
+        const result = await env.CLIENT_DB.prepare('SELECT owner, body, updated_at FROM client_project_narratives WHERE project_key = ? ORDER BY owner').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, narratives: result.results || [] }, cookie);
+      }
+      const owner = String(parsed.owner || '').toLowerCase();
+      const body = String(parsed.body || '').trim();
+      if (!['alex', 'benjamin'].includes(owner) || [...body].length > 2400) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_narratives(project_key, owner, body, updated_by, updated_at) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, owner) DO UPDATE SET body = excluded.body, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('fashion-film-start', owner, body, session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_suggestions' || action === 'save_suggestion') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_suggestions') {
+        const result = await env.CLIENT_DB.prepare('SELECT section, owner, body, updated_at FROM client_project_suggestions WHERE project_key = ? ORDER BY section, owner').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, suggestions: result.results || [] }, cookie);
+      }
+      const section = String(parsed.section || '').toLowerCase();
+      const owner = String(parsed.owner || '').toLowerCase();
+      const body = String(parsed.body || '').trim();
+      if (!['tone', 'image'].includes(section) || !['alex', 'benjamin'].includes(owner) || [...body].length > 600) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_suggestions(project_key, section, owner, body, updated_by, updated_at) VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, section, owner) DO UPDATE SET body = excluded.body, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('fashion-film-start', section, owner, body, session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
+    if (action === 'list_locations' || action === 'add_location') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_locations') {
+        const result = await env.CLIENT_DB.prepare('SELECT id, author, owner, idea, image_data, created_at FROM client_project_locations WHERE project_key = ? ORDER BY created_at ASC LIMIT 60').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, locations: result.results || [] }, cookie);
+      }
+      const idea = String(parsed.idea || '').trim();
+      const imageData = String(parsed.image || '');
+      const owner = String(parsed.owner || '').toLowerCase();
+      if (!['alex', 'benjamin'].includes(owner) || !idea || [...idea].length > 800 || imageData.length > 500000 || (imageData && !/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData))) return fail(400, 'invalid_request');
+      const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-location', session.user.id, 40);
+      if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
+      const location = { id: crypto.randomUUID(), author: session.user.username, owner, idea, image_data: imageData, created_at: Math.floor(Date.now() / 1000) };
+      const saved = await env.CLIENT_DB.prepare('INSERT INTO client_project_locations(id, project_key, account_id, author, owner, idea, image_data, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+        .bind(location.id, 'fashion-film-start', session.user.id, location.author, owner, idea, imageData, location.created_at).run();
+      if (!saved.success || saved.meta?.changes !== 1) return fail(503, 'service_unavailable');
+      return reply(201, { user: session.user, csrf: session.csrf, location }, cookie);
+    }
     if (!['login', 'activate'].includes(action)) return fail(400, 'invalid_request');
     const username = String(parsed.username || '').toLowerCase().trim(); const password = String(parsed.password || '');
     if (!/^[a-z0-9][a-z0-9._-]{2,63}$/.test(username) || !password || password.length > 1024) return fail(401, 'invalid_credentials');
