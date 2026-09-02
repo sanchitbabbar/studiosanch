@@ -29,9 +29,19 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
     const values = new FormData(form);
     setBusy(true); setMessage(''); setActivated(false);
     try {
-      // Get a fresh server-generated CSRF token before sending any credentials.
-      const session = await clientAuth();
-      const result = await clientAuth({ action: invitation ? 'activate' : 'login', username: String(values.get('username') || ''), password: String(values.get('password') || ''), ...(invitation ? { token: invitation } : {}) }, session.csrf);
+      const request = { action: invitation ? 'activate' : 'login', username: String(values.get('username') || ''), password: String(values.get('password') || ''), ...(invitation ? { token: invitation } : {}) };
+      // Safari can apply a newly issued HttpOnly cookie just after the first POST.
+      // Refresh and retry once when the server detects that harmless session race.
+      let session = await clientAuth();
+      let result: ClientSession;
+      try {
+        result = await clientAuth(request, session.csrf);
+      } catch (error) {
+        if (!(error instanceof ClientAuthError) || error.code !== 'request_rejected') throw error;
+        await new Promise(resolve => window.setTimeout(resolve, 120));
+        session = await clientAuth();
+        result = await clientAuth(request, session.csrf);
+      }
       if (invitation && result.activated === true) { form.reset(); setActivated(true); onActivated(); }
       else if (result.user && typeof result.user.id === 'string') { form.reset(); onSignedIn(result.user); }
       else throw new ClientAuthError('service_unavailable');
