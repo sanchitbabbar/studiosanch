@@ -633,7 +633,6 @@ export default function ClientSpace() {
             </div>
           </div>
           <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => { const permitted = projectAccess.includes(item.slug); return <button key={item.en} className={`${styles.project} ${!permitted ? styles.restricted : ''} ${restrictedSelection === item.slug && accessNotice ? styles.restrictedSelection : ''}`} aria-disabled={!permitted} aria-label={!permitted ? `${fr ? item.fr : item.en} — ${fr ? 'accès non inclus' : 'access not included'}` : undefined} onClick={() => { if (!permitted) { setRestrictedSelection(item.slug); showAccessNotice(); return; } setAccessNotice(false); setRestrictedSelection(null); setSelected(index); setPrepared(false); setStep('entrance'); }}>
-            <span className={styles.projectNumber}>0{index + 1}</span>
             <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
             <span className={styles.projectDetail}>{fr ? item.detailFr : item.detail}</span>
           </button>; })}</div>
