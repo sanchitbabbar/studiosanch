@@ -481,7 +481,7 @@
 .filmBoard:not(.filmBoardLight) .filmInspirationGrid article,
 .filmBoard:not(.filmBoardLight) .filmFixedRoles {
   border-color: #ffffff2b;
-  border-radius: 20px;
+  border-radius: 14px;
   background: linear-gradient(145deg, #171717a8, #0606068f 64%, #12121291);
   box-shadow: inset 0 1px 0 #ffffff10, 0 24px 70px #00000078;
   backdrop-filter: blur(18px) saturate(0);
@@ -497,7 +497,7 @@
 .filmBoard:not(.filmBoardLight) .filmLocationOwner:hover,
 .filmBoard:not(.filmBoardLight) .filmUpload:hover { border-color: #ffffff45; background: linear-gradient(145deg, #1d1d1db8, #0808089c 64%, #1717179c); box-shadow: inset 0 1px 0 #ffffff17, 0 30px 82px #0009; transform: translateY(-2px); }
 .filmBoard:not(.filmBoardLight) .filmDirection dl,
-.filmBoard:not(.filmBoardLight) .filmIdeaForm { padding: 18px 22px; border: 1px solid #ffffff20; border-radius: 18px; background: #08080880; box-shadow: inset 0 1px 0 #ffffff0b, 0 20px 55px #0005; backdrop-filter: blur(16px) saturate(0); }
+.filmBoard:not(.filmBoardLight) .filmIdeaForm { padding: 18px 22px; border: 1px solid #ffffff20; border-radius: 13px; background: #08080880; box-shadow: inset 0 1px 0 #ffffff0b, 0 20px 55px #0005; backdrop-filter: blur(16px) saturate(0); }
 .filmBoard:not(.filmBoardLight) .filmInspirationMedia img,
 .filmBoard:not(.filmBoardLight) .filmInspirationMedia video,
 .filmBoard:not(.filmBoardLight) .filmLocationGrid img { filter: grayscale(1) contrast(1.06); }
