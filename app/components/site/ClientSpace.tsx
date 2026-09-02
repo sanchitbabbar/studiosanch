@@ -559,7 +559,7 @@ export default function ClientSpace() {
   }
   const productionGear = [...new Set(Object.values(filmGear).flatMap(items => items.split(/\n|,/).map(item => item.trim()).filter(Boolean)))];
   return (
-    <main className={styles.space} lang={step === 'language' ? undefined : language}>
+    <main className={`${styles.space} ${step === 'project' || step === 'entrance' ? styles.oneScreen : ''}`} lang={step === 'language' ? undefined : language}>
       <div className={`${styles.topline} ${step === 'brief' && project.slug === 'film' ? styles.filmTopline : ''}`}>
         {(step === 'project' || step === 'entrance' || step === 'brief') && <button onClick={signOut} disabled={signingOut}>{fr ? 'Se déconnecter' : 'Sign out'}</button>}
         {logoutError && <span role="status">{fr ? 'Déconnexion indisponible. Réessayez.' : 'Sign-out unavailable. Please retry.'}</span>}

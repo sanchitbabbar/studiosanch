@@ -1,4 +1,9 @@
 .space { margin-top: 0; align-items: stretch; justify-content: flex-start; min-height: 100svh; background: #080808; color: #eeeae3; font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; }
+.oneScreen { height: 100svh; min-height: 100svh; overflow: hidden; }
+.oneScreen .topline { position: absolute; top: clamp(18px, 4svh, 48px); right: 5vw; margin: 0; }
+.oneScreen .projectScene { min-height: 0; height: 100%; padding-top: clamp(28px, 5svh, 58px); padding-bottom: clamp(18px, 3svh, 38px); }
+.oneScreen .filmEntrance, .oneScreen .photoshootEntrance { min-height: 0; height: 100%; }
+.oneScreen .footer { position: relative; z-index: 3; flex: 0 0 auto; margin-inline: 5vw; padding: 13px 0 15px; background: #080808; }
 .space button { color: inherit; font: inherit; background: none; border: 0; cursor: pointer; }
 .space button:focus-visible, .space input:focus-visible, .space textarea:focus-visible { outline: 1px solid #d6c5a6; outline-offset: 6px; }
 .space h1:focus { outline: none; }
