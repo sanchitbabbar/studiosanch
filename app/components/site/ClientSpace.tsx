@@ -168,6 +168,9 @@ export default function ClientSpace() {
   const [shootDays, setShootDays] = useState('2');
   const [frames, setFrames] = useState(frameDefaults);
   const [framePlanLoaded, setFramePlanLoaded] = useState(false);
+  const [framePlanSubmittedAt, setFramePlanSubmittedAt] = useState<number | null>(null);
+  const [photoshootPage, setPhotoshootPage] = useState<'plan' | 'review'>('plan');
+  const [frameSubmitStatus, setFrameSubmitStatus] = useState('');
   const [frameChoiceOpen, setFrameChoiceOpen] = useState<{ index: number; key: FrameChoiceKey } | null>(null);
   const [frameBriefs, setFrameBriefs] = useState<Record<number, FrameBrief>>({});
   const [frameBriefOpen, setFrameBriefOpen] = useState<number | null>(null);
@@ -221,7 +224,7 @@ export default function ClientSpace() {
     setFramePlanLoaded(false);
     const load = async () => {
       try {
-        let plan: { frames?: FramePlanItem[]; framesPerDay?: string; shootDays?: string } | null = null;
+        let plan: { frames?: FramePlanItem[]; framesPerDay?: string; shootDays?: string; submittedAt?: number | null } | null = null;
         if (isPreview) {
           const saved = window.localStorage.getItem('sanch-grace-in-motion-frame-plan');
           plan = saved ? JSON.parse(saved) : null;
@@ -233,6 +236,7 @@ export default function ClientSpace() {
         if (plan?.frames?.length) setFrames(plan.frames);
         if (plan?.framesPerDay) setFramesPerDay(plan.framesPerDay);
         if (plan?.shootDays) setShootDays(plan.shootDays);
+        if (plan?.submittedAt) { setFramePlanSubmittedAt(plan.submittedAt); setPhotoshootPage('review'); }
       } catch { /* Keep the curated defaults when no saved plan is available. */ }
       finally { setFramePlanLoaded(true); }
     };
@@ -240,7 +244,7 @@ export default function ClientSpace() {
   }, [step, photoshootOnly, isPreview]);
   useEffect(() => {
     if (!framePlanLoaded || step !== 'brief' || !photoshootOnly) return;
-    const plan = { frames, framesPerDay, shootDays };
+    const plan = { frames, framesPerDay, shootDays, submittedAt: framePlanSubmittedAt };
     const timer = window.setTimeout(async () => {
       if (isPreview) {
         window.localStorage.setItem('sanch-grace-in-motion-frame-plan', JSON.stringify(plan));
@@ -252,7 +256,7 @@ export default function ClientSpace() {
       } catch { /* Preserve the editable interface if a background save is interrupted. */ }
     }, 650);
     return () => window.clearTimeout(timer);
-  }, [frames, framesPerDay, shootDays, framePlanLoaded, step, photoshootOnly, isPreview]);
+  }, [frames, framesPerDay, shootDays, framePlanSubmittedAt, framePlanLoaded, step, photoshootOnly, isPreview]);
   useEffect(() => {
     if (frameBriefOpen === null) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') closeFrameBrief(); };
@@ -307,27 +311,22 @@ export default function ClientSpace() {
     setFrames(current => current.length >= 25 ? current : [...current, { visual: visualOptions[0], duration: '30', dancers: '1', movement: movementOptions[0], phrase: '30', repetitions: '5' }]);
     setFrameChoiceOpen(null);
   };
-  const framePlan = [
-    'CHROMA — Frame plan',
-    'Artist: James D Parkhill',
-    'Production: Studio Sanch',
-    '',
-    `Frames per shooting day: ${framesPerDay}`,
-    `Shooting days: ${shootDays}`,
-    `Planned frames: ${frames.length}`,
-    `Focused frame time: ${totalFrameMinutes} minutes`,
-    '',
-    ...frames.flatMap((frame, index) => [
-      `FRAME ${String(index + 1).padStart(2, '0')}`,
-      `Visual: ${frame.visual}`,
-      `Duration: ${frame.duration} minutes`,
-      `Dancers: ${frame.dancers}`,
-      `Genre: ${frame.movement}`,
-      `Sequence: ${frame.phrase} seconds`,
-      `Repetitions: ${frame.repetitions}`,
-      '',
-    ]),
-  ].join('\n');
+  async function submitFramePlan() {
+    const submittedAt = Math.floor(Date.now() / 1000);
+    const plan = { frames, framesPerDay, shootDays, submittedAt };
+    setFrameSubmitStatus(fr ? 'ENVOI…' : 'SUBMITTING…');
+    try {
+      if (isPreview) window.localStorage.setItem('sanch-grace-in-motion-frame-plan', JSON.stringify(plan));
+      else {
+        const session = await clientAuth();
+        await clientAuth({ action: 'save_frame_plan', project: 'grace-in-motion', plan }, session.csrf);
+      }
+      setFramePlanSubmittedAt(submittedAt);
+      setFrameSubmitStatus('');
+      setPhotoshootPage('review');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch { setFrameSubmitStatus(fr ? 'ÉCHEC DE L’ENVOI · RÉESSAYEZ' : 'SUBMISSION FAILED · PLEASE TRY AGAIN'); }
+  }
   async function loadFilmIdeas() {
     if (isPreview) {
       const saved = window.localStorage.getItem('sanch-fashion-film-start-ideas');
@@ -719,11 +718,38 @@ export default function ClientSpace() {
             <p className={styles.projectRoomWelcome}>GRACE IN MOTION</p>
             <h1 id="client-title" ref={heading} tabIndex={-1}>CHROMA</h1>
             <div className={styles.projectRoomMeta}>
-              <span className={styles.projectRoomCredits}><span><b>ARTIST</b><strong>JAMES D PARKHILL</strong></span><span><b>PRODUCTION</b><strong>STUDIO SANCH</strong></span></span>
+              <span className={styles.projectRoomCredits}><span><b>ARTIST</b><strong>JAMES D PARKHILL</strong></span><span><b>{fr ? 'PRODUCTEUR' : 'PRODUCER'}</b><strong>STUDIO SANCH</strong></span></span>
               <span className={styles.projectRoomStatus}><i aria-hidden="true" /><span><b>{fr ? 'PRÉPRODUCTION' : 'PRE-PRODUCTION'}</b><small>{fr ? 'ÉTAPE 01' : 'STAGE 01'}</small></span></span>
             </div>
           </div>
 
+          {photoshootPage === 'review' ? <section className={styles.frameReview} aria-labelledby="frame-review-title">
+            <header className={styles.frameReviewHeader}>
+              <div><p>{fr ? 'PRÉPRODUCTION · ÉTAPE 01' : 'PRE-PRODUCTION · STAGE 01'}</p><h2 id="frame-review-title">{fr ? 'Direction enregistrée.' : 'Direction submitted.'}</h2><span>{fr ? 'La vision complète, telle qu’elle a été composée.' : 'The complete vision, exactly as composed.'}</span></div>
+              <button type="button" onClick={() => { setPhotoshootPage('plan'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>{fr ? 'MODIFIER LE PLAN' : 'EDIT PLAN'} <i aria-hidden="true">↗</i></button>
+            </header>
+            <div className={styles.frameReviewOverview}>
+              <div><small>{fr ? 'IMAGES' : 'FRAMES'}</small><strong>{String(frames.length).padStart(2, '0')}</strong></div>
+              <div><small>{fr ? 'DURÉE CIBLÉE' : 'FOCUSED DURATION'}</small><strong>{Math.floor(totalFrameMinutes / 60)}H {totalFrameMinutes % 60 ? `${totalFrameMinutes % 60}M` : ''}</strong></div>
+              <div><small>{fr ? 'RYTHME' : 'SHOOTING RHYTHM'}</small><strong>{framesPerDay} × {shootDays}</strong><span>{fr ? 'images par jour × jours' : 'frames per day × days'}</span></div>
+              <div><small>{fr ? 'STATUT' : 'STATUS'}</small><strong>{fr ? 'ENVOYÉ' : 'SUBMITTED'}</strong>{framePlanSubmittedAt && <span>{new Date(framePlanSubmittedAt * 1000).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</span>}</div>
+            </div>
+            <div className={styles.frameReviewList}>{frames.map((frame, index) => {
+              const details = { ...emptyFrameBrief, ...(frameBriefs[index] || {}) };
+              return <article className={styles.frameReviewCard} key={index}>
+                <header><span>{String(index + 1).padStart(2, '0')}</span><div><small>{fr ? 'VISUEL SOUHAITÉ' : 'DESIRED VISUAL'}</small><h3>{frame.visual}</h3></div></header>
+                <dl className={styles.frameReviewSpecs}>
+                  <div><dt>{fr ? 'DURÉE' : 'DURATION'}</dt><dd>{frame.duration} min</dd></div>
+                  <div><dt>{fr ? 'DANSEURS' : 'DANCERS'}</dt><dd>{frame.dancers}</dd></div>
+                  <div><dt>GENRE</dt><dd>{frame.movement}</dd></div>
+                  <div><dt>{fr ? 'SÉQUENCE' : 'SEQUENCE'}</dt><dd>{Number(frame.phrase) >= 60 ? `${Math.floor(Number(frame.phrase) / 60)} min${Number(frame.phrase) % 60 ? ` ${Number(frame.phrase) % 60}` : ''}` : `${frame.phrase} sec`}</dd></div>
+                  <div><dt>{fr ? 'REPRISES' : 'REPEATS'}</dt><dd>{frame.repetitions}</dd></div>
+                </dl>
+                <div className={styles.frameReviewBrief}>{frameBriefTabs.map(tab => <section key={tab.key}><h4>{fr ? tab.fr : tab.en}</h4><p className={details[tab.key].trim() ? '' : styles.frameReviewEmpty}>{details[tab.key].trim() || (fr ? 'À définir' : 'To be defined')}</p></section>)}</div>
+              </article>;
+            })}</div>
+            <footer className={styles.frameReviewFooter}><span>{fr ? 'ARTISTE · JAMES D PARKHILL' : 'ARTIST · JAMES D PARKHILL'}</span><span>{fr ? 'PRODUCTEUR · STUDIO SANCH' : 'PRODUCER · STUDIO SANCH'}</span></footer>
+          </section> : <>
           <div className={styles.frameBuilder}>
             <div className={styles.frameBuilderIntro}>
               <div>
@@ -779,7 +805,7 @@ export default function ClientSpace() {
               <div><span>{fr ? 'IMAGES PLANIFIÉES' : 'PLANNED FRAMES'}</span><strong>{String(frames.length).padStart(2, '0')}</strong></div>
               <div><span>{fr ? 'TEMPS IMAGE CIBLÉ' : 'FOCUSED FRAME TIME'}</span><strong>{Math.floor(totalFrameMinutes / 60)}H {totalFrameMinutes % 60 ? `${totalFrameMinutes % 60}M` : ''}</strong></div>
               <div><span>{fr ? 'CAPACITÉ DU PROJET' : 'PROJECT CAPACITY'}</span><strong>{Number(framesPerDay) * Number(shootDays)}</strong><small>{fr ? 'images sur' : 'frames across'} {shootDays} {fr ? 'jours' : Number(shootDays) === 1 ? 'day' : 'days'}</small></div>
-              <a href={`mailto:contact@studiosanch.com?subject=${encodeURIComponent('CHROMA — Frame plan')}&body=${encodeURIComponent(framePlan)}`}>{fr ? 'PRÉPARER LE PLAN' : 'PREPARE THE PLAN'} <span aria-hidden="true">→</span></a>
+              <button className={styles.frameSubmitButton} type="button" onClick={() => void submitFramePlan()}>{frameSubmitStatus || (fr ? 'ENVOYER' : 'SUBMIT')} <span aria-hidden="true">→</span></button>
             </div>
           </div>
           {frameBriefOpen !== null && typeof document !== 'undefined' && createPortal(<div className={`${styles.frameBriefVeil} ${frameBriefClosing ? styles.frameBriefVeilClosing : ''}`} role="dialog" aria-modal="true" aria-label={fr ? `Direction visuelle de l’image ${frameBriefOpen + 1}` : `Visual direction for frame ${frameBriefOpen + 1}`} onMouseDown={event => { if (event.target === event.currentTarget) closeFrameBrief(); }}>
@@ -797,6 +823,7 @@ export default function ClientSpace() {
               <footer><p>{frameBriefStatus || (fr ? 'Chaque section sera composée au sein d’un même brief partagé.' : 'Every section will be composed within one shared brief.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
             </section>
           </div>, document.body)}
+          </>}
         </section>
       ) : (
         <section className={`${styles.content} ${styles.brief}`} aria-labelledby="client-title">

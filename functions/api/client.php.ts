@@ -148,6 +148,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       const frames = plan && Array.isArray(plan.frames) ? plan.frames : null;
       const framesPerDay = String(plan?.framesPerDay || '');
       const shootDays = String(plan?.shootDays || '');
+      const submittedAt = plan?.submittedAt == null ? null : Number(plan.submittedAt);
       const allowedKeys = ['visual', 'duration', 'dancers', 'movement', 'phrase', 'repetitions'];
       const allowedMovements = new Set(['Contemporary', 'Modern', 'Lyrical', 'Acrobat', 'Aerial', 'Neoclassical', 'Cabaret', 'Jazz']);
       const validFrames = frames && frames.length >= 1 && frames.length <= 25 && frames.every(frame => {
@@ -159,8 +160,8 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
           ['15', '30', '45', '60', '75', '90', '105', '120'].includes(String(item.phrase)) &&
           ['3', '5', '8', '10'].includes(String(item.repetitions));
       });
-      if (!plan || !validFrames || !['4', '6', '8', '10'].includes(framesPerDay) || !['1', '2', '3', '4', '5'].includes(shootDays)) return fail(400, 'invalid_request');
-      const details = JSON.stringify({ frames, framesPerDay, shootDays });
+      if (!plan || !validFrames || !['4', '6', '8', '10'].includes(framesPerDay) || !['1', '2', '3', '4', '5'].includes(shootDays) || (submittedAt !== null && (!Number.isInteger(submittedAt) || submittedAt < 1))) return fail(400, 'invalid_request');
+      const details = JSON.stringify({ frames, framesPerDay, shootDays, submittedAt });
       const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_frame_plans(project_key, details, updated_by, updated_at) VALUES (?, ?, ?, ?)
         ON CONFLICT(project_key) DO UPDATE SET details = excluded.details, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
         .bind('grace-in-motion', details, session.user.id, Math.floor(Date.now() / 1000)).run();
