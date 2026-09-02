@@ -621,7 +621,7 @@ export default function ClientSpace() {
           <div className={`${styles.stageLaser} ${styles.laserTopLeft}`} aria-hidden="true" />
           <div className={`${styles.stageLaser} ${styles.laserTopRight}`} aria-hidden="true" />
           <div className={styles.intro}>
-            <h1 id="client-title" ref={heading} tabIndex={-1}>{fr ? 'Tout commence' : 'It begins'}<br /><span>{fr ? 'par une idée.' : 'with an idea.'}</span></h1>
+            <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Choisissez une forme de projet' : 'Choose a project form'}</h1>
             <p>{fr ? <>Certaines créations naissent d’une vision.<br />D’autres, d’une sensation.<br /><strong>Par où commencer ?</strong></> : <>Some creations begin with a vision.<br />Others, with a sensation.<br /><strong>Where shall we begin?</strong></>}</p>
           </div>
           <div className={styles.accessNoticeSlot}>
