@@ -251,7 +251,7 @@
 @keyframes frameBriefModalOut { from { opacity: 1; transform: scale(1); filter: blur(0); } to { opacity: 0; transform: scale(.982) translateY(8px); filter: blur(3px); } }
 @keyframes liquidLacquer { 0% { transform: translate3d(-3%, 2%, 0) rotate(-2deg) scale(1.02); border-radius: 42% 58% 54% 46%; } 50% { transform: translate3d(4%, -2%, 0) rotate(3deg) scale(1.08); border-radius: 57% 43% 46% 54%; } 100% { transform: translate3d(-1%, -4%, 0) rotate(-1deg) scale(1.04); border-radius: 48% 52% 59% 41%; } }
 .brief { display: grid; grid-template-columns: 1fr 1fr; gap: 8vw; padding-top: 40px; }
-.filmBoard { flex: 1; padding: 48px 6vw 90px; background: #0a0a0a; color: #ece9e3; animation: arrive .8s ease both; }
+.filmBoard { flex: 1; padding: 48px 6vw 90px; background: linear-gradient(180deg, #050505d9, #080808c7 38%, #020202e8), url('/images/fashion-film-start-paris-v1.webp') center top / cover fixed; background-blend-mode: normal, luminosity; color: #ece9e3; animation: arrive .8s ease both; }
 .filmBoard input, .filmBoard textarea { transition: border-color .35s ease, box-shadow .35s ease; }
 .filmBoard input:focus, .filmBoard textarea:focus { outline: none; border-bottom-color: #969189; box-shadow: 0 2px 5px -4px #eee9e180; }
 .filmBoardLight input:focus, .filmBoardLight textarea:focus { border-bottom-color: #68645f; box-shadow: 0 2px 5px -4px #0006; }
@@ -471,6 +471,36 @@
 .filmCinema header button { appearance: none; padding: 4px 0; border: 0; border-radius: 0; background: transparent; color: #d8d2c9; font: 400 7px/1 'Montserrat', sans-serif; letter-spacing: .17em; }
 .filmCinema > img, .filmCinema > video { display: block; width: 100%; max-height: 70dvh; object-fit: contain; background: #000; }
 .filmCinema > p { margin: 0; padding: 14px 17px 17px; color: #d5d0c8; font-size: 11px; line-height: 1.7; }
+.filmBoard:not(.filmBoardLight) .filmBoardHero::before { background: linear-gradient(180deg, #090909a8, #09090970); opacity: .74; backdrop-filter: blur(16px) saturate(0); }
+.filmBoard:not(.filmBoardLight) .filmRoleColumns > div,
+.filmBoard:not(.filmBoardLight) .filmGearColumns > div,
+.filmBoard:not(.filmBoardLight) .filmNarratives article,
+.filmBoard:not(.filmBoardLight) .filmLocationOwner,
+.filmBoard:not(.filmBoardLight) .filmLocationGrid article,
+.filmBoard:not(.filmBoardLight) .filmUpload,
+.filmBoard:not(.filmBoardLight) .filmInspirationGrid article,
+.filmBoard:not(.filmBoardLight) .filmFixedRoles {
+  border-color: #ffffff2b;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #171717a8, #0606068f 64%, #12121291);
+  box-shadow: inset 0 1px 0 #ffffff10, 0 24px 70px #00000078;
+  backdrop-filter: blur(18px) saturate(0);
+}
+.filmBoard:not(.filmBoardLight) .filmRoleColumns > div,
+.filmBoard:not(.filmBoardLight) .filmGearColumns > div,
+.filmBoard:not(.filmBoardLight) .filmNarratives article,
+.filmBoard:not(.filmBoardLight) .filmLocationOwner,
+.filmBoard:not(.filmBoardLight) .filmUpload { transition: border-color .8s ease, background .8s ease, box-shadow .8s ease, transform .9s cubic-bezier(.16, 1, .3, 1); }
+.filmBoard:not(.filmBoardLight) .filmRoleColumns > div:hover,
+.filmBoard:not(.filmBoardLight) .filmGearColumns > div:hover,
+.filmBoard:not(.filmBoardLight) .filmNarratives article:hover,
+.filmBoard:not(.filmBoardLight) .filmLocationOwner:hover,
+.filmBoard:not(.filmBoardLight) .filmUpload:hover { border-color: #ffffff45; background: linear-gradient(145deg, #1d1d1db8, #0808089c 64%, #1717179c); box-shadow: inset 0 1px 0 #ffffff17, 0 30px 82px #0009; transform: translateY(-2px); }
+.filmBoard:not(.filmBoardLight) .filmDirection dl,
+.filmBoard:not(.filmBoardLight) .filmIdeaForm { padding: 18px 22px; border: 1px solid #ffffff20; border-radius: 18px; background: #08080880; box-shadow: inset 0 1px 0 #ffffff0b, 0 20px 55px #0005; backdrop-filter: blur(16px) saturate(0); }
+.filmBoard:not(.filmBoardLight) .filmInspirationMedia img,
+.filmBoard:not(.filmBoardLight) .filmInspirationMedia video,
+.filmBoard:not(.filmBoardLight) .filmLocationGrid img { filter: grayscale(1) contrast(1.06); }
 .filmBoard:not(.filmBoardLight) .filmLabel,
 .filmBoard:not(.filmBoardLight) .filmBoardHero div > p,
 .filmBoard:not(.filmBoardLight) .filmBoardStatus,
