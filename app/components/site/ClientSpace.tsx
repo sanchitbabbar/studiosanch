@@ -77,7 +77,7 @@ L’on trace alors l’encre sur le papier, afin que le destin s’y guide et s�
 export default function ClientSpace() {
   const { language, setLanguage } = useLanguage();
   const fr = language === 'fr';
-  const [step, setStep] = useState<'language' | 'signin' | 'project' | 'brief'>('language');
+  const [step, setStep] = useState<'language' | 'signin' | 'project' | 'entrance' | 'brief'>('language');
   const [selected, setSelected] = useState(0);
   const [invitation, setInvitation] = useState('');
   const [logoutError, setLogoutError] = useState(false);
@@ -188,7 +188,6 @@ export default function ClientSpace() {
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
   const photoshootOnly = projectAccess.length === 1 && projectAccess[0] === 'photoshoot';
-  const filmOnly = projectAccess.length === 1 && projectAccess[0] === 'film';
   const permittedNames = disciplines
     .filter(item => projectAccess.includes(item.slug))
     .map(item => fr ? item.fr : item.en)
@@ -562,7 +561,7 @@ export default function ClientSpace() {
   return (
     <main className={styles.space} lang={step === 'language' ? undefined : language}>
       <div className={`${styles.topline} ${step === 'brief' && project.slug === 'film' ? styles.filmTopline : ''}`}>
-        {(step === 'project' || step === 'brief') && <button onClick={signOut} disabled={signingOut}>{fr ? 'Se déconnecter' : 'Sign out'}</button>}
+        {(step === 'project' || step === 'entrance' || step === 'brief') && <button onClick={signOut} disabled={signingOut}>{fr ? 'Se déconnecter' : 'Sign out'}</button>}
         {logoutError && <span role="status">{fr ? 'Déconnexion indisponible. Réessayez.' : 'Sign-out unavailable. Please retry.'}</span>}
       </div>
       {step === 'language' ? (
@@ -585,7 +584,7 @@ export default function ClientSpace() {
             <button className={styles.signInBack} onClick={() => setStep('language')}>{fr ? 'Langue' : 'Language'}</button>
           </div>
         </section>
-      ) : step === 'project' && filmOnly ? (
+      ) : step === 'entrance' && project.slug === 'film' ? (
         <section className={styles.filmEntrance} aria-labelledby="client-title">
           <div className={styles.filmEntranceImage} aria-hidden="true" />
           <div className={styles.filmEntranceVeil} aria-hidden="true" />
@@ -595,7 +594,7 @@ export default function ClientSpace() {
             <button onClick={() => { setSelected(0); setStep('brief'); }}><span>{fr ? 'ENTRER' : 'ENTER'}</span><i aria-hidden="true" /></button>
           </div>
         </section>
-      ) : step === 'project' && photoshootOnly ? (
+      ) : step === 'entrance' && project.slug === 'photoshoot' ? (
         <section className={styles.photoshootEntrance} aria-labelledby="client-title">
           <div className={styles.photoshootImage} aria-hidden="true" />
           <div className={styles.photoshootGrain} aria-hidden="true" />
@@ -633,7 +632,7 @@ export default function ClientSpace() {
               <span>{fr ? 'D’autres possibilités sur demande.' : 'Further possibilities upon request.'}</span>
             </div>
           </div>
-          <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => { const permitted = projectAccess.includes(item.slug); return <button key={item.en} className={`${styles.project} ${!permitted ? styles.restricted : ''} ${restrictedSelection === item.slug && accessNotice ? styles.restrictedSelection : ''}`} aria-disabled={!permitted} aria-label={!permitted ? `${fr ? item.fr : item.en} — ${fr ? 'accès non inclus' : 'access not included'}` : undefined} onClick={() => { if (!permitted) { setRestrictedSelection(item.slug); showAccessNotice(); return; } setAccessNotice(false); setRestrictedSelection(null); setSelected(index); setPrepared(false); setStep('brief'); }}>
+          <div className={styles.projects} aria-label={fr ? 'Choisissez une forme de projet' : 'Choose a project form'}>{disciplines.map((item, index) => { const permitted = projectAccess.includes(item.slug); return <button key={item.en} className={`${styles.project} ${!permitted ? styles.restricted : ''} ${restrictedSelection === item.slug && accessNotice ? styles.restrictedSelection : ''}`} aria-disabled={!permitted} aria-label={!permitted ? `${fr ? item.fr : item.en} — ${fr ? 'accès non inclus' : 'access not included'}` : undefined} onClick={() => { if (!permitted) { setRestrictedSelection(item.slug); showAccessNotice(); return; } setAccessNotice(false); setRestrictedSelection(null); setSelected(index); setPrepared(false); setStep('entrance'); }}>
             <span className={styles.projectNumber}>0{index + 1}</span>
             <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
             <span className={styles.projectDetail}>{fr ? item.detailFr : item.detail}</span>
@@ -711,7 +710,7 @@ export default function ClientSpace() {
             <span /><span /><span /><span />
           </div>
           <div className={styles.projectRoomHeader}>
-            <button className={styles.back} onClick={() => setStep('project')}>← {fr ? 'Retour à CHROMA' : 'Back to CHROMA'}</button>
+            <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROMA' : 'Back to CHROMA'}</button>
           </div>
 
           <div className={styles.projectRoomHero}>
