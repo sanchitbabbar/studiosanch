@@ -265,6 +265,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
   const [selectedQuality, setSelectedQuality] = useState<PrintQuality | null>(null);
   const [isCheckout, setIsCheckout] = useState(false);
   const [showArtworkSuccess, setShowArtworkSuccess] = useState(false);
+  const [artworkSubmissionError, setArtworkSubmissionError] = useState(false);
   const [activeTab, setActiveTab] = useState<'gallery' | 'about'>('gallery');
 
   const calculatePrice = useCallback(() => {
@@ -759,10 +760,11 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                               </motion.div>
                             ) : (
                               <form
-                                action="https://formspree.io/f/mdkzyqaq"
+                                action="https://formspree.io/f/mrpgkojw"
                                 method="POST"
                                 onSubmit={(e) => {
                                   e.preventDefault();
+                                  setArtworkSubmissionError(false);
                                   const form = e.target as HTMLFormElement;
                                   const formData = new FormData(form);
                                   formData.append('artwork', `${selectedDesign?.title} - ${selectedSize?.dimensions || ''} - ${selectedQuality?.name || ''}`);
@@ -778,17 +780,14 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                                     headers: { Accept: 'application/json' },
                                   })
                                     .then((response) => {
-                                      if (response.ok) {
-                                        setShowArtworkSuccess(true);
-                                        setTimeout(() => {
-                                          setIsCheckout(false);
-                                          setShowArtworkSuccess(false);
-                                        }, 5000);
-                                      }
-                                    })
-                                    .catch(() => {
+                                      if (!response.ok) throw new Error('Submission failed');
                                       setShowArtworkSuccess(true);
-                                    });
+                                      setTimeout(() => {
+                                        setIsCheckout(false);
+                                        setShowArtworkSuccess(false);
+                                      }, 5000);
+                                    })
+                                    .catch(() => setArtworkSubmissionError(true));
                                 }}
                                 className="space-y-4"
                               >
@@ -842,6 +841,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                                 </button>
                               </form>
                             )}
+                            {artworkSubmissionError && <p role="status" className="text-[10px] text-center text-red-300/80">{language === 'en' ? 'Your request could not be sent. Please contact contact@studiosanch.com.' : 'Votre demande n’a pas pu être envoyée. Contactez contact@studiosanch.com.'}</p>}
                             <button 
                               onClick={() => { setIsCheckout(false); setShowArtworkSuccess(false); }}
                               className="w-full py-2 border border-white/20 text-white/60 hover:text-white hover:border-white/40 text-xs tracking-wider uppercase transition-colors"

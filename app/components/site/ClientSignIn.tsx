@@ -60,7 +60,7 @@ export default function ClientSignIn({ fr, invitation, onActivated, onSignedIn }
     if (email) formData.append('_replyto', email);
     setRecoveryBusy(true); setRecoveryError(false);
     try {
-      const response = await fetch('https://formspree.io/f/mdkzyqaq', { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
+      const response = await fetch('https://formspree.io/f/mrpgkojw', { method: 'POST', body: formData, headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error('request_failed');
       setRecoverySent(true);
     } catch { setRecoveryError(true); }

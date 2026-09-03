@@ -130,7 +130,7 @@
         <section class="track-order-container">
             <div class="track-order-form">
                 <h2 data-i18n="track.title">SUIVRE VOTRE COMMANDE</h2>
-                <form id="orderTrackingForm">
+                <form id="orderTrackingForm" action="https://formspree.io/f/mrpgkojw" method="POST">
                     <div class="form-group">
                         <label for="name" data-i18n="track.name">NOM</label>
                         <input type="text" id="name" name="name" required>
@@ -247,12 +247,23 @@
     </style>
     <script>
         // Form submission handling
-        document.getElementById('orderTrackingForm').addEventListener('submit', function(e) {
+        document.getElementById('orderTrackingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            // Here you would typically send the form data to your server
-            // For now, we'll just show the success message
-            document.querySelector('.success-message').style.display = 'block';
-            this.reset();
+            const message = document.querySelector('.track-order-container .success-message');
+            const button = this.querySelector('[type="submit"]');
+            button.disabled = true;
+            try {
+                const response = await fetch(this.action, { method: 'POST', body: new FormData(this), headers: { Accept: 'application/json' } });
+                if (!response.ok) throw new Error('Submission failed');
+                message.textContent = "Votre demande de suivi a été envoyée. Nous vous contacterons avec les détails de votre commande.";
+                message.style.display = 'block';
+                this.reset();
+            } catch {
+                message.textContent = "Votre demande n’a pas pu être envoyée. Contactez contact@studiosanch.com.";
+                message.style.display = 'block';
+            } finally {
+                button.disabled = false;
+            }
         });
 
         // Newsletter Dropdown
@@ -301,13 +312,6 @@
             }
         });
         
-        // Handle newsletter form submission
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            newsletterForm.style.display = 'none';
-            successMessage.classList.add('active');
-        });
-
         // Language Panel Functionality
         const languageTrigger = document.getElementById('language-selector-trigger');
         const languagePanel = document.querySelector('.language-panel-overlay');

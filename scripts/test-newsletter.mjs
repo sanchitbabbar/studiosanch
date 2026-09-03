@@ -19,9 +19,9 @@ for (const scenario of ['success', 'rejected', 'html', 'network']) {
       document: { documentElement: { lang: 'en' }, querySelectorAll: () => [form], addEventListener: (_, fn) => fn() },
       AbortController, setTimeout, clearTimeout,
       fetch: async (url) => {
-        assert.equal(url, '/php/subscribe.php');
+        assert.equal(url, 'https://formspree.io/f/mrpgkojw');
         if (scenario === 'network') throw new Error('offline');
-        return { ok: scenario !== 'rejected', headers: { get: () => scenario === 'html' ? 'text/html' : 'application/json' }, json: async () => ({ success: true }) };
+        return { ok: scenario !== 'rejected', headers: { get: () => scenario === 'html' ? 'text/html' : 'application/json' }, json: async () => ({ ok: true }) };
       },
     });
     await submit({ preventDefault() {} });

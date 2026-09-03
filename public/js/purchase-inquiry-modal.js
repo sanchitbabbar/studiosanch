@@ -22,11 +22,12 @@
             <h4></h4>
             <span></span>
           </div>
-          <form class="purchase-inquiry-form" action="https://formspree.io/f/mdkzyqaq" method="POST">
+          <form class="purchase-inquiry-form" action="https://formspree.io/f/mrpgkojw" method="POST">
             <label>Full Name<input type="text" name="name" required></label>
             <label>Email Address<input type="email" name="email" required></label>
             <label>Your Message<textarea name="message" rows="3" required></textarea></label>
             <button type="submit">SEND</button>
+            <p class="purchase-inquiry-error" role="status" hidden>Your request could not be sent. Please contact contact@studiosanch.com.</p>
           </form>
           <div class="purchase-inquiry-success" hidden>
             <div class="purchase-inquiry-check">✓</div>
@@ -45,6 +46,7 @@
   const form = modal.querySelector('.purchase-inquiry-form');
   const message = form.querySelector('textarea');
   const success = modal.querySelector('.purchase-inquiry-success');
+  const error = modal.querySelector('.purchase-inquiry-error');
   summaryTitle.textContent = productName;
   summaryPrice.textContent = productPrice;
   summaryPrice.hidden = !productPrice;
@@ -74,6 +76,7 @@
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
+    error.hidden = true;
     const data = new FormData(form);
     data.append('product', productName);
     if (productPrice) data.append('productPrice', productPrice);
@@ -83,7 +86,8 @@
       const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error('Request failed');
     } catch {
-      // Keep the confirmation treatment consistent with the existing product inquiry form.
+      error.hidden = false;
+      return;
     }
     form.hidden = true;
     success.hidden = false;

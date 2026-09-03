@@ -16,6 +16,7 @@ interface ProductCheckoutModalProps {
 
 export default function ProductCheckoutModal({ isOpen, onClose, product }: ProductCheckoutModalProps) {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [submissionError, setSubmissionError] = useState(false);
   const { language } = useLanguage();
   const fr = language === 'fr';
 
@@ -93,10 +94,11 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                 </motion.div>
               ) : (
                 <form
-                  action="https://formspree.io/f/mdkzyqaq"
+                  action="https://formspree.io/f/mrpgkojw"
                   method="POST"
-                  onSubmit={(e) => {
-                    e.preventDefault();
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  setSubmissionError(false);
                     const form = e.target as HTMLFormElement;
                     const formData = new FormData(form);
                     formData.append('product', product.name);
@@ -112,17 +114,14 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                       headers: { Accept: 'application/json' },
                     })
                       .then((response) => {
-                        if (response.ok) {
-                          setShowSuccessMessage(true);
-                          setTimeout(() => {
-                            onClose();
-                            setTimeout(() => setShowSuccessMessage(false), 500);
-                          }, 5000);
-                        }
-                      })
-                      .catch(() => {
+                        if (!response.ok) throw new Error('Submission failed');
                         setShowSuccessMessage(true);
-                      });
+                        setTimeout(() => {
+                          onClose();
+                          setTimeout(() => setShowSuccessMessage(false), 500);
+                        }, 5000);
+                      })
+                      .catch(() => setSubmissionError(true));
                   }}
                   className="space-y-4"
                 >
@@ -187,6 +186,8 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                   </div>
                 </form>
               )}
+
+              {submissionError && <p role="status" className="text-[10px] text-center text-red-300/80 mt-4">{fr ? 'Votre demande n’a pas pu être envoyée. Contactez contact@studiosanch.com.' : 'Your request could not be sent. Please contact contact@studiosanch.com.'}</p>}
 
               <p className="text-[9px] italic text-white/30 text-center mt-6">
                 {fr ? 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.' : 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.'}

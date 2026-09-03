@@ -26,13 +26,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 10000);
       try {
-        const response = await fetch('/php/subscribe.php', {
+        const response = await fetch('https://formspree.io/f/mrpgkojw', {
           method: 'POST', headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({email: email.value.trim()}), signal: controller.signal
+          body: JSON.stringify({
+            email: email.value.trim(),
+            _replyto: email.value.trim(),
+            _subject: 'Studio Sanch newsletter request',
+            request_type: 'Newsletter subscription'
+          }), signal: controller.signal
         });
         if (!response.ok || !(response.headers.get('content-type') || '').includes('application/json')) throw new Error('Unavailable');
         const result = await response.json();
-        if (result.success !== true) throw new Error('Not confirmed');
+        if (result.ok !== true) throw new Error('Not confirmed');
         status.textContent = french ? 'Demande reçue. Consultez votre messagerie pour la suite.' : 'Request received. Check your email for the next step.';
         form.reset();
       } catch {
