@@ -179,6 +179,7 @@ export default function ClientSpace() {
   const [frameBriefDraft, setFrameBriefDraft] = useState<FrameBrief>(emptyFrameBrief);
   const [frameBriefStatus, setFrameBriefStatus] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
+  const openPhotoshootPlanOnEntry = useRef(false);
   const firstRender = useRef(true);
   useEffect(() => {
     if (firstRender.current) { firstRender.current = false; return; }
@@ -235,9 +236,15 @@ export default function ClientSpace() {
         if (plan?.frames?.length) setFrames(plan.frames);
         if (plan?.framesPerDay) setFramesPerDay(plan.framesPerDay);
         if (plan?.shootDays) setShootDays(plan.shootDays);
-        if (plan?.submittedAt) { setFramePlanSubmittedAt(plan.submittedAt); setPhotoshootPage('review'); }
+        if (plan?.submittedAt) {
+          setFramePlanSubmittedAt(plan.submittedAt);
+          if (!openPhotoshootPlanOnEntry.current) setPhotoshootPage('review');
+        }
       } catch { /* Keep the curated defaults when no saved plan is available. */ }
-      finally { setFramePlanLoaded(true); }
+      finally {
+        openPhotoshootPlanOnEntry.current = false;
+        setFramePlanLoaded(true);
+      }
     };
     void load();
   }, [step, photoshootOnly, isPreview]);
@@ -605,7 +612,7 @@ export default function ClientSpace() {
             <div className={styles.photoshootCredits}>
               <span>BY JAMES D PARKHILL</span>
             </div>
-            <button onClick={() => { setSelected(1); setPrepared(false); setStep('brief'); }}>
+            <button onClick={() => { openPhotoshootPlanOnEntry.current = true; setPhotoshootPage('plan'); setSelected(1); setPrepared(false); setStep('brief'); }}>
               <span>{fr ? 'ENTRER' : 'ENTER'}</span>
               <i aria-hidden="true" />
             </button>
