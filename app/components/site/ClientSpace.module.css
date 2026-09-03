@@ -734,7 +734,7 @@
 @media (max-width: 800px) {
   .oneScreen { height: calc(100svh - 80px); min-height: 0; }
   .oneScreen .topline { top: 12px; right: 18px; }
-  .oneScreen .projectScene { display: flex; height: 100%; flex-direction: column; padding: clamp(58px, 8svh, 76px) 0 8px; background: linear-gradient(180deg, #070707b8 0%, #07070745 28%, #07070758 70%, #070707d9 100%), url('/images/productions-hero-reel-natural-gaze-v9.png') 62% 42% / cover no-repeat; }
+  .oneScreen .projectScene { display: flex; height: 100%; flex-direction: column; padding: clamp(58px, 8svh, 76px) 0 8px; background: linear-gradient(180deg, #050505e5 0%, #050505ba 28%, #050505b0 66%, #050505e3 100%), url('/images/productions-hero-reel-natural-gaze-v9.png') 62% 42% / cover no-repeat; }
   .oneScreen .intro, .oneScreen .accessNoticeSlot, .oneScreen .projects { transform: none; }
   .intro > p { margin-top: 0; padding-inline: 24px; font-size: clamp(10px, 2.8vw, 12px); line-height: 2.05; letter-spacing: .08em; }
   .accessNoticeSlot { height: 42px; margin-top: 4px; }
