@@ -596,6 +596,7 @@ export default function ClientSpace() {
         </section>
       ) : step === 'entrance' && project.slug === 'photoshoot' ? (
         <section className={styles.photoshootEntrance} aria-labelledby="client-title">
+          <button className={styles.entranceBack} aria-label={fr ? 'Retour aux projets' : 'Back to projects'} onClick={() => setStep('project')}>←</button>
           <div className={styles.photoshootImage} aria-hidden="true" />
           <div className={styles.photoshootGrain} aria-hidden="true" />
           <div className={styles.photoshootTitle}>
@@ -636,7 +637,7 @@ export default function ClientSpace() {
             <span className={styles.projectName}>{fr ? item.fr : item.en}</span>
             <span className={styles.projectDetail}>{fr ? item.detailFr : item.detail}</span>
           </button>; })}</div>
-          <button className={styles.back} onClick={() => setStep('language')}>← {fr ? 'Choisir une langue' : 'Choose a language'}</button>
+          <button className={styles.back} aria-label={fr ? 'Choisir une langue' : 'Choose a language'} onClick={() => setStep('language')}>←</button>
         </section>
       ) : step === 'brief' && project.slug === 'film' ? (
         <section className={`${styles.filmBoard} ${filmTheme === 'light' ? styles.filmBoardLight : ''}`} aria-labelledby="client-title">
