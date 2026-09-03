@@ -771,13 +771,20 @@
   .frameReviewHeader { gap: 26px; padding-bottom: 34px; }
   .frameReviewHeader h2 { font-size: clamp(36px, 11vw, 52px); }
   .frameReviewHeader span { font-size: 13px; }
-  .frameReviewCard { border-radius: 16px; }
+  .frameReviewOverview strong { margin-top: 12px; font-size: clamp(24px, 8vw, 34px); }
+  .frameReviewList { gap: 18px; margin-top: 26px; }
+  .frameReviewCard { border-color: #ffffff32; border-radius: 16px; background: linear-gradient(145deg, #100d14dc, #07060bbf); box-shadow: 0 18px 48px #0005, inset 0 1px 0 #ffffff09; }
   .frameReviewCard > header { grid-template-columns: 58px minmax(0, 1fr); min-height: 96px; }
+  .frameReviewCard > header > span { font-size: 18px; }
   .frameReviewCard > header > div { min-width: 0; padding: 20px 18px; }
   .frameReviewCard h3 { max-width: 100%; overflow-wrap: anywhere; font-size: clamp(22px, 7vw, 30px); line-height: 1.12; }
   .frameReviewSpecs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .frameReviewSpecs > div { min-width: 0; padding: 18px 16px; }
   .frameReviewSpecs dd { overflow-wrap: anywhere; font-size: 13px; }
+  .frameReviewBrief section { padding: 20px 18px; }
+  .frameReviewBrief h4 { margin-bottom: 10px; }
+  .frameReviewBrief p { font-size: 12px; line-height: 1.7; }
+  .frameReviewFooter { padding-top: 26px; line-height: 1.7; }
 }
 
 @media (max-width: 430px) {
@@ -790,6 +797,8 @@
   .projectRoomMeta { grid-template-columns: 1fr; }
   .projectRoomStatus { grid-column: 1; }
   .frameBuilder { padding-inline: 14px; }
+  .frameReview { padding: 28px 14px; }
+  .frameReviewHeader h2 { font-size: 35px; }
 }
 @media (prefers-reduced-motion: reduce) { .welcomeContent, .content, .photoshootImage, .photoshootTitle, .photoshootGrain, .projectRoomSlideshow span { animation: none; } .projectRoomSlideshow span:first-child { opacity: 1; } .space .project, .languages button { transition: none; } }
 
