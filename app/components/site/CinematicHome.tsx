@@ -374,8 +374,8 @@ export default function CinematicHome() {
           <h2>{fr ? "Œuvres d'art" : 'Artworks'}</h2>
           <p>
             {fr
-              ? "Tactile Monochromes de qualité muséale — des dessins originaux, imprimés sur papier Hahnemühle Photo Rag 308 g/m² avec des encres archivistiques, en éditions de cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
-              : "Tactile Monochromes — original works drawn entirely by Sanchit's hand with graphic-ink pens, discerningly rendered on Hahnemühle Photo Rag 308gsm with archival inks, in editions of five. Each is accompanied by a signed certificate of authenticity."}
+              ? "Monochromes texturés : Dessins originaux retranscrits sur papier d'art Hahnemühle Photo Rag 308 g/m² aux encres pigmentaires, en édition limitée à cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
+              : "Tactile monochromes: Original works transcribed on Hahnemühle Photo Rag 308 g/m² art paper using pigment inks, limited to an edition of five. Accompanied by a signed certificate of authenticity."}
           </p>
           <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
