@@ -404,8 +404,8 @@ export default function ProductDetail() {
                                       product.stockStatus === 'pre-order' ? 'text-indigo-400/90' : 'text-rose-400/90'}`}
                     >
                       {language === 'fr'
-                        ? (product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Stock limité' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
-                        : (product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
+                        ? (product.id === 'sunglasses-black' ? 'Liste privée' : product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Stock limité' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
+                        : (product.id === 'sunglasses-black' ? 'Private Waitlist' : product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
                     </span>
                   </div>
                 )}
@@ -484,6 +484,13 @@ export default function ProductDetail() {
                       {language === 'fr' ? "S’INSCRIRE À LA LISTE PRIORITAIRE" : 'JOIN PRIORITY WAITLIST'}
                     </button>
                   </div>
+                ) : product?.id === 'sunglasses-black' ? (
+                  <button
+                    onClick={() => setIsCheckoutOpen(true)}
+                    className="w-full py-3.5 border border-white/35 bg-white/[0.04] text-white/85 hover:bg-white hover:text-black hover:border-white transition-all duration-500 tracking-[0.2em] text-[11px] uppercase font-light"
+                  >
+                    {language === 'fr' ? 'S’INSCRIRE' : 'JOIN'}
+                  </button>
                 ) : product?.stockStatus === 'out-of-stock' ? (
                   /* Elegantly faded out button for out of stock items */
                   <div className="block w-full relative">
