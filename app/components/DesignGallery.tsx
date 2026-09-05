@@ -866,16 +866,18 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                         )}
                         
                         <p className="text-center text-white/40 text-xs">
-                          {language === 'en' ? 'All prints are shipped unframed and include a certificate of authenticity' : 'Tous les tirages sont livrés sans cadre et incluent un certificat d\'authenticité'}
+                          {language === 'en' ? 'Unless specifically stated otherwise, all prints are shipped unframed and include a certificate of authenticity.' : 'Sauf mention contraire, tous les tirages sont livrés sans cadre et accompagnés d\'un certificat d\'authenticité.'}
                         </p>
                         <p className="text-center text-white/40 text-xs mt-1">
                           {language === 'en' ? 'Archival-Grade Framing is available upon request.' : "L'encadrement de qualité musée est disponible sur mesure."}
                         </p>
                         <p className="text-center text-white/40 text-xs mt-3 italic">
-                          {language === 'en' ? 'As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.' : "Les œuvres d'art, les services artistiques et les créations personnalisées étant uniques, aucun remboursement ni échange ne pourra être effectué."}
+                          {language === 'en'
+                            ? 'Fine art print: A numbered, limited-edition work, custom-printed, hand-signed, and inscribed with a personalized poetic dedication on the reverse. Pursuant to Article L.221-28 of the French Consumer Code, this bespoke creation is permanently excluded from the right of withdrawal, exchange, or refund.'
+                            : "Tirage d'art : Édition limitée et numérotée, imprimée sur commande, signée à la main et parée d'une dédicace poétique nominative au dos. Conformément à l'article L.221-28 du Code de la consommation, cette œuvre personnalisée est définitivement exclue du droit de rétractation, d'échange ou de remboursement."}
                         </p>
                         <p className="text-center text-white/40 text-xs mt-3 italic">
-                          {language === 'en' ? 'Shipments outside France will incur additional delivery charges based on current FedEx rates.' : "L'expédition vers des pays étrangers entraînera des frais de livraison additionnels selon les tarifs actuels de FedEx."}
+                          {language === 'en' ? 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.' : 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.'}
                         </p>
                       </div>
                     </div>
