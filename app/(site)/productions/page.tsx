@@ -16,7 +16,7 @@ const services = [
     number: '02',
     title: 'CULTURAL',
     text: 'Fashion shows, photoshoots, exhibitions and live performance formed into resonant artistic experiences.',
-    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques singulières.',
+    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques mémorables.',
   },
   {
     number: '03',
