@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
+import TermsAdditionalProvisions from '../../components/site/TermsAdditionalProvisions';
 
 export const metadata: Metadata = {
   title: 'Terms of Sale - Studio Sanch',
@@ -312,7 +313,9 @@ export default function TermsPage() {
             mediator has been formally confirmed and published.
           </p>
 
-          <h2>26. Model withdrawal form</h2>
+          <TermsAdditionalProvisions />
+
+          <h2>27. Model withdrawal form</h2>
           <p>
             Complete and send this form only if you wish to withdraw from an eligible contract: “To Studio Sanch SASU, 13 Rue du Ruisseau, 75018 Paris, France,
             contact@studiosanch.com: I hereby give notice that I withdraw from my contract for the sale of the
@@ -322,7 +325,7 @@ export default function TermsPage() {
           </p>
 
           <div className="terms-update">
-            <p>Version effective and last updated: August 28, 2026</p>
+            <p>Version effective and last updated: September 5, 2026</p>
           </div>
         </section>
       </main>
