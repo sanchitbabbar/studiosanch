@@ -405,7 +405,7 @@ export default function ProductDetail() {
                     >
                       {language === 'fr'
                         ? (product.id === 'sunglasses-black' ? 'Liste privée' : product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Stock limité' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
-                        : (product.id === 'sunglasses-black' ? 'Private Waitlist' : product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
+                        : (product.id === 'sunglasses-black' ? 'Waitlist' : product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
                     </span>
                   </div>
                 )}
