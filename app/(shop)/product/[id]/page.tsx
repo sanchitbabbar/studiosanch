@@ -457,6 +457,11 @@ export default function ProductDetail() {
                           <p>• {language === 'fr' ? 'Doublure intérieure en daim et poche raffinée' : 'Interior suede lining with refined pocket detail'}</p>
                           <p>• {language === 'fr' ? 'Conçu et fabriqué à la main à Paris' : 'Designed and hand-crafted in Paris'}</p>
                           <p>• {language === 'fr' ? 'Exclusivement réalisé sur commande (livraison sous 6 à 8 semaines)' : 'Exclusively made-to-order (6-8 weeks delivery)'}</p>
+                          <p>
+                            • {language === 'fr'
+                              ? "Sac de luxe : Pièce sur mesure fabriquée exclusivement sur commande selon les spécifications du client. Conformément à l'article L.221-28 du Code de la consommation, ce bien confectionné sur mesure est exclu du droit de rétractation, d'échange ou de remboursement une fois la production commencée."
+                              : "Luxury designer bag: Custom-made piece manufactured exclusively per order to the client's specifications. Pursuant to Article L.221-28 of the French Consumer Code, this custom-manufactured good is excluded from the right of withdrawal, exchange, or refund once production has started."}
+                          </p>
                         </>
                       )}
                       {product?.id !== 'sanch-canvas' && product?.id !== 'sanch-suede' && product?.id !== 'mug-sketch' && product?.id !== 'mug-black' && product?.id !== 'artbook-main' && product?.id !== 'belt-sanch' && product?.id !== 'sunglasses-black' && (

@@ -193,7 +193,17 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                 {fr ? 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.' : 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.'}
               </p>
               <p className="text-[9px] italic text-white/30 text-center mt-2">
-                {fr ? 'Les œuvres, services artistiques et créations personnalisées étant uniques, aucun remboursement ni échange ne sera possible.' : 'As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.'}
+                {product.id === 'artbook-main'
+                  ? fr
+                    ? "En validant cette commande, vous reconnaissez que cet article est personnalisé selon vos spécifications, et vous renoncez à votre droit de rétractation conformément à l'article L.221-28 du Code de la consommation."
+                    : 'By placing this order, you acknowledge that this item is personalized to your specifications, and you waive your right of withdrawal pursuant to Article L.221-28 of the French Consumer Code.'
+                  : product.id === 'sanch-suede'
+                    ? fr
+                      ? "Sac de luxe : Pièce sur mesure fabriquée exclusivement sur commande selon les spécifications du client. Conformément à l'article L.221-28 du Code de la consommation, ce bien confectionné sur mesure est exclu du droit de rétractation, d'échange ou de remboursement une fois la production commencée."
+                      : "Luxury designer bag: Custom-made piece manufactured exclusively per order to the client's specifications. Pursuant to Article L.221-28 of the French Consumer Code, this custom-manufactured good is excluded from the right of withdrawal, exchange, or refund once production has started."
+                  : fr
+                    ? 'Les œuvres, services artistiques et créations personnalisées étant uniques, aucun remboursement ni échange ne sera possible.'
+                    : 'As artworks, artistic services, and personalized creations are unique, no refunds or exchanges will be possible.'}
               </p>
             </div>
           </div>
