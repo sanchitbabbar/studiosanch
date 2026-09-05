@@ -16,7 +16,7 @@ const services = [
     number: '02',
     title: 'CULTURAL',
     text: 'Fashion shows, photoshoots, exhibitions and live performance formed into resonant artistic experiences.',
-    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques fortes.',
+    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques singulières.',
   },
   {
     number: '03',
@@ -77,7 +77,7 @@ export default function ProductionsPage() {
 
         <section className="productions-closing">
           <p className="productions-eyebrow">{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</p>
-          <h2>{fr ? 'Que le travail commence.' : 'Let the work begin.'}</h2>
+          <h2>{fr ? 'L’idée se révèle.' : 'Let the work begin.'}</h2>
           <a className="productions-cta" href={fr ? '/fr/contact.html' : '/contact.html'}>
             {fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'} <span>→</span>
           </a>
