@@ -97,7 +97,7 @@ const designs: Design[] = [
         id: 'xs',
         dimensions: '40 × 60 cm',
         price: 4850,
-        recommended: 'Perfect for intimate spaces and private collections',
+        recommended: 'Framed in black · 70% UV anti-reflective glass',
         availability: 'in-stock' as const
       },
       { ...printSizes[0], availability: 'sold-out' as const },
@@ -123,7 +123,7 @@ const designs: Design[] = [
         id: 'xs',
         dimensions: '40 × 60 cm',
         price: 4850,
-        recommended: 'Perfect for intimate spaces and private collections',
+        recommended: 'Framed in black · 70% UV anti-reflective glass',
         availability: 'in-stock' as const
       },
       { ...printSizes[0], availability: 'sold-out' as const },
@@ -149,7 +149,7 @@ const designs: Design[] = [
         id: 'xs',
         dimensions: '40 × 60 cm',
         price: 4850,
-        recommended: 'Perfect for intimate spaces and private collections',
+        recommended: 'Framed in black · 70% UV anti-reflective glass',
         availability: 'in-stock' as const
       },
       { ...printSizes[0], availability: 'sold-out' as const },
@@ -204,7 +204,16 @@ const designs: Design[] = [
     year: "2025",
     technique: "Œuvre d'art limitée",
     basePrice: 4850,
-    sizes: printSizes,
+    sizes: [
+      {
+        id: 'framed-60x80',
+        dimensions: '60 × 80 cm',
+        price: 7250,
+        recommended: 'Framed in black · 70% UV anti-reflective glass',
+        availability: 'limited' as const
+      },
+      ...printSizes,
+    ],
     qualities: printQualities,
     availablePieces: 2,
   },
@@ -674,7 +683,8 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                                     {language === 'en' ? (
                                       size.recommended
                                     ) : (
-                                      size.id === 'xs' ? 'Encadrée en noir' :
+                                      size.id === 'framed-60x80' ? 'Encadrée en noir · verre antireflet UV 70 %' :
+                                      size.id === 'xs' ? 'Encadrée en noir · verre antireflet UV 70 %' :
                                       size.id === 'small' ? 'Parfait pour les espaces intimes et collections privées' :
                                       size.id === 'medium' ? 'Idéal pour les salons et galeries' :
                                       size.id === 'large' ? 'Pièce d\'exception pour grands espaces' :
