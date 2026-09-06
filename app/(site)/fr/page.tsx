@@ -5,6 +5,10 @@ import CinematicHome from '../../components/site/CinematicHome';
 
 export const metadata: Metadata = {
   title: 'ACCUEIL - STUDIO SANCH',
+  alternates: {
+    canonical: '/fr/',
+    languages: { en: '/', fr: '/fr/' },
+  },
   openGraph: {
     type: 'website',
     title: 'STUDIO SANCH | Site officiel',
