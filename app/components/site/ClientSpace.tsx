@@ -48,7 +48,7 @@ function FrameChoice({ label, mobileLabel, value, options, open, onToggle, onCha
 type FilmIdea = { id: string; author: string; kind: string; body: string; created_at: number; can_edit?: number | boolean };
 type FilmInspiration = { id: string; author: string; owner: keyof FilmRoles; caption: string; image_data: string; selected: number; created_at: number; yes_count: number; no_count: number; my_vote: 'yes' | 'no' | null };
 type FilmGear = { alex: string; benjamin: string };
-function FilmActionArrow() { return <span className={styles.filmActionArrow} aria-hidden="true" />; }
+function FilmActionArrow() { return <svg className={styles.filmActionArrow} viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 10 10 2M4 2h6v6" /></svg>; }
 type FilmRoles = { alex: string[]; benjamin: string[] };
 type FilmQuestions = { alex: string; benjamin: string; sanchit: string };
 const filmQuestionOwners = ['benjamin', 'alex', 'sanchit'] as const;
@@ -754,7 +754,7 @@ export default function ClientSpace() {
           {filmPage === 'studio' ? <>
           <section className={styles.filmRoles}>
             <header><div><p className={styles.filmLabel}>{fr ? 'RÔLES · GÉNÉRIQUE' : 'ROLES · CREDITS'}</p><h2>{fr ? 'Qu’est-ce qui vous ressemble ?' : 'What feels like yours?'}</h2></div><p>{fr ? 'Autant qu’il vous semblera juste.' : 'As many as feel right.'}</p></header>
-            <div className={styles.filmRoleColumns}>{(['benjamin', 'alex'] as const).map(owner => <div key={owner}><h3>{owner.toUpperCase()}</h3><div>{filmRoleOptions.map(role => { const fixed = fixedFilmRoles.has(role); return <button type="button" key={role} disabled={fixed} className={`${filmRoles[owner].includes(role) ? styles.filmRoleSelected : ''} ${fixed ? styles.filmRoleFixed : ''}`} aria-pressed={fixed ? undefined : filmRoles[owner].includes(role)} onClick={() => toggleFilmRole(owner, role)}><i aria-hidden="true" />{role}</button>; })}</div><footer><small>{filmRoleStatus[owner]}</small><button type="button" onClick={() => void saveFilmRoles(owner)}>{fr ? 'ENREGISTRER LES RÔLES' : 'SAVE ROLES'}<span className={styles.filmActionArrow} aria-hidden="true" /></button></footer></div>)}</div>
+            <div className={styles.filmRoleColumns}>{(['benjamin', 'alex'] as const).map(owner => <div key={owner}><h3>{owner.toUpperCase()}</h3><div>{filmRoleOptions.map(role => { const fixed = fixedFilmRoles.has(role); return <button type="button" key={role} disabled={fixed} className={`${filmRoles[owner].includes(role) ? styles.filmRoleSelected : ''} ${fixed ? styles.filmRoleFixed : ''}`} aria-pressed={fixed ? undefined : filmRoles[owner].includes(role)} onClick={() => toggleFilmRole(owner, role)}><i aria-hidden="true" />{role}</button>; })}</div><footer><small>{filmRoleStatus[owner]}</small><button type="button" onClick={() => void saveFilmRoles(owner)}>{fr ? 'ENREGISTRER LES RÔLES' : 'SAVE ROLES'}<FilmActionArrow /></button></footer></div>)}</div>
             <div className={styles.filmCredits}><p>{fr ? 'GÉNÉRIQUE ACTUEL' : 'CURRENT CREDITS'}</p><div>{(['benjamin', 'alex'] as const).map(owner => <article key={owner}><span>{owner === 'benjamin' ? 'Benjamin' : 'Alex'}</span><p>{filmRoles[owner].length ? filmRoles[owner].join(' · ') : (fr ? 'À finaliser' : 'To be finalized')}</p></article>)}</div></div>
             <div className={styles.filmFixedRoles}><div><span><small>PRODUCER</small>STUDIO SANCH</span><span><small>STYLIST</small>SANCHIT</span></div></div>
           </section>

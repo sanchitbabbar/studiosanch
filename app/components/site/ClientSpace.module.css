@@ -332,9 +332,8 @@
 .filmRoleColumns footer { display: flex; justify-content: space-between; align-items: center; margin: 17px 0 0; padding: 12px 0 0; border-top: 1px solid #ffffff18; background: transparent !important; }
 .filmRoleColumns footer small { color: #77726b; font-size: 9px; letter-spacing: .09em; }
 .space .filmRoleColumns footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
-.filmActionArrow { position: relative; display: inline-block; width: 10px; height: 10px; margin-left: 5px; vertical-align: -1px; }
-.filmActionArrow::before { content: ''; position: absolute; right: 1px; top: 1px; width: 6px; height: 6px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; }
-.filmActionArrow::after { content: ''; position: absolute; left: 1px; bottom: 2px; width: 9px; height: 1px; background: currentColor; transform: rotate(-45deg); transform-origin: center; }
+.filmActionArrow { display: inline-block; width: 11px; height: 11px; flex: 0 0 11px; margin-left: 5px; overflow: visible; vertical-align: -1px; }
+.filmActionArrow path { fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: square; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
 .filmCredits { display: grid; grid-template-columns: minmax(180px, .28fr) 1fr; gap: 30px; padding-top: 30px; }
 .filmCredits > p { margin: 7px 0 0; color: #817c74; font-size: 7px; letter-spacing: .22em; }
 .filmCredits > div { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
