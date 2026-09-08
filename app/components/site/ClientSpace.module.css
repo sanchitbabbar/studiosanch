@@ -290,7 +290,7 @@
 .space .filmPages .filmPageActive::after { right: 0; }
 .filmPages span { margin-left: 8px; color: #8a857d; }
 .filmGear { padding: 52px 0 50px; border-bottom: 1px solid #ffffff18; }
-.filmGear > header { position: static !important; inset: auto !important; width: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; padding: 0 0 27px; border: 0; background: transparent; }
+.filmGear > header { position: static !important; inset: auto !important; width: auto; height: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; padding: 0 0 27px; border: 0; background: transparent; }
 .filmGear h2 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
 .filmGear > header > span { color: #716d67; font-size: 10px; letter-spacing: .16em; }
 .filmGearColumns { width: min(100%, 1240px); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; background: transparent; }
@@ -310,7 +310,7 @@
 .filmGearSummary span { padding: 8px 12px; border: 1px solid #ffffff20; border-radius: 999px; color: #cfc9c0; font-size: 10px; letter-spacing: .06em; }
 .filmGearSummary small { color: #77726b; font-size: 11px; line-height: 1.8; }
 .filmRoles { padding: 58px 0; border-bottom: 1px solid #ffffff18; }
-.filmRoles > header { position: static !important; inset: auto !important; width: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; gap: 30px; padding: 0 0 28px; border: 0; background: transparent; }
+.filmRoles > header { position: static !important; inset: auto !important; width: auto; height: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; gap: 30px; padding: 0 0 28px; border: 0; background: transparent; }
 .filmRoles h2 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
 .filmRoles > header > p { margin: 0; color: #77726b; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; }
 .filmFixedRoles { width: min(100%, 1240px); display: grid; grid-template-columns: 1fr; margin-top: 18px; padding: 17px 20px; border: 1px solid #ffffff18; border-radius: 6px; }
@@ -332,6 +332,9 @@
 .filmRoleColumns footer { display: flex; justify-content: space-between; align-items: center; margin: 17px 0 0; padding: 12px 0 0; border-top: 1px solid #ffffff18; background: transparent !important; }
 .filmRoleColumns footer small { color: #77726b; font-size: 9px; letter-spacing: .09em; }
 .space .filmRoleColumns footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
+.filmActionArrow { position: relative; display: inline-block; width: 10px; height: 10px; margin-left: 5px; vertical-align: -1px; }
+.filmActionArrow::before { content: ''; position: absolute; right: 1px; top: 1px; width: 6px; height: 6px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; }
+.filmActionArrow::after { content: ''; position: absolute; left: 1px; bottom: 2px; width: 9px; height: 1px; background: currentColor; transform: rotate(-45deg); transform-origin: center; }
 .filmCredits { display: grid; grid-template-columns: minmax(180px, .28fr) 1fr; gap: 30px; padding-top: 30px; }
 .filmCredits > p { margin: 7px 0 0; color: #817c74; font-size: 7px; letter-spacing: .22em; }
 .filmCredits > div { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -341,7 +344,7 @@
 .filmLocations { padding: 58px 0; border-bottom: 1px solid #ffffff18; }
 .filmLocationsEmptyState { padding-bottom: 28px; }
 .filmLocationsEmptyState + .filmWelcome { padding-top: 32px; }
-.filmLocations > header { position: static !important; inset: auto !important; width: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; padding: 0 0 28px; border: 0; background: transparent; }
+.filmLocations > header { position: static !important; inset: auto !important; width: auto; height: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; padding: 0 0 28px; border: 0; background: transparent; }
 .filmLocations h2 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
 .filmLocations > header > span { color: #716d67; font-size: 10px; letter-spacing: .16em; }
 .filmLocationColumns { width: min(100%, 1240px); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -374,7 +377,7 @@
 .filmWelcome h2 span { color: #8e8982; font: inherit; }
 .filmWelcome > p:last-child { max-width: 760px; margin: 24px 0 0; color: #aaa49a; font-size: 13px; line-height: 2; }
 .filmNarratives { padding: 42px 0 58px; border-top: 1px solid #ffffff18; border-bottom: 1px solid #ffffff18; }
-.filmNarratives > header { position: static !important; inset: auto !important; width: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; gap: 30px; padding: 0 0 28px; border: 0; background: transparent; }
+.filmNarratives > header { position: static !important; inset: auto !important; width: auto; height: auto; min-height: 0; display: flex; justify-content: space-between; align-items: end; gap: 30px; padding: 0 0 28px; border: 0; background: transparent; }
 .filmNarratives h2 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
 .filmNarratives > header > p { margin: 0; color: #77726b; font-size: 7px; letter-spacing: .18em; text-transform: uppercase; }
 .filmNarratives > div { width: min(100%, 1240px); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -386,7 +389,7 @@
 .filmNarratives footer small { color: #77726b; font-size: 9px; }
 .space .filmNarratives footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
 .filmQuestions { display: block !important; width: min(100%, 1240px) !important; margin-top: 44px; padding-top: 36px; border-top: 1px solid #ffffff18; }
-.filmQuestions > header { min-height: 0; padding: 0 0 24px; border: 0; background: transparent; }
+.filmQuestions > header { position: static !important; inset: auto !important; z-index: auto; width: auto; height: auto; min-height: 0; padding: 0 0 24px; border: 0; background: transparent; }
 .filmQuestions > header .filmLabel { margin-bottom: 13px; }
 .filmQuestions > header h3 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
 .filmQuestions > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
@@ -521,7 +524,7 @@
 .space .filmInspirationGrid .filmSelect { width: 100%; margin-top: 14px; padding: 12px 0 0; border-top: 1px solid #ffffff16; color: #b8b2aa; font-size: 7px; letter-spacing: .13em; text-align: left; }
 .filmTextIdeas { margin-top: 64px; }
 .filmStoryboard { min-height: 540px; padding: 54px 0 70px; }
-.filmStoryboard > header { position: static !important; inset: auto !important; display: flex; width: min(100%, 980px); max-width: none; min-height: 0; flex-direction: column; align-items: flex-start; padding: 0 0 42px; border: 0; background: transparent; }
+.filmStoryboard > header { position: static !important; inset: auto !important; display: flex; width: min(100%, 980px); max-width: none; height: auto; min-height: 0; flex-direction: column; align-items: flex-start; padding: 0 0 42px; border: 0; background: transparent; }
 .filmStoryboard h2 { margin: 0; color: #eee9e1; font-size: clamp(32px, 3.6vw, 52px); font-weight: 200; line-height: 1.08; letter-spacing: -.035em; white-space: nowrap; }
 .filmStoryboard header > p:last-child { max-width: 520px; margin: 23px 0 0; color: #928d85; font-size: 12px; line-height: 1.9; }
 .filmStoryboard > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; background: transparent; }
@@ -530,7 +533,7 @@
 .filmStoryboard img, .filmStoryboard article > video { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .filmStoryboard article p, .filmStoryboard article small { margin: 13px 16px 0; color: #d5cfc7; font-size: 10px; line-height: 1.6; }
 .filmStoryboard article small { display: block; color: #7f7972; font-size: 7px; letter-spacing: .16em; text-transform: uppercase; }
-.filmStoryboardEmpty { grid-column: 1 / -1; margin: 0; padding: 58px 38px; border: 1px solid #ffffff21; border-radius: 16px; background: linear-gradient(135deg, #18181882 0%, #0808085e 58%, #15151572 100%); color: #928d85; font-size: 11px; letter-spacing: .12em; box-shadow: inset 0 1px 0 #ffffff12, inset 0 -1px 0 #ffffff07, 0 24px 70px #0006; -webkit-backdrop-filter: blur(18px) saturate(.2); backdrop-filter: blur(18px) saturate(.2); }
+.filmStoryboardEmpty { grid-column: 1 / -1; justify-self: start; width: min(100%, 360px); margin: 0; padding: 22px 24px; border: 1px solid #ffffff21; border-radius: 10px; background: linear-gradient(135deg, #18181882 0%, #0808085e 58%, #15151572 100%); color: #928d85; font-size: 9px; letter-spacing: .12em; box-shadow: inset 0 1px 0 #ffffff12, inset 0 -1px 0 #ffffff07, 0 14px 38px #0005; -webkit-backdrop-filter: blur(18px) saturate(.2); backdrop-filter: blur(18px) saturate(.2); }
 .filmCinemaVeil { position: fixed; z-index: 10000; inset: 0; display: grid; place-items: center; padding: 24px; background: #000a; backdrop-filter: blur(12px); animation: scriptVeil .4s ease both; }
 .filmCinema { width: min(88vw, 820px); overflow: hidden; border: 1px solid #ffffff28; border-radius: 7px; background: #090909; box-shadow: 0 30px 100px #000d; animation: scriptReveal .6s cubic-bezier(.16, 1, .3, 1) both; }
 .filmCinema header { min-height: 0; display: flex; justify-content: space-between; align-items: center; padding: 14px 17px; border: 0; color: #aaa59d; font-size: 7px; letter-spacing: .2em; }
@@ -957,7 +960,7 @@
 }
 @keyframes frameBriefMobileIn { from { opacity: 0; transform: translateY(14px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 @media (max-width: 620px) { .projectRoomMeta { grid-template-columns: 1fr 1fr; row-gap: 22px; } .projectRoomStatus { grid-column: 1 / -1; justify-self: start; } }
-@media (max-width: 800px) { .filmBoard { padding: 54px 7vw 70px; } .filmBoardHero { min-height: 214px; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 24px; padding-top: 28px; } .filmBoardHero > div:not(.filmBoardTools) { display: grid; min-width: 0; gap: 13px; } .filmBoardHero div > p { margin: 0; } .filmBoardHero h1 { max-width: 100%; font-size: clamp(23px, 6.5vw, 32px); line-height: 1.12; overflow-wrap: normal; } .filmBoardTools { width: 100%; align-items: flex-end; } .filmBoardStatus { margin-top: 0; } .filmBoardGrid { grid-template-columns: 1fr; gap: 58px; } .filmEntranceTitle h1 span { margin-left: 0; } .filmUpload { grid-template-columns: 1fr; } .filmUploadPicker { max-width: 280px; } .filmStoryboard > div { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 800px) { .filmTopline { top: 62px; right: 7vw; margin: 0; } .filmBoard { padding: 82px 7vw 70px; } .filmBoardHero { min-height: 214px; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 24px; padding-top: 28px; } .filmBoardHero > div:not(.filmBoardTools) { display: grid; min-width: 0; gap: 13px; } .filmBoardHero div > p { margin: 0; } .filmBoardHero h1 { max-width: 100%; font-size: clamp(23px, 6.5vw, 32px); line-height: 1.12; overflow-wrap: normal; } .filmBoardTools { width: 100%; align-items: flex-end; } .filmBoardStatus { margin-top: 0; } .filmBoardGrid { grid-template-columns: 1fr; gap: 58px; } .filmEntranceTitle h1 span { margin-left: 0; } .filmUpload { grid-template-columns: 1fr; } .filmUploadPicker { max-width: 280px; } .filmStoryboard > div { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .welcome { padding: clamp(16px, 4svh, 40px) 24px; } .languages { gap: 28px; } .languages button { font-size: 11px; } .footer { flex-wrap: wrap; gap: 14px; } .fields { grid-template-columns: 1fr; gap: 24px; } .form input, .form textarea { font-size: 16px; } .projects { padding-inline: 0; } .projectName { font-size: 17px; white-space: normal; } .photoshootEntrance { min-height: 520px; } .photoshootTitle p { letter-spacing: .36em; text-indent: .36em; } .photoshootTitle h1 { font-size: clamp(58px, 20vw, 92px); letter-spacing: .045em; text-indent: .045em; } .photoshootCredits { flex-direction: column; gap: 8px; } .projectRoom { padding-inline: 20px; } .projectRoomHeader { align-items: flex-start; } .projectRoomIndex { flex-direction: column; align-items: flex-end; gap: 5px; } .projectRoomHero h1 { font-size: 20vw; } .projectRoomCredits { flex-wrap: wrap; white-space: normal; } .shootPlan { grid-template-columns: 1fr; } .shootPlan label + label { padding-left: 0; border-left: 0; border-top: 1px solid #ffffff18; } .frameSummary { grid-template-columns: 1fr; } .frameSummary > div + div { padding-left: 0; border-left: 0; border-top: 1px solid #ffffff18; } }
 @media (max-width: 600px) { .accessNoticeSlot { height: 74px; } .accessNotice { flex-wrap: wrap; align-content: center; gap: 8px 10px; padding-inline: 10px; } .accessNotice i { display: none; } .accessNotice span { flex-basis: 100%; padding-left: 0; border-left: 0; } }
 @media (max-width: 600px) { .filmPages { gap: 17px; overflow-x: auto; } .space .filmPages button { white-space: nowrap; } .filmInspirationGrid { grid-template-columns: minmax(0, 340px); } .filmStoryboard h2 { white-space: normal; } .filmStoryboard > div { grid-template-columns: 1fr; } }
