@@ -500,6 +500,7 @@
 .filmUpload h3 { grid-column: 1 / -1; margin: 0; color: #aaa49b; font: 400 9px/1.2 'Montserrat', sans-serif; letter-spacing: .24em; }
 .filmUploadPicker { aspect-ratio: 4 / 3; display: grid; place-items: center; overflow: hidden; border: 1px solid #ffffff24; color: #8c877f; cursor: pointer; font-size: 7px; letter-spacing: .18em; }
 .filmUploadPicker span { display: block; margin-bottom: 8px; color: #d5cfc6; font-size: 21px; text-align: center; }
+.filmUploadPicker small { display: block; margin-top: 8px; color: #6f6a63; font-size: 5px; line-height: 1.5; letter-spacing: .12em; text-align: center; }
 .filmUploadPicker img, .filmUploadPicker video { width: 100%; height: 100%; object-fit: cover; }
 .filmUploadPicker input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 .filmUpload > div { align-self: end; }
