@@ -382,6 +382,19 @@
 .filmNarratives footer { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 12px 0 0; border: 0; background: transparent !important; }
 .filmNarratives footer small { color: #77726b; font-size: 9px; }
 .space .filmNarratives footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
+.filmQuestions { display: block !important; width: min(100%, 1240px) !important; margin-top: 44px; padding-top: 36px; border-top: 1px solid #ffffff18; }
+.filmQuestions > header { min-height: 0; padding: 0 0 24px; border: 0; background: transparent; }
+.filmQuestions > header .filmLabel { margin-bottom: 13px; }
+.filmQuestions > header h3 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; letter-spacing: -.035em; }
+.filmQuestions > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.filmQuestions article { padding: 20px 22px 16px; border: 1px solid #ffffff1c; border-radius: 9px; background: #0d0d0d; }
+.filmQuestions h4 { margin: 0 0 10px; color: #aaa49b; font: 400 9px/1.2 'Montserrat', sans-serif; letter-spacing: .22em; }
+.filmQuestions article > small { display: block; color: #716d67; font-size: 6px; line-height: 1.6; letter-spacing: .12em; }
+.filmQuestions textarea { width: 100%; min-height: 112px; margin-top: 9px; padding: 12px 0; border: 0; border-bottom: 1px solid #ffffff20; border-radius: 0; resize: vertical; background: transparent; color: #e4dfd7; font: 300 12px/1.75 'Montserrat', sans-serif; }
+.filmQuestions textarea::placeholder { color: #69655f; }
+.filmQuestions footer { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 11px 0 0; border: 0; background: transparent !important; }
+.filmQuestions footer small { color: #77726b; font-size: 9px; }
+.space .filmQuestions footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
 .filmReference { padding: 48px 0 58px; border-bottom: 1px solid #ffffff18; }
 .filmReference h2 { margin: 0; color: #eeeae3; font-size: clamp(25px, 3vw, 42px); font-weight: 300; line-height: 1.3; letter-spacing: -.035em; }
 .space .filmReferenceFeature { display: grid; grid-template-columns: clamp(105px, 14vw, 155px) 1fr; width: min(100%, 520px); margin-top: 28px; padding: 0; overflow: hidden; border: 1px solid #ffffff26; border-radius: 12px; background: linear-gradient(135deg, #171717b8, #070707e8); text-align: left; box-shadow: inset 0 1px 0 #ffffff10, 0 24px 70px #0008; transition: transform .8s cubic-bezier(.16, 1, .3, 1), border-color .6s ease, box-shadow .8s ease; }
@@ -452,6 +465,7 @@
 .filmIdeas article small { color: #a7a198; }
 .filmIdeasEmpty { margin: 0; padding: 30px 0; color: #77726b; font-size: 10px; letter-spacing: .08em; }
 .filmUploadColumns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 34px; }
+.filmUploadOwner { display: grid; align-content: start; gap: 14px; }
 .filmUpload { display: grid; grid-template-columns: minmax(130px, .42fr) 1fr; gap: 18px; padding: 20px; border: 1px solid #ffffff20; border-radius: 6px; background: #ffffff05; }
 .filmUpload h3 { grid-column: 1 / -1; margin: 0; color: #aaa49b; font: 400 9px/1.2 'Montserrat', sans-serif; letter-spacing: .24em; }
 .filmUploadPicker { aspect-ratio: 4 / 3; display: grid; place-items: center; overflow: hidden; border: 1px solid #ffffff24; color: #8c877f; cursor: pointer; font-size: 7px; letter-spacing: .18em; }
@@ -463,6 +477,8 @@
 .space .filmUpload > div button { width: 100%; padding: 18px 0 3px; color: #d4cec5; font-size: 8px; letter-spacing: .2em; text-align: left; }
 .space .filmUpload > div button:disabled { color: #5b5752; }
 .filmUpload > p { grid-column: 1 / -1; margin: 0; color: #a29c93; font-size: 9px; }
+.space .filmAddUploadBlock { width: 100%; padding: 13px 2px; border: 1px solid #ffffff18; border-radius: 8px; color: #8f8980; font-size: 7px; letter-spacing: .18em; text-align: center; transition: border-color .5s ease, color .5s ease, background .5s ease; }
+.space .filmAddUploadBlock:hover, .space .filmAddUploadBlock:focus-visible { border-color: #ffffff3b; background: #ffffff08; color: #ded9d1; }
 .filmInspirationGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 340px)); justify-content: start; align-items: start; gap: 14px; margin-top: 20px; background: transparent; }
 .filmInspirationGrid article { overflow: hidden; border: 1px solid #ffffff18; border-radius: 6px; background: #0a0a0a; }
 .filmInspirationMedia { position: relative; display: block; width: 100%; padding: 0; overflow: hidden; background: #080808; }
@@ -498,6 +514,7 @@
 .filmBoard:not(.filmBoardLight) .filmRoleColumns > div,
 .filmBoard:not(.filmBoardLight) .filmGearColumns > div,
 .filmBoard:not(.filmBoardLight) .filmNarratives article,
+.filmBoard:not(.filmBoardLight) .filmQuestions article,
 .filmBoard:not(.filmBoardLight) .filmLocationOwner,
 .filmBoard:not(.filmBoardLight) .filmLocationGrid article,
 .filmBoard:not(.filmBoardLight) .filmUpload,
@@ -513,11 +530,13 @@
 .filmBoard:not(.filmBoardLight) .filmRoleColumns > div,
 .filmBoard:not(.filmBoardLight) .filmGearColumns > div,
 .filmBoard:not(.filmBoardLight) .filmNarratives article,
+.filmBoard:not(.filmBoardLight) .filmQuestions article,
 .filmBoard:not(.filmBoardLight) .filmLocationOwner,
 .filmBoard:not(.filmBoardLight) .filmUpload { transition: border-color .8s ease, background .8s ease, box-shadow .8s ease, transform .9s cubic-bezier(.16, 1, .3, 1); }
 .filmBoard:not(.filmBoardLight) .filmRoleColumns > div:hover,
 .filmBoard:not(.filmBoardLight) .filmGearColumns > div:hover,
 .filmBoard:not(.filmBoardLight) .filmNarratives article:hover,
+.filmBoard:not(.filmBoardLight) .filmQuestions article:hover,
 .filmBoard:not(.filmBoardLight) .filmLocationOwner:hover,
 .filmBoard:not(.filmBoardLight) .filmUpload:hover { border-color: #ffffff45; background: linear-gradient(145deg, #2020209c, #09090982 64%, #18181889); box-shadow: inset 0 1px 0 #ffffff1c, inset 0 -1px 0 #ffffff09, 0 30px 82px #0008; transform: translateY(-2px); }
 .filmBoard:not(.filmBoardLight) .filmDirection dl,
@@ -657,6 +676,7 @@
 .filmBoardLight .filmDirection > p:not(.filmLabel),
 .filmBoardLight .filmStoryboard header > p:last-child { color: #505050; }
 .filmBoardLight .filmNarratives article,
+.filmBoardLight .filmQuestions article,
 .filmBoardLight .filmGearColumns > div,
 .filmBoardLight .filmRoleColumns > div,
 .filmBoardLight .filmLocationOwner,
@@ -676,6 +696,7 @@
 .filmBoardLight .filmRoleColumns > div,
 .filmBoardLight .filmGearColumns > div,
 .filmBoardLight .filmNarratives article,
+.filmBoardLight .filmQuestions article,
 .filmBoardLight .filmLocationOwner,
 .filmBoardLight .filmUpload {
   transition: border-color .8s ease, background .8s ease, box-shadow .8s ease, transform .9s cubic-bezier(.16, 1, .3, 1);
@@ -683,6 +704,7 @@
 .filmBoardLight .filmRoleColumns > div:hover,
 .filmBoardLight .filmGearColumns > div:hover,
 .filmBoardLight .filmNarratives article:hover,
+.filmBoardLight .filmQuestions article:hover,
 .filmBoardLight .filmLocationOwner:hover,
 .filmBoardLight .filmUpload:hover {
   border-color: #00000031;
@@ -701,6 +723,7 @@
   box-shadow: inset 0 1px 0 #fff, 0 28px 64px #0000001a;
 }
 .filmBoardLight .filmNarratives h3,
+.filmBoardLight .filmQuestions h4,
 .filmBoardLight .filmNarratives > header > p,
 .filmBoardLight .filmUpload h3,
 .filmBoardLight .filmGearColumns label,
@@ -732,6 +755,7 @@
 .filmBoardLight .filmInspirationGrid p,
 .filmBoardLight .filmStoryboard article p { color: #1d1d1d; }
 .filmBoardLight .filmNarratives textarea::placeholder,
+.filmBoardLight .filmQuestions textarea::placeholder,
 .filmBoardLight .filmGearColumns textarea::placeholder,
 .filmBoardLight .filmLocationForm textarea::placeholder,
 .filmBoardLight .filmOpenSuggestions input::placeholder,
@@ -794,6 +818,15 @@
 .filmBoardLight .filmOpenSuggestions label,
 .filmBoardLight .filmIdeaForm textarea,
 .filmBoardLight .filmInspirationGrid .filmSelect { border-color: #00000020; }
+.filmBoardLight .filmQuestions { border-color: #00000020; }
+.filmBoardLight .filmQuestions > header h3 { color: #171717; }
+.filmBoardLight .filmQuestions article > small,
+.filmBoardLight .filmQuestions footer small { color: #666; }
+.filmBoardLight .filmQuestions textarea { border-color: #00000020; color: #171717; }
+.filmBoardLight .filmQuestions footer button { color: #333; }
+.filmBoardLight .filmAddUploadBlock { border-color: #00000020; color: #555; }
+.filmBoardLight .filmAddUploadBlock:hover,
+.filmBoardLight .filmAddUploadBlock:focus-visible { border-color: #0000003a; background: #00000004; color: #111; }
 .filmBoardLight .filmGear > header > span { color: #666; }
 .filmBoardLight .filmWelcome h2 strong { color: #171717; }
 .filmBoardLight .filmWelcome h2 span { color: #777; }
@@ -1000,6 +1033,9 @@
   .frameBuilder { padding-inline: 14px; }
   .frameReview { padding: 28px 14px; }
   .frameReviewHeader h2 { font-size: 35px; }
+}
+@media (max-width: 900px) {
+  .filmQuestions > div { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .welcomeContent, .content, .photoshootImage, .photoshootTitle, .photoshootGrain, .projectRoomSlideshow span { animation: none; } .projectRoomSlideshow span:first-child { opacity: 1; } .space .project, .languages button { transition: none; } }
 

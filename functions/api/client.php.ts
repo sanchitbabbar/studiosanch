@@ -297,6 +297,22 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       if (!saved.success) return fail(503, 'service_unavailable');
       return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
     }
+    if (action === 'list_questions' || action === 'save_questions') {
+      if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
+      if (action === 'list_questions') {
+        const result = await env.CLIENT_DB.prepare('SELECT owner, body, updated_at FROM client_project_questions WHERE project_key = ? ORDER BY owner').bind('fashion-film-start').all();
+        return reply(200, { user: session.user, csrf: session.csrf, questions: result.results || [] }, cookie);
+      }
+      const owner = String(parsed.owner || '').toLowerCase();
+      const body = String(parsed.body || '').trim();
+      if (!['alex', 'benjamin', 'sanchit'].includes(owner) || [...body].length > 2400) return fail(400, 'invalid_request');
+      const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_questions(project_key, owner, body, updated_by, updated_at) VALUES (?, ?, ?, ?, ?)
+        ON CONFLICT(project_key, owner) DO UPDATE SET body = excluded.body, updated_by = excluded.updated_by, updated_at = excluded.updated_at`)
+        .bind('fashion-film-start', owner, body, session.user.id, Math.floor(Date.now() / 1000)).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
+    }
     if (action === 'list_suggestions' || action === 'save_suggestion') {
       if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
       if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');

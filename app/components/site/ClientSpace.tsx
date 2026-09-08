@@ -49,6 +49,8 @@ type FilmIdea = { id: string; author: string; kind: string; body: string; create
 type FilmInspiration = { id: string; author: string; owner: keyof FilmRoles; caption: string; image_data: string; selected: number; created_at: number; yes_count: number; no_count: number; my_vote: 'yes' | 'no' | null };
 type FilmGear = { alex: string; benjamin: string };
 type FilmRoles = { alex: string[]; benjamin: string[] };
+type FilmQuestions = { alex: string; benjamin: string; sanchit: string };
+const filmQuestionOwners = ['benjamin', 'alex', 'sanchit'] as const;
 type FilmLocation = { id: string; author: string; owner: keyof FilmRoles; idea: string; image_data: string; created_at: number };
 const MAX_SOURCE_IMAGE_BYTES = 100_000_000;
 const MAX_STORED_IMAGE_CHARS = 1_850_000;
@@ -109,7 +111,7 @@ export default function ClientSpace() {
   const [filmIdeaStatus, setFilmIdeaStatus] = useState('');
   const [filmPage, setFilmPage] = useState<'studio' | 'storyboard'>('studio');
   const [filmInspirations, setFilmInspirations] = useState<FilmInspiration[]>([]);
-  const [filmInspirationDrafts, setFilmInspirationDrafts] = useState<Record<keyof FilmRoles, FilmLocationDraft>>({ alex: { idea: '', image: '' }, benjamin: { idea: '', image: '' } });
+  const [filmInspirationDrafts, setFilmInspirationDrafts] = useState<Record<keyof FilmRoles, FilmLocationDraft[]>>({ alex: [{ idea: '', image: '' }], benjamin: [{ idea: '', image: '' }] });
   const [filmUploadStatus, setFilmUploadStatus] = useState<Record<keyof FilmRoles, string>>({ alex: '', benjamin: '' });
   const [scriptOpen, setScriptOpen] = useState(false);
   const [scriptWriterOpen, setScriptWriterOpen] = useState(false);
@@ -122,6 +124,8 @@ export default function ClientSpace() {
   const [filmRoleStatus, setFilmRoleStatus] = useState<Record<keyof FilmRoles, string>>({ alex: '', benjamin: '' });
   const [filmNarratives, setFilmNarratives] = useState<FilmGear>({ alex: '', benjamin: '' });
   const [filmNarrativeStatus, setFilmNarrativeStatus] = useState<Record<keyof FilmRoles, string>>({ alex: '', benjamin: '' });
+  const [filmQuestions, setFilmQuestions] = useState<FilmQuestions>({ alex: '', benjamin: '', sanchit: '' });
+  const [filmQuestionStatus, setFilmQuestionStatus] = useState<Record<keyof FilmQuestions, string>>({ alex: '', benjamin: '', sanchit: '' });
   const [filmSuggestions, setFilmSuggestions] = useState<Record<FilmSuggestionSection, FilmGear>>({ tone: { alex: '', benjamin: '' }, image: { alex: '', benjamin: '' } });
   const [filmSuggestionStatus, setFilmSuggestionStatus] = useState<Record<FilmSuggestionSection, Record<keyof FilmRoles, string>>>({ tone: { alex: '', benjamin: '' }, image: { alex: '', benjamin: '' } });
   const [filmLocations, setFilmLocations] = useState<FilmLocation[]>([]);
@@ -417,6 +421,20 @@ export default function ClientSpace() {
       setFilmNarratives(next);
     } catch { setFilmNarrativeStatus({ alex: fr ? 'Indisponible' : 'Unavailable', benjamin: fr ? 'Indisponible' : 'Unavailable' }); }
   }
+  async function loadFilmQuestions() {
+    if (isPreview) {
+      const saved = window.localStorage.getItem('sanch-fashion-film-start-questions');
+      if (saved) setFilmQuestions(JSON.parse(saved));
+      return;
+    }
+    try {
+      const session = await clientAuth();
+      const result = await clientAuth({ action: 'list_questions', project: 'fashion-film-start' }, session.csrf) as ClientSession & { questions?: { owner: keyof FilmQuestions; body: string }[] };
+      const next: FilmQuestions = { alex: '', benjamin: '', sanchit: '' };
+      result.questions?.forEach(row => { if (row.owner in next) next[row.owner] = row.body; });
+      setFilmQuestions(next);
+    } catch { setFilmQuestionStatus({ alex: fr ? 'Indisponible' : 'Unavailable', benjamin: fr ? 'Indisponible' : 'Unavailable', sanchit: fr ? 'Indisponible' : 'Unavailable' }); }
+  }
   async function loadFilmSuggestions() {
     if (isPreview) {
       const saved = window.localStorage.getItem('sanch-fashion-film-start-suggestions');
@@ -443,7 +461,7 @@ export default function ClientSpace() {
     } catch { const message = fr ? 'Les lieux sont momentanément indisponibles.' : 'Locations are temporarily unavailable.'; setFilmLocationStatus({ alex: message, benjamin: message }); }
   }
   useEffect(() => {
-    if (step === 'brief' && project.slug === 'film') { void loadFilmIdeas(); void loadFilmInspirations(); void loadFilmGear(); void loadFilmRoles(); void loadFilmNarratives(); void loadFilmSuggestions(); void loadFilmLocations(); }
+    if (step === 'brief' && project.slug === 'film') { void loadFilmIdeas(); void loadFilmInspirations(); void loadFilmGear(); void loadFilmRoles(); void loadFilmNarratives(); void loadFilmQuestions(); void loadFilmSuggestions(); void loadFilmLocations(); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, selected, isPreview]);
   async function addFilmIdea(event: FormEvent<HTMLFormElement>) {
@@ -466,7 +484,7 @@ export default function ClientSpace() {
       setFilmIdeaBody(''); setFilmIdeaStatus('');
     } catch { setFilmIdeaStatus(fr ? 'Impossible d’enregistrer pour le moment.' : 'Unable to save right now.'); }
   }
-  async function prepareFilmImage(file: File, owner: keyof FilmRoles) {
+  async function prepareFilmImage(file: File, owner: keyof FilmRoles, slot: number) {
     if (!file.type.startsWith('image/')) return;
     if (file.size > MAX_SOURCE_IMAGE_BYTES) { setFilmUploadStatus(current => ({ ...current, [owner]: fr ? 'Le fichier source dépasse 100 Mo.' : 'The original file exceeds 100 MB.' })); return; }
     setFilmUploadStatus(current => ({ ...current, [owner]: fr ? 'Préparation…' : 'Preparing…' }));
@@ -479,7 +497,7 @@ export default function ClientSpace() {
     while (data.length > TARGET_STORED_IMAGE_CHARS && canvas.width > 900 && canvas.height > 900) { canvas.width = Math.round(canvas.width * .86); canvas.height = Math.round(canvas.height * .86); context?.drawImage(source, 0, 0, canvas.width, canvas.height); data = canvas.toDataURL('image/webp', .78); }
     source.close();
     if (data.length > MAX_STORED_IMAGE_CHARS) { setFilmUploadStatus(current => ({ ...current, [owner]: fr ? 'Cette image reste trop volumineuse après optimisation.' : 'This image remains too large after optimization.' })); return; }
-    setFilmInspirationDrafts(current => ({ ...current, [owner]: { ...current[owner], image: data } })); setFilmUploadStatus(current => ({ ...current, [owner]: '' }));
+    setFilmInspirationDrafts(current => ({ ...current, [owner]: current[owner].map((draft, index) => index === slot ? { ...draft, image: data } : draft) })); setFilmUploadStatus(current => ({ ...current, [owner]: '' }));
   }
   async function prepareLocationImage(file: File, owner: keyof FilmRoles, slot: number) {
     if (!file.type.startsWith('image/')) return;
@@ -498,17 +516,17 @@ export default function ClientSpace() {
   function savePreviewInspirations(items: FilmInspiration[]) {
     setFilmInspirations(items); window.localStorage.setItem('sanch-fashion-film-start-inspirations', JSON.stringify(items));
   }
-  async function addFilmInspiration(event: FormEvent<HTMLFormElement>, owner: keyof FilmRoles) {
-    event.preventDefault(); const draft = filmInspirationDrafts[owner]; if (!draft.image) return;
+  async function addFilmInspiration(event: FormEvent<HTMLFormElement>, owner: keyof FilmRoles, slot: number) {
+    event.preventDefault(); const draft = filmInspirationDrafts[owner][slot]; if (!draft?.image) return;
     if (isPreview) {
       savePreviewInspirations([{ id: crypto.randomUUID(), author: owner.toUpperCase(), owner, caption: draft.idea.trim(), image_data: draft.image, selected: 0, created_at: Math.floor(Date.now() / 1000), yes_count: 0, no_count: 0, my_vote: null }, ...filmInspirations]);
-      setFilmInspirationDrafts(current => ({ ...current, [owner]: { idea: '', image: '' } })); return;
+      setFilmInspirationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { idea: '', image: '' } : item) })); return;
     }
     try {
       setFilmUploadStatus(current => ({ ...current, [owner]: fr ? 'Envoi…' : 'Uploading…' })); const session = await clientAuth();
       const result = await clientAuth({ action: 'add_inspiration', project: 'fashion-film-start', owner, caption: draft.idea.trim(), image: draft.image }, session.csrf) as ClientSession & { inspiration?: FilmInspiration };
       if (result.inspiration) setFilmInspirations(current => [result.inspiration!, ...current]);
-      setFilmInspirationDrafts(current => ({ ...current, [owner]: { idea: '', image: '' } })); setFilmUploadStatus(current => ({ ...current, [owner]: '' }));
+      setFilmInspirationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { idea: '', image: '' } : item) })); setFilmUploadStatus(current => ({ ...current, [owner]: '' }));
     } catch { setFilmUploadStatus(current => ({ ...current, [owner]: fr ? 'Impossible d’envoyer ce média.' : 'Unable to upload this media.' })); }
   }
   async function updateInspiration(id: string, action: 'vote_inspiration' | 'select_inspiration', vote?: 'yes' | 'no') {
@@ -557,6 +575,18 @@ export default function ClientSpace() {
       const session = await clientAuth(); await clientAuth({ action: 'save_narrative', project: 'fashion-film-start', owner, body: filmNarratives[owner] }, session.csrf);
       setFilmNarrativeStatus(current => ({ ...current, [owner]: fr ? 'Enregistré' : 'Saved' }));
     } catch { setFilmNarrativeStatus(current => ({ ...current, [owner]: fr ? 'Réessayer' : 'Try again' })); }
+  }
+  async function saveFilmQuestions(owner: keyof FilmQuestions) {
+    if (isPreview) {
+      window.localStorage.setItem('sanch-fashion-film-start-questions', JSON.stringify(filmQuestions));
+      setFilmQuestionStatus(current => ({ ...current, [owner]: fr ? 'Enregistré' : 'Saved' })); return;
+    }
+    try {
+      setFilmQuestionStatus(current => ({ ...current, [owner]: fr ? 'Enregistrement…' : 'Saving…' }));
+      const session = await clientAuth();
+      await clientAuth({ action: 'save_questions', project: 'fashion-film-start', owner, body: filmQuestions[owner] }, session.csrf);
+      setFilmQuestionStatus(current => ({ ...current, [owner]: fr ? 'Enregistré' : 'Saved' }));
+    } catch { setFilmQuestionStatus(current => ({ ...current, [owner]: fr ? 'Réessayer' : 'Try again' })); }
   }
   async function saveFilmSuggestion(section: FilmSuggestionSection, owner: keyof FilmRoles) {
     if (isPreview) {
@@ -695,6 +725,10 @@ export default function ClientSpace() {
           <section className={styles.filmNarratives}>
             <header><div><p className={styles.filmLabel}>{fr ? 'SYNOPSIS · NARRATION' : 'SYNOPSIS · NARRATIVE'}</p><h2>Perspectives.</h2></div><p>{fr ? 'Une proposition chacun' : 'One proposal each'}</p></header>
             <div>{(['benjamin', 'alex'] as const).map(owner => <article key={owner}><h3>{owner.toUpperCase()}</h3><textarea value={filmNarratives[owner]} onChange={event => setFilmNarratives(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez ici votre synopsis, votre narration ou votre lecture du film…' : 'Write your synopsis, narrative, or interpretation of the film here…'} /><footer><small>{filmNarrativeStatus[owner]}</small><button type="button" onClick={() => void saveFilmNarrative(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></footer></article>)}</div>
+            <div className={styles.filmQuestions}>
+              <header><p className={styles.filmLabel}>{fr ? 'QUESTIONS OUVERTES' : 'OPEN QUESTIONS'}</p><h3>{fr ? 'Questions.' : 'Questions.'}</h3></header>
+              <div>{filmQuestionOwners.map(owner => <article key={owner}><h4>{owner.toUpperCase()}</h4><small>{fr ? 'UNE QUESTION PAR LIGNE · ENTRÉE POUR EN AJOUTER UNE AUTRE' : 'ONE QUESTION PER LINE · PRESS RETURN TO ADD ANOTHER'}</small><textarea value={filmQuestions[owner]} onChange={event => setFilmQuestions(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez une question…' : 'Write a question…'} /><footer><small>{filmQuestionStatus[owner]}</small><button type="button" onClick={() => void saveFilmQuestions(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></footer></article>)}</div>
+            </div>
           </section>
           <section className={styles.filmReference}>
             <div className={styles.filmConversationHead}><div><p className={styles.filmLabel}>{fr ? 'RECHERCHE VISUELLE' : 'VISUAL RESEARCH'}</p><h2>{fr ? 'Mur de références' : 'Reference wall'}</h2></div><span>{(filmInspirations.length + 1).toString().padStart(2, '0')}</span></div>
@@ -705,7 +739,7 @@ export default function ClientSpace() {
               </div>
               <span><small>{fr ? 'FILM DE RÉFÉRENCE' : 'REFERENCE FILM'}</small><strong>BENJAMIN</strong><i>{fr ? 'VOIR LE FILM' : 'VIEW FILM'} ↗</i></span>
             </button>
-            <div className={styles.filmUploadColumns}>{(['benjamin', 'alex'] as const).map(owner => { const draft = filmInspirationDrafts[owner]; return <form className={styles.filmUpload} key={owner} onSubmit={event => void addFilmInspiration(event, owner)}><h3>{owner.toUpperCase()}</h3><label className={styles.filmUploadPicker}>{draft.image ? <img src={draft.image} alt="" /> : <><span>＋</span>{fr ? 'IMAGE' : 'IMAGE'}</>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareFilmImage(file, owner); }} /></label><div><input value={draft.idea} onChange={event => setFilmInspirationDrafts(current => ({ ...current, [owner]: { ...current[owner], idea: event.target.value } }))} maxLength={240} placeholder={fr ? 'Image, humeur, matière, lumière…' : 'Image, mood, texture, light…'} /><button disabled={!draft.image} type="submit">{fr ? 'PARTAGER' : 'SHARE'} ↗</button></div>{filmUploadStatus[owner] && <p role="status">{filmUploadStatus[owner]}</p>}</form>; })}</div>
+            <div className={styles.filmUploadColumns}>{(['benjamin', 'alex'] as const).map(owner => <section className={styles.filmUploadOwner} key={owner}>{filmInspirationDrafts[owner].map((draft, slot) => <form className={styles.filmUpload} key={slot} onSubmit={event => void addFilmInspiration(event, owner, slot)}><h3>{owner.toUpperCase()}</h3><label className={styles.filmUploadPicker}>{draft.image ? <img src={draft.image} alt="" /> : <><span>＋</span>{fr ? 'IMAGE' : 'IMAGE'}</>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareFilmImage(file, owner, slot); }} /></label><div><input value={draft.idea} onChange={event => setFilmInspirationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { ...item, idea: event.target.value } : item) }))} maxLength={240} placeholder={fr ? 'Image, humeur, matière, lumière…' : 'Image, mood, texture, light…'} /><button disabled={!draft.image} type="submit">{fr ? 'PARTAGER' : 'SHARE'} ↗</button></div>{filmUploadStatus[owner] && <p role="status">{filmUploadStatus[owner]}</p>}</form>)}<button type="button" className={styles.filmAddUploadBlock} onClick={() => setFilmInspirationDrafts(current => ({ ...current, [owner]: [...current[owner], { idea: '', image: '' }] }))}>{fr ? 'AJOUTER UN BLOC' : 'ADD ANOTHER BLOCK'} ＋</button></section>)}</div>
             {filmInspirations.length > 0 && <div className={styles.filmInspirationGrid}>{filmInspirations.map(item => { const isVideo = item.image_data.startsWith('data:video/'); return <article key={item.id}><button type="button" className={styles.filmInspirationMedia} onClick={() => setFilmMediaOpen(item)} aria-label={fr ? 'Ouvrir la référence' : 'Open reference'}>{isVideo ? <video src={item.image_data} muted playsInline preload="metadata" /> : <img src={item.image_data} alt={item.caption || (fr ? 'Référence visuelle' : 'Visual reference')} />}<i>{isVideo ? 'PLAY' : 'VIEW'} ↗</i></button><div><p>{item.caption || (fr ? 'Sans titre' : 'Untitled')}</p><small>{item.owner?.toUpperCase() || item.author}</small><span><button className={item.my_vote === 'yes' ? styles.voted : ''} onClick={() => void updateInspiration(item.id, 'vote_inspiration', 'yes')}>{fr ? 'OUI' : 'YES'} {item.yes_count}</button><button className={item.my_vote === 'no' ? styles.voted : ''} onClick={() => void updateInspiration(item.id, 'vote_inspiration', 'no')}>{fr ? 'NON' : 'NO'} {item.no_count}</button></span><button className={styles.filmSelect} disabled={Boolean(item.selected)} onClick={() => void updateInspiration(item.id, 'select_inspiration')}>{item.selected ? (fr ? 'AU STORYBOARD ✓' : 'IN STORYBOARD ✓') : (fr ? 'PLACER AU STORYBOARD →' : 'MOVE TO STORYBOARD →')}</button></div></article>; })}</div>}
           </section>
           <div className={styles.filmBoardGrid}>
