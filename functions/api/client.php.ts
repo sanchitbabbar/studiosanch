@@ -189,13 +189,23 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       if (!saved.success) return fail(503, 'service_unavailable');
       return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
     }
-    if (action === 'list_ideas' || action === 'add_idea') {
+    if (action === 'list_ideas' || action === 'add_idea' || action === 'update_idea') {
       if (!session.user || !session.user.access.includes('film')) return fail(403, 'access_denied');
       if (String(parsed.project || '') !== 'fashion-film-start') return fail(400, 'invalid_request');
       if (action === 'list_ideas') {
-        const result = await env.CLIENT_DB.prepare(`SELECT id, author, kind, body, created_at FROM client_project_ideas
-          WHERE project_key = ? ORDER BY created_at DESC LIMIT 100`).bind('fashion-film-start').all();
+        const result = await env.CLIENT_DB.prepare(`SELECT id, author, kind, body, created_at, CASE WHEN account_id = ? THEN 1 ELSE 0 END AS can_edit FROM client_project_ideas
+          WHERE project_key = ? ORDER BY created_at DESC LIMIT 100`).bind(session.user.id, 'fashion-film-start').all();
         return reply(200, { user: session.user, csrf: session.csrf, ideas: result.results || [] }, cookie);
+      }
+      if (action === 'update_idea') {
+        const id = String(parsed.id || '');
+        const body = String(parsed.body || '').trim();
+        if (!/^[0-9a-f-]{36}$/i.test(id) || !body || [...body].length > 1200) return fail(400, 'invalid_request');
+        const saved = await env.CLIENT_DB.prepare('UPDATE client_project_ideas SET body = ? WHERE id = ? AND project_key = ? AND account_id = ?')
+          .bind(body, id, 'fashion-film-start', session.user.id).run();
+        if (!saved.success) return fail(503, 'service_unavailable');
+        if (saved.meta?.changes !== 1) return fail(403, 'access_denied');
+        return reply(200, { user: session.user, csrf: session.csrf, saved: true }, cookie);
       }
       const kinds = new Set(['direction', 'location', 'styling', 'sound', 'story']);
       const kind = String(parsed.kind || '').toLowerCase();
@@ -203,7 +213,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       if (!kinds.has(kind) || !body || [...body].length > 1200) return fail(400, 'invalid_request');
       const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-idea', session.user.id, 80);
       if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
-      const idea = { id: crypto.randomUUID(), author: session.user.username, kind, body, created_at: Math.floor(Date.now() / 1000) };
+      const idea = { id: crypto.randomUUID(), author: session.user.username, kind, body, created_at: Math.floor(Date.now() / 1000), can_edit: 1 };
       const saved = await env.CLIENT_DB.prepare(`INSERT INTO client_project_ideas(id, project_key, account_id, author, kind, body, created_at)
         VALUES (?, ?, ?, ?, ?, ?, ?)`).bind(idea.id, 'fashion-film-start', session.user.id, idea.author, idea.kind, idea.body, idea.created_at).run();
       if (!saved.success || saved.meta?.changes !== 1) return fail(503, 'service_unavailable');

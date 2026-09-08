@@ -45,7 +45,7 @@ function FrameChoice({ label, mobileLabel, value, options, open, onToggle, onCha
   const current = options.find(option => option.value === value)?.label || value;
   return <label className={`${styles.frameChoice} ${open ? styles.frameChoiceOpen : ''}`}><em>{mobileLabel}</em><button type="button" aria-label={label} aria-expanded={open} onClick={onToggle}><span>{current}</span><i aria-hidden="true" /></button><div className={styles.frameChoiceMenu} role="listbox" aria-label={label} aria-hidden={!open}>{options.map(option => <button type="button" role="option" aria-selected={option.value === value} tabIndex={open ? 0 : -1} key={option.value} onClick={() => onChange(option.value)}>{option.label}<i aria-hidden="true" /></button>)}</div></label>;
 }
-type FilmIdea = { id: string; author: string; kind: string; body: string; created_at: number };
+type FilmIdea = { id: string; author: string; kind: string; body: string; created_at: number; can_edit?: number | boolean };
 type FilmInspiration = { id: string; author: string; owner: keyof FilmRoles; caption: string; image_data: string; selected: number; created_at: number; yes_count: number; no_count: number; my_vote: 'yes' | 'no' | null };
 type FilmGear = { alex: string; benjamin: string };
 type FilmRoles = { alex: string[]; benjamin: string[] };
@@ -109,6 +109,8 @@ export default function ClientSpace() {
   const [filmIdeaBody, setFilmIdeaBody] = useState('');
   const [filmIdeaKind, setFilmIdeaKind] = useState<(typeof filmIdeaKinds)[number]>('direction');
   const [filmIdeaStatus, setFilmIdeaStatus] = useState('');
+  const [filmEditingIdea, setFilmEditingIdea] = useState<string | null>(null);
+  const [filmEditingIdeaBody, setFilmEditingIdeaBody] = useState('');
   const [filmPage, setFilmPage] = useState<'studio' | 'storyboard'>('studio');
   const [filmInspirations, setFilmInspirations] = useState<FilmInspiration[]>([]);
   const [filmInspirationDrafts, setFilmInspirationDrafts] = useState<Record<keyof FilmRoles, FilmLocationDraft[]>>({ alex: [{ idea: '', image: '' }], benjamin: [{ idea: '', image: '' }] });
@@ -116,8 +118,10 @@ export default function ClientSpace() {
   const [scriptOpen, setScriptOpen] = useState(false);
   const [scriptWriterOpen, setScriptWriterOpen] = useState(false);
   const [scriptWriterLength, setScriptWriterLength] = useState(0);
+  const scriptWriterPageRef = useRef<HTMLDivElement>(null);
   const [filmMediaOpen, setFilmMediaOpen] = useState<FilmInspiration | null>(null);
   const [filmTheme, setFilmTheme] = useState<'dark' | 'light'>('dark');
+  const [filmWorkspaceStatus, setFilmWorkspaceStatus] = useState('');
   const [filmGear, setFilmGear] = useState<FilmGear>({ alex: '', benjamin: '' });
   const [filmGearStatus, setFilmGearStatus] = useState<Record<keyof FilmGear, string>>({ alex: '', benjamin: '' });
   const [filmRoles, setFilmRoles] = useState<FilmRoles>({ alex: [], benjamin: [] });
@@ -160,6 +164,10 @@ export default function ClientSpace() {
     if (!scriptWriterOpen || scriptWriterLength >= finalFilmScript.length) return;
     const timer = window.setTimeout(() => setScriptWriterLength(length => Math.min(length + 1, finalFilmScript.length)), finalFilmScript[scriptWriterLength] === '\n' ? 115 : 34);
     return () => window.clearTimeout(timer);
+  }, [scriptWriterOpen, scriptWriterLength]);
+  useEffect(() => {
+    if (!scriptWriterOpen || !window.matchMedia('(max-width: 800px)').matches) return;
+    scriptWriterPageRef.current?.scrollTo({ top: 0 });
   }, [scriptWriterOpen, scriptWriterLength]);
   useEffect(() => {
     const savedTheme = window.localStorage.getItem('sanch-fashion-film-theme');
@@ -464,8 +472,8 @@ export default function ClientSpace() {
     if (step === 'brief' && project.slug === 'film') { void loadFilmIdeas(); void loadFilmInspirations(); void loadFilmGear(); void loadFilmRoles(); void loadFilmNarratives(); void loadFilmQuestions(); void loadFilmSuggestions(); void loadFilmLocations(); }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step, selected, isPreview]);
-  async function addFilmIdea(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function addFilmIdea(event?: FormEvent<HTMLFormElement>) {
+    event?.preventDefault();
     const body = filmIdeaBody.trim();
     if (!body) return;
     if (isPreview) {
@@ -482,6 +490,23 @@ export default function ClientSpace() {
       const result = await clientAuth({ action: 'add_idea', project: 'fashion-film-start', kind: filmIdeaKind, body }, session.csrf) as ClientSession & { idea?: FilmIdea };
       if (result.idea) setFilmIdeas(current => [result.idea!, ...current]);
       setFilmIdeaBody(''); setFilmIdeaStatus('');
+    } catch { setFilmIdeaStatus(fr ? 'Impossible d’enregistrer pour le moment.' : 'Unable to save right now.'); }
+  }
+  async function saveFilmIdea(idea: FilmIdea) {
+    const body = filmEditingIdeaBody.trim();
+    if (!body) return;
+    try {
+      setFilmIdeaStatus(fr ? 'Enregistrement…' : 'Saving…');
+      if (isPreview) {
+        const updated = filmIdeas.map(item => item.id === idea.id ? { ...item, body } : item);
+        setFilmIdeas(updated);
+        window.localStorage.setItem('sanch-fashion-film-start-ideas', JSON.stringify(updated));
+      } else {
+        const session = await clientAuth();
+        await clientAuth({ action: 'update_idea', project: 'fashion-film-start', id: idea.id, body }, session.csrf);
+        setFilmIdeas(current => current.map(item => item.id === idea.id ? { ...item, body } : item));
+      }
+      setFilmEditingIdea(null); setFilmEditingIdeaBody(''); setFilmIdeaStatus('');
     } catch { setFilmIdeaStatus(fr ? 'Impossible d’enregistrer pour le moment.' : 'Unable to save right now.'); }
   }
   async function prepareFilmImage(file: File, owner: keyof FilmRoles, slot: number) {
@@ -612,6 +637,24 @@ export default function ClientSpace() {
       setFilmLocationDrafts(current => ({ ...current, [owner]: current[owner].map((draft, index) => index === slot ? { idea: '', image: '' } : draft) })); setFilmLocationStatus(current => ({ ...current, [owner]: '' }));
     } catch { setFilmLocationStatus(current => ({ ...current, [owner]: fr ? 'Impossible d’ajouter ce lieu.' : 'Unable to add this location.' })); }
   }
+  async function saveFilmWorkspace() {
+    setFilmWorkspaceStatus(fr ? 'Enregistrement…' : 'Saving…');
+    await Promise.all([
+      ...(['alex', 'benjamin'] as const).flatMap(owner => [saveFilmRoles(owner), saveFilmGear(owner), saveFilmNarrative(owner)]),
+      ...filmQuestionOwners.map(owner => saveFilmQuestions(owner)),
+      ...(['tone', 'image'] as const).flatMap(section => (['alex', 'benjamin'] as const).map(owner => saveFilmSuggestion(section, owner))),
+      filmIdeaBody.trim() ? addFilmIdea() : Promise.resolve(),
+    ]);
+    setFilmWorkspaceStatus(fr ? 'Enregistré' : 'Saved');
+  }
+  async function resetFilmWorkspace() {
+    setFilmWorkspaceStatus(fr ? 'Restauration…' : 'Resetting…');
+    setFilmIdeaBody(''); setFilmEditingIdea(null); setFilmEditingIdeaBody('');
+    setFilmInspirationDrafts({ alex: [{ idea: '', image: '' }], benjamin: [{ idea: '', image: '' }] });
+    setFilmLocationDrafts({ alex: Array.from({ length: 3 }, () => ({ idea: '', image: '' })), benjamin: Array.from({ length: 3 }, () => ({ idea: '', image: '' })) });
+    await Promise.all([loadFilmIdeas(), loadFilmInspirations(), loadFilmGear(), loadFilmRoles(), loadFilmNarratives(), loadFilmQuestions(), loadFilmSuggestions(), loadFilmLocations()]);
+    setFilmWorkspaceStatus(fr ? 'Restauré' : 'Reset');
+  }
   const productionGear = [...new Set(Object.values(filmGear).flatMap(items => items.split(/\n|,/).map(item => item.trim()).filter(Boolean)))];
   return (
     <main className={`${styles.space} ${step === 'project' || step === 'entrance' ? styles.oneScreen : ''}`} lang={step === 'language' ? undefined : language}>
@@ -677,7 +720,7 @@ export default function ClientSpace() {
           <div className={`${styles.stageLaser} ${styles.laserTopRight}`} aria-hidden="true" />
           <div className={styles.intro}>
             <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Choisissez une forme de projet' : 'Choose a project form'}</h1>
-            <p>{fr ? <>Certaines créations naissent d’une vision.<br />D’autres, d’une sensation.<br /><strong>Par où commencer ?</strong></> : <>Some creations begin with a vision.<br />Others, with a sensation.<br /><strong>Where shall we begin?</strong></>}</p>
+            <p>{fr ? <>Certaines œuvres naissent d’une vision.<br />D’autres, d’une sensation.<br /><strong>SÉLECTIONNEZ VOTRE PROJET.</strong></> : <>Some works begin with a vision.<br />Others, with a sensation.<br /><strong>SELECT YOUR PROJECT.</strong></>}</p>
           </div>
           <div className={styles.accessNoticeSlot}>
             <div className={`${styles.accessNotice} ${accessNotice ? styles.accessNoticeVisible : ''}`} role="status" aria-live="polite" aria-hidden={!accessNotice}>
@@ -694,18 +737,24 @@ export default function ClientSpace() {
           <button className={styles.back} aria-label={fr ? 'Choisir une langue' : 'Choose a language'} onClick={() => setStep('language')}>←</button>
         </section>
       ) : step === 'brief' && project.slug === 'film' ? (
-        <section className={`${styles.filmBoard} ${filmTheme === 'light' ? styles.filmBoardLight : ''}`} aria-labelledby="client-title">
+        <section data-film-workspace className={`${styles.filmBoard} ${filmTheme === 'light' ? styles.filmBoardLight : ''}`} aria-labelledby="client-title">
           <header className={styles.filmBoardHero}>
             <button className={styles.filmBoardBack} onClick={() => setStep('project')}>← {fr ? 'Projet' : 'Project'}</button>
             <div><p>FILM / 01 · DEVELOPMENT</p><h1 id="client-title" ref={heading} tabIndex={-1}>BEFORE IT <span>BECOMES FILM</span></h1></div>
-            <div className={styles.filmBoardTools}><p className={styles.filmBoardStatus}>{fr ? 'AVANT LE TOURNAGE · EN DÉVELOPPEMENT' : 'PRE-SHOOT · IN DEVELOPMENT'}</p><button type="button" className={styles.filmThemeToggle} onClick={toggleFilmTheme} aria-label={filmTheme === 'dark' ? (fr ? 'Passer au fond clair' : 'Switch to light background') : (fr ? 'Passer au fond noir' : 'Switch to black background')} aria-pressed={filmTheme === 'light'}><span aria-hidden="true"><i /><i /></span><em>{filmTheme === 'dark' ? (fr ? 'CLAIR' : 'LIGHT') : (fr ? 'NOIR' : 'DARK')}</em></button></div>
+            <div className={styles.filmBoardTools}><p className={styles.filmBoardStatus}>{fr ? 'PRÉPRODUCTION · EN DÉVELOPPEMENT' : 'PRE-PRODUCTION · IN DEVELOPMENT'}</p><button type="button" className={styles.filmThemeToggle} onClick={toggleFilmTheme} aria-label={filmTheme === 'dark' ? (fr ? 'Passer au fond clair' : 'Switch to light background') : (fr ? 'Passer au fond noir' : 'Switch to black background')} aria-pressed={filmTheme === 'light'}><span aria-hidden="true"><i /><i /></span><em>{filmTheme === 'dark' ? (fr ? 'CLAIR' : 'LIGHT') : (fr ? 'NOIR' : 'DARK')}</em></button></div>
           </header>
-          <nav className={styles.filmPages} aria-label={fr ? 'Pages du projet' : 'Project pages'}><button className={filmPage === 'studio' ? styles.filmPageActive : ''} onClick={() => setFilmPage('studio')}>01 · {fr ? 'STUDIO OUVERT' : 'OPEN STUDIO'}</button><button className={filmPage === 'storyboard' ? styles.filmPageActive : ''} onClick={() => setFilmPage('storyboard')}>02 · STORYBOARD <span>{filmInspirations.filter(item => item.selected).length.toString().padStart(2, '0')}</span></button></nav>
+          <nav className={styles.filmPages} aria-label={fr ? 'Pages du projet' : 'Project pages'}><button className={filmPage === 'studio' ? styles.filmPageActive : ''} onClick={() => setFilmPage('studio')}>01 · {fr ? 'STUDIO OUVERT' : 'OPEN STUDIO'}</button><button className={filmPage === 'storyboard' ? styles.filmPageActive : ''} onClick={() => setFilmPage('storyboard')}>02 · STORYBOARD</button></nav>
+          <aside className={styles.filmWorkspaceControls} aria-label={fr ? 'Commandes de l’espace de travail' : 'Workspace controls'}>
+            <small aria-live="polite">{filmWorkspaceStatus}</small>
+            <button type="button" onClick={() => { setFilmWorkspaceStatus(fr ? 'Modification' : 'Editing'); document.querySelector<HTMLElement>('[data-film-workspace] textarea, [data-film-workspace] input:not([type="file"])')?.focus(); }}>{fr ? 'MODIFIER' : 'MODIFY'}</button>
+            <button type="button" onClick={() => void resetFilmWorkspace()}>{fr ? 'RÉINITIALISER' : 'RESET'}</button>
+            <button type="button" onClick={() => void saveFilmWorkspace()}>{fr ? 'ENREGISTRER' : 'SAVE'} <span>↗</span></button>
+          </aside>
           {filmPage === 'studio' ? <>
           <section className={styles.filmRoles}>
             <header><div><p className={styles.filmLabel}>{fr ? 'RÔLES · GÉNÉRIQUE' : 'ROLES · CREDITS'}</p><h2>{fr ? 'Qu’est-ce qui vous ressemble ?' : 'What feels like yours?'}</h2></div><p>{fr ? 'Autant qu’il vous semblera juste.' : 'As many as feel right.'}</p></header>
             <div className={styles.filmRoleColumns}>{(['benjamin', 'alex'] as const).map(owner => <div key={owner}><h3>{owner.toUpperCase()}</h3><div>{filmRoleOptions.map(role => { const fixed = fixedFilmRoles.has(role); return <button type="button" key={role} disabled={fixed} className={`${filmRoles[owner].includes(role) ? styles.filmRoleSelected : ''} ${fixed ? styles.filmRoleFixed : ''}`} aria-pressed={fixed ? undefined : filmRoles[owner].includes(role)} onClick={() => toggleFilmRole(owner, role)}><i aria-hidden="true" />{role}</button>; })}</div><footer><small>{filmRoleStatus[owner]}</small><button type="button" onClick={() => void saveFilmRoles(owner)}>{fr ? 'ENREGISTRER LES RÔLES' : 'SAVE ROLES'} ↗</button></footer></div>)}</div>
-            <div className={styles.filmCredits}><p>{fr ? 'GÉNÉRIQUE ACTUEL' : 'CURRENT CREDITS'}</p><div>{(['benjamin', 'alex'] as const).map(owner => <article key={owner}><span>{owner === 'benjamin' ? 'Benjamin' : 'Alex'}</span><p>{filmRoles[owner].length ? filmRoles[owner].join(' · ') : (fr ? 'Rôle à définir' : 'Role to be defined')}</p></article>)}</div></div>
+            <div className={styles.filmCredits}><p>{fr ? 'GÉNÉRIQUE ACTUEL' : 'CURRENT CREDITS'}</p><div>{(['benjamin', 'alex'] as const).map(owner => <article key={owner}><span>{owner === 'benjamin' ? 'Benjamin' : 'Alex'}</span><p>{filmRoles[owner].length ? filmRoles[owner].join(' · ') : (fr ? 'À finaliser' : 'To be finalized')}</p></article>)}</div></div>
             <div className={styles.filmFixedRoles}><div><span><small>PRODUCER</small>STUDIO SANCH</span><span><small>STYLIST</small>SANCHIT</span></div></div>
           </section>
           <section className={styles.filmGear}>
@@ -713,10 +762,10 @@ export default function ClientSpace() {
             <div className={styles.filmGearColumns}>{(['benjamin', 'alex'] as const).map(owner => <div key={owner}><label htmlFor={`gear-${owner}`}>{owner.toUpperCase()}</label><small className={styles.filmGearHint}>{fr ? 'UN ÉLÉMENT PAR LIGNE · ENTRÉE POUR EN AJOUTER UN AUTRE' : 'ONE ITEM PER LINE · PRESS RETURN TO ADD ANOTHER'}</small><textarea id={`gear-${owner}`} value={filmGear[owner]} onChange={event => setFilmGear(current => ({ ...current, [owner]: event.target.value }))} maxLength={2000} placeholder={fr ? 'Commencez à écrire…' : 'Start typing…'} /><footer><small>{filmGearStatus[owner]}</small><div><button type="button" className={styles.filmGearAddLine} onClick={() => { setFilmGear(current => ({ ...current, [owner]: current[owner].trimEnd() ? `${current[owner].trimEnd()}\n` : current[owner] })); window.setTimeout(() => document.getElementById(`gear-${owner}`)?.focus(), 0); }}>{fr ? 'AJOUTER UNE LIGNE' : 'ADD A LINE'} ＋</button><button type="button" onClick={() => void saveFilmGear(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></div></footer></div>)}</div>
             <div className={styles.filmGearSummary}><p>{fr ? 'LA PRODUCTION DISPOSE ACTUELLEMENT DE' : 'PRODUCTION CURRENTLY HAS'}</p><div>{productionGear.map(item => <span key={item}>{item}</span>)}{productionGear.length === 0 && <small>{fr ? 'L’inventaire se composera automatiquement ici.' : 'The combined inventory will appear here automatically.'}</small>}</div></div>
           </section>
-          <section className={styles.filmLocations}>
+          <section className={`${styles.filmLocations} ${filmLocations.length === 0 ? styles.filmLocationsEmptyState : ''}`}>
             <header><div><p className={styles.filmLabel}>{fr ? 'LIEUX · DÉVELOPPEMENT' : 'LOCATIONS · DEVELOPMENT'}</p><h2>{fr ? 'Étude atmosphérique' : 'Atmospheric Survey'}</h2></div><span>{filmLocations.length.toString().padStart(2, '0')}</span></header>
             <div className={styles.filmLocationColumns}>{(['benjamin', 'alex'] as const).map(owner => { const firstNumber = filmLocations.filter(location => location.owner === owner).length + 1; return <div className={styles.filmLocationOwner} key={owner}><h3>{owner.toUpperCase()}</h3>{filmLocationDrafts[owner].map((draft, slot) => { const number = firstNumber + slot; return <form className={styles.filmLocationForm} key={slot} onSubmit={event => void addFilmLocation(event, owner, slot)}><label className={styles.filmLocationImage}>{draft.image ? <img src={draft.image} alt="" /> : <><i>＋</i><span>{fr ? 'IMAGE' : 'IMAGE'}</span></>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareLocationImage(file, owner, slot); }} /></label><div><label htmlFor={`location-idea-${owner}-${slot}`}>{fr ? `LIEU ${number} · IDÉE` : `LOCATION ${number} · IDEA`}</label><textarea id={`location-idea-${owner}-${slot}`} value={draft.idea} onChange={event => setFilmLocationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { ...item, idea: event.target.value } : item) }))} maxLength={800} required placeholder={fr ? 'Atmosphère, lumière, potentiel narratif…' : 'Atmosphere, light, narrative potential…'} /><footer><small>{filmLocationStatus[owner]}</small><button type="submit">{fr ? 'AJOUTER' : 'ADD'} ↗</button></footer></div></form>; })}</div>; })}</div>
-            <div className={styles.filmLocationGrid}>{filmLocations.map((location, index) => <article key={location.id}>{location.image_data ? <img src={location.image_data} alt="" /> : <div className={styles.filmLocationNoImage}><span>{String(index + 1).padStart(2, '0')}</span></div>}<div><small>{location.owner?.toUpperCase()} · {fr ? 'LIEU' : 'LOCATION'} {filmLocations.filter(item => item.owner === location.owner && item.created_at <= location.created_at).length}</small><p>{location.idea}</p><span>{location.author}</span></div></article>)}{filmLocations.length === 0 && <p className={styles.filmLocationEmpty}>{fr ? 'Laisser les idées se déployer.' : 'Allowing ideas to unfold.'}</p>}</div>
+            {filmLocations.length > 0 && <div className={styles.filmLocationGrid}>{filmLocations.map((location, index) => <article key={location.id}>{location.image_data ? <img src={location.image_data} alt="" /> : <div className={styles.filmLocationNoImage}><span>{String(index + 1).padStart(2, '0')}</span></div>}<div><small>{location.owner?.toUpperCase()} · {fr ? 'LIEU' : 'LOCATION'} {filmLocations.filter(item => item.owner === location.owner && item.created_at <= location.created_at).length}</small><p>{location.idea}</p><span>{location.author}</span></div></article>)}</div>}
           </section>
           <section className={styles.filmWelcome}>
             <p className={styles.filmLabel}>{fr ? 'AVANT LE CADRE' : 'BEFORE THE FRAME'}</p>
@@ -725,10 +774,6 @@ export default function ClientSpace() {
           <section className={styles.filmNarratives}>
             <header><div><p className={styles.filmLabel}>{fr ? 'SYNOPSIS · NARRATION' : 'SYNOPSIS · NARRATIVE'}</p><h2>Perspectives.</h2></div><p>{fr ? 'Une proposition chacun' : 'One proposal each'}</p></header>
             <div>{(['benjamin', 'alex'] as const).map(owner => <article key={owner}><h3>{owner.toUpperCase()}</h3><textarea value={filmNarratives[owner]} onChange={event => setFilmNarratives(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez ici votre synopsis, votre narration ou votre lecture du film…' : 'Write your synopsis, narrative, or interpretation of the film here…'} /><footer><small>{filmNarrativeStatus[owner]}</small><button type="button" onClick={() => void saveFilmNarrative(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></footer></article>)}</div>
-            <div className={styles.filmQuestions}>
-              <header><p className={styles.filmLabel}>{fr ? 'QUESTIONS OUVERTES' : 'OPEN QUESTIONS'}</p><h3>{fr ? 'Questions.' : 'Questions.'}</h3></header>
-              <div>{filmQuestionOwners.map(owner => <article key={owner}><h4>{owner.toUpperCase()}</h4><small>{fr ? 'UNE QUESTION PAR LIGNE · ENTRÉE POUR EN AJOUTER UNE AUTRE' : 'ONE QUESTION PER LINE · PRESS RETURN TO ADD ANOTHER'}</small><textarea value={filmQuestions[owner]} onChange={event => setFilmQuestions(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez une question…' : 'Write a question…'} /><footer><small>{filmQuestionStatus[owner]}</small><button type="button" onClick={() => void saveFilmQuestions(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></footer></article>)}</div>
-            </div>
           </section>
           <section className={styles.filmReference}>
             <div className={styles.filmConversationHead}><div><p className={styles.filmLabel}>{fr ? 'RECHERCHE VISUELLE' : 'VISUAL RESEARCH'}</p><h2>{fr ? 'Mur de références' : 'Reference wall'}</h2></div><span>{(filmInspirations.length + 1).toString().padStart(2, '0')}</span></div>
@@ -741,6 +786,10 @@ export default function ClientSpace() {
             </button>
             <div className={styles.filmUploadColumns}>{(['benjamin', 'alex'] as const).map(owner => <section className={styles.filmUploadOwner} key={owner}>{filmInspirationDrafts[owner].map((draft, slot) => <form className={styles.filmUpload} key={slot} onSubmit={event => void addFilmInspiration(event, owner, slot)}><h3>{owner.toUpperCase()}</h3><label className={styles.filmUploadPicker}>{draft.image ? <img src={draft.image} alt="" /> : <><span>＋</span>{fr ? 'IMAGE' : 'IMAGE'}</>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareFilmImage(file, owner, slot); }} /></label><div><input value={draft.idea} onChange={event => setFilmInspirationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { ...item, idea: event.target.value } : item) }))} maxLength={240} placeholder={fr ? 'Image, humeur, matière, lumière…' : 'Image, mood, texture, light…'} /><button disabled={!draft.image} type="submit">{fr ? 'PARTAGER' : 'SHARE'} ↗</button></div>{filmUploadStatus[owner] && <p role="status">{filmUploadStatus[owner]}</p>}</form>)}<button type="button" className={styles.filmAddUploadBlock} onClick={() => setFilmInspirationDrafts(current => ({ ...current, [owner]: [...current[owner], { idea: '', image: '' }] }))}>{fr ? 'AJOUTER UN BLOC' : 'ADD ANOTHER BLOCK'} ＋</button></section>)}</div>
             {filmInspirations.length > 0 && <div className={styles.filmInspirationGrid}>{filmInspirations.map(item => { const isVideo = item.image_data.startsWith('data:video/'); return <article key={item.id}><button type="button" className={styles.filmInspirationMedia} onClick={() => setFilmMediaOpen(item)} aria-label={fr ? 'Ouvrir la référence' : 'Open reference'}>{isVideo ? <video src={item.image_data} muted playsInline preload="metadata" /> : <img src={item.image_data} alt={item.caption || (fr ? 'Référence visuelle' : 'Visual reference')} />}<i>{isVideo ? 'PLAY' : 'VIEW'} ↗</i></button><div><p>{item.caption || (fr ? 'Sans titre' : 'Untitled')}</p><small>{item.owner?.toUpperCase() || item.author}</small><span><button className={item.my_vote === 'yes' ? styles.voted : ''} onClick={() => void updateInspiration(item.id, 'vote_inspiration', 'yes')}>{fr ? 'OUI' : 'YES'} {item.yes_count}</button><button className={item.my_vote === 'no' ? styles.voted : ''} onClick={() => void updateInspiration(item.id, 'vote_inspiration', 'no')}>{fr ? 'NON' : 'NO'} {item.no_count}</button></span><button className={styles.filmSelect} disabled={Boolean(item.selected)} onClick={() => void updateInspiration(item.id, 'select_inspiration')}>{item.selected ? (fr ? 'AU STORYBOARD ✓' : 'IN STORYBOARD ✓') : (fr ? 'PLACER AU STORYBOARD →' : 'MOVE TO STORYBOARD →')}</button></div></article>; })}</div>}
+            <div className={styles.filmQuestions}>
+              <header><p className={styles.filmLabel}>{fr ? 'QUESTIONS OUVERTES' : 'OPEN QUESTIONS'}</p><h3>{fr ? 'Questions.' : 'Questions.'}</h3></header>
+              <div>{filmQuestionOwners.map(owner => <article key={owner}><h4>{owner.toUpperCase()}</h4><small>{fr ? 'UNE QUESTION PAR LIGNE · ENTRÉE POUR EN AJOUTER UNE AUTRE' : 'ONE QUESTION PER LINE · PRESS RETURN TO ADD ANOTHER'}</small><textarea value={filmQuestions[owner]} onChange={event => setFilmQuestions(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez une question…' : 'Write a question…'} /><footer><small>{filmQuestionStatus[owner]}</small><button type="button" onClick={() => void saveFilmQuestions(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></footer></article>)}</div>
+            </div>
           </section>
           <div className={styles.filmBoardGrid}>
             <aside className={styles.filmDirection}>
@@ -755,17 +804,20 @@ export default function ClientSpace() {
               <div className={styles.filmTextIdeas}>
               <div className={styles.filmConversationHead}><div><p className={styles.filmLabel}>{fr ? 'NOTES OUVERTES' : 'OPEN NOTES'}</p><h2>{fr ? 'Idées.' : 'Ideas.'}</h2></div><span>{filmIdeas.length.toString().padStart(2, '0')}</span></div>
               <form className={styles.filmIdeaForm} onSubmit={addFilmIdea}>
-                <textarea value={filmIdeaBody} onChange={event => setFilmIdeaBody(event.target.value)} maxLength={1200} required placeholder={fr ? 'Ajouter une idée, une référence, une sensation…' : 'Add an idea, a reference, a feeling…'} />
-                <button className={styles.filmIdeaSubmit} type="submit">{fr ? 'PARTAGER' : 'SHARE'} <span>↗</span></button>
+                <textarea id="film-idea-body" value={filmIdeaBody} onChange={event => setFilmIdeaBody(event.target.value)} maxLength={1200} required placeholder={fr ? 'Ajouter une idée, une référence, une sensation…' : 'Add an idea, a reference, a feeling…'} />
+                <button className={styles.filmIdeaSubmit} type="submit" disabled={!filmIdeaBody.trim()}>{fr ? 'PARTAGER' : 'SHARE'} <span>↗</span></button>
                 {filmIdeaStatus && <p className={styles.filmIdeaStatus} role="status">{filmIdeaStatus}</p>}
               </form>
-              <div className={styles.filmIdeas}>{filmIdeas.map(idea => <article key={idea.id}><header><span>{idea.kind}</span><time>{new Date(idea.created_at * 1000).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'short' })}</time></header><p>{idea.body}</p><small>{idea.author}</small></article>)}{filmIdeas.length === 0 && <p className={styles.filmIdeasEmpty}>{fr ? 'La table est ouverte. Partagez la première idée.' : 'The table is open. Share the first idea.'}</p>}</div>
+              <div className={styles.filmIdeas}>{filmIdeas.map(idea => { const editing = filmEditingIdea === idea.id; const editable = isPreview || Boolean(idea.can_edit); return <article key={idea.id}><header><span>{idea.kind}</span><time>{new Date(idea.created_at * 1000).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'short' })}</time></header>{editing ? <textarea className={styles.filmIdeaEdit} value={filmEditingIdeaBody} onChange={event => setFilmEditingIdeaBody(event.target.value)} maxLength={1200} autoFocus /> : <p>{idea.body}</p>}<footer><small>{idea.author}</small>{editable && <span><button type="button" className={editing ? styles.filmIdeaControlActive : ''} onClick={() => { setFilmEditingIdea(idea.id); setFilmEditingIdeaBody(idea.body); }}>{fr ? 'MODIFIER' : 'EDIT'}</button><button type="button" disabled={!editing || !filmEditingIdeaBody.trim()} onClick={() => void saveFilmIdea(idea)}>{fr ? 'ENREGISTRER' : 'SAVE'} ↗</button></span>}</footer></article>; })}{filmIdeas.length === 0 && <p className={styles.filmIdeasEmpty}>{fr ? 'La table est ouverte. Partagez la première idée.' : 'The table is open. Share the first idea.'}</p>}</div>
               </div>
             </div>
           </div>
+          <button type="button" className={styles.filmNextPage} onClick={() => { setFilmPage('storyboard'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label={fr ? 'Continuer vers la page 02, storyboard' : 'Continue to page 02, storyboard'}>
+            <span><small>{fr ? 'CONTINUER VERS' : 'CONTINUE TO'}</small>02 · STORYBOARD</span><i aria-hidden="true"><b /></i>
+          </button>
           </> : <section className={styles.filmStoryboard}><header><p className={styles.filmLabel}>{fr ? 'PAGE 02 · SÉLECTION FINALE' : 'PAGE 02 · FINAL SELECTION'}</p><h2>{fr ? 'Le storyboard commence ici.' : 'The storyboard begins here.'}</h2><p>{fr ? 'Seules les références choisies depuis le studio ouvert apparaissent sur cette page.' : 'Only references selected in the open studio appear on this page.'}</p></header><div>{filmInspirations.filter(item => item.selected).map((item, index) => <article key={item.id}><span>{String(index + 1).padStart(2, '0')}</span>{item.image_data.startsWith('data:video/') ? <video src={item.image_data} controls playsInline preload="metadata" /> : <img src={item.image_data} alt={item.caption} />}<p>{item.caption}</p><small>{item.author}</small></article>)}{!filmInspirations.some(item => item.selected) && <p className={styles.filmStoryboardEmpty}>{fr ? 'La première image attend.' : 'The first frame awaits.'}</p>}</div></section>}
           {scriptOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptLightbox} role="dialog" aria-modal="true" aria-label={fr ? 'Script finalisé agrandi' : 'Enlarged final script'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptOpen(false); }}><div><header><span>{fr ? 'SCRIPT FINALISÉ' : 'FINAL SCRIPT'}</span><button type="button" onClick={() => setScriptOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>{fr ? 'FERMER' : 'CLOSE'} <i aria-hidden="true">×</i></button></header><img src="/images/fashion-film-start-final-script.jpg" alt={fr ? 'Script manuscrit finalisé du film' : 'Final handwritten film script'} /></div></div>, document.body)}
-          {scriptWriterOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptWriterVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Script en cours d’écriture' : 'Script writing mode'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptWriterOpen(false); }}><section className={styles.scriptWriter}><header><span>01 · {fr ? 'ÉCRITURE' : 'WRITING ROOM'}</span><button type="button" onClick={() => setScriptWriterOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div className={styles.scriptWriterPage}><p>{finalFilmScript.slice(0, scriptWriterLength)}<i aria-hidden="true" /></p></div><footer><span>{String(scriptWriterLength).padStart(3, '0')} / {finalFilmScript.length}</span><button type="button" onClick={() => setScriptWriterLength(0)}>{fr ? 'RECOMMENCER' : 'REPLAY'} ↺</button></footer></section></div>, document.body)}
+          {scriptWriterOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptWriterVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Script en cours d’écriture' : 'Script writing mode'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptWriterOpen(false); }}><section className={styles.scriptWriter}><header><span>01 · {fr ? 'ÉCRITURE' : 'WRITING ROOM'}</span><button type="button" onClick={() => setScriptWriterOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div ref={scriptWriterPageRef} className={styles.scriptWriterPage}><p>{finalFilmScript.slice(0, scriptWriterLength)}<i aria-hidden="true" /></p></div><footer><span>{String(scriptWriterLength).padStart(3, '0')} / {finalFilmScript.length}</span><button type="button" onClick={() => setScriptWriterLength(0)}>{fr ? 'RECOMMENCER' : 'REPLAY'} ↺</button></footer></section></div>, document.body)}
           {filmMediaOpen && typeof document !== 'undefined' && createPortal(<div className={styles.filmCinemaVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Référence agrandie' : 'Expanded reference'} onMouseDown={event => { if (event.target === event.currentTarget) setFilmMediaOpen(null); }}><section className={styles.filmCinema}><header><span>{filmMediaOpen.owner.toUpperCase()} · {fr ? 'RÉFÉRENCE' : 'REFERENCE'}</span><button type="button" onClick={() => setFilmMediaOpen(null)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header>{isFilmVideo(filmMediaOpen.image_data) ? <video src={filmMediaOpen.image_data} controls autoPlay playsInline /> : <img src={filmMediaOpen.image_data} alt={filmMediaOpen.caption || ''} />} {filmMediaOpen.caption && <p>{filmMediaOpen.caption}</p>}</section></div>, document.body)}
         </section>
       ) : step === 'brief' && photoshootOnly ? (
