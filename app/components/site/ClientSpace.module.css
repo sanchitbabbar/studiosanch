@@ -444,7 +444,7 @@
 .scriptWriterVeil { position: fixed; z-index: 10000; inset: 0; display: grid; place-items: center; padding: 24px; background: #0009; backdrop-filter: blur(10px); animation: scriptVeil .4s ease both; }
 .scriptWriter { width: min(92vw, 570px); height: min(76dvh, 570px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; border: 1px solid #ffffff2b; border-radius: 7px; background: #0c0c0c; box-shadow: 0 30px 100px #000c; animation: scriptReveal .6s cubic-bezier(.16, 1, .3, 1) both; }
 .scriptWriter header, .scriptWriter footer { min-height: 0; display: flex; justify-content: space-between; align-items: center; padding: 15px 18px; border: 0; color: #9e9991; font-size: 7px; letter-spacing: .2em; }
-.scriptWriter header { border-bottom: 1px solid #ffffff18; }
+.scriptWriter header { position: static !important; inset: auto !important; z-index: auto; width: auto; height: auto; border-bottom: 1px solid #ffffff18; }
 .scriptWriter footer { border-top: 1px solid #ffffff18; }
 .scriptWriter button { border: 0; background: transparent; color: #d4cec5; font: 400 7px/1 'Montserrat', sans-serif; letter-spacing: .17em; cursor: pointer; }
 .scriptWriterPage { overflow: auto; padding: clamp(25px, 5vw, 48px); scrollbar-width: thin; scrollbar-color: #ffffff30 transparent; }
@@ -960,6 +960,20 @@
 @keyframes frameBriefMobileIn { from { opacity: 0; transform: translateY(14px); filter: blur(5px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 @media (max-width: 620px) { .projectRoomMeta { grid-template-columns: 1fr 1fr; row-gap: 22px; } .projectRoomStatus { grid-column: 1 / -1; justify-self: start; } }
 @media (max-width: 800px) { .filmTopline { top: 62px; right: 7vw; margin: 0; } .filmBoard { padding: 82px 7vw 70px; } .filmBoardHero { min-height: 214px; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 24px; padding-top: 28px; } .filmBoardHero > div:not(.filmBoardTools) { display: grid; min-width: 0; gap: 13px; } .filmBoardHero div > p { margin: 0; } .filmBoardHero h1 { max-width: 100%; font-size: clamp(23px, 6.5vw, 32px); line-height: 1.12; overflow-wrap: normal; } .filmBoardTools { width: 100%; align-items: flex-end; } .filmBoardStatus { margin-top: 0; } .filmBoardGrid { grid-template-columns: 1fr; gap: 58px; } .filmEntranceTitle h1 span { margin-left: 0; } .filmUpload { grid-template-columns: 1fr; } .filmUploadPicker { max-width: 280px; } .filmStoryboard > div { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 800px) {
+  .filmBoard .filmLabel,
+  .filmBoard small,
+  .filmBoardStatus,
+  .space .filmBoardBack,
+  .space .filmPages button,
+  .filmThemeToggle em,
+  .space .filmRoleColumns button,
+  .space .filmGearColumns button,
+  .space .filmQuestions button,
+  .space .filmNarratives button,
+  .space .filmLocationForm button,
+  .filmScript figcaption { zoom: 1.04; }
+}
 @media (max-width: 480px) { .welcome { padding: clamp(16px, 4svh, 40px) 24px; } .languages { gap: 28px; } .languages button { font-size: 11px; } .footer { flex-wrap: wrap; gap: 14px; } .fields { grid-template-columns: 1fr; gap: 24px; } .form input, .form textarea { font-size: 16px; } .projects { padding-inline: 0; } .projectName { font-size: 17px; white-space: normal; } .photoshootEntrance { min-height: 520px; } .photoshootTitle p { letter-spacing: .36em; text-indent: .36em; } .photoshootTitle h1 { font-size: clamp(58px, 20vw, 92px); letter-spacing: .045em; text-indent: .045em; } .photoshootCredits { flex-direction: column; gap: 8px; } .projectRoom { padding-inline: 20px; } .projectRoomHeader { align-items: flex-start; } .projectRoomIndex { flex-direction: column; align-items: flex-end; gap: 5px; } .projectRoomHero h1 { font-size: 20vw; } .projectRoomCredits { flex-wrap: wrap; white-space: normal; } .shootPlan { grid-template-columns: 1fr; } .shootPlan label + label { padding-left: 0; border-left: 0; border-top: 1px solid #ffffff18; } .frameSummary { grid-template-columns: 1fr; } .frameSummary > div + div { padding-left: 0; border-left: 0; border-top: 1px solid #ffffff18; } }
 @media (max-width: 600px) { .accessNoticeSlot { height: 74px; } .accessNotice { flex-wrap: wrap; align-content: center; gap: 8px 10px; padding-inline: 10px; } .accessNotice i { display: none; } .accessNotice span { flex-basis: 100%; padding-left: 0; border-left: 0; } }
 @media (max-width: 600px) { .filmPages { gap: 17px; overflow-x: auto; } .space .filmPages button { white-space: nowrap; } .filmInspirationGrid { grid-template-columns: minmax(0, 340px); } .filmStoryboard h2 { white-space: normal; } .filmStoryboard > div { grid-template-columns: 1fr; } }
