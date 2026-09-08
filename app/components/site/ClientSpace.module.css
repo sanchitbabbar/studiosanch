@@ -332,8 +332,8 @@
 .filmRoleColumns footer { display: flex; justify-content: space-between; align-items: center; margin: 17px 0 0; padding: 12px 0 0; border-top: 1px solid #ffffff18; background: transparent !important; }
 .filmRoleColumns footer small { color: #77726b; font-size: 9px; letter-spacing: .09em; }
 .space .filmRoleColumns footer button { padding: 5px 0; color: #c8c2b9; font-size: 9px; letter-spacing: .14em; }
-.filmActionArrow { display: inline-block; width: 11px; height: 11px; flex: 0 0 11px; margin-left: 5px; overflow: visible; vertical-align: -1px; }
-.filmActionArrow path { fill: none; stroke: currentColor; stroke-width: 1.15; stroke-linecap: square; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
+.filmActionArrow { display: inline-block; width: 14px; height: 14px; flex: 0 0 14px; margin-left: 5px; overflow: visible; vertical-align: -3px; }
+.filmActionArrow path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: square; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
 .filmCredits { display: grid; grid-template-columns: minmax(180px, .28fr) 1fr; gap: 30px; padding-top: 30px; }
 .filmCredits > p { margin: 7px 0 0; color: #817c74; font-size: 7px; letter-spacing: .22em; }
 .filmCredits > div { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
@@ -427,6 +427,7 @@
 .filmOpenSuggestions input { min-width: 0; padding: 5px 0 7px; border: 0; background: transparent; color: #d5d0c8; font: 300 8px/1.5 'Montserrat', sans-serif; }
 .filmOpenSuggestions input::placeholder { color: #57534e; }
 .space .filmOpenSuggestions button { padding: 5px 0 7px 6px; color: #8c867e; font-size: 10px; }
+.filmOpenSuggestions .filmActionArrow { margin-left: 0; vertical-align: -4px; }
 .filmOpenSuggestions small { position: absolute; right: 0; bottom: -13px; color: #6f6a63; font-size: 6px; }
 .filmScript { margin: 42px 0 0; }
 .filmScript figcaption { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 13px; color: #8f8980; font-size: 7px; letter-spacing: .18em; }
