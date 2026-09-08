@@ -7,6 +7,8 @@ const SESSION_ABSOLUTE = 28800;
 const SCRYPT_N = 16384;
 const SCRYPT_R = 8;
 const SCRYPT_P = 1;
+const MAX_REQUEST_BYTES = 2000000;
+const MAX_IMAGE_DATA_CHARS = 1850000;
 
 type D1Result<T = Record<string, unknown>> = { results?: T[]; success?: boolean; meta?: { changes?: number } };
 type D1Statement = { bind(...values: unknown[]): D1Statement; first<T = Record<string, unknown>>(): Promise<T | null>; all<T = Record<string, unknown>>(): Promise<D1Result<T>>; run(): Promise<D1Result>; };
@@ -106,9 +108,9 @@ async function rateLimit(db: D1Database, secret: string, scope: string, identifi
   return row && Number(row.attempts) > maximum ? Math.max(1, Number(row.expires_at) - now) : null;
 }
 async function parseBody(request: Request): Promise<Record<string, unknown> | Response> {
-  if (Number(request.headers.get('Content-Length') || 0) > 550000) return fail(413, 'invalid_request');
+  if (Number(request.headers.get('Content-Length') || 0) > MAX_REQUEST_BYTES) return fail(413, 'invalid_request');
   const text = await request.text();
-  if (text.length > 550000) return fail(413, 'invalid_request');
+  if (text.length > MAX_REQUEST_BYTES) return fail(413, 'invalid_request');
   try { const data = JSON.parse(text); return data && typeof data === 'object' && !Array.isArray(data) ? data : fail(400, 'invalid_request'); }
   catch { return fail(400, 'invalid_request'); }
 }
@@ -121,7 +123,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
   if (request.headers.get('Sec-Fetch-Site') === 'cross-site') return fail(403, 'request_rejected');
   if (request.method === 'POST' && request.headers.get('Origin') !== ORIGIN) return fail(403, 'request_rejected');
   if (request.method === 'POST' && request.headers.get('Content-Type')?.split(';')[0].trim().toLowerCase() !== 'application/json') return fail(415, 'invalid_request');
-  if (request.method === 'POST' && Number(request.headers.get('Content-Length') || 0) > 550000) return fail(413, 'invalid_request');
+  if (request.method === 'POST' && Number(request.headers.get('Content-Length') || 0) > MAX_REQUEST_BYTES) return fail(413, 'invalid_request');
   try {
     stage = 'rate-limit';
     const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -224,7 +226,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
         const caption = String(parsed.caption || '').trim();
         const imageData = String(parsed.image || '');
         const owner = String(parsed.owner || '').toLowerCase();
-        if (!['alex', 'benjamin'].includes(owner) || [...caption].length > 240 || imageData.length > 1800000 || !/^data:(?:image\/(?:jpeg|png|webp)|video\/(?:mp4|webm|quicktime));base64,[A-Za-z0-9+/=]+$/.test(imageData)) return fail(400, 'invalid_request');
+        if (!['alex', 'benjamin'].includes(owner) || [...caption].length > 240 || imageData.length > MAX_IMAGE_DATA_CHARS || !/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData)) return fail(400, 'invalid_request');
         const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-inspiration', session.user.id, 40);
         if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
         const inspiration = { id: crypto.randomUUID(), author: session.user.username, owner, caption, image_data: imageData, selected: 0, created_at: Math.floor(Date.now() / 1000), yes_count: 0, no_count: 0, my_vote: null };
@@ -322,7 +324,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
       const idea = String(parsed.idea || '').trim();
       const imageData = String(parsed.image || '');
       const owner = String(parsed.owner || '').toLowerCase();
-      if (!['alex', 'benjamin'].includes(owner) || !idea || [...idea].length > 800 || imageData.length > 500000 || (imageData && !/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData))) return fail(400, 'invalid_request');
+      if (!['alex', 'benjamin'].includes(owner) || !idea || [...idea].length > 800 || imageData.length > MAX_IMAGE_DATA_CHARS || (imageData && !/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData))) return fail(400, 'invalid_request');
       const retry = await rateLimit(env.CLIENT_DB, env.CLIENT_RATE_SECRET, 'film-location', session.user.id, 40);
       if (retry) { const response = fail(429, 'rate_limited'); response.headers.set('Retry-After', String(retry)); return response; }
       const location = { id: crypto.randomUUID(), author: session.user.username, owner, idea, image_data: imageData, created_at: Math.floor(Date.now() / 1000) };

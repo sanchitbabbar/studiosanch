@@ -157,7 +157,7 @@ export default function ProductDetail() {
               {/* Main Product Image / Artbook Editorial Film */}
               <div 
                 className={`${product?.id === 'artbook-main' ? `aspect-video max-w-2xl ${artbookMediaMode === 'film' ? 'rounded-md' : ''}` : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
-                style={product?.id === 'artbook-main' && artbookMediaMode === 'object' ? { borderRadius: '6px', clipPath: 'inset(0 round 6px)', backgroundColor: selectedImage === product.image ? '#000' : '#f7f7f6' } : undefined}
+                style={product?.id === 'artbook-main' && artbookMediaMode === 'object' ? { borderRadius: '6px', clipPath: 'inset(0 round 6px)', backgroundColor: selectedImage === product.image ? '#000' : '#f9f9f9' } : undefined}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -203,7 +203,7 @@ export default function ProductDetail() {
                 ) : selectedImage ? (
                   <div
                     className="relative w-full h-full overflow-hidden rounded-md"
-                    style={{ backgroundColor: selectedImage === product.image ? '#000' : '#f7f7f6' }}
+                    style={{ backgroundColor: selectedImage === product.image ? '#000' : '#f9f9f9' }}
                   >
                     <Image 
                       src={selectedImage}
