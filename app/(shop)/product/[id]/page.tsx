@@ -26,7 +26,7 @@ export default function ProductDetail() {
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
   const [allProductImages, setAllProductImages] = useState<string[]>([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [artbookMediaMode, setArtbookMediaMode] = useState<'film' | 'object'>('film');
+  const [artbookFilmIndex, setArtbookFilmIndex] = useState(0);
   const [isFilmPlaying, setIsFilmPlaying] = useState(true);
   const artbookFilmRef = useRef<HTMLVideoElement>(null);
   
@@ -44,7 +44,7 @@ export default function ProductDetail() {
       }
       setAllProductImages(productImages);
       setSelectedImage(productImages[0]);
-      setArtbookMediaMode(foundProduct.id === 'artbook-main' ? 'film' : 'object');
+      setArtbookFilmIndex(0);
       
       // Always include the belt product unless current product is the belt
       const beltProduct = accessoryProducts.find(p => p.id === 'belt-sanch');
@@ -94,6 +94,11 @@ export default function ProductDetail() {
       </div>
     );
   }
+
+  const artbookFilms = [
+    '/Videos/sanch-artbook-film-03.mp4',
+    '/Videos/sanch-artbook-editorial-film.mp4',
+  ];
 
   return (
     <>
@@ -156,8 +161,7 @@ export default function ProductDetail() {
             >
               {/* Main Product Image / Artbook Editorial Film */}
               <div 
-                className={`${product?.id === 'artbook-main' ? `aspect-video max-w-2xl ${artbookMediaMode === 'film' ? 'rounded-md' : ''}` : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
-                style={product?.id === 'artbook-main' && artbookMediaMode === 'object' ? { borderRadius: '6px', clipPath: 'inset(0 round 6px)', backgroundColor: selectedImage === product.image ? '#000' : '#f9f9f9' } : undefined}
+                className={`${product?.id === 'artbook-main' ? 'aspect-video max-w-2xl rounded-md' : 'aspect-square max-w-md rounded-md'} group relative overflow-hidden bg-transparent w-full mx-auto`}
                 onMouseMove={(e) => {
                   if (!isZoomed) return;
                   const bounds = e.currentTarget.getBoundingClientRect();
@@ -168,11 +172,12 @@ export default function ProductDetail() {
                 onMouseEnter={() => setIsZoomed(true)}
                 onMouseLeave={() => setIsZoomed(false)}
               >
-                {product?.id === 'artbook-main' && artbookMediaMode === 'film' ? (
+                {product?.id === 'artbook-main' ? (
                   <div className="relative w-full h-full bg-[#080808]">
                     <video
+                      key={artbookFilms[artbookFilmIndex]}
                       ref={artbookFilmRef}
-                      src="/Videos/sanch-artbook-editorial-film.mp4"
+                      src={artbookFilms[artbookFilmIndex]}
                       autoPlay
                       muted
                       loop
@@ -181,7 +186,7 @@ export default function ProductDetail() {
                       onPlay={() => setIsFilmPlaying(true)}
                       onPause={() => setIsFilmPlaying(false)}
                       className="w-full h-full object-cover"
-                      aria-label={language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'}
+                      aria-label={`${language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'} ${artbookFilmIndex + 1}`}
                     />
 
                     <div className="pointer-events-none absolute inset-[1px] border border-white/[0.08] rounded-[5px]" />
@@ -257,64 +262,25 @@ export default function ProductDetail() {
               </div>
 
               {product?.id === 'artbook-main' && (
-                <div className="flex justify-center items-center gap-5 text-[8px] uppercase tracking-[0.34em] font-light">
-                  <button
-                    type="button"
-                    onClick={() => setArtbookMediaMode('film')}
-                    className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'film' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
-                  >
-                    Motion
-                  </button>
-                  <span className="h-3 w-px bg-white/15" />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      artbookFilmRef.current?.pause();
-                      setArtbookMediaMode('object');
-                    }}
-                    className={`pb-2 border-b transition-all duration-500 ${artbookMediaMode === 'object' ? 'text-white border-white/70' : 'text-white/35 border-transparent hover:text-white/70'}`}
-                  >
-                    {language === 'fr' ? 'Objet' : 'Object'}
-                  </button>
-                </div>
-              )}
-              
-              {/* Discreet artbook object navigation */}
-              {product?.id === 'artbook-main' && artbookMediaMode === 'object' && allProductImages.length > 1 && (
-                <div className="flex items-center justify-center gap-4 mt-1 text-white/45">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const currentIndex = Math.max(0, allProductImages.indexOf(selectedImage || ''));
-                      setSelectedImage(allProductImages[(currentIndex - 1 + allProductImages.length) % allProductImages.length]);
-                    }}
-                    className="h-6 w-6 flex items-center justify-center text-[11px] hover:text-white transition-colors duration-500"
-                    aria-label={language === 'fr' ? 'Image précédente' : 'Previous image'}
-                  >
-                    ←
-                  </button>
-                  <div className="flex items-center gap-[7px]" aria-label={language === 'fr' ? 'Sélection d’image' : 'Image selection'}>
-                    {allProductImages.map((imageSrc, index) => (
-                      <button
-                        key={imageSrc}
-                        type="button"
-                        onClick={() => setSelectedImage(imageSrc)}
-                        className={`h-[3px] rounded-full transition-all duration-500 ${selectedImage === imageSrc ? 'w-4 bg-white/80' : 'w-[3px] bg-white/25 hover:bg-white/55'}`}
-                        aria-label={`${language === 'fr' ? 'Voir l’image' : 'View image'} ${index + 1}`}
+                <div className="flex justify-center items-center gap-3 h-5">
+                  {artbookFilms.map((film, index) => (
+                    <button
+                      key={film}
+                      type="button"
+                      onClick={() => setArtbookFilmIndex(index)}
+                      aria-label={`${language === 'fr' ? 'Lire le film' : 'Play film'} ${index + 1}`}
+                      className="group flex h-5 items-center justify-center px-1"
+                    >
+                      <span className="sr-only">{`${language === 'fr' ? 'Film' : 'Film'} ${index + 1}`}</span>
+                      <span
+                        className={`block h-px transition-all duration-500 ease-out ${
+                          artbookFilmIndex === index
+                            ? 'w-8 bg-white/85'
+                            : 'w-4 bg-white/25 group-hover:w-6 group-hover:bg-white/55'
+                        }`}
                       />
-                    ))}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const currentIndex = Math.max(0, allProductImages.indexOf(selectedImage || ''));
-                      setSelectedImage(allProductImages[(currentIndex + 1) % allProductImages.length]);
-                    }}
-                    className="h-6 w-6 flex items-center justify-center text-[11px] hover:text-white transition-colors duration-500"
-                    aria-label={language === 'fr' ? 'Image suivante' : 'Next image'}
-                  >
-                    →
-                  </button>
+                    </button>
+                  ))}
                 </div>
               )}
 
