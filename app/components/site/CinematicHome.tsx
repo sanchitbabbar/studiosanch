@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import CinematicReel from './CinematicReel';
 import styles from './CinematicHome.module.css';
 
 const MotionLink = motion.create(Link);
@@ -70,6 +69,25 @@ const chapters = [
     image: '/images/sketch1.jpg',
     className: styles.chapterDetail,
   },
+];
+
+const productionSlideshow = [
+  { src: '/images/landing-production/production-portrait-new.webp', alt: 'Model in a black gown on the Studio Sanch production set' },
+  { src: '/images/landing-production/production-lmd.webp', alt: 'Black-and-white fashion portrait study' },
+  { src: '/images/landing-production/production-active-set-new.webp', alt: 'Studio Sanch production crew preparing a black gown' },
+  { src: '/images/landing-production/production-lia.webp', alt: 'Black-and-white outdoor fashion study' },
+  { src: '/images/landing-production/production-editorial-new-03.webp', alt: 'Cinematographer filming the Studio Sanch black-gown editorial' },
+  { src: '/images/landing-production/production-active-set-replacement.webp', alt: 'Monochrome Studio Sanch model profile on set' },
+  { src: '/images/landing-production/frame-04.webp', alt: 'Studio Sanch production study 04' },
+  { src: '/images/landing-production/frame-05.webp', alt: 'Studio Sanch production study 05' },
+  { src: '/images/studio-carousel/sanch-17.webp', alt: 'Olga beside the water' },
+  { src: '/images/landing-production/frame-08.webp', alt: 'Studio Sanch production study 08' },
+  { src: '/images/studio-carousel/untitled-11.webp', alt: 'Silhouette in a sculptural interior' },
+  { src: '/images/landing-production/frame-09.webp', alt: 'Studio Sanch production study 09' },
+  { src: '/images/landing-production/frame-12-ensemble.webp', alt: 'Studio Sanch ensemble production study' },
+  { src: '/images/landing-production/frame-14-cinematographer-angle.webp', alt: 'Studio Sanch couple filmed with the camera positioned on the right' },
+  { src: '/images/landing-production/production-editorial-new-04.webp', alt: 'Black-and-white location scouting inside a Gothic hall' },
+  { src: '/images/haute-couture-landing/grace-in-motion-15.webp', alt: 'Three figures in red dresses in motion' },
 ];
 
 function MultilineText({ text }: { text: string }) {
@@ -321,19 +339,18 @@ export default function CinematicHome() {
       <section ref={reelRef} className={styles.reelSection}>
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>
           <div className={styles.reelViewport}>
-            <CinematicReel src="/Videos/productions-gallery-montage-selective-monochrome-loop.mp4" poster="/images/productions-hero-reel.webp" label={fr ? 'Film de productions Studio Sanch' : 'Studio Sanch productions film'} />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.reelStill}
-              src="/images/haute-couture-landing/grace-in-motion-15.webp"
-              alt={fr ? 'Trois silhouettes vêtues de rouge en mouvement' : 'Three figures in red dresses in motion'}
-              loading="lazy"
-              decoding="async"
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={`${styles.reelFeature} ${styles.reelFeatureRiver}`} src="/images/studio-carousel/sanch-17.webp" alt="Olga près de l'eau" loading="lazy" decoding="async" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className={`${styles.reelFeature} ${styles.reelFeatureMonochrome}`} src="/images/studio-carousel/untitled-11.webp" alt={fr ? 'Silhouette dans un intérieur sculptural' : 'Silhouette in a sculptural interior'} loading="lazy" decoding="async" />
+            {productionSlideshow.map((slide, index) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={slide.src}
+                className={styles.productionSlide}
+                src={slide.src}
+                alt={slide.alt}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                style={{ animationDelay: `${index * 6}s` }}
+              />
+            ))}
           </div>
         </motion.div>
         <div className={styles.reelVeil} />
