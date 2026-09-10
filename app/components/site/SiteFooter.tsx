@@ -75,11 +75,6 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
         <div className="footer-section">
           <ul>
             <li>
-              <a href={fr ? '/fr/appointment.html' : '/appointment.html'}>
-                {fr ? 'PRENDRE RENDEZ-VOUS' : 'MAKE AN APPOINTMENT'}
-              </a>
-            </li>
-            <li>
               <a href={fr ? '/fr/contact.html' : '/contact.html'}>
                 {fr ? 'NOUS ÉCRIRE' : 'WRITE TO US'}
               </a>
