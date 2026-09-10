@@ -169,7 +169,7 @@ export default function ProductionsPage() {
                 : ['From an initial idea to a lasting form,', 'every production is composed with sensitivity', 'and minute precision.']
               ).map((line, index) => <span key={line} style={{ '--line-index': index } as React.CSSProperties}>{line}</span>)}
             </h2>
-            <button className="productions-pill" type="button" onClick={() => setContactOpen(true)}>{fr ? 'PARLER DE VOTRE PROJET' : 'DISCUSS YOUR PROJECT'} <span>↗</span></button>
+            <button className="productions-pill" type="button" onClick={() => setContactOpen(true)}>{fr ? 'PARLER DE VOTRE PROJET' : 'DISCUSS YOUR PROJECT'} <span>↗︎</span></button>
           </div>
         </section>
 
@@ -186,10 +186,8 @@ export default function ProductionsPage() {
               <article className="productions-process-step" key={step.number} data-production-reveal>
                 <div className="productions-process-visual" aria-hidden="true">
                   <i className={`process-glyph process-glyph-${index + 1}`}><b /></i>
-                  <span>{step.number}</span>
                 </div>
                 <div className="productions-process-copy" data-production-text>
-                  <small>{step.number} / 04</small>
                   <h3>{fr ? step.titleFr : step.title}</h3>
                   <p>{fr ? step.textFr : step.text}</p>
                 </div>
@@ -206,7 +204,7 @@ export default function ProductionsPage() {
           <div className="productions-grid">
             {services.map((service, index) => (
               <article className="productions-card" key={service.number} data-production-reveal>
-                <div className="productions-card-head"><span>{service.number}</span><i>↗</i></div>
+                <div className="productions-card-head"><span>{service.number}</span></div>
                 <div className={`productions-card-shape shape-${index + 1}`} aria-hidden="true"><i /></div>
                 <div className="productions-card-copy" data-production-text>
                   <h3>{service.title}</h3>
@@ -223,7 +221,7 @@ export default function ProductionsPage() {
             <p className="productions-eyebrow">{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</p>
             <h2>{fr ? 'L’idée se révèle.' : 'Let the idea reveal itself.'}</h2>
             <button className="productions-cta" type="button" onClick={() => setContactOpen(true)}>
-              {fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'} <span>↗</span>
+              {fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'} <span>↗︎</span>
             </button>
           </div>
         </section>
@@ -252,7 +250,7 @@ export default function ProductionsPage() {
                 <label>{fr ? 'VOTRE E-MAIL' : 'YOUR EMAIL'}<input name="email" type="email" required /></label>
                 <label>{fr ? 'VOTRE PROJET' : 'YOUR PROJECT'}<textarea name="message" rows={3} required /></label>
                 {contactStatus === 'error' && <p className="production-contact-error">{fr ? 'Votre message n’a pas pu être envoyé. Écrivez-nous à info@studiosanch.com.' : 'Your message could not be sent. Please write to info@studiosanch.com.'}</p>}
-                <button className="production-contact-submit" type="submit" disabled={contactStatus === 'sending'}>{contactStatus === 'sending' ? (fr ? 'ENVOI…' : 'SENDING…') : (fr ? 'ENVOYER' : 'SEND')} <span>↗</span></button>
+                <button className="production-contact-submit" type="submit" disabled={contactStatus === 'sending'}>{contactStatus === 'sending' ? (fr ? 'ENVOI…' : 'SENDING…') : (fr ? 'ENVOYER' : 'SEND')} <span>↗︎</span></button>
               </form>
             </>
           )}
