@@ -27,7 +27,7 @@ export default function ProductDetail() {
   const [allProductImages, setAllProductImages] = useState<string[]>([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [artbookFilmIndex, setArtbookFilmIndex] = useState(0);
-  const [isFilmPlaying, setIsFilmPlaying] = useState(true);
+  const [isFilmPlaying, setIsFilmPlaying] = useState(false);
   const artbookFilmRef = useRef<HTMLVideoElement>(null);
   
   // Find the product and related products
@@ -86,6 +86,24 @@ export default function ProductDetail() {
     
     return () => clearInterval(interval);
   }, []);
+
+  // Autoplay can be delayed or rejected by embedded mobile browsers. Attempt it
+  // explicitly and leave a clear play affordance if the browser requires a tap.
+  useEffect(() => {
+    if (product?.id !== 'artbook-main') return;
+    const film = artbookFilmRef.current;
+    if (!film) return;
+
+    film.muted = true;
+    film.defaultMuted = true;
+    const playFilm = () => {
+      void film.play().catch(() => setIsFilmPlaying(false));
+    };
+
+    playFilm();
+    film.addEventListener('canplay', playFilm, { once: true });
+    return () => film.removeEventListener('canplay', playFilm);
+  }, [artbookFilmIndex, product?.id]);
   
   if (!product) {
     return (
@@ -96,8 +114,12 @@ export default function ProductDetail() {
   }
 
   const artbookFilms = [
-    '/Videos/sanch-artbook-film-03.mp4',
-    '/Videos/sanch-artbook-editorial-film.mp4',
+    '/Videos/sanch-artbook-film-03-web.mp4',
+    '/Videos/sanch-artbook-editorial-film-web.mp4',
+  ];
+  const artbookPosters = [
+    '/images/boutique/artbook-gallery/artbook-film-03-poster.webp',
+    '/images/boutique/artbook-gallery/artbook-editorial-film-poster.webp',
   ];
 
   return (
@@ -178,6 +200,7 @@ export default function ProductDetail() {
                       key={artbookFilms[artbookFilmIndex]}
                       ref={artbookFilmRef}
                       src={artbookFilms[artbookFilmIndex]}
+                      poster={artbookPosters[artbookFilmIndex]}
                       autoPlay
                       muted
                       loop
@@ -185,6 +208,7 @@ export default function ProductDetail() {
                       preload="auto"
                       onPlay={() => setIsFilmPlaying(true)}
                       onPause={() => setIsFilmPlaying(false)}
+                      onError={() => setIsFilmPlaying(false)}
                       className="w-full h-full object-cover"
                       aria-label={`${language === 'fr' ? "Film éditorial du livre d’art SANCH" : 'SANCH artbook editorial film'} ${artbookFilmIndex + 1}`}
                     />
@@ -203,6 +227,13 @@ export default function ProductDetail() {
                       className="absolute z-10 inset-0 cursor-pointer focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-[-4px] focus-visible:outline-white/60"
                     >
                       <span className="sr-only">{isFilmPlaying ? 'Pause' : 'Play'}</span>
+                      {!isFilmPlaying && (
+                        <span className="absolute inset-0 flex items-center justify-center" aria-hidden="true">
+                          <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-black/25 backdrop-blur-sm">
+                            <span className="ml-0.5 block h-0 w-0 border-y-[6px] border-y-transparent border-l-[9px] border-l-white/90" />
+                          </span>
+                        </span>
+                      )}
                     </button>
                   </div>
                 ) : selectedImage ? (
@@ -370,8 +401,8 @@ export default function ProductDetail() {
                                       product.stockStatus === 'pre-order' ? 'text-indigo-400/90' : 'text-rose-400/90'}`}
                     >
                       {language === 'fr'
-                        ? (product.id === 'sunglasses-black' ? 'Liste privée' : product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Stock limité' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
-                        : (product.id === 'sunglasses-black' ? 'Waitlist' : product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Stock' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
+                        ? (product.id === 'sunglasses-black' ? 'Liste privée' : product.stockStatus === 'in-stock' ? 'En stock' : product.stockStatus === 'limited' ? 'Édition limitée' : product.stockStatus === 'pre-order' ? 'Précommande' : 'Épuisé')
+                        : (product.id === 'sunglasses-black' ? 'Waitlist' : product.stockStatus === 'in-stock' ? 'In Stock' : product.stockStatus === 'limited' ? 'Limited Edition' : product.stockStatus === 'pre-order' ? 'Pre-Order' : 'Out of Stock')}
                     </span>
                   </div>
                 )}
