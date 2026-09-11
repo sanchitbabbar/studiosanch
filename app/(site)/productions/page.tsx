@@ -10,24 +10,28 @@ const services = [
   {
     number: '01',
     title: 'CINEMATIC',
+    titleFr: 'CINÉMA',
     text: 'Direction for film, fashion, editorial and audiovisual production—from first conception to final realisation.',
     textFr: 'Direction de films, de mode, de projets éditoriaux et audiovisuels — de la première conception à la réalisation finale.',
   },
   {
     number: '02',
     title: 'CULTURAL',
+    titleFr: 'CULTURE',
     text: 'Fashion shows, photoshoots, exhibitions and live performance formed into resonant artistic experiences.',
-    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques mémorables.',
+    textFr: 'Défilés, séances photo, expositions et performances vivantes façonnés en expériences artistiques.',
   },
   {
     number: '03',
     title: 'IDENTITY',
+    titleFr: 'IDENTITÉ',
     text: 'Brand worlds, visual identities, art direction and digital or physical communication designed with a singular point of view.',
     textFr: 'Univers de marque, identités visuelles, direction artistique et communication numérique ou physique conçus avec un regard singulier.',
   },
   {
     number: '04',
     title: 'DISTRIBUTION',
+    titleFr: 'DISTRIBUTION',
     text: 'Editorial, audiovisual and musical works developed for the right audience, platform and cultural context.',
     textFr: 'Œuvres éditoriales, audiovisuelles et musicales développées pour le public, la plateforme et le contexte culturel appropriés.',
   },
@@ -53,7 +57,7 @@ const productionProcess = [
     title: 'REALISE',
     titleFr: 'RÉALISER',
     text: 'A trusted team carries the idea through production with calm, rigor and absolute attention to detail.',
-    textFr: "Une équipe de confiance conduit l’idée jusqu’à sa réalisation avec calme, rigueur et attention absolue.",
+    textFr: "Une équipe de confiance conduit l’idée jusqu’à sa réalisation avec rigueur et attention.",
   },
   {
     number: '04',
@@ -179,7 +183,7 @@ export default function ProductionsPage() {
               <p className="productions-eyebrow">{fr ? 'NOTRE APPROCHE' : 'THE APPROACH'}</p>
               <h2 id="productions-journey-title">{fr ? 'À chaque vision,\nsa voie.' : 'Each vision,\nits own route.'}</h2>
             </div>
-            <p>{fr ? 'De sa première impulsion à sa présence finale, chaque vision reçoit l’espace, l’attention et la précision nécessaires pour devenir pleinement elle-même.' : 'From its first impulse to its final presence, each vision is given the space, attention and precision to become entirely its own.'}</p>
+            <p>{fr ? 'De la première idée à la réalisation finale, une attention et une précision absolues sont apportées à chaque projet.' : 'From its first impulse to its final presence, each vision is given the space, attention and precision to become entirely its own.'}</p>
           </div>
           <div className="productions-process">
             {productionProcess.map((step, index) => (
@@ -199,7 +203,6 @@ export default function ProductionsPage() {
         <section className="productions-services" aria-label="The Work">
           <div className="productions-services-heading" data-production-text>
             <div><p className="productions-eyebrow">{fr ? 'LE TRAVAIL' : 'THE WORK'}</p><h2>{fr ? 'Les idées, mises en forme.' : 'Ideas, given form.'}</h2></div>
-            <p>{fr ? 'Chaque projet reçoit une réponse réfléchie.' : 'Each project is met with a considered response.'}</p>
           </div>
           <div className="productions-grid">
             {services.map((service, index) => (
@@ -207,7 +210,7 @@ export default function ProductionsPage() {
                 <div className="productions-card-head"><span>{service.number}</span></div>
                 <div className={`productions-card-shape shape-${index + 1}`} aria-hidden="true"><i /></div>
                 <div className="productions-card-copy" data-production-text>
-                  <h3>{service.title}</h3>
+                  <h3>{fr ? service.titleFr : service.title}</h3>
                   <p>{fr ? service.textFr : service.text}</p>
                 </div>
               </article>
