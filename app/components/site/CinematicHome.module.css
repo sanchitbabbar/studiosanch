@@ -99,38 +99,38 @@
 .reelMedia { position: absolute; inset: 0; width: 100%; height: 100%; }
 .reelMedia { z-index: 0; background: #000; }
 .reelViewport { position: absolute; top: 50%; right: 0; left: 0; width: 100%; height: min(100%, 56.25vw); overflow: hidden; transform: translateY(-50%); background: #000; }
-.productionSlide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; object-fit: cover; object-position: center; filter: none; will-change: opacity, transform; animation-duration: 96s; animation-timing-function: linear; animation-iteration-count: infinite; }
+.productionSlide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; object-fit: cover; object-position: center; filter: none; will-change: opacity, transform; animation-duration: 84s; animation-timing-function: linear; animation-iteration-count: infinite; }
 .productionSlide:nth-child(4n + 1) { animation-name: productionPanRight; transform-origin: 42% 48%; }
 .productionSlide:nth-child(4n + 2) { animation-name: productionPushIn; transform-origin: 58% 45%; }
 .productionSlide:nth-child(4n + 3) { animation-name: productionPanLeft; transform-origin: 54% 52%; }
 .productionSlide:nth-child(4n) { animation-name: productionPullBack; transform-origin: 48% 46%; }
 @keyframes productionPanRight {
   0% { opacity: 0; transform: translate3d(-2.8%, 1%, 0) scale(1.11); }
-  .83% { opacity: 1; }
-  6.1% { opacity: 1; transform: translate3d(2.4%, -1%, 0) scale(1.045); }
-  7.08%, 100% { opacity: 0; transform: translate3d(3%, -1.2%, 0) scale(1.03); }
+  .95% { opacity: 1; }
+  6.97% { opacity: 1; transform: translate3d(2.4%, -1%, 0) scale(1.045); }
+  8.1%, 100% { opacity: 0; transform: translate3d(3%, -1.2%, 0) scale(1.03); }
 }
 @keyframes productionPushIn {
   0% { opacity: 0; transform: translate3d(1.2%, 1.2%, 0) scale(1.025); }
-  .83% { opacity: 1; }
-  6.1% { opacity: 1; transform: translate3d(-1%, -.8%, 0) scale(1.115); }
-  7.08%, 100% { opacity: 0; transform: translate3d(-1.2%, -1%, 0) scale(1.13); }
+  .95% { opacity: 1; }
+  6.97% { opacity: 1; transform: translate3d(-1%, -.8%, 0) scale(1.115); }
+  8.1%, 100% { opacity: 0; transform: translate3d(-1.2%, -1%, 0) scale(1.13); }
 }
 @keyframes productionPanLeft {
   0% { opacity: 0; transform: translate3d(2.8%, -.7%, 0) scale(1.105); }
-  .83% { opacity: 1; }
-  6.1% { opacity: 1; transform: translate3d(-2.5%, .8%, 0) scale(1.04); }
-  7.08%, 100% { opacity: 0; transform: translate3d(-3%, 1%, 0) scale(1.025); }
+  .95% { opacity: 1; }
+  6.97% { opacity: 1; transform: translate3d(-2.5%, .8%, 0) scale(1.04); }
+  8.1%, 100% { opacity: 0; transform: translate3d(-3%, 1%, 0) scale(1.025); }
 }
 @keyframes productionPullBack {
   0% { opacity: 0; transform: translate3d(-1%, -.8%, 0) scale(1.13); }
-  .83% { opacity: 1; }
-  6.1% { opacity: 1; transform: translate3d(1%, .8%, 0) scale(1.035); }
-  7.08%, 100% { opacity: 0; transform: translate3d(1.2%, 1%, 0) scale(1.02); }
+  .95% { opacity: 1; }
+  6.97% { opacity: 1; transform: translate3d(1%, .8%, 0) scale(1.035); }
+  8.1%, 100% { opacity: 0; transform: translate3d(1.2%, 1%, 0) scale(1.02); }
 }
 @keyframes productionFade {
-  0%, 7.08%, 100% { opacity: 0; }
-  .83%, 6.1% { opacity: 1; }
+  0%, 8.1%, 100% { opacity: 0; }
+  .95%, 6.97% { opacity: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
   .productionSlide { animation-name: productionFade; transform: none; }
