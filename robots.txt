@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /client/
+
+Host: https://studiosanch.com
+Sitemap: https://studiosanch.com/sitemap.xml
+Sitemap: https://studiosanch.com/image-sitemap.xml
