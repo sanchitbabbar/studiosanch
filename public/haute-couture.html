@@ -99,17 +99,79 @@
             flex-direction: column;
             width: calc(29% - 1rem);
             margin-bottom: 3rem; /* Added spacing between rows if they wrap */
+            position: relative;
+            isolation: isolate;
+            overflow: visible;
+        }
+
+        /* A soft gallery spotlight lets each photograph float in the black room. */
+        .thumbnail-container::before {
+            content: '';
+            position: absolute;
+            z-index: 0;
+            inset: -4% -12% 25px;
+            border: 0;
+            border-radius: 42%;
+            background: radial-gradient(ellipse at 50% 42%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025) 38%, transparent 70%);
+            filter: blur(24px);
+            pointer-events: none;
         }
         
         .gallery-item {
             position: relative;
+            z-index: 1;
             width: 100%;
             border-radius: 16px; /* iPhone-style rounded corners */
             overflow: hidden;
             aspect-ratio: 9/16; /* Increased height by 7% more */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            box-shadow:
+                0 34px 70px -22px rgba(0, 0, 0, 1),
+                0 12px 28px rgba(0, 0, 0, 0.72),
+                0 0 26px rgba(255, 255, 255, 0.035),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
             min-height: 400px; /* Minimum height to prevent collapse during load */
             min-width: 225px; /* Minimum width based on aspect ratio */
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease;
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            z-index: 3;
+            top: -20%;
+            bottom: -20%;
+            left: -55%;
+            width: 32%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.075), transparent);
+            transform: skewX(-12deg);
+            transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+
+        @media (hover: hover) {
+            .thumbnail-container:hover .gallery-item {
+                transform: translateY(-4px);
+                box-shadow:
+                    0 42px 82px -24px rgba(0, 0, 0, 1),
+                    0 16px 34px rgba(0, 0, 0, 0.76),
+                    0 0 34px rgba(255, 255, 255, 0.055),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+            }
+
+            .thumbnail-container:hover .gallery-item::after {
+                transform: translateX(520%) skewX(-12deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-item {
+                transition: none;
+            }
+
+            .gallery-item::after {
+                display: none;
+            }
         }
         
         /* Thumbnail scrolling functionality */
@@ -128,9 +190,9 @@
             background-color: rgba(0, 0, 0, 0.2); /* Subtle placeholder background */
         }
         
-        .thumbnail-container:nth-child(1) .thumbnail-images {
+        .thumbnail-images {
             display: flex;
-            width: 900%;
+            width: calc(var(--slide-count, 1) * 100%);
             height: 100%;
             transition: transform 2.2s linear;
             will-change: transform;
@@ -140,118 +202,8 @@
             -webkit-transform: translateZ(0);
         }
         
-        .thumbnail-container:nth-child(2) .thumbnail-images {
-            display: flex;
-            width: 1000%;
-            height: 100%;
-            transition: transform 2.2s linear;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-        
-        .thumbnail-container:nth-child(3) .thumbnail-images {
-            display: flex;
-            width: 1000%;
-            height: 100%;
-            transition: transform 2.2s linear;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-        
-        .thumbnail-container:nth-child(4) .thumbnail-images {
-            display: flex;
-            width: 1100.001%;
-            height: 100%;
-            transition: transform 2.2s linear;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-        
-        .thumbnail-container:nth-child(5) .thumbnail-images {
-            display: flex;
-            width: 800%;
-            height: 100%;
-            transition: transform 2.2s linear;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-
-        .thumbnail-container:nth-child(6) .thumbnail-images {
-            display: flex;
-            width: 900%;
-            height: 100%;
-            transition: transform 2.2s linear;
-            will-change: transform;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            transform: translateZ(0);
-            -webkit-transform: translateZ(0);
-        }
-        
-        .thumbnail-container:nth-child(1) .thumbnail-images img {
-            width: 11.111%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(2) .thumbnail-images img {
-            width: 10%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(3) .thumbnail-images img {
-            width: 10%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(4) .thumbnail-images img {
-            width: 9.0909%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-        
-        .thumbnail-container:nth-child(5) .thumbnail-images img {
-            width: 12.5%;
-            height: 100%;
-            object-fit: cover;
-            flex-shrink: 0;
-            opacity: 0;
-            animation: fadeIn 0.3s ease-in-out forwards;
-            animation-delay: 0.1s;
-        }
-
-        .thumbnail-container:nth-child(6) .thumbnail-images img {
-            width: 11.111%;
+        .thumbnail-images img {
+            width: calc(100% / var(--slide-count, 1));
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
@@ -272,6 +224,8 @@
             gap: 10px;
             margin-top: 12px;
             margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
         }
         
         .scroll-dot {
@@ -498,6 +452,42 @@
                     <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
                 
+                <div class="thumbnail-container" data-collection="Biatriz">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF1846.webp" alt="Biatriz Haute Couture editorial - View 1" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2141-2_SANCH.webp" alt="Biatriz Haute Couture editorial - View 2" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2205-2-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 3" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2274-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 4" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2274-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 5" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2350-SANCH.webp" alt="Biatriz Haute Couture editorial - View 6" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2353-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 7" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2353-SANCH.webp" alt="Biatriz Haute Couture editorial - View 8" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2367-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 9" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2367-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 10" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2386-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 11" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2386-SANCH.webp" alt="Biatriz Haute Couture editorial - View 12" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2445-2-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 13" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2445-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 14" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2516-2-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 15" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2516-SANCH.webp" alt="Biatriz Haute Couture editorial - View 16" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2524-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 17" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2524-SANCH.webp" alt="Biatriz Haute Couture editorial - View 18" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2587-SANCH.webp" alt="Biatriz Haute Couture editorial - View 19" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2595-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 20" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2708-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 21" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2708-SANCH.webp" alt="Biatriz Haute Couture editorial - View 22" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2717-2-Favourite-SANCH.webp" alt="Biatriz Haute Couture editorial - View 23" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2717-SANCH.webp" alt="Biatriz Haute Couture editorial - View 24" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2726-2-SANCH.webp" alt="Biatriz Haute Couture editorial - View 25" loading="lazy" decoding="async">
+                                <img src="images/Haute%20Couture%20/Slider%20Thumbnail%20Biatriz/DSCF2726-SANCH.webp" alt="Biatriz Haute Couture editorial - View 26" loading="lazy" decoding="async">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator" aria-label="Biatriz gallery position"></div>
+                </div>
+
                 <div class="thumbnail-container">
                     <div class="gallery-item">
                         <div class="thumbnail-scroller">
@@ -671,6 +661,14 @@
             gallery.insertBefore(newestSlider, gallery.children[1]);
         }
 
+        // Keep the black-and-white architectural collection as the final slider.
+        const finalSlider = Array.from(gallery.querySelectorAll('.thumbnail-container')).find((container) =>
+            container.querySelector('img[src*="Slider%20Thumbnail%205"]')
+        );
+        if (finalSlider) {
+            gallery.appendChild(finalSlider);
+        }
+
         // Shuffle function
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -685,12 +683,23 @@
         const thumbnailContainers = document.querySelectorAll('.thumbnail-container');
         
         // Set up each container
-        thumbnailContainers.forEach((container, containerIndex) => {
+        thumbnailContainers.forEach((container) => {
             const thumbnailImages = container.querySelector('.thumbnail-images');
-            const dots = container.querySelectorAll('.scroll-dot');
-            
-            // Shuffle images on page load
             const images = Array.from(thumbnailImages.children);
+            const imageCount = images.length;
+            thumbnailImages.style.setProperty('--slide-count', imageCount);
+
+            const indicator = container.querySelector('.scroll-indicator');
+            if (indicator.children.length !== imageCount) {
+                indicator.replaceChildren(...images.map((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = `scroll-dot${index === 0 ? ' active' : ''}`;
+                    return dot;
+                }));
+            }
+            const dots = container.querySelectorAll('.scroll-dot');
+
+            // Shuffle images on page load
             const shuffledImages = shuffleArray(images);
             
             // Clear container and add shuffled images
@@ -702,27 +711,7 @@
             let touchEndX = 0;
             let direction = 1; // 1 for forward (left to right), -1 for backward (right to left)
             
-            // Define max index based on container
-            // Container 0: 9 images (0-8) - Slider 4 in position 1
-            // Container 1: 7 images (0-6) - Slider 6 in position 2
-            // Container 2: 10 images (0-9) - Slider 2 in position 3
-            // Container 3: 11 images (0-10) - Slider 5 in position 4
-            // Container 4: 8 images (0-7) - Slider 1 in position 5
-            // Container 5: 9 images (0-8) - Slider 3 in position 6
-            let maxIndex;
-            if (containerIndex === 0) {
-                maxIndex = 8; // First slider (slider 4) has 9 images (0-8)
-            } else if (containerIndex === 1) {
-                maxIndex = 9; // Second slider (slider 6) has 10 images (0-9)
-            } else if (containerIndex === 2) {
-                maxIndex = 9; // Third slider (slider 2) has 10 images (0-9)
-            } else if (containerIndex === 3) {
-                maxIndex = 10; // Fourth slider (slider 5) has 11 images (0-10)
-            } else if (containerIndex === 4) {
-                maxIndex = 7; // Fifth slider (slider 1) has 8 images (0-7)
-            } else if (containerIndex === 5) {
-                maxIndex = 8; // Sixth slider (slider 3) has 9 images (0-8)
-            }
+            const maxIndex = imageCount - 1;
             
             // Set up touch events for mobile swipe
             thumbnailImages.addEventListener('touchstart', function(e) {
@@ -777,22 +766,7 @@
             function scroll(index) {
                 if (index < 0 || index > maxIndex) return;
                 
-                // Update images position based on container
-                let slidePercentage;
-                if (containerIndex === 0) {
-                    slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
-                } else if (containerIndex === 1) {
-                    slidePercentage = 10;      // 10 images at 10% each (100/10)
-                } else if (containerIndex === 2) {
-                    slidePercentage = 10;      // 10 images at 10% each (100/10)
-                } else if (containerIndex === 3) {
-                    slidePercentage = 9.0909;  // 11 images at 9.0909% each (100/11)
-                } else if (containerIndex === 4) {
-                    slidePercentage = 12.5;    // 8 images at 12.5% each (100/8)
-                } else if (containerIndex === 5) {
-                    slidePercentage = 11.111;  // 9 images at 11.111% each (100/9)
-                }
-                
+                const slidePercentage = 100 / imageCount;
                 thumbnailImages.style.transform = `translateX(-${index * slidePercentage}%)`;
                 
                 // Update dots
