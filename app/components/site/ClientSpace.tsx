@@ -218,7 +218,7 @@ export default function ClientSpace() {
   }, [step]);
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
-  const photoshootOnly = projectAccess.length === 1 && projectAccess[0] === 'photoshoot';
+  const photoshootProject = project.slug === 'photoshoot' && projectAccess.includes('photoshoot');
   const permittedNames = disciplines
     .filter(item => projectAccess.includes(item.slug))
     .map(item => fr ? item.fr : item.en)
@@ -232,7 +232,7 @@ export default function ClientSpace() {
     }, 7000);
   }
   useEffect(() => {
-    if (step !== 'brief' || !photoshootOnly) return;
+    if (step !== 'brief' || !photoshootProject) return;
     const load = async () => {
       if (isPreview) {
         const saved = window.localStorage.getItem('sanch-grace-in-motion-frame-briefs');
@@ -248,9 +248,9 @@ export default function ClientSpace() {
       } catch { setFrameBriefStatus(fr ? 'Impossible de charger les détails.' : 'Could not load saved details.'); }
     };
     void load();
-  }, [step, photoshootOnly, isPreview, fr]);
+  }, [step, photoshootProject, isPreview, fr]);
   useEffect(() => {
-    if (step !== 'brief' || !photoshootOnly) return;
+    if (step !== 'brief' || !photoshootProject) return;
     setFramePlanLoaded(false);
     const load = async () => {
       try {
@@ -277,9 +277,9 @@ export default function ClientSpace() {
       }
     };
     void load();
-  }, [step, photoshootOnly, isPreview]);
+  }, [step, photoshootProject, isPreview]);
   useEffect(() => {
-    if (!framePlanLoaded || step !== 'brief' || !photoshootOnly) return;
+    if (!framePlanLoaded || step !== 'brief' || !photoshootProject) return;
     const plan = { frames, framesPerDay, shootDays, submittedAt: framePlanSubmittedAt };
     const timer = window.setTimeout(async () => {
       if (isPreview) {
@@ -292,7 +292,7 @@ export default function ClientSpace() {
       } catch { /* Preserve the editable interface if a background save is interrupted. */ }
     }, 650);
     return () => window.clearTimeout(timer);
-  }, [frames, framesPerDay, shootDays, framePlanSubmittedAt, framePlanLoaded, step, photoshootOnly, isPreview]);
+  }, [frames, framesPerDay, shootDays, framePlanSubmittedAt, framePlanLoaded, step, photoshootProject, isPreview]);
   useEffect(() => {
     if (frameBriefOpen === null) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') closeFrameBrief(); };
@@ -821,7 +821,7 @@ export default function ClientSpace() {
           {scriptWriterOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptWriterVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Script en cours d’écriture' : 'Script writing mode'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptWriterOpen(false); }}><section className={styles.scriptWriter}><header><span>01 · {fr ? 'ÉCRITURE' : 'WRITING ROOM'}</span><button type="button" onClick={() => setScriptWriterOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div ref={scriptWriterPageRef} className={styles.scriptWriterPage}><p>{finalFilmScript.slice(0, scriptWriterLength)}<i aria-hidden="true" /></p></div><footer><span>{String(scriptWriterLength).padStart(3, '0')} / {finalFilmScript.length}</span><button type="button" onClick={() => setScriptWriterLength(0)}>{fr ? 'RECOMMENCER' : 'REPLAY'} ↺</button></footer></section></div>, document.body)}
           {filmMediaOpen && typeof document !== 'undefined' && createPortal(<div className={styles.filmCinemaVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Référence agrandie' : 'Expanded reference'} onMouseDown={event => { if (event.target === event.currentTarget) setFilmMediaOpen(null); }}><section className={styles.filmCinema}><header><span>{filmMediaOpen.owner.toUpperCase()} · {fr ? 'RÉFÉRENCE' : 'REFERENCE'}</span><button type="button" onClick={() => setFilmMediaOpen(null)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header>{isFilmVideo(filmMediaOpen.image_data) ? <video src={filmMediaOpen.image_data} controls autoPlay playsInline /> : <img src={filmMediaOpen.image_data} alt={filmMediaOpen.caption || ''} />} {filmMediaOpen.caption && <p>{filmMediaOpen.caption}</p>}</section></div>, document.body)}
         </section>
-      ) : step === 'brief' && photoshootOnly ? (
+      ) : step === 'brief' && photoshootProject ? (
         <section className={styles.projectRoom} aria-labelledby="client-title">
           <div className={styles.projectRoomSlideshow} aria-hidden="true">
             <span /><span /><span /><span />
