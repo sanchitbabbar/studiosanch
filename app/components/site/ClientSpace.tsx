@@ -907,7 +907,7 @@ export default function ClientSpace() {
             <div className={styles.productionRhythm}>
               <div>
                 <p>{fr ? 'ÉTAPE FINALE' : 'FINAL STEP'}</p>
-                <h3>{fr ? 'Définissez le rythme de prise de vue.' : 'Set the shooting rhythm.'}</h3>
+                <h3>{fr ? 'Définissez le rythme de prise de vue.' : 'Sculpt the production framework.'}</h3>
               </div>
               <div className={styles.shootPlan}>
                 <label>{fr ? 'Images par jour de prise de vue' : 'Frames per shooting day'}
