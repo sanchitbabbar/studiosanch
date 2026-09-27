@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS client_project_hour_logs (
   project_key TEXT NOT NULL,
   account_id TEXT NOT NULL REFERENCES client_accounts(id) ON DELETE CASCADE,
   work_date TEXT NOT NULL,
+  start_time TEXT,
+  end_time TEXT,
   hours REAL NOT NULL,
   note TEXT NOT NULL,
   created_at INTEGER NOT NULL

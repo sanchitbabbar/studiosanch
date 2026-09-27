@@ -27,7 +27,7 @@ const frameDefaults = [
 type FramePlanItem = typeof frameDefaults[number];
 type FrameBrief = { vision: string; space: string; set: string; props: string; ambience: string; lighting: string; styling: string; hair: string; makeup: string };
 type FrameBriefTab = keyof FrameBrief;
-type HourLogEntry = { id: string; work_date: string; hours: number; note: string; created_at: number };
+type HourLogEntry = { id: string; work_date: string; start_time: string | null; end_time: string | null; hours: number; note: string; created_at: number };
 const emptyFrameBrief: FrameBrief = { vision: '', space: '', set: '', props: '', ambience: '', lighting: '', styling: '', hair: '', makeup: '' };
 const frameBriefTabs: { key: FrameBriefTab; en: string; fr: string; prompt: string; promptFr: string }[] = [
   { key: 'vision', en: 'Vision', fr: 'Vision', prompt: 'Describe what you envision—and what you desire to capture.', promptFr: 'Décrivez ce que vous imaginez—et ce que vous souhaitez saisir.' },
@@ -214,7 +214,7 @@ export default function ClientSpace() {
   const [frameBriefStatus, setFrameBriefStatus] = useState('');
   const [hourLogOpen, setHourLogOpen] = useState(false);
   const [hourLogs, setHourLogs] = useState<HourLogEntry[]>([]);
-  const [hourLogDraft, setHourLogDraft] = useState({ date: new Date().toISOString().slice(0, 10), hours: '', note: '' });
+  const [hourLogDraft, setHourLogDraft] = useState({ date: new Date().toISOString().slice(0, 10), startTime: '', endTime: '', note: '' });
   const [hourLogStatus, setHourLogStatus] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
   const openPhotoshootPlanOnEntry = useRef(false);
@@ -391,24 +391,28 @@ export default function ClientSpace() {
   }
   async function addHourLog(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const hours = Number(hourLogDraft.hours);
-    if (!hourLogDraft.date || !Number.isFinite(hours) || hours <= 0 || !hourLogDraft.note.trim()) return;
+    const [startHour, startMinute] = hourLogDraft.startTime.split(':').map(Number);
+    const [endHour, endMinute] = hourLogDraft.endTime.split(':').map(Number);
+    const hours = ((endHour * 60 + endMinute) - (startHour * 60 + startMinute)) / 60;
+    if (!hourLogDraft.date || !hourLogDraft.startTime || !hourLogDraft.endTime || !Number.isFinite(hours) || hours <= 0 || !hourLogDraft.note.trim()) {
+      setHourLogStatus(fr ? 'VÉRIFIEZ LES HORAIRES' : 'CHECK START AND CLOSING TIMES'); return;
+    }
     setHourLogStatus(fr ? 'ENREGISTREMENT…' : 'SAVING…');
     try {
       let entry: HourLogEntry;
       if (isPreview) {
-        entry = { id: crypto.randomUUID(), work_date: hourLogDraft.date, hours, note: hourLogDraft.note.trim(), created_at: Math.floor(Date.now() / 1000) };
+        entry = { id: crypto.randomUUID(), work_date: hourLogDraft.date, start_time: hourLogDraft.startTime, end_time: hourLogDraft.endTime, hours, note: hourLogDraft.note.trim(), created_at: Math.floor(Date.now() / 1000) };
         const updated = [entry, ...hourLogs];
         window.localStorage.setItem('sanch-grace-in-motion-hour-log', JSON.stringify(updated));
         setHourLogs(updated);
       } else {
         const session = await clientAuth();
-        const result = await clientAuth({ action: 'add_hour_log', project: 'grace-in-motion', work_date: hourLogDraft.date, hours, note: hourLogDraft.note.trim() }, session.csrf) as ClientSession & { entry?: HourLogEntry };
+        const result = await clientAuth({ action: 'add_hour_log', project: 'grace-in-motion', work_date: hourLogDraft.date, start_time: hourLogDraft.startTime, end_time: hourLogDraft.endTime, note: hourLogDraft.note.trim() }, session.csrf) as ClientSession & { entry?: HourLogEntry };
         if (!result.entry) throw new Error('missing_entry');
         entry = result.entry;
         setHourLogs(current => [entry, ...current]);
       }
-      setHourLogDraft(current => ({ ...current, hours: '', note: '' }));
+      setHourLogDraft(current => ({ ...current, startTime: '', endTime: '', note: '' }));
       setHourLogStatus(fr ? 'ENTRÉE ENREGISTRÉE' : 'ENTRY SAVED');
     } catch { setHourLogStatus(fr ? 'ÉCHEC DE L’ENREGISTREMENT · RÉESSAYEZ' : 'COULD NOT SAVE · PLEASE TRY AGAIN'); }
   }
@@ -892,7 +896,7 @@ export default function ClientSpace() {
           </div>
           <div className={styles.projectRoomHeader}>
             <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROME' : 'Back to CHROME'}</button>
-            {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}>CARNET DE PRODUCTION <span>↗</span></button>}
+            {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i>↗</i></button>}
           </div>
 
           <div className={styles.projectRoomHero}>
@@ -1018,12 +1022,12 @@ export default function ClientSpace() {
               <div className={styles.hourLogBody}>
                 <aside><small>{fr ? 'TEMPS DE PRODUCTION' : 'PRODUCTION TIME'}</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}<i>H</i></strong><p>{fr ? 'Un registre précis du temps consacré à la direction et à la production.' : 'A precise record of time devoted to direction and production.'}</p></aside>
                 {currentUsername.toLowerCase() === 'sanchit' ? <form onSubmit={addHourLog}>
-                  <div><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" required value={hourLogDraft.date} onChange={event => setHourLogDraft(current => ({ ...current, date: event.target.value }))} /></label><label>{fr ? 'HEURES' : 'HOURS'}<input type="number" required min="0.25" max="24" step="0.25" inputMode="decimal" placeholder="0.00" value={hourLogDraft.hours} onChange={event => setHourLogDraft(current => ({ ...current, hours: event.target.value }))} /></label></div>
+                  <div className={styles.hourLogTimeFields}><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" required value={hourLogDraft.date} onChange={event => setHourLogDraft(current => ({ ...current, date: event.target.value }))} /></label><label>{fr ? 'HEURE DE DÉBUT' : 'START TIME'}<input type="time" required value={hourLogDraft.startTime} onChange={event => setHourLogDraft(current => ({ ...current, startTime: event.target.value }))} /></label><label>{fr ? 'HEURE DE FIN' : 'CLOSING TIME'}<input type="time" required value={hourLogDraft.endTime} onChange={event => setHourLogDraft(current => ({ ...current, endTime: event.target.value }))} /></label></div>
                   <label>{fr ? 'NOTE DE PRODUCTION' : 'PRODUCTION NOTE'}<textarea required maxLength={1800} rows={5} placeholder={fr ? 'Direction, préparation, coordination, recherche…' : 'Direction, preparation, coordination, research…'} value={hourLogDraft.note} onChange={event => setHourLogDraft(current => ({ ...current, note: event.target.value }))} /></label>
                   <footer><span role="status">{hourLogStatus}</span><button type="submit">{fr ? 'AJOUTER AU REGISTRE' : 'ADD TO LOG'} <i>→</i></button></footer>
                 </form> : <div className={styles.hourLogReadOnly}><small>{fr ? 'REGARD PRODUCTION' : 'PRODUCTION VIEW'}</small><h3>{fr ? 'Le temps derrière chaque image.' : 'The time behind every frame.'}</h3><p>{fr ? 'Dates, heures et notes de production consignées par Studio Sanch.' : 'Dates, hours and production notes recorded by Studio Sanch.'}</p></div>}
               </div>
-              <div className={styles.hourLogEntries}>{hourLogs.length ? hourLogs.map(entry => <article key={entry.id}><time dateTime={entry.work_date}>{new Date(`${entry.work_date}T12:00:00`).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</time><strong>{Number(entry.hours).toLocaleString(fr ? 'fr-FR' : 'en-GB')}H</strong><p>{entry.note}</p>{currentUsername.toLowerCase() === 'sanchit' && <button type="button" onClick={() => void deleteHourLog(entry.id)} aria-label={fr ? 'Supprimer cette entrée' : 'Remove this entry'}>×</button>}</article>) : <p className={styles.hourLogEmpty}>{fr ? 'Le premier chapitre de production attend.' : 'The first production chapter awaits.'}</p>}</div>
+              <div className={styles.hourLogEntries}>{hourLogs.length ? hourLogs.map(entry => <article key={entry.id}><div><time dateTime={entry.work_date}>{new Date(`${entry.work_date}T12:00:00`).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</time>{entry.start_time && entry.end_time && <small>{entry.start_time} — {entry.end_time}</small>}</div><strong>{Number(entry.hours).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong><p>{entry.note}</p>{currentUsername.toLowerCase() === 'sanchit' && <button type="button" onClick={() => void deleteHourLog(entry.id)} aria-label={fr ? 'Supprimer cette entrée' : 'Remove this entry'}>×</button>}</article>) : <p className={styles.hourLogEmpty}>{fr ? 'Le premier chapitre de production attend.' : 'The first production chapter awaits.'}</p>}</div>
             </section>
           </div>, document.body)}
           </>}
