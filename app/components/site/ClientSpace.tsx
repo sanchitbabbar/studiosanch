@@ -1019,7 +1019,7 @@ export default function ClientSpace() {
                   <small>{frameBriefDraft[frameBriefTab].length} / 1800</small>
                 </div>
               </div>
-              <footer><p>{frameBriefStatus || (fr ? 'Un brief. Chaque détail.' : 'One brief. Every detail.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
+              <footer><p>{frameBriefStatus || (fr ? 'De la vision à la précision.' : 'From vision to precision.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
             </section>
           </div>, document.body)}
           {hourLogOpen && typeof document !== 'undefined' && createPortal(<div className={styles.hourLogVeil} role="dialog" aria-modal="true" aria-labelledby="hour-log-title" onMouseDown={event => { if (event.target === event.currentTarget) setHourLogOpen(false); }}>
