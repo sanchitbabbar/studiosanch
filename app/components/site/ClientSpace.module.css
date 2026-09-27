@@ -253,6 +253,8 @@
 .hourLogBody label { display: flex; flex-direction: column; gap: 10px; color: #aaa6ac; font-size: 8px; letter-spacing: .2em; }
 .hourLogBody input, .hourLogBody textarea { width: 100%; border: 1px solid #ffffff20; border-radius: 13px; background: #03020773; color: #f5f2ed; font: 300 13px/1.5 'Montserrat', sans-serif; letter-spacing: .02em; outline: none; transition: border-color .3s ease, background .3s ease; }
 .hourLogBody input { min-height: 47px; padding: 0 14px; }
+.hourLogTimeFields label:not(:first-child) input { font-size: 16px; font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+.hourLogTimeFields input::placeholder { color: #68646b; opacity: 1; }
 .hourLogBody textarea { margin-top: 22px; padding: 14px; resize: vertical; }
 .hourLogBody input:focus, .hourLogBody textarea:focus { border-color: #c8a9799c; background: #050409b8; }
 .hourLogBody form footer { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 18px; margin: 20px 0 0; padding: 0; border: 0; background: transparent !important; color: inherit; }

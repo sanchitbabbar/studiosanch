@@ -416,6 +416,12 @@ export default function ClientSpace() {
       setHourLogStatus(fr ? 'ENTRÉE ENREGISTRÉE' : 'ENTRY SAVED');
     } catch { setHourLogStatus(fr ? 'ÉCHEC DE L’ENREGISTREMENT · RÉESSAYEZ' : 'COULD NOT SAVE · PLEASE TRY AGAIN'); }
   }
+  function updateHourLogTime(key: 'startTime' | 'endTime', value: string) {
+    const digits = value.replace(/\D/g, '').slice(0, 4);
+    const formatted = digits.length > 2 ? `${digits.slice(0, 2)}:${digits.slice(2)}` : digits;
+    setHourLogDraft(current => ({ ...current, [key]: formatted }));
+    setHourLogStatus('');
+  }
   async function deleteHourLog(id: string) {
     setHourLogStatus(fr ? 'SUPPRESSION…' : 'REMOVING…');
     try {
@@ -1021,8 +1027,8 @@ export default function ClientSpace() {
               <header><div><p>GRACE IN MOTION · PRODUCTION</p><h2 id="hour-log-title">Carnet de Production</h2></div><button type="button" onClick={() => setHourLogOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>×</button></header>
               <div className={styles.hourLogBody}>
                 <aside><small>{fr ? 'TEMPS DE PRODUCTION' : 'PRODUCTION TIME'}</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}<i>H</i></strong><p>{fr ? 'Un registre précis du temps consacré à la direction et à la production.' : 'A precise record of time devoted to direction and production.'}</p></aside>
-                {currentUsername.toLowerCase() === 'sanchit' ? <form onSubmit={addHourLog}>
-                  <div className={styles.hourLogTimeFields}><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" required value={hourLogDraft.date} onChange={event => setHourLogDraft(current => ({ ...current, date: event.target.value }))} /></label><label>{fr ? 'HEURE DE DÉBUT' : 'START TIME'}<input type="time" required value={hourLogDraft.startTime} onChange={event => setHourLogDraft(current => ({ ...current, startTime: event.target.value }))} /></label><label>{fr ? 'HEURE DE FIN' : 'CLOSING TIME'}<input type="time" required value={hourLogDraft.endTime} onChange={event => setHourLogDraft(current => ({ ...current, endTime: event.target.value }))} /></label></div>
+                {currentUsername.toLowerCase() === 'sanchit' ? <form onSubmit={addHourLog} noValidate>
+                  <div className={styles.hourLogTimeFields}><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" value={hourLogDraft.date} onChange={event => { setHourLogDraft(current => ({ ...current, date: event.target.value })); setHourLogStatus(''); }} /></label><label>{fr ? 'HEURE DE DÉBUT' : 'START TIME'}<input type="text" inputMode="numeric" autoComplete="off" maxLength={5} placeholder="09:00" value={hourLogDraft.startTime} onChange={event => updateHourLogTime('startTime', event.target.value)} /></label><label>{fr ? 'HEURE DE FIN' : 'CLOSING TIME'}<input type="text" inputMode="numeric" autoComplete="off" maxLength={5} placeholder="18:00" value={hourLogDraft.endTime} onChange={event => updateHourLogTime('endTime', event.target.value)} /></label></div>
                   <label>{fr ? 'NOTE DE PRODUCTION' : 'PRODUCTION NOTE'}<textarea required maxLength={1800} rows={5} placeholder={fr ? 'Direction, préparation, coordination, recherche…' : 'Direction, preparation, coordination, research…'} value={hourLogDraft.note} onChange={event => setHourLogDraft(current => ({ ...current, note: event.target.value }))} /></label>
                   <footer><span role="status">{hourLogStatus}</span><button type="submit">{fr ? 'AJOUTER AU REGISTRE' : 'ADD TO LOG'} <i>→</i></button></footer>
                 </form> : <div className={styles.hourLogReadOnly}><small>{fr ? 'REGARD PRODUCTION' : 'PRODUCTION VIEW'}</small><h3>{fr ? 'Le temps derrière chaque image.' : 'The time behind every frame.'}</h3><p>{fr ? 'Dates, heures et notes de production consignées par Studio Sanch.' : 'Dates, hours and production notes recorded by Studio Sanch.'}</p></div>}
