@@ -27,6 +27,7 @@ const frameDefaults = [
 type FramePlanItem = typeof frameDefaults[number];
 type FrameBrief = { vision: string; space: string; set: string; props: string; ambience: string; lighting: string; styling: string; hair: string; makeup: string };
 type FrameBriefTab = keyof FrameBrief;
+type HourLogEntry = { id: string; work_date: string; start_time: string | null; end_time: string | null; hours: number; note: string; created_at: number };
 const emptyFrameBrief: FrameBrief = { vision: '', space: '', set: '', props: '', ambience: '', lighting: '', styling: '', hair: '', makeup: '' };
 const frameBriefTabs: { key: FrameBriefTab; en: string; fr: string; prompt: string; promptFr: string }[] = [
   { key: 'vision', en: 'Vision', fr: 'Vision', prompt: 'Describe what you envision—and what you desire to capture.', promptFr: 'Décrivez ce que vous imaginez—et ce que vous souhaitez saisir.' },
@@ -35,7 +36,7 @@ const frameBriefTabs: { key: FrameBriefTab; en: string; fr: string; prompt: stri
   { key: 'props', en: 'Props', fr: 'Accessoires', prompt: 'Describe the objects, furniture, fabrics and apparatus that must appear within the frame.', promptFr: 'Décrivez les objets, le mobilier, les tissus et les agrès qui doivent apparaître dans l’image.' },
   { key: 'ambience', en: 'Ambience', fr: 'Ambiance', prompt: 'Define the atmosphere: intimate or monumental, energetic or still, polished or raw.', promptFr: 'Définissez l’atmosphère : intime ou monumentale, énergique ou calme, polie ou brute.' },
   { key: 'lighting', en: 'Lighting', fr: 'Lumière', prompt: 'Spotlight colours, direction, contrast, shadows, haze, reflections and time of day.', promptFr: 'Couleurs, direction, contraste, ombres, brume, reflets et moment de la journée.' },
-  { key: 'styling', en: 'Styling', fr: 'Style', prompt: 'Define the wardrobe silhouette, colours, materials, fabric movement and visual references.', promptFr: 'Définissez la silhouette, les couleurs, les matières, le mouvement des tissus et les références.' },
+  { key: 'styling', en: 'Styling', fr: 'Style', prompt: 'Define the wardrobe, silhouette, specific colours, materials, fabric, genre and visual effects.', promptFr: 'Définissez la silhouette, les couleurs, les matières, le mouvement des tissus et les références.' },
   { key: 'hair', en: 'Hair', fr: 'Coiffure', prompt: 'Describe the hair direction, shape, texture, movement and level of finish.', promptFr: 'Décrivez la direction, la forme, la texture, le mouvement et la finition de la coiffure.' },
   { key: 'makeup', en: 'Make-up', fr: 'Maquillage', prompt: 'Describe the make-up: skin, eyes, lips, colour, intensity and finish.', promptFr: 'Décrivez le maquillage : peau, yeux, lèvres, couleur, intensité et finition.' },
 ];
@@ -129,6 +130,7 @@ export default function ClientSpace() {
   const [logoutError, setLogoutError] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const [projectAccess, setProjectAccess] = useState<ProjectAccess[]>([]);
+  const [currentUsername, setCurrentUsername] = useState('');
   const [accessNotice, setAccessNotice] = useState(false);
   const [restrictedSelection, setRestrictedSelection] = useState<ProjectAccess | null>(null);
   const [isPreview, setIsPreview] = useState(false);
@@ -175,6 +177,7 @@ export default function ClientSpace() {
       const requestedAccess = new URLSearchParams(window.location.search).get('access');
       const previewAccess = requestedAccess?.split(',').filter((item): item is ProjectAccess => allProjectAccess.includes(item as ProjectAccess)) || [];
       setProjectAccess(previewAccess.length ? previewAccess : allProjectAccess);
+      setCurrentUsername('sanchit');
       setStep('project');
       return;
     }
@@ -234,7 +237,7 @@ export default function ClientSpace() {
       const session = await clientAuth();
       await clientAuth({ action: 'logout' }, session.csrf);
       setDraft({ name: '', email: '', organisation: '', location: '', timing: '', vision: '' });
-      setProjectAccess([]); setPrepared(false); setStep('signin'); setLogoutError(false);
+      setProjectAccess([]); setCurrentUsername(''); setPrepared(false); setStep('signin'); setLogoutError(false);
     } catch { setLogoutError(true); }
     finally { setSigningOut(false); }
   }
@@ -251,9 +254,14 @@ export default function ClientSpace() {
   const [frameBriefs, setFrameBriefs] = useState<Record<number, FrameBrief>>({});
   const [frameBriefOpen, setFrameBriefOpen] = useState<number | null>(null);
   const [frameBriefClosing, setFrameBriefClosing] = useState(false);
+  const [visualTypeOpen, setVisualTypeOpen] = useState(false);
   const [frameBriefTab, setFrameBriefTab] = useState<FrameBriefTab>('vision');
   const [frameBriefDraft, setFrameBriefDraft] = useState<FrameBrief>(emptyFrameBrief);
   const [frameBriefStatus, setFrameBriefStatus] = useState('');
+  const [hourLogOpen, setHourLogOpen] = useState(false);
+  const [hourLogs, setHourLogs] = useState<HourLogEntry[]>([]);
+  const [hourLogDraft, setHourLogDraft] = useState({ date: new Date().toISOString().slice(0, 10), startTime: '', endTime: '', note: '' });
+  const [hourLogStatus, setHourLogStatus] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
   const openPhotoshootPlanOnEntry = useRef(false);
   const firstRender = useRef(true);
@@ -264,7 +272,8 @@ export default function ClientSpace() {
   }, [step]);
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
-  const photoshootOnly = projectAccess.length === 1 && projectAccess[0] === 'photoshoot';
+  const photoshootProject = project.slug === 'photoshoot' && projectAccess.includes('photoshoot');
+  const canViewHourLog = ['sanchit', 'james.parkhill', 'james.parkhill.test'].includes(currentUsername.toLowerCase());
   const permittedNames = disciplines
     .filter(item => projectAccess.includes(item.slug))
     .map(item => fr ? item.fr : item.en)
@@ -278,7 +287,7 @@ export default function ClientSpace() {
     }, 7000);
   }
   useEffect(() => {
-    if (step !== 'brief' || !photoshootOnly) return;
+    if (step !== 'brief' || !photoshootProject || !canViewHourLog) return;
     const load = async () => {
       if (isPreview) {
         const saved = window.localStorage.getItem('sanch-grace-in-motion-frame-briefs');
@@ -294,9 +303,25 @@ export default function ClientSpace() {
       } catch { setFrameBriefStatus(fr ? 'Impossible de charger les détails.' : 'Could not load saved details.'); }
     };
     void load();
-  }, [step, photoshootOnly, isPreview, fr]);
+  }, [step, photoshootProject, canViewHourLog, isPreview, fr]);
   useEffect(() => {
-    if (step !== 'brief' || !photoshootOnly) return;
+    if (step !== 'brief' || !photoshootProject) return;
+    const load = async () => {
+      try {
+        if (isPreview) {
+          const saved = window.localStorage.getItem('sanch-grace-in-motion-hour-log');
+          setHourLogs(saved ? JSON.parse(saved) : []);
+          return;
+        }
+        const session = await clientAuth();
+        const result = await clientAuth({ action: 'list_hour_logs', project: 'grace-in-motion' }, session.csrf) as ClientSession & { entries?: HourLogEntry[] };
+        setHourLogs(result.entries || []);
+      } catch { setHourLogStatus(fr ? 'Impossible de charger le registre.' : 'Could not load the log.'); }
+    };
+    void load();
+  }, [step, photoshootProject, isPreview, fr]);
+  useEffect(() => {
+    if (step !== 'brief' || !photoshootProject) return;
     setFramePlanLoaded(false);
     const load = async () => {
       try {
@@ -323,9 +348,9 @@ export default function ClientSpace() {
       }
     };
     void load();
-  }, [step, photoshootOnly, isPreview]);
+  }, [step, photoshootProject, isPreview]);
   useEffect(() => {
-    if (!framePlanLoaded || step !== 'brief' || !photoshootOnly) return;
+    if (!framePlanLoaded || step !== 'brief' || !photoshootProject) return;
     const plan = { frames, framesPerDay, shootDays, submittedAt: framePlanSubmittedAt };
     const timer = window.setTimeout(async () => {
       if (isPreview) {
@@ -338,7 +363,7 @@ export default function ClientSpace() {
       } catch { /* Preserve the editable interface if a background save is interrupted. */ }
     }, 650);
     return () => window.clearTimeout(timer);
-  }, [frames, framesPerDay, shootDays, framePlanSubmittedAt, framePlanLoaded, step, photoshootOnly, isPreview]);
+  }, [frames, framesPerDay, shootDays, framePlanSubmittedAt, framePlanLoaded, step, photoshootProject, isPreview]);
   useEffect(() => {
     if (frameBriefOpen === null) return;
     const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') closeFrameBrief(); };
@@ -348,12 +373,13 @@ export default function ClientSpace() {
   }, [frameBriefOpen]);
   function closeFrameBrief() {
     if (frameBriefClosing || frameBriefOpen === null) return;
+    setVisualTypeOpen(false);
     setFrameBriefClosing(true);
     window.setTimeout(() => { setFrameBriefOpen(null); setFrameBriefClosing(false); }, 420);
   }
   function openFrameBrief(index: number) {
     setFrameBriefDraft({ ...emptyFrameBrief, ...(frameBriefs[index] || {}) });
-    setFrameBriefTab('vision'); setFrameBriefStatus(''); setFrameBriefClosing(false); setFrameBriefOpen(index);
+    setFrameBriefTab('vision'); setFrameBriefStatus(''); setFrameBriefClosing(false); setVisualTypeOpen(false); setFrameBriefOpen(index);
   }
   async function saveFrameBrief() {
     if (frameBriefOpen === null) return;
@@ -408,6 +434,54 @@ export default function ClientSpace() {
       setPhotoshootPage('review');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch { setFrameSubmitStatus(fr ? 'ÉCHEC DE L’ENVOI · RÉESSAYEZ' : 'SUBMISSION FAILED · PLEASE TRY AGAIN'); }
+  }
+  async function addHourLog(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const [startHour, startMinute] = hourLogDraft.startTime.split(':').map(Number);
+    const [endHour, endMinute] = hourLogDraft.endTime.split(':').map(Number);
+    const hours = ((endHour * 60 + endMinute) - (startHour * 60 + startMinute)) / 60;
+    if (!hourLogDraft.date || !hourLogDraft.startTime || !hourLogDraft.endTime || !Number.isFinite(hours) || hours <= 0 || !hourLogDraft.note.trim()) {
+      setHourLogStatus(fr ? 'VÉRIFIEZ LES HORAIRES' : 'CHECK START AND CLOSING TIMES'); return;
+    }
+    setHourLogStatus(fr ? 'ENREGISTREMENT…' : 'SAVING…');
+    try {
+      let entry: HourLogEntry;
+      if (isPreview) {
+        entry = { id: crypto.randomUUID(), work_date: hourLogDraft.date, start_time: hourLogDraft.startTime, end_time: hourLogDraft.endTime, hours, note: hourLogDraft.note.trim(), created_at: Math.floor(Date.now() / 1000) };
+        const updated = [entry, ...hourLogs];
+        window.localStorage.setItem('sanch-grace-in-motion-hour-log', JSON.stringify(updated));
+        setHourLogs(updated);
+      } else {
+        const session = await clientAuth();
+        const result = await clientAuth({ action: 'add_hour_log', project: 'grace-in-motion', work_date: hourLogDraft.date, start_time: hourLogDraft.startTime, end_time: hourLogDraft.endTime, note: hourLogDraft.note.trim() }, session.csrf) as ClientSession & { entry?: HourLogEntry };
+        if (!result.entry) throw new Error('missing_entry');
+        entry = result.entry;
+        setHourLogs(current => [entry, ...current]);
+      }
+      setHourLogDraft(current => ({ ...current, startTime: '', endTime: '', note: '' }));
+      setHourLogStatus(fr ? 'ENTRÉE ENREGISTRÉE' : 'ENTRY SAVED');
+    } catch { setHourLogStatus(fr ? 'ÉCHEC DE L’ENREGISTREMENT · RÉESSAYEZ' : 'COULD NOT SAVE · PLEASE TRY AGAIN'); }
+  }
+  function updateHourLogTime(key: 'startTime' | 'endTime', value: string) {
+    const digits = value.replace(/\D/g, '').slice(0, 4);
+    const formatted = digits.length > 2 ? `${digits.slice(0, 2)}:${digits.slice(2)}` : digits;
+    setHourLogDraft(current => ({ ...current, [key]: formatted }));
+    setHourLogStatus('');
+  }
+  async function deleteHourLog(id: string) {
+    setHourLogStatus(fr ? 'SUPPRESSION…' : 'REMOVING…');
+    try {
+      if (isPreview) {
+        const updated = hourLogs.filter(entry => entry.id !== id);
+        window.localStorage.setItem('sanch-grace-in-motion-hour-log', JSON.stringify(updated));
+        setHourLogs(updated);
+      } else {
+        const session = await clientAuth();
+        await clientAuth({ action: 'delete_hour_log', project: 'grace-in-motion', id }, session.csrf);
+        setHourLogs(current => current.filter(entry => entry.id !== id));
+      }
+      setHourLogStatus('');
+    } catch { setHourLogStatus(fr ? 'ÉCHEC DE LA SUPPRESSION' : 'COULD NOT REMOVE ENTRY'); }
   }
   async function loadFilmIdeas() {
     if (isPreview) {
@@ -725,7 +799,7 @@ export default function ClientSpace() {
           <div className={styles.atmosphere} aria-hidden="true" />
           <div className={styles.welcomeContent}>
             <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Connexion' : 'Sign in'}</h1>
-            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={user => { setProjectAccess(user.access); setStep('project'); }} />
+            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={user => { setProjectAccess(user.access); setCurrentUsername(user.username); setStep('project'); }} />
             <button className={styles.signInBack} onClick={() => setStep('language')}>{fr ? 'Langue' : 'Language'}</button>
           </div>
         </section>
@@ -745,7 +819,7 @@ export default function ClientSpace() {
           <div className={styles.photoshootGrain} aria-hidden="true" />
           <div className={styles.photoshootTitle}>
             <p>GRACE IN MOTION</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROMA</h1>
+            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROME</h1>
             <div className={styles.photoshootCredits}>
               <span>BY JAMES D PARKHILL</span>
             </div>
@@ -907,18 +981,19 @@ export default function ClientSpace() {
           {scriptWriterOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptWriterVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Script en cours d’écriture' : 'Script writing mode'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptWriterOpen(false); }}><section className={styles.scriptWriter}><header><span>01 · {fr ? 'ÉCRITURE' : 'WRITING ROOM'}</span><button type="button" onClick={() => setScriptWriterOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div ref={scriptWriterPageRef} className={styles.scriptWriterPage}><p>{finalFilmScript.slice(0, scriptWriterLength)}<i aria-hidden="true" /></p></div><footer><span>{String(scriptWriterLength).padStart(3, '0')} / {finalFilmScript.length}</span><button type="button" onClick={() => setScriptWriterLength(0)}>{fr ? 'RECOMMENCER' : 'REPLAY'} ↺</button></footer></section></div>, document.body)}
           {filmMediaOpen && typeof document !== 'undefined' && createPortal(<div className={styles.filmCinemaVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Référence agrandie' : 'Expanded reference'} onMouseDown={event => { if (event.target === event.currentTarget) setFilmMediaOpen(null); }}><section className={styles.filmCinema}><header><span>{filmMediaOpen.owner.toUpperCase()} · {fr ? 'RÉFÉRENCE' : 'REFERENCE'}</span><button type="button" onClick={() => setFilmMediaOpen(null)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header>{isFilmVideo(filmMediaOpen.image_data) ? <video src={filmMediaOpen.image_data} controls autoPlay playsInline /> : <img src={filmMediaOpen.image_data} alt={filmMediaOpen.caption || ''} />} {filmMediaOpen.caption && <p>{filmMediaOpen.caption}</p>}</section></div>, document.body)}
         </section>
-      ) : step === 'brief' && photoshootOnly ? (
+      ) : step === 'brief' && photoshootProject ? (
         <section className={styles.projectRoom} aria-labelledby="client-title">
           <div className={styles.projectRoomSlideshow} aria-hidden="true">
             <span /><span /><span /><span />
           </div>
           <div className={styles.projectRoomHeader}>
-            <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROMA' : 'Back to CHROMA'}</button>
+            <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROME' : 'Back to CHROME'}</button>
+            {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i>↗</i></button>}
           </div>
 
           <div className={styles.projectRoomHero}>
             <p className={styles.projectRoomWelcome}>GRACE IN MOTION</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROMA</h1>
+            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROME</h1>
             <div className={styles.projectRoomMeta}>
               <span className={styles.projectRoomCredits}><span><b>ARTIST</b><strong>JAMES D PARKHILL</strong></span><span><b>{fr ? 'PRODUCTEUR' : 'PRODUCER'}</b><strong>STUDIO SANCH</strong></span></span>
               <span className={styles.projectRoomStatus}><i aria-hidden="true" /><span><b>{fr ? 'PRÉPRODUCTION' : 'PRE-PRODUCTION'}</b><small>{fr ? 'ÉTAPE 01' : 'STAGE 01'}</small></span></span>
@@ -991,7 +1066,7 @@ export default function ClientSpace() {
             <div className={styles.productionRhythm}>
               <div>
                 <p>{fr ? 'ÉTAPE FINALE' : 'FINAL STEP'}</p>
-                <h3>{fr ? 'Définissez le rythme de prise de vue.' : 'Set the shooting rhythm.'}</h3>
+                <h3>{fr ? 'Définissez le rythme de prise de vue.' : 'Calibrate the production framework.'}</h3>
               </div>
               <div className={styles.shootPlan}>
                 <label>{fr ? 'Images par jour de prise de vue' : 'Frames per shooting day'}
@@ -1016,13 +1091,35 @@ export default function ClientSpace() {
               <div className={styles.frameBriefBody}>
                 <nav aria-label={fr ? 'Sections du brief' : 'Brief sections'}>{frameBriefTabs.map(tab => <button type="button" key={tab.key} aria-pressed={frameBriefTab === tab.key} onClick={() => setFrameBriefTab(tab.key)}><span>{fr ? tab.fr : tab.en}</span><i>{frameBriefDraft[tab.key].trim() ? '●' : '○'}</i></button>)}</nav>
                 <div className={styles.frameBriefEditor}>
-                  <div className={styles.frameBriefVisualChoice}><label htmlFor="frame-visual-type">{fr ? 'TYPE DE VISUEL' : 'VISUAL TYPE'}</label><select id="frame-visual-type" value={frames[frameBriefOpen].visual} onChange={event => updateFrame(frameBriefOpen, 'visual', event.target.value)}>{visualOptions.map(value => <option key={value}>{value}</option>)}</select></div>
+                  <div className={styles.frameBriefVisualChoice}>
+                    <span id="frame-visual-type-label">{fr ? 'TYPE DE VISUEL' : 'VISUAL TYPE'}</span>
+                    <div className={`${styles.frameBriefVisualPicker} ${visualTypeOpen ? styles.frameBriefVisualPickerOpen : ''}`}>
+                      <button type="button" aria-labelledby="frame-visual-type-label frame-visual-type-value" aria-haspopup="listbox" aria-expanded={visualTypeOpen} onClick={() => setVisualTypeOpen(open => !open)}><span id="frame-visual-type-value">{frames[frameBriefOpen].visual}</span><i aria-hidden="true" /></button>
+                      <div className={styles.frameBriefVisualMenu} role="listbox" aria-labelledby="frame-visual-type-label" aria-hidden={!visualTypeOpen}>
+                        {visualOptions.map(value => <button type="button" role="option" aria-selected={frames[frameBriefOpen].visual === value} tabIndex={visualTypeOpen ? 0 : -1} key={value} onClick={() => { updateFrame(frameBriefOpen, 'visual', value); setVisualTypeOpen(false); }}><span>{value}</span><i aria-hidden="true" /></button>)}
+                      </div>
+                    </div>
+                  </div>
                   <p>{fr ? frameBriefTabs.find(tab => tab.key === frameBriefTab)?.promptFr : frameBriefTabs.find(tab => tab.key === frameBriefTab)?.prompt}</p>
                   <textarea autoFocus value={frameBriefDraft[frameBriefTab]} onChange={event => setFrameBriefDraft(current => ({ ...current, [frameBriefTab]: event.target.value }))} maxLength={1800} placeholder={fr ? 'Commencez par ce que vous voyez…' : 'Begin with what you see…'} />
                   <small>{frameBriefDraft[frameBriefTab].length} / 1800</small>
                 </div>
               </div>
-              <footer><p>{frameBriefStatus || (fr ? 'Chaque section sera composée au sein d’un même brief partagé.' : 'Every section will be composed within one shared brief.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
+              <footer><p>{frameBriefStatus || (fr ? 'De la vision à la précision.' : 'From vision to precision.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
+            </section>
+          </div>, document.body)}
+          {hourLogOpen && typeof document !== 'undefined' && createPortal(<div className={styles.hourLogVeil} role="dialog" aria-modal="true" aria-labelledby="hour-log-title" onMouseDown={event => { if (event.target === event.currentTarget) setHourLogOpen(false); }}>
+            <section className={styles.hourLogModal}>
+              <header><div><p>GRACE IN MOTION · PRODUCTION</p><h2 id="hour-log-title">Carnet de Production</h2></div><button type="button" onClick={() => setHourLogOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>×</button></header>
+              <div className={styles.hourLogBody}>
+                <aside><small>{fr ? 'TEMPS DE PRODUCTION' : 'PRODUCTION TIME'}</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}<i>H</i></strong><p>{fr ? 'Un registre précis du temps consacré à la direction créative et à la préproduction.' : 'A precise record of time devoted to creative direction and pre-production.'}</p></aside>
+                {currentUsername.toLowerCase() === 'sanchit' ? <form onSubmit={addHourLog} noValidate>
+                  <div className={styles.hourLogTimeFields}><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" value={hourLogDraft.date} onChange={event => { setHourLogDraft(current => ({ ...current, date: event.target.value })); setHourLogStatus(''); }} /></label><label>{fr ? 'HEURE DE DÉBUT' : 'START TIME'}<input type="text" inputMode="numeric" autoComplete="off" maxLength={5} placeholder="09:00" value={hourLogDraft.startTime} onChange={event => updateHourLogTime('startTime', event.target.value)} /></label><label>{fr ? 'HEURE DE FIN' : 'CLOSING TIME'}<input type="text" inputMode="numeric" autoComplete="off" maxLength={5} placeholder="18:00" value={hourLogDraft.endTime} onChange={event => updateHourLogTime('endTime', event.target.value)} /></label></div>
+                  <label>{fr ? 'NOTE DE PRODUCTION' : 'PRODUCTION NOTE'}<textarea required maxLength={1800} rows={5} placeholder={fr ? 'Direction, préparation, coordination, recherche…' : 'Direction, preparation, coordination, research…'} value={hourLogDraft.note} onChange={event => setHourLogDraft(current => ({ ...current, note: event.target.value }))} /></label>
+                  <footer><span role="status">{hourLogStatus}</span><button type="submit">{fr ? 'AJOUTER AU REGISTRE' : 'ADD TO LOG'} <i>→</i></button></footer>
+                </form> : <div className={styles.hourLogReadOnly}><small>{fr ? 'REGARD PRODUCTION' : 'PRODUCTION VIEW'}</small><h3>{fr ? 'Le temps derrière chaque image.' : 'The time behind every frame.'}</h3><p>{fr ? 'Dates, heures et notes de production consignées par Studio Sanch.' : 'Dates, hours and production notes recorded by Studio Sanch.'}</p></div>}
+              </div>
+              {hourLogs.length > 0 && <div className={styles.hourLogEntries}>{hourLogs.map(entry => <article key={entry.id}><div><time dateTime={entry.work_date}>{new Date(`${entry.work_date}T12:00:00`).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</time>{entry.start_time && entry.end_time && <small>{entry.start_time} — {entry.end_time}</small>}</div><strong>{Number(entry.hours).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong><p>{entry.note}</p>{currentUsername.toLowerCase() === 'sanchit' && <button type="button" onClick={() => void deleteHourLog(entry.id)} aria-label={fr ? 'Supprimer cette entrée' : 'Remove this entry'}>×</button>}</article>)}</div>}
             </section>
           </div>, document.body)}
           </>}
