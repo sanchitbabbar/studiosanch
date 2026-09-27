@@ -49,10 +49,20 @@ type FilmIdea = { id: string; author: string; kind: string; body: string; create
 type FilmInspiration = { id: string; author: string; owner: keyof FilmRoles; caption: string; image_data: string; selected: number; created_at: number; yes_count: number; no_count: number; my_vote: 'yes' | 'no' | null };
 type FilmGear = { alex: string; benjamin: string };
 function FilmActionArrow() { return <svg className={styles.filmActionArrow} viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 14 14 2M7 2h7v7" /></svg>; }
+function ScoutNavigationMark() { return <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M25 16H7m0 0 7-7m-7 7 7 7" /></svg>; }
 type FilmRoles = { alex: string[]; benjamin: string[] };
 type FilmQuestions = { alex: string; benjamin: string; sanchit: string };
 const filmQuestionOwners = ['benjamin', 'alex', 'sanchit'] as const;
 type FilmLocation = { id: string; author: string; owner: keyof FilmRoles; idea: string; image_data: string; created_at: number };
+const benjaminScout = [
+  { fr: 'Rue Caulaincourt et entrée du cimetière de Montmartre', en: 'Rue Caulaincourt and Montmartre Cemetery entrance', count: 8 },
+  { fr: 'Voies ferrées près de la station Rome', en: 'Railway tracks near Rome station', count: 8 },
+  { fr: 'Entrée de la gare Saint-Lazare', en: 'Saint-Lazare station entrance', count: 3 },
+  { fr: 'Église de la Madeleine', en: 'Madeleine Church', count: 5 },
+  { fr: 'Concorde et jardin des Tuileries', en: 'Concorde and Tuileries Garden', count: 4 },
+  { fr: 'Berges de Seine et ponts', en: 'Seine riverbanks and bridges', count: 8 },
+];
+const scoutPhoto = (place: number, photo: number) => `/film-reperages-benjamin/${String(place + 1).padStart(2, '0')}-${String(photo + 1).padStart(2, '0')}.webp`;
 const MAX_SOURCE_IMAGE_BYTES = 100_000_000;
 const MAX_STORED_IMAGE_CHARS = 1_850_000;
 const TARGET_STORED_IMAGE_CHARS = 1_800_000;
@@ -93,6 +103,22 @@ Et l’un s’efface, sans bruit, comme on se retire de la lumière, sans en tro
 Pour que le chemin n’ait jamais le goût du regret,
 
 L’on trace alors l’encre sur le papier, afin que le destin s’y guide et s’y déploie jusqu’à s’écrire de lui-même.`;
+const englishScriptLeft = [
+  'The steps no longer lead to the shelter of habit,',
+  'For the heart recoils from masks.',
+  'The trail remains, with a force that silence cannot consume.',
+  'Truth is too sovereign to feign indifference.',
+  'A belief has risen, like a veil of mist suspended between the hours.',
+  'An invisible curtain that preserves the harmony of time and forbids any alteration.',
+  'And one withdraws, without a sound, as one steps out of the light without disturbing its breath.',
+];
+const englishScriptRight = [
+  'So that the path may never taste of regret,',
+  'We then set ink to paper, so that destiny may find its way and unfold until it writes itself.',
+];
+function EnglishScriptVisual() {
+  return <div className={styles.filmScriptEnglish} role="img" aria-label="English translation of the final film script on an open notebook"><div className={styles.filmScriptEnglishPages}><div>{englishScriptLeft.map(line => <p key={line}>{line}</p>)}</div><div>{englishScriptRight.map(line => <p key={line}>{line}</p>)}</div></div></div>;
+}
 
 export default function ClientSpace() {
   const { language, setLanguage } = useLanguage();
@@ -117,6 +143,11 @@ export default function ClientSpace() {
   const [filmInspirationDrafts, setFilmInspirationDrafts] = useState<Record<keyof FilmRoles, FilmLocationDraft[]>>({ alex: [{ idea: '', image: '' }], benjamin: [{ idea: '', image: '' }] });
   const [filmUploadStatus, setFilmUploadStatus] = useState<Record<keyof FilmRoles, string>>({ alex: '', benjamin: '' });
   const [scriptOpen, setScriptOpen] = useState(false);
+  const [scriptLanguage, setScriptLanguage] = useState<'fr' | 'en'>('fr');
+  const [scoutDocumentOpen, setScoutDocumentOpen] = useState(false);
+  const [scoutDocumentLanguage, setScoutDocumentLanguage] = useState<'fr' | 'en'>('fr');
+  const [scoutImageOpen, setScoutImageOpen] = useState<{ src: string; label: string; placeIndex?: number; photoIndex?: number } | null>(null);
+  const scoutSwipeStart = useRef<{ x: number; y: number } | null>(null);
   const [scriptWriterOpen, setScriptWriterOpen] = useState(false);
   const [scriptWriterLength, setScriptWriterLength] = useState(0);
   const scriptWriterPageRef = useRef<HTMLDivElement>(null);
@@ -155,12 +186,27 @@ export default function ClientSpace() {
   }, []);
   useEffect(() => () => { if (noticeTimer.current) clearTimeout(noticeTimer.current); }, []);
   useEffect(() => {
-    if (!scriptOpen && !scriptWriterOpen && !filmMediaOpen) return;
-    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') { setScriptOpen(false); setScriptWriterOpen(false); setFilmMediaOpen(null); } };
-    document.addEventListener('keydown', closeOnEscape);
+    if (!scriptOpen && !scriptWriterOpen && !filmMediaOpen && !scoutDocumentOpen && !scoutImageOpen) return;
+    const handleModalKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') { setScriptOpen(false); setScriptWriterOpen(false); setFilmMediaOpen(null); setScoutDocumentOpen(false); setScoutImageOpen(null); }
+      if (scoutImageOpen?.placeIndex !== undefined && (event.key === 'ArrowLeft' || event.key === 'ArrowRight')) {
+        event.preventDefault();
+        moveScoutImage(event.key === 'ArrowRight' ? 1 : -1);
+      }
+    };
+    document.addEventListener('keydown', handleModalKey);
     document.body.style.overflow = 'hidden';
-    return () => { document.removeEventListener('keydown', closeOnEscape); document.body.style.overflow = ''; };
-  }, [scriptOpen, scriptWriterOpen, filmMediaOpen]);
+    return () => { document.removeEventListener('keydown', handleModalKey); document.body.style.overflow = ''; };
+  }, [scriptOpen, scriptWriterOpen, filmMediaOpen, scoutDocumentOpen, scoutImageOpen]);
+  function moveScoutImage(direction: -1 | 1) {
+    setScoutImageOpen(current => {
+      if (current?.placeIndex === undefined || current.photoIndex === undefined) return current;
+      const place = benjaminScout[current.placeIndex];
+      const next = current.photoIndex + direction;
+      if (next < 0 || next >= place.count) return current;
+      return { placeIndex: current.placeIndex, photoIndex: next, src: scoutPhoto(current.placeIndex, next), label: `${fr ? place.fr : place.en} · ${next + 1}/${place.count}` };
+    });
+  }
   useEffect(() => {
     if (!scriptWriterOpen || scriptWriterLength >= finalFilmScript.length) return;
     const timer = window.setTimeout(() => setScriptWriterLength(length => Math.min(length + 1, finalFilmScript.length)), finalFilmScript[scriptWriterLength] === '\n' ? 115 : 34);
@@ -765,8 +811,12 @@ export default function ClientSpace() {
           </section>
           <section className={`${styles.filmLocations} ${filmLocations.length === 0 ? styles.filmLocationsEmptyState : ''}`}>
             <header><div><p className={styles.filmLabel}>{fr ? 'LIEUX · DÉVELOPPEMENT' : 'LOCATIONS · DEVELOPMENT'}</p><h2>{fr ? 'Étude atmosphérique' : 'Atmospheric Survey'}</h2></div><span>{filmLocations.length.toString().padStart(2, '0')}</span></header>
-            <div className={styles.filmLocationColumns}>{(['benjamin', 'alex'] as const).map(owner => { const firstNumber = filmLocations.filter(location => location.owner === owner).length + 1; return <div className={styles.filmLocationOwner} key={owner}><h3>{owner.toUpperCase()}</h3>{filmLocationDrafts[owner].map((draft, slot) => { const number = firstNumber + slot; return <form className={styles.filmLocationForm} key={slot} onSubmit={event => void addFilmLocation(event, owner, slot)}><label className={styles.filmLocationImage}>{draft.image ? <img src={draft.image} alt="" /> : <><i>＋</i><span>{fr ? 'IMAGE' : 'IMAGE'}</span></>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareLocationImage(file, owner, slot); }} /></label><div><label htmlFor={`location-idea-${owner}-${slot}`}>{fr ? `LIEU ${number} · IDÉE` : `LOCATION ${number} · IDEA`}</label><textarea id={`location-idea-${owner}-${slot}`} value={draft.idea} onChange={event => setFilmLocationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { ...item, idea: event.target.value } : item) }))} maxLength={800} required placeholder={fr ? 'Atmosphère, lumière, potentiel narratif…' : 'Atmosphere, light, narrative potential…'} /><footer><small>{filmLocationStatus[owner]}</small><button type="submit">{fr ? 'AJOUTER' : 'ADD'} <FilmActionArrow /></button></footer></div></form>; })}</div>; })}</div>
-            {filmLocations.length > 0 && <div className={styles.filmLocationGrid}>{filmLocations.map((location, index) => <article key={location.id}>{location.image_data ? <img src={location.image_data} alt="" /> : <div className={styles.filmLocationNoImage}><span>{String(index + 1).padStart(2, '0')}</span></div>}<div><small>{location.owner?.toUpperCase()} · {fr ? 'LIEU' : 'LOCATION'} {filmLocations.filter(item => item.owner === location.owner && item.created_at <= location.created_at).length}</small><p>{location.idea}</p><span>{location.author}</span></div></article>)}</div>}
+            <div className={styles.benjaminScout}>
+              <div className={styles.benjaminScoutHeading}><span>BENJAMIN · {fr ? 'REPÉRAGES DU 9 SEPTEMBRE 2026' : 'ATMOSPHERIC SURVEY · 9 SEPTEMBER 2026'}</span><p>{fr ? 'Six lieux · 36 images · Jour 1' : 'Six locations · 36 images · Day 1'}</p></div>
+              {benjaminScout.map((place, placeIndex) => <section key={place.fr} className={styles.benjaminScoutPlace}><header><span>{String(placeIndex + 1).padStart(2, '0')}</span><h3>{fr ? place.fr : place.en}</h3><small>{place.count} {fr ? 'PHOTOS' : 'PHOTOS'}</small></header><div className={styles.benjaminScoutImages}>{Array.from({ length: place.count }, (_, photoIndex) => { const src = scoutPhoto(placeIndex, photoIndex); const label = `${fr ? place.fr : place.en} · ${photoIndex + 1}/${place.count}`; return <button type="button" key={src} onClick={() => setScoutImageOpen({ src, label, placeIndex, photoIndex })} aria-label={`${fr ? 'Agrandir' : 'Enlarge'} ${label}`}><img src={src} alt={label} loading="lazy" /><span>{String(placeIndex + 1).padStart(2, '0')}.{String(photoIndex + 1).padStart(2, '0')}</span></button>; })}</div></section>)}
+            </div>
+            <div className={styles.filmLocationColumns}>{(['alex'] as const).map(owner => { const firstNumber = filmLocations.filter(location => location.owner === owner).length + 1; return <div className={styles.filmLocationOwner} key={owner}><h3>{owner.toUpperCase()}</h3>{filmLocationDrafts[owner].map((draft, slot) => { const number = firstNumber + slot; return <form className={styles.filmLocationForm} key={slot} onSubmit={event => void addFilmLocation(event, owner, slot)}><label className={styles.filmLocationImage}>{draft.image ? <img src={draft.image} alt="" /> : <><i>＋</i><span>{fr ? 'IMAGE' : 'IMAGE'}</span></>}<input type="file" accept="image/jpeg,image/png,image/webp" onChange={event => { const file = event.target.files?.[0]; if (file) void prepareLocationImage(file, owner, slot); }} /></label><div><label htmlFor={`location-idea-${owner}-${slot}`}>{fr ? `LIEU ${number} · IDÉE` : `LOCATION ${number} · IDEA`}</label><textarea id={`location-idea-${owner}-${slot}`} value={draft.idea} onChange={event => setFilmLocationDrafts(current => ({ ...current, [owner]: current[owner].map((item, index) => index === slot ? { ...item, idea: event.target.value } : item) }))} maxLength={800} required placeholder={fr ? 'Atmosphère, lumière, potentiel narratif…' : 'Atmosphere, light, narrative potential…'} /><footer><small>{filmLocationStatus[owner]}</small><button type="submit">{fr ? 'AJOUTER' : 'ADD'} <FilmActionArrow /></button></footer></div></form>; })}</div>; })}</div>
+            {filmLocations.length > 0 && <div className={styles.filmLocationGrid}>{filmLocations.map((location, index) => <article key={location.id}>{location.image_data ? <button type="button" className={styles.filmLocationOpen} onClick={() => setScoutImageOpen({ src: location.image_data, label: location.idea })} aria-label={fr ? 'Agrandir cette image' : 'Enlarge this image'}><img src={location.image_data} alt={location.idea} /></button> : <div className={styles.filmLocationNoImage}><span>{String(index + 1).padStart(2, '0')}</span></div>}<div><small>{location.owner?.toUpperCase()} · {fr ? 'LIEU' : 'LOCATION'} {filmLocations.filter(item => item.owner === location.owner && item.created_at <= location.created_at).length}</small><p>{location.idea}</p><span>{location.author}</span></div></article>)}</div>}
           </section>
           <section className={styles.filmWelcome}>
             <p className={styles.filmLabel}>{fr ? 'AVANT LE CADRE' : 'BEFORE THE FRAME'}</p>
@@ -792,6 +842,25 @@ export default function ClientSpace() {
               <div>{filmQuestionOwners.map(owner => <article key={owner}><h4>{owner.toUpperCase()}</h4><small>{fr ? 'UNE QUESTION PAR LIGNE · ENTRÉE POUR EN AJOUTER UNE AUTRE' : 'ONE QUESTION PER LINE · PRESS RETURN TO ADD ANOTHER'}</small><textarea value={filmQuestions[owner]} onChange={event => setFilmQuestions(current => ({ ...current, [owner]: event.target.value }))} maxLength={2400} placeholder={fr ? 'Écrivez une question…' : 'Write a question…'} /><footer><small>{filmQuestionStatus[owner]}</small><button type="button" onClick={() => void saveFilmQuestions(owner)}>{fr ? 'ENREGISTRER' : 'SAVE'} <FilmActionArrow /></button></footer></article>)}</div>
             </div>
           </section>
+          <div className={styles.filmDocuments}>
+            <figure className={styles.filmScript}>
+              <figcaption>
+                <span>{fr ? 'SCRIPT FINALISÉ' : 'FINAL SCRIPT'}</span>
+                <div>
+                  <button type="button" onClick={() => setScriptLanguage(scriptLanguage === 'fr' ? 'en' : 'fr')}>
+                    {scriptLanguage === 'fr' ? (fr ? 'LIRE EN ANGLAIS' : 'READ IN ENGLISH') : (fr ? 'VOIR L’ORIGINAL' : 'VIEW ORIGINAL')}
+                    <FilmActionArrow />
+                  </button>
+                  <button type="button" onClick={() => { setScriptWriterLength(0); setScriptWriterOpen(true); }}>{fr ? 'ÉCRITURE' : 'SCRIPT MODE'} <FilmActionArrow /></button>
+                  <button type="button" onClick={() => setScriptOpen(true)}>{fr ? 'AGRANDIR' : 'ENLARGE'} <FilmActionArrow /></button>
+                </div>
+              </figcaption>
+              <button type="button" className={styles.filmScriptImage} onClick={() => setScriptOpen(true)} aria-label={fr ? 'Agrandir le script finalisé' : 'Enlarge the final script'}>
+                {scriptLanguage === 'fr' ? <img src="/images/fashion-film-start-final-script.jpg" alt="Script manuscrit finalisé du film" /> : <EnglishScriptVisual />}
+              </button>
+            </figure>
+            <section className={styles.filmScoutDocument}><div><span>BENJAMIN · {fr ? 'REPÉRAGES' : 'ATMOSPHERIC SURVEY'}</span><h3>{fr ? 'Document PDF' : 'PDF document'}</h3><p>{fr ? '36 images, parcours et approche de tournage.' : '36 images, route and filming approach.'}</p></div><button type="button" onClick={() => { setScoutDocumentLanguage(fr ? 'fr' : 'en'); setScoutDocumentOpen(true); }}>{fr ? 'VOIR LE DOCUMENT' : 'VIEW DOCUMENT'} <FilmActionArrow /></button></section>
+          </div>
           <div className={styles.filmBoardGrid}>
             <aside className={styles.filmDirection}>
               <dl>
@@ -799,7 +868,6 @@ export default function ClientSpace() {
                 <div><dt>{fr ? 'LIEU' : 'LOCATION'}</dt><dd>Paris</dd></div>
                 <div><dt>{fr ? 'DISTRIBUTION · FINALISÉE' : 'CAST · FINALIZED'}</dt><dd>{fr ? 'Acteur masculin · Sanchit Babbar' : 'Male Actor · Sanchit Babbar'}</dd></div>
               </dl>
-              <figure className={styles.filmScript}><figcaption><span>{fr ? 'SCRIPT FINALISÉ' : 'FINAL SCRIPT'}</span><div><button type="button" onClick={() => { setScriptWriterLength(0); setScriptWriterOpen(true); }}>{fr ? 'ÉCRITURE' : 'SCRIPT MODE'} <FilmActionArrow /></button><button type="button" onClick={() => setScriptOpen(true)}>{fr ? 'AGRANDIR' : 'ENLARGE'} <FilmActionArrow /></button></div></figcaption><button type="button" className={styles.filmScriptImage} onClick={() => setScriptOpen(true)} aria-label={fr ? 'Agrandir le script finalisé' : 'Enlarge the final script'}><img src="/images/fashion-film-start-final-script.jpg" alt={fr ? 'Script manuscrit finalisé du film' : 'Final handwritten film script'} /></button></figure>
             </aside>
             <div className={styles.filmConversation}>
               <div className={styles.filmTextIdeas}>
@@ -817,7 +885,25 @@ export default function ClientSpace() {
             <span><small>{fr ? 'CONTINUER VERS' : 'CONTINUE TO'}</small>02 · STORYBOARD</span><i aria-hidden="true"><b /></i>
           </button>
           </> : <section className={styles.filmStoryboard}><header><p className={styles.filmLabel}>{fr ? 'PAGE 02 · SÉLECTION FINALE' : 'PAGE 02 · FINAL SELECTION'}</p><h2>{fr ? 'Le storyboard commence ici.' : 'The storyboard begins here.'}</h2><p>{fr ? 'Seules les références choisies depuis le studio ouvert apparaissent sur cette page.' : 'Only references selected in the open studio appear on this page.'}</p></header><div>{filmInspirations.filter(item => item.selected).map((item, index) => <article key={item.id}><span>{String(index + 1).padStart(2, '0')}</span>{item.image_data.startsWith('data:video/') ? <video src={item.image_data} controls playsInline preload="metadata" /> : <img src={item.image_data} alt={item.caption} />}<p>{item.caption}</p><small>{item.author}</small></article>)}{!filmInspirations.some(item => item.selected) && <p className={styles.filmStoryboardEmpty}>{fr ? 'La première image attend.' : 'The first frame awaits.'}</p>}</div></section>}
-          {scriptOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptLightbox} role="dialog" aria-modal="true" aria-label={fr ? 'Script finalisé agrandi' : 'Enlarged final script'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptOpen(false); }}><div><header><span>{fr ? 'SCRIPT FINALISÉ' : 'FINAL SCRIPT'}</span><button type="button" onClick={() => setScriptOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>{fr ? 'FERMER' : 'CLOSE'} <i aria-hidden="true">×</i></button></header><img src="/images/fashion-film-start-final-script.jpg" alt={fr ? 'Script manuscrit finalisé du film' : 'Final handwritten film script'} /></div></div>, document.body)}
+          {scriptOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptLightbox} role="dialog" aria-modal="true" aria-label={fr ? 'Script finalisé agrandi' : 'Enlarged final script'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptOpen(false); }}><div><header><span>{fr ? 'SCRIPT FINALISÉ' : 'FINAL SCRIPT'}</span><nav className={styles.scriptLanguageSwitch} aria-label={fr ? 'Langue du script' : 'Script language'}><button type="button" className={scriptLanguage === 'fr' ? styles.scriptLanguageActive : ''} onClick={() => setScriptLanguage('fr')}>FR</button><button type="button" className={scriptLanguage === 'en' ? styles.scriptLanguageActive : ''} onClick={() => setScriptLanguage('en')}>EN</button></nav><button type="button" onClick={() => setScriptOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>{fr ? 'FERMER' : 'CLOSE'} <i aria-hidden="true">×</i></button></header>{scriptLanguage === 'fr' ? <img src="/images/fashion-film-start-final-script.jpg" alt="Script manuscrit finalisé du film" /> : <EnglishScriptVisual />}</div></div>, document.body)}
+          {scoutDocumentOpen && typeof document !== 'undefined' && createPortal(
+            <div className={styles.scoutDocumentVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Repérages de Benjamin' : 'Benjamin atmospheric survey'} onMouseDown={event => { if (event.target === event.currentTarget) setScoutDocumentOpen(false); }}>
+              <div className={styles.scoutDocumentWindow}>
+                <header>
+                  <span>BENJAMIN · {fr ? 'REPÉRAGES' : 'ATMOSPHERIC SURVEY'}</span>
+                  <nav aria-label={fr ? 'Langue du document' : 'Document language'}>
+                    <button type="button" className={scoutDocumentLanguage === 'fr' ? styles.scoutLanguageActive : ''} onClick={() => setScoutDocumentLanguage('fr')}>FR</button>
+                    <button type="button" className={scoutDocumentLanguage === 'en' ? styles.scoutLanguageActive : ''} onClick={() => setScoutDocumentLanguage('en')}>EN</button>
+                  </nav>
+                  <button type="button" onClick={() => setScoutDocumentOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button>
+                </header>
+                <div className={styles.scoutDocumentPages} key={scoutDocumentLanguage}>
+                  {Array.from({ length: 11 }, (_, index) => <img key={index} src={`/film-reperages-benjamin/page-${scoutDocumentLanguage}-${String(index + 1).padStart(2, '0')}.jpg`} alt={`${scoutDocumentLanguage === 'fr' ? 'Repérages de Benjamin' : 'Benjamin atmospheric survey'} · ${fr ? 'page' : 'page'} ${index + 1}/11`} loading={index === 0 ? 'eager' : 'lazy'} />)}
+                </div>
+                <footer><a href={scoutDocumentLanguage === 'fr' ? '/film-reperages-benjamin/reperages-benjamin-fr.pdf' : '/film-reperages-benjamin/benjamin-atmospheric-survey-en.pdf'} download>{fr ? 'TÉLÉCHARGER LE PDF' : 'DOWNLOAD PDF'} ↓</a></footer>
+              </div>
+            </div>, document.body)}
+          {scoutImageOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scoutImageVeil} role="dialog" aria-modal="true" aria-label={scoutImageOpen.label} onMouseDown={event => { if (event.target === event.currentTarget) setScoutImageOpen(null); }}><div><header><span>{scoutImageOpen.label}</span><button type="button" onClick={() => setScoutImageOpen(null)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div className={styles.scoutImageStage} onTouchStart={event => { scoutSwipeStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }} onTouchEnd={event => { const start = scoutSwipeStart.current; scoutSwipeStart.current = null; if (!start) return; const deltaX = event.changedTouches[0].clientX - start.x; const deltaY = event.changedTouches[0].clientY - start.y; if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) moveScoutImage(deltaX < 0 ? 1 : -1); }}><img key={scoutImageOpen.src} src={scoutImageOpen.src} alt={scoutImageOpen.label} />{scoutImageOpen.placeIndex !== undefined && scoutImageOpen.photoIndex !== undefined && <><button type="button" className={`${styles.scoutImageArrow} ${styles.scoutImagePrevious}`} onClick={() => moveScoutImage(-1)} disabled={scoutImageOpen.photoIndex === 0} aria-label={fr ? 'Photo précédente' : 'Previous photo'}><ScoutNavigationMark /></button><button type="button" className={`${styles.scoutImageArrow} ${styles.scoutImageNext}`} onClick={() => moveScoutImage(1)} disabled={scoutImageOpen.photoIndex === benjaminScout[scoutImageOpen.placeIndex].count - 1} aria-label={fr ? 'Photo suivante' : 'Next photo'}><ScoutNavigationMark /></button></>}</div></div></div>, document.body)}
           {scriptWriterOpen && typeof document !== 'undefined' && createPortal(<div className={styles.scriptWriterVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Script en cours d’écriture' : 'Script writing mode'} onMouseDown={event => { if (event.target === event.currentTarget) setScriptWriterOpen(false); }}><section className={styles.scriptWriter}><header><span>01 · {fr ? 'ÉCRITURE' : 'WRITING ROOM'}</span><button type="button" onClick={() => setScriptWriterOpen(false)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header><div ref={scriptWriterPageRef} className={styles.scriptWriterPage}><p>{finalFilmScript.slice(0, scriptWriterLength)}<i aria-hidden="true" /></p></div><footer><span>{String(scriptWriterLength).padStart(3, '0')} / {finalFilmScript.length}</span><button type="button" onClick={() => setScriptWriterLength(0)}>{fr ? 'RECOMMENCER' : 'REPLAY'} ↺</button></footer></section></div>, document.body)}
           {filmMediaOpen && typeof document !== 'undefined' && createPortal(<div className={styles.filmCinemaVeil} role="dialog" aria-modal="true" aria-label={fr ? 'Référence agrandie' : 'Expanded reference'} onMouseDown={event => { if (event.target === event.currentTarget) setFilmMediaOpen(null); }}><section className={styles.filmCinema}><header><span>{filmMediaOpen.owner.toUpperCase()} · {fr ? 'RÉFÉRENCE' : 'REFERENCE'}</span><button type="button" onClick={() => setFilmMediaOpen(null)}>{fr ? 'FERMER' : 'CLOSE'} ×</button></header>{isFilmVideo(filmMediaOpen.image_data) ? <video src={filmMediaOpen.image_data} controls autoPlay playsInline /> : <img src={filmMediaOpen.image_data} alt={filmMediaOpen.caption || ''} />} {filmMediaOpen.caption && <p>{filmMediaOpen.caption}</p>}</section></div>, document.body)}
         </section>
@@ -947,7 +1033,7 @@ export default function ClientSpace() {
           <form onSubmit={prepareEmail} className={styles.form}>
             <p className={styles.formNote}>{fr ? '* Champs requis' : '* Required fields'}</p>
             <div className={styles.fields}>{([
-              ['name', fr ? 'Votre nom' : 'Your name', 'name'], ['email', fr ? 'Votre adresse e-mail' : 'Your email', 'email'], ['organisation', fr ? 'Maison / organisation' : 'House / organisation', 'organization'], ['location', fr ? 'Lieu envisagé' : 'Envisaged location', 'off'], ['timing', fr ? 'Calendrier envisagé' : 'Envisaged timing', 'off'],
+              ['name', fr ? 'Votre nom' : 'Your name', 'name'], ['email', fr ? 'Votre adresse e-mail' : 'Your email', 'email'], ['organisation', fr ? 'Maison / organisation' : 'House / organisation', 'organization'], ['location', fr ? 'Lieu envisagé' : 'Envisioned location', 'off'], ['timing', fr ? 'Calendrier envisagé' : 'Envisioned timing', 'off'],
             ] as const).map(([key, label, autocomplete]) => <label key={key}>{label}{(key === 'name' || key === 'email') && ' *'}<input name={key} type={key === 'email' ? 'email' : 'text'} autoComplete={autocomplete} required={key === 'name' || key === 'email'} maxLength={150} value={draft[key]} onChange={e => { setPrepared(false); setDraft({ ...draft, [key]: e.target.value }); }} /></label>)}</div>
             <label>{fr ? 'Racontez-nous votre idée' : 'Tell us about your idea'} *<textarea name="vision" required maxLength={1500} rows={4} value={draft.vision} onChange={e => { setPrepared(false); setDraft({ ...draft, vision: e.target.value }); }} placeholder={fr ? 'Une atmosphère, une histoire, une ambition…' : 'An atmosphere, a story, an ambition…'} /></label>
             <p className={styles.formNote}>{fr ? 'Votre messagerie s’ouvrira avec votre brief. Rien n’est envoyé ni enregistré sur ce site.' : 'Your email app will open with your brief. Nothing is sent or saved on this site.'}</p>

@@ -91,6 +91,19 @@ async function openSession(request: Request, db: D1Database): Promise<{ session:
   await db.prepare('INSERT INTO client_sessions(token_hash, csrf, created_at, last_seen, expires_at) VALUES (?, ?, ?, ?, ?)').bind(tokenHash, csrf, now, now, now + SESSION_ABSOLUTE).run();
   return { session: { tokenHash, csrf, user: null }, cookie: freshToken };
 }
+export async function isFilmClientAuthorized(request: Request, db: D1Database): Promise<boolean> {
+  const token = cookieValue(request);
+  if (!token) return false;
+  const now = Math.floor(Date.now() / 1000);
+  const row = await db.prepare(`SELECT s.created_at, s.last_seen, s.expires_at, s.session_version,
+    a.status, a.session_version AS current_version, a.project_access
+    FROM client_sessions s JOIN client_accounts a ON a.id = s.account_id
+    WHERE s.token_hash = ?`).bind(await sha256(token)).first<Record<string, unknown>>();
+  return Boolean(row && Number(row.expires_at) > now && now - Number(row.last_seen) <= SESSION_IDLE &&
+    now - Number(row.created_at) <= SESSION_ABSOLUTE && row.status === 'active' &&
+    Number(row.session_version) === Number(row.current_version) &&
+    parseProjectAccess(row.project_access).includes('film'));
+}
 async function rotateSession(db: D1Database, oldHash: string, account?: Account): Promise<{ session: Session; cookie: string }> {
   const now = Math.floor(Date.now() / 1000); const token = randomHex(32); const tokenHash = await sha256(token); const csrf = randomHex(32);
   await db.batch([
