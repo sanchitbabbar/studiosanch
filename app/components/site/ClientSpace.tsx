@@ -205,6 +205,7 @@ export default function ClientSpace() {
   const [frameBriefs, setFrameBriefs] = useState<Record<number, FrameBrief>>({});
   const [frameBriefOpen, setFrameBriefOpen] = useState<number | null>(null);
   const [frameBriefClosing, setFrameBriefClosing] = useState(false);
+  const [visualTypeOpen, setVisualTypeOpen] = useState(false);
   const [frameBriefTab, setFrameBriefTab] = useState<FrameBriefTab>('vision');
   const [frameBriefDraft, setFrameBriefDraft] = useState<FrameBrief>(emptyFrameBrief);
   const [frameBriefStatus, setFrameBriefStatus] = useState('');
@@ -302,12 +303,13 @@ export default function ClientSpace() {
   }, [frameBriefOpen]);
   function closeFrameBrief() {
     if (frameBriefClosing || frameBriefOpen === null) return;
+    setVisualTypeOpen(false);
     setFrameBriefClosing(true);
     window.setTimeout(() => { setFrameBriefOpen(null); setFrameBriefClosing(false); }, 420);
   }
   function openFrameBrief(index: number) {
     setFrameBriefDraft({ ...emptyFrameBrief, ...(frameBriefs[index] || {}) });
-    setFrameBriefTab('vision'); setFrameBriefStatus(''); setFrameBriefClosing(false); setFrameBriefOpen(index);
+    setFrameBriefTab('vision'); setFrameBriefStatus(''); setFrameBriefClosing(false); setVisualTypeOpen(false); setFrameBriefOpen(index);
   }
   async function saveFrameBrief() {
     if (frameBriefOpen === null) return;
@@ -930,7 +932,15 @@ export default function ClientSpace() {
               <div className={styles.frameBriefBody}>
                 <nav aria-label={fr ? 'Sections du brief' : 'Brief sections'}>{frameBriefTabs.map(tab => <button type="button" key={tab.key} aria-pressed={frameBriefTab === tab.key} onClick={() => setFrameBriefTab(tab.key)}><span>{fr ? tab.fr : tab.en}</span><i>{frameBriefDraft[tab.key].trim() ? '●' : '○'}</i></button>)}</nav>
                 <div className={styles.frameBriefEditor}>
-                  <div className={styles.frameBriefVisualChoice}><label htmlFor="frame-visual-type">{fr ? 'TYPE DE VISUEL' : 'VISUAL TYPE'}</label><select id="frame-visual-type" value={frames[frameBriefOpen].visual} onChange={event => updateFrame(frameBriefOpen, 'visual', event.target.value)}>{visualOptions.map(value => <option key={value}>{value}</option>)}</select></div>
+                  <div className={styles.frameBriefVisualChoice}>
+                    <span id="frame-visual-type-label">{fr ? 'TYPE DE VISUEL' : 'VISUAL TYPE'}</span>
+                    <div className={`${styles.frameBriefVisualPicker} ${visualTypeOpen ? styles.frameBriefVisualPickerOpen : ''}`}>
+                      <button type="button" aria-labelledby="frame-visual-type-label frame-visual-type-value" aria-haspopup="listbox" aria-expanded={visualTypeOpen} onClick={() => setVisualTypeOpen(open => !open)}><span id="frame-visual-type-value">{frames[frameBriefOpen].visual}</span><i aria-hidden="true" /></button>
+                      <div className={styles.frameBriefVisualMenu} role="listbox" aria-labelledby="frame-visual-type-label" aria-hidden={!visualTypeOpen}>
+                        {visualOptions.map(value => <button type="button" role="option" aria-selected={frames[frameBriefOpen].visual === value} tabIndex={visualTypeOpen ? 0 : -1} key={value} onClick={() => { updateFrame(frameBriefOpen, 'visual', value); setVisualTypeOpen(false); }}><span>{value}</span><i aria-hidden="true" /></button>)}
+                      </div>
+                    </div>
+                  </div>
                   <p>{fr ? frameBriefTabs.find(tab => tab.key === frameBriefTab)?.promptFr : frameBriefTabs.find(tab => tab.key === frameBriefTab)?.prompt}</p>
                   <textarea autoFocus value={frameBriefDraft[frameBriefTab]} onChange={event => setFrameBriefDraft(current => ({ ...current, [frameBriefTab]: event.target.value }))} maxLength={1800} placeholder={fr ? 'Commencez par ce que vous voyez…' : 'Begin with what you see…'} />
                   <small>{frameBriefDraft[frameBriefTab].length} / 1800</small>

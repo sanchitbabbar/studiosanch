@@ -244,8 +244,20 @@
 .frameBriefBody nav i { color: #ff5262; font-size: 10px; font-style: normal; }
 .frameBriefEditor { position: relative; display: flex; min-width: 0; flex-direction: column; padding: 30px 38px 34px; }
 .frameBriefVisualChoice { display: grid; grid-template-columns: 130px minmax(0, 1fr); align-items: center; gap: 18px; padding-bottom: 22px; border-bottom: 1px solid #ffffff1b; }
-.frameBriefVisualChoice label { color: #aeb1ba; font-size: 9px; font-weight: 600; letter-spacing: .14em; }
-.frameBriefVisualChoice select { width: 100%; border: 1px solid #ffffff30; border-radius: 10px; padding: 12px 16px; background: #08070b; color: #fff; font: 400 14px/1.4 'Montserrat', sans-serif; color-scheme: dark; }
+.frameBriefVisualChoice > span { color: #aeb1ba; font-size: 9px; font-weight: 600; letter-spacing: .14em; }
+.frameBriefVisualPicker { position: relative; z-index: 20; }
+.frameBriefVisualPicker > button { position: relative; display: flex; width: 100%; min-height: 46px; align-items: center; justify-content: space-between; padding: 12px 17px; border: 1px solid #ffffff30; border-radius: 10px; background: #08070b; color: #f2f0ec; font: 400 14px/1.4 'Montserrat', sans-serif; text-align: left; transition: border-color .35s ease, background-color .35s ease, box-shadow .35s ease; }
+.frameBriefVisualPicker > button:hover, .frameBriefVisualPicker > button:focus-visible, .frameBriefVisualPickerOpen > button { border-color: #ffffff66; outline: none; background: #0d0b11; box-shadow: 0 0 0 3px #ffffff08; }
+.frameBriefVisualPicker > button > i { width: 8px; height: 8px; flex: 0 0 auto; border-right: 1px solid #d8d5cf; border-bottom: 1px solid #d8d5cf; transform: translateY(-25%) rotate(45deg); transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
+.frameBriefVisualPickerOpen > button > i { transform: translateY(25%) rotate(225deg); }
+.frameBriefVisualMenu { position: absolute; z-index: 30; top: calc(100% + 8px); left: 0; width: 100%; max-height: 292px; overflow-y: auto; border: 1px solid #ffffff28; border-radius: 14px; background: #0a090ef5; box-shadow: 0 24px 64px #000c, inset 0 1px 0 #ffffff10; opacity: 0; visibility: hidden; pointer-events: none; backdrop-filter: blur(22px) saturate(.8); transform: translateY(-9px) scale(.985); transform-origin: top center; transition: opacity .4s cubic-bezier(.22, 1, .36, 1), transform .4s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .4s; }
+.frameBriefVisualPickerOpen .frameBriefVisualMenu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); transition-delay: 0s; }
+.frameBriefVisualMenu > button { display: flex; width: 100%; min-height: 42px; align-items: center; justify-content: space-between; gap: 18px; padding: 11px 16px; border: 0; border-bottom: 1px solid #ffffff0e; background: transparent; color: #c8c7cc; font: 400 13px/1.35 'Montserrat', sans-serif; text-align: left; transition: background-color .25s ease, color .25s ease; }
+.frameBriefVisualMenu > button:last-child { border-bottom: 0; }
+.frameBriefVisualMenu > button:hover, .frameBriefVisualMenu > button:focus-visible { outline: none; background: #ffffff0a; color: #fff; }
+.frameBriefVisualMenu > button > i { width: 5px; height: 5px; flex: 0 0 auto; border: 1px solid #ffffff38; border-radius: 50%; background: transparent; }
+.frameBriefVisualMenu > button[aria-selected='true'] { color: #fff; }
+.frameBriefVisualMenu > button[aria-selected='true'] > i { border-color: #e65467; background: #e65467; box-shadow: 0 0 0 4px #e6546718; }
 .frameBriefEditor > p { margin: 28px 0 18px; color: #d9dbe1; font-size: 15px; line-height: 1.65; }
 .frameBriefEditor textarea { flex: 1; min-height: 180px; resize: none; border: 1px solid #ffffff28; border-radius: 14px; padding: 20px; outline: none; background: #060509a8; color: #fff; font: 400 16px/1.75 'Montserrat', sans-serif; box-shadow: inset 0 1px 18px #0005; }
 .frameBriefEditor textarea:focus { border-color: #ff5262; box-shadow: inset 0 1px 18px #0005, 0 0 0 3px #ff405a18; }
@@ -952,7 +964,7 @@
   .frameBriefBody nav i { font-size: 8px; }
   .frameBriefEditor { min-height: 0; overflow-y: auto; padding: 20px 18px 24px; overscroll-behavior: contain; }
   .frameBriefVisualChoice { grid-template-columns: 1fr; gap: 9px; padding-bottom: 16px; }
-  .frameBriefVisualChoice select { min-height: 48px; font-size: 16px; }
+  .frameBriefVisualPicker > button { min-height: 48px; font-size: 16px; }
   .frameBriefEditor > p { margin: 18px 0 14px; font-size: 13px; line-height: 1.55; }
   .frameBriefEditor textarea { flex: 0 0 auto; min-height: 170px; padding: 16px; font-size: 16px; line-height: 1.55; }
   .frameBriefModal > footer { position: static; z-index: 2; min-height: 76px; align-items: center; flex-direction: row; padding: 12px 18px max(12px, env(safe-area-inset-bottom)); background: #050408fa; box-shadow: 0 -15px 35px #0009; }
