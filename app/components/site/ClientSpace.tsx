@@ -227,7 +227,7 @@ export default function ClientSpace() {
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
   const photoshootProject = project.slug === 'photoshoot' && projectAccess.includes('photoshoot');
-  const canViewHourLog = ['sanchit', 'james.parkhill.test'].includes(currentUsername.toLowerCase());
+  const canViewHourLog = ['sanchit', 'james.parkhill', 'james.parkhill.test'].includes(currentUsername.toLowerCase());
   const permittedNames = disciplines
     .filter(item => projectAccess.includes(item.slug))
     .map(item => fr ? item.fr : item.en)

@@ -140,7 +140,7 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
     const action = String(parsed.action || '');
     if (action === 'logout') { const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash); return reply(200, { user: null, csrf: rotated.session.csrf }, rotated.cookie); }
     if (action === 'list_hour_logs' || action === 'add_hour_log' || action === 'delete_hour_log') {
-      if (!session.user || !session.user.access.includes('photoshoot') || !['sanchit', 'james.parkhill.test'].includes(session.user.username.toLowerCase())) return fail(403, 'access_denied');
+      if (!session.user || !session.user.access.includes('photoshoot') || !['sanchit', 'james.parkhill', 'james.parkhill.test'].includes(session.user.username.toLowerCase())) return fail(403, 'access_denied');
       if (String(parsed.project || '') !== 'grace-in-motion') return fail(400, 'invalid_request');
       if (action === 'list_hour_logs') {
         const result = await env.CLIENT_DB.prepare('SELECT id, work_date, start_time, end_time, hours, note, created_at FROM client_project_hour_logs WHERE project_key = ? ORDER BY work_date DESC, created_at DESC LIMIT 500').bind('grace-in-motion').all();
