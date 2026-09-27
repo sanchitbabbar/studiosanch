@@ -274,7 +274,6 @@
 .hourLogEntries strong { color: #d3b887; font-size: 12px; font-weight: 500; }
 .hourLogEntries article p { margin: 0; color: #e2dee1; font-size: 11px; line-height: 1.7; white-space: pre-wrap; }
 .hourLogEntries article button { color: #8d898f; font-size: 18px; }
-.hourLogEmpty { margin: 0; padding: 28px 0 5px; border-top: 1px solid #ffffff18; color: #858189; font-size: 10px; letter-spacing: .1em; }
 .frameBriefModal { width: min(1040px, 100%); max-height: min(820px, calc(100svh - 56px)); overflow: hidden; border: 1px solid #ffffff38; border-radius: 28px; background: linear-gradient(145deg, #17151deF, #09080def); color: #fff; box-shadow: 0 40px 120px #000c, inset 0 1px 0 #ffffff14; }
 .frameBriefVeilClosing { pointer-events: none; animation: frameBriefVeilOut .42s cubic-bezier(.4, 0, .2, 1) both; }
 .frameBriefVeilClosing .frameBriefModal { animation: frameBriefModalOut .42s cubic-bezier(.4, 0, .2, 1) both; }
