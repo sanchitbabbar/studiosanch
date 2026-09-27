@@ -235,9 +235,10 @@
 .frameReviewBrief p { margin: 0; color: #d9dbe1; font-size: 13px; line-height: 1.75; white-space: pre-wrap; }
 .frameReviewBrief .frameReviewEmpty { color: #777b86; font-style: italic; }
 .frameReviewFooter { display: flex; justify-content: space-between; gap: 24px; padding-top: 34px; color: #aeb2bd; font-size: 9px; letter-spacing: .14em; }
-.frameBriefVeil { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 28px; background: #030207c7; backdrop-filter: blur(18px) saturate(.8); animation: arrive .35s ease both; }
-.hourLogVeil { position: fixed; z-index: 1100; inset: 0; display: grid; place-items: center; padding: 28px; background: #030207d9; backdrop-filter: blur(22px) saturate(.78); animation: arrive .35s ease both; }
-.hourLogModal { width: min(1040px, 100%); max-height: min(850px, calc(100svh - 56px)); overflow: auto; border: 1px solid #ffffff33; border-radius: 28px; background: linear-gradient(145deg, #17151def, #08070cef); color: #fff; box-shadow: 0 45px 140px #000d, inset 0 1px 0 #ffffff12; }
+.frameBriefVeil { position: fixed; z-index: 1000; isolation: isolate; inset: 0; display: grid; place-items: center; overflow: hidden; padding: 28px; background: linear-gradient(180deg, #050309ad, #020106c2), url('/images/chroma-raised-dance-stage-v5.webp') center 48% / cover; backdrop-filter: blur(12px) saturate(.9); animation: arrive .35s ease both; }
+.hourLogVeil { position: fixed; z-index: 1100; isolation: isolate; inset: 0; display: grid; place-items: center; overflow: hidden; padding: 28px; background: linear-gradient(180deg, #050309ad, #020106c2), url('/images/chroma-raised-dance-stage-v5.webp') center 48% / cover; backdrop-filter: blur(12px) saturate(.9); animation: arrive .35s ease both; }
+.frameBriefVeil::before, .hourLogVeil::before { content: ''; position: absolute; z-index: 0; inset: -12%; pointer-events: none; background: radial-gradient(circle at 8% 72%, #8e083c8f 0 8%, transparent 26%), radial-gradient(circle at 42% 35%, #b06b1857 0 10%, transparent 29%), radial-gradient(circle at 66% 58%, #754e075c 0 11%, transparent 31%), radial-gradient(circle at 86% 45%, #8d251f6b 0 9%, transparent 28%), radial-gradient(circle at 48% 88%, #21125475 0 10%, transparent 31%); filter: blur(52px) saturate(1.2); opacity: .82; }
+.hourLogModal { position: relative; z-index: 1; width: min(1040px, 100%); max-height: min(850px, calc(100svh - 56px)); overflow: auto; border: 1px solid #ffffff33; border-radius: 28px; background: linear-gradient(145deg, #17141dde, #08070cce); color: #fff; box-shadow: 0 45px 140px #000d, inset 0 1px 0 #ffffff12; backdrop-filter: blur(20px) saturate(1.08); }
 .hourLogModal > header { position: static; inset: auto; z-index: auto; display: flex; width: auto; height: auto; justify-content: space-between; align-items: flex-start; padding: 34px 38px 29px; border-bottom: 1px solid #ffffff1c; background: transparent; box-sizing: border-box; }
 .hourLogModal header p { margin: 0 0 11px; color: #c8a979; font-size: 9px; font-weight: 600; letter-spacing: .22em; }
 .hourLogModal header h2 { margin: 0; font-size: clamp(34px, 4vw, 54px); font-weight: 250; letter-spacing: -.045em; }
@@ -274,7 +275,7 @@
 .hourLogEntries strong { color: #d3b887; font-size: 12px; font-weight: 500; }
 .hourLogEntries article p { margin: 0; color: #e2dee1; font-size: 11px; line-height: 1.7; white-space: pre-wrap; }
 .hourLogEntries article button { color: #8d898f; font-size: 18px; }
-.frameBriefModal { width: min(1040px, 100%); max-height: min(820px, calc(100svh - 56px)); overflow: hidden; border: 1px solid #ffffff38; border-radius: 28px; background: linear-gradient(145deg, #17151deF, #09080def); color: #fff; box-shadow: 0 40px 120px #000c, inset 0 1px 0 #ffffff14; }
+.frameBriefModal { position: relative; z-index: 1; width: min(1040px, 100%); max-height: min(820px, calc(100svh - 56px)); overflow: hidden; border: 1px solid #ffffff38; border-radius: 28px; background: linear-gradient(145deg, #17141dde, #09080dce); color: #fff; box-shadow: 0 40px 120px #000c, inset 0 1px 0 #ffffff14; backdrop-filter: blur(20px) saturate(1.08); }
 .frameBriefVeilClosing { pointer-events: none; animation: frameBriefVeilOut .42s cubic-bezier(.4, 0, .2, 1) both; }
 .frameBriefVeilClosing .frameBriefModal { animation: frameBriefModalOut .42s cubic-bezier(.4, 0, .2, 1) both; }
 .frameBriefModal > header { display: flex; justify-content: space-between; align-items: flex-start; gap: 30px; padding: 34px 38px 28px; border-bottom: 1px solid #ffffff1d; }
