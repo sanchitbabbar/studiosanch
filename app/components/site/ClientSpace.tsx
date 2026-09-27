@@ -27,6 +27,7 @@ const frameDefaults = [
 type FramePlanItem = typeof frameDefaults[number];
 type FrameBrief = { vision: string; space: string; set: string; props: string; ambience: string; lighting: string; styling: string; hair: string; makeup: string };
 type FrameBriefTab = keyof FrameBrief;
+type HourLogEntry = { id: string; work_date: string; hours: number; note: string; created_at: number };
 const emptyFrameBrief: FrameBrief = { vision: '', space: '', set: '', props: '', ambience: '', lighting: '', styling: '', hair: '', makeup: '' };
 const frameBriefTabs: { key: FrameBriefTab; en: string; fr: string; prompt: string; promptFr: string }[] = [
   { key: 'vision', en: 'Vision', fr: 'Vision', prompt: 'Describe what you envision—and what you desire to capture.', promptFr: 'Décrivez ce que vous imaginez—et ce que vous souhaitez saisir.' },
@@ -103,6 +104,7 @@ export default function ClientSpace() {
   const [logoutError, setLogoutError] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const [projectAccess, setProjectAccess] = useState<ProjectAccess[]>([]);
+  const [currentUsername, setCurrentUsername] = useState('');
   const [accessNotice, setAccessNotice] = useState(false);
   const [restrictedSelection, setRestrictedSelection] = useState<ProjectAccess | null>(null);
   const [isPreview, setIsPreview] = useState(false);
@@ -144,6 +146,7 @@ export default function ClientSpace() {
       const requestedAccess = new URLSearchParams(window.location.search).get('access');
       const previewAccess = requestedAccess?.split(',').filter((item): item is ProjectAccess => allProjectAccess.includes(item as ProjectAccess)) || [];
       setProjectAccess(previewAccess.length ? previewAccess : allProjectAccess);
+      setCurrentUsername('sanchit');
       setStep('project');
       return;
     }
@@ -188,7 +191,7 @@ export default function ClientSpace() {
       const session = await clientAuth();
       await clientAuth({ action: 'logout' }, session.csrf);
       setDraft({ name: '', email: '', organisation: '', location: '', timing: '', vision: '' });
-      setProjectAccess([]); setPrepared(false); setStep('signin'); setLogoutError(false);
+      setProjectAccess([]); setCurrentUsername(''); setPrepared(false); setStep('signin'); setLogoutError(false);
     } catch { setLogoutError(true); }
     finally { setSigningOut(false); }
   }
@@ -209,6 +212,10 @@ export default function ClientSpace() {
   const [frameBriefTab, setFrameBriefTab] = useState<FrameBriefTab>('vision');
   const [frameBriefDraft, setFrameBriefDraft] = useState<FrameBrief>(emptyFrameBrief);
   const [frameBriefStatus, setFrameBriefStatus] = useState('');
+  const [hourLogOpen, setHourLogOpen] = useState(false);
+  const [hourLogs, setHourLogs] = useState<HourLogEntry[]>([]);
+  const [hourLogDraft, setHourLogDraft] = useState({ date: new Date().toISOString().slice(0, 10), hours: '', note: '' });
+  const [hourLogStatus, setHourLogStatus] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
   const openPhotoshootPlanOnEntry = useRef(false);
   const firstRender = useRef(true);
@@ -220,6 +227,7 @@ export default function ClientSpace() {
   const chooseLanguage = (value: 'en' | 'fr') => { setLanguage(value); setStep('signin'); };
   const project = disciplines[selected];
   const photoshootProject = project.slug === 'photoshoot' && projectAccess.includes('photoshoot');
+  const canViewHourLog = ['sanchit', 'james.parkhill.test'].includes(currentUsername.toLowerCase());
   const permittedNames = disciplines
     .filter(item => projectAccess.includes(item.slug))
     .map(item => fr ? item.fr : item.en)
@@ -233,7 +241,7 @@ export default function ClientSpace() {
     }, 7000);
   }
   useEffect(() => {
-    if (step !== 'brief' || !photoshootProject) return;
+    if (step !== 'brief' || !photoshootProject || !canViewHourLog) return;
     const load = async () => {
       if (isPreview) {
         const saved = window.localStorage.getItem('sanch-grace-in-motion-frame-briefs');
@@ -247,6 +255,22 @@ export default function ClientSpace() {
         for (const item of result.briefs || []) loaded[item.frame_index] = { ...emptyFrameBrief, ...JSON.parse(item.details) };
         setFrameBriefs(loaded);
       } catch { setFrameBriefStatus(fr ? 'Impossible de charger les détails.' : 'Could not load saved details.'); }
+    };
+    void load();
+  }, [step, photoshootProject, canViewHourLog, isPreview, fr]);
+  useEffect(() => {
+    if (step !== 'brief' || !photoshootProject) return;
+    const load = async () => {
+      try {
+        if (isPreview) {
+          const saved = window.localStorage.getItem('sanch-grace-in-motion-hour-log');
+          setHourLogs(saved ? JSON.parse(saved) : []);
+          return;
+        }
+        const session = await clientAuth();
+        const result = await clientAuth({ action: 'list_hour_logs', project: 'grace-in-motion' }, session.csrf) as ClientSession & { entries?: HourLogEntry[] };
+        setHourLogs(result.entries || []);
+      } catch { setHourLogStatus(fr ? 'Impossible de charger le registre.' : 'Could not load the log.'); }
     };
     void load();
   }, [step, photoshootProject, isPreview, fr]);
@@ -364,6 +388,44 @@ export default function ClientSpace() {
       setPhotoshootPage('review');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch { setFrameSubmitStatus(fr ? 'ÉCHEC DE L’ENVOI · RÉESSAYEZ' : 'SUBMISSION FAILED · PLEASE TRY AGAIN'); }
+  }
+  async function addHourLog(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const hours = Number(hourLogDraft.hours);
+    if (!hourLogDraft.date || !Number.isFinite(hours) || hours <= 0 || !hourLogDraft.note.trim()) return;
+    setHourLogStatus(fr ? 'ENREGISTREMENT…' : 'SAVING…');
+    try {
+      let entry: HourLogEntry;
+      if (isPreview) {
+        entry = { id: crypto.randomUUID(), work_date: hourLogDraft.date, hours, note: hourLogDraft.note.trim(), created_at: Math.floor(Date.now() / 1000) };
+        const updated = [entry, ...hourLogs];
+        window.localStorage.setItem('sanch-grace-in-motion-hour-log', JSON.stringify(updated));
+        setHourLogs(updated);
+      } else {
+        const session = await clientAuth();
+        const result = await clientAuth({ action: 'add_hour_log', project: 'grace-in-motion', work_date: hourLogDraft.date, hours, note: hourLogDraft.note.trim() }, session.csrf) as ClientSession & { entry?: HourLogEntry };
+        if (!result.entry) throw new Error('missing_entry');
+        entry = result.entry;
+        setHourLogs(current => [entry, ...current]);
+      }
+      setHourLogDraft(current => ({ ...current, hours: '', note: '' }));
+      setHourLogStatus(fr ? 'ENTRÉE ENREGISTRÉE' : 'ENTRY SAVED');
+    } catch { setHourLogStatus(fr ? 'ÉCHEC DE L’ENREGISTREMENT · RÉESSAYEZ' : 'COULD NOT SAVE · PLEASE TRY AGAIN'); }
+  }
+  async function deleteHourLog(id: string) {
+    setHourLogStatus(fr ? 'SUPPRESSION…' : 'REMOVING…');
+    try {
+      if (isPreview) {
+        const updated = hourLogs.filter(entry => entry.id !== id);
+        window.localStorage.setItem('sanch-grace-in-motion-hour-log', JSON.stringify(updated));
+        setHourLogs(updated);
+      } else {
+        const session = await clientAuth();
+        await clientAuth({ action: 'delete_hour_log', project: 'grace-in-motion', id }, session.csrf);
+        setHourLogs(current => current.filter(entry => entry.id !== id));
+      }
+      setHourLogStatus('');
+    } catch { setHourLogStatus(fr ? 'ÉCHEC DE LA SUPPRESSION' : 'COULD NOT REMOVE ENTRY'); }
   }
   async function loadFilmIdeas() {
     if (isPreview) {
@@ -681,7 +743,7 @@ export default function ClientSpace() {
           <div className={styles.atmosphere} aria-hidden="true" />
           <div className={styles.welcomeContent}>
             <h1 id="client-title" className={styles.visuallyHidden} ref={heading} tabIndex={-1}>{fr ? 'Connexion' : 'Sign in'}</h1>
-            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={user => { setProjectAccess(user.access); setStep('project'); }} />
+            <ClientSignIn fr={fr} invitation={invitation} onActivated={() => setInvitation('')} onSignedIn={user => { setProjectAccess(user.access); setCurrentUsername(user.username); setStep('project'); }} />
             <button className={styles.signInBack} onClick={() => setStep('language')}>{fr ? 'Langue' : 'Language'}</button>
           </div>
         </section>
@@ -830,6 +892,7 @@ export default function ClientSpace() {
           </div>
           <div className={styles.projectRoomHeader}>
             <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROME' : 'Back to CHROME'}</button>
+            {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}>CARNET DE PRODUCTION <span>↗</span></button>}
           </div>
 
           <div className={styles.projectRoomHero}>
@@ -947,6 +1010,20 @@ export default function ClientSpace() {
                 </div>
               </div>
               <footer><p>{frameBriefStatus || (fr ? 'Chaque section sera composée au sein d’un même brief partagé.' : 'Every section will be composed within one shared brief.')}</p><button type="button" onClick={() => void saveFrameBrief()}>{fr ? 'ENREGISTRER ET FERMER' : 'SAVE & CLOSE'} <span>→</span></button></footer>
+            </section>
+          </div>, document.body)}
+          {hourLogOpen && typeof document !== 'undefined' && createPortal(<div className={styles.hourLogVeil} role="dialog" aria-modal="true" aria-labelledby="hour-log-title" onMouseDown={event => { if (event.target === event.currentTarget) setHourLogOpen(false); }}>
+            <section className={styles.hourLogModal}>
+              <header><div><p>GRACE IN MOTION · PRODUCTION</p><h2 id="hour-log-title">Carnet de Production</h2></div><button type="button" onClick={() => setHourLogOpen(false)} aria-label={fr ? 'Fermer' : 'Close'}>×</button></header>
+              <div className={styles.hourLogBody}>
+                <aside><small>{fr ? 'TEMPS DE PRODUCTION' : 'PRODUCTION TIME'}</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}<i>H</i></strong><p>{fr ? 'Un registre précis du temps consacré à la direction et à la production.' : 'A precise record of time devoted to direction and production.'}</p></aside>
+                {currentUsername.toLowerCase() === 'sanchit' ? <form onSubmit={addHourLog}>
+                  <div><label>{fr ? 'DATE DE TRAVAIL' : 'WORK DATE'}<input type="date" required value={hourLogDraft.date} onChange={event => setHourLogDraft(current => ({ ...current, date: event.target.value }))} /></label><label>{fr ? 'HEURES' : 'HOURS'}<input type="number" required min="0.25" max="24" step="0.25" inputMode="decimal" placeholder="0.00" value={hourLogDraft.hours} onChange={event => setHourLogDraft(current => ({ ...current, hours: event.target.value }))} /></label></div>
+                  <label>{fr ? 'NOTE DE PRODUCTION' : 'PRODUCTION NOTE'}<textarea required maxLength={1800} rows={5} placeholder={fr ? 'Direction, préparation, coordination, recherche…' : 'Direction, preparation, coordination, research…'} value={hourLogDraft.note} onChange={event => setHourLogDraft(current => ({ ...current, note: event.target.value }))} /></label>
+                  <footer><span role="status">{hourLogStatus}</span><button type="submit">{fr ? 'AJOUTER AU REGISTRE' : 'ADD TO LOG'} <i>→</i></button></footer>
+                </form> : <div className={styles.hourLogReadOnly}><small>{fr ? 'REGARD PRODUCTION' : 'PRODUCTION VIEW'}</small><h3>{fr ? 'Le temps derrière chaque image.' : 'The time behind every frame.'}</h3><p>{fr ? 'Dates, heures et notes de production consignées par Studio Sanch.' : 'Dates, hours and production notes recorded by Studio Sanch.'}</p></div>}
+              </div>
+              <div className={styles.hourLogEntries}>{hourLogs.length ? hourLogs.map(entry => <article key={entry.id}><time dateTime={entry.work_date}>{new Date(`${entry.work_date}T12:00:00`).toLocaleDateString(fr ? 'fr-FR' : 'en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}</time><strong>{Number(entry.hours).toLocaleString(fr ? 'fr-FR' : 'en-GB')}H</strong><p>{entry.note}</p>{currentUsername.toLowerCase() === 'sanchit' && <button type="button" onClick={() => void deleteHourLog(entry.id)} aria-label={fr ? 'Supprimer cette entrée' : 'Remove this entry'}>×</button>}</article>) : <p className={styles.hourLogEmpty}>{fr ? 'Le premier chapitre de production attend.' : 'The first production chapter awaits.'}</p>}</div>
             </section>
           </div>, document.body)}
           </>}

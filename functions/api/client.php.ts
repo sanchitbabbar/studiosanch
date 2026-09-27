@@ -139,6 +139,29 @@ export async function onRequest({ request, env }: Context): Promise<Response> {
     const parsed = await parseBody(request); if (parsed instanceof Response) return parsed;
     const action = String(parsed.action || '');
     if (action === 'logout') { const rotated = await rotateSession(env.CLIENT_DB, session.tokenHash); return reply(200, { user: null, csrf: rotated.session.csrf }, rotated.cookie); }
+    if (action === 'list_hour_logs' || action === 'add_hour_log' || action === 'delete_hour_log') {
+      if (!session.user || !session.user.access.includes('photoshoot') || !['sanchit', 'james.parkhill.test'].includes(session.user.username.toLowerCase())) return fail(403, 'access_denied');
+      if (String(parsed.project || '') !== 'grace-in-motion') return fail(400, 'invalid_request');
+      if (action === 'list_hour_logs') {
+        const result = await env.CLIENT_DB.prepare('SELECT id, work_date, hours, note, created_at FROM client_project_hour_logs WHERE project_key = ? ORDER BY work_date DESC, created_at DESC LIMIT 500').bind('grace-in-motion').all();
+        return reply(200, { user: session.user, csrf: session.csrf, entries: result.results || [] }, cookie);
+      }
+      if (session.user.username.toLowerCase() !== 'sanchit') return fail(403, 'access_denied');
+      if (action === 'delete_hour_log') {
+        const id = String(parsed.id || '');
+        if (!/^[a-f0-9]{32}$/.test(id)) return fail(400, 'invalid_request');
+        await env.CLIENT_DB.prepare('DELETE FROM client_project_hour_logs WHERE id = ? AND project_key = ? AND account_id = ?').bind(id, 'grace-in-motion', session.user.id).run();
+        return reply(200, { user: session.user, csrf: session.csrf, deleted: true }, cookie);
+      }
+      const workDate = String(parsed.work_date || '');
+      const hours = Number(parsed.hours);
+      const note = String(parsed.note || '').trim();
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(workDate) || !Number.isFinite(hours) || hours < .25 || hours > 24 || Math.round(hours * 4) !== hours * 4 || !note || [...note].length > 1800) return fail(400, 'invalid_request');
+      const id = randomHex(16); const createdAt = Math.floor(Date.now() / 1000);
+      const saved = await env.CLIENT_DB.prepare('INSERT INTO client_project_hour_logs(id, project_key, account_id, work_date, hours, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)').bind(id, 'grace-in-motion', session.user.id, workDate, hours, note, createdAt).run();
+      if (!saved.success) return fail(503, 'service_unavailable');
+      return reply(200, { user: session.user, csrf: session.csrf, entry: { id, work_date: workDate, hours, note, created_at: createdAt } }, cookie);
+    }
     if (action === 'list_frame_plan' || action === 'save_frame_plan') {
       if (!session.user || !session.user.access.includes('photoshoot')) return fail(403, 'access_denied');
       if (String(parsed.project || '') !== 'grace-in-motion') return fail(400, 'invalid_request');
