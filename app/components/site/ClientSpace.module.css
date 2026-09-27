@@ -235,10 +235,11 @@
 .frameBriefVeil { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 28px; background: #030207c7; backdrop-filter: blur(18px) saturate(.8); animation: arrive .35s ease both; }
 .hourLogVeil { position: fixed; z-index: 1100; inset: 0; display: grid; place-items: center; padding: 28px; background: #030207d9; backdrop-filter: blur(22px) saturate(.78); animation: arrive .35s ease both; }
 .hourLogModal { width: min(1040px, 100%); max-height: min(850px, calc(100svh - 56px)); overflow: auto; border: 1px solid #ffffff33; border-radius: 28px; background: linear-gradient(145deg, #17151def, #08070cef); color: #fff; box-shadow: 0 45px 140px #000d, inset 0 1px 0 #ffffff12; }
-.hourLogModal > header { display: flex; justify-content: space-between; align-items: flex-start; padding: 34px 38px 29px; border-bottom: 1px solid #ffffff1c; }
+.hourLogModal > header { position: static; inset: auto; z-index: auto; display: flex; width: auto; height: auto; justify-content: space-between; align-items: flex-start; padding: 34px 38px 29px; border-bottom: 1px solid #ffffff1c; background: transparent; box-sizing: border-box; }
 .hourLogModal header p { margin: 0 0 11px; color: #c8a979; font-size: 9px; font-weight: 600; letter-spacing: .22em; }
 .hourLogModal header h2 { margin: 0; font-size: clamp(34px, 4vw, 54px); font-weight: 250; letter-spacing: -.045em; }
-.hourLogModal header button { width: 42px; height: 42px; border: 1px solid #ffffff2e; border-radius: 50%; color: #fff; font: 300 24px/1 Arial, sans-serif; }
+.hourLogModal button { appearance: none; margin: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.hourLogModal header button { width: 42px; height: 42px; padding: 0; border: 1px solid #ffffff2e; border-radius: 50%; color: #fff; font: 300 24px/1 Arial, sans-serif; }
 .hourLogBody { display: grid; grid-template-columns: .72fr 1.28fr; gap: 42px; padding: 36px 38px 40px; }
 .hourLogBody aside { padding: 8px 34px 8px 0; border-right: 1px solid #ffffff17; }
 .hourLogBody aside small { color: #9b979e; font-size: 8px; letter-spacing: .22em; }
@@ -251,9 +252,10 @@
 .hourLogBody input { min-height: 47px; padding: 0 14px; }
 .hourLogBody textarea { margin-top: 22px; padding: 14px; resize: vertical; }
 .hourLogBody input:focus, .hourLogBody textarea:focus { border-color: #c8a9799c; background: #050409b8; }
-.hourLogBody form footer { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 18px; margin-top: 20px; }
+.hourLogBody form footer { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 18px; margin: 20px 0 0; padding: 0; border: 0; background: transparent !important; color: inherit; }
 .hourLogBody form footer span { color: #b9a98e; font-size: 8px; letter-spacing: .12em; }
-.hourLogBody form footer button { display: flex; align-items: center; gap: 26px; padding: 13px 18px; border: 1px solid #ffffff32; border-radius: 999px; color: #fff; font-size: 9px; letter-spacing: .13em; }
+.hourLogBody form footer button { display: flex; min-height: 46px; align-items: center; gap: 26px; padding: 13px 18px; border: 1px solid #ffffff32; border-radius: 999px; background: #08070b91; color: #fff; font: 600 9px/1.4 'Montserrat', sans-serif; letter-spacing: .13em; box-shadow: inset 0 1px 0 #ffffff0d; transition: border-color .35s ease, background .35s ease, transform .35s ease; }
+.hourLogBody form footer button:hover, .hourLogBody form footer button:focus-visible { border-color: #c8a979a8; background: #c8a97916; outline: none; transform: translateY(-1px); }
 .hourLogBody form footer button i { font-size: 17px; font-weight: 300; }
 .hourLogReadOnly { display: flex; min-height: 210px; flex-direction: column; justify-content: center; padding: 18px 4px; }
 .hourLogReadOnly small { color: #c8a979; font-size: 8px; letter-spacing: .22em; }
