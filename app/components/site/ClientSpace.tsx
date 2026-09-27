@@ -699,7 +699,7 @@ export default function ClientSpace() {
           <div className={styles.photoshootGrain} aria-hidden="true" />
           <div className={styles.photoshootTitle}>
             <p>GRACE IN MOTION</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROMA</h1>
+            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROME</h1>
             <div className={styles.photoshootCredits}>
               <span>BY JAMES D PARKHILL</span>
             </div>
@@ -827,12 +827,12 @@ export default function ClientSpace() {
             <span /><span /><span /><span />
           </div>
           <div className={styles.projectRoomHeader}>
-            <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROMA' : 'Back to CHROMA'}</button>
+            <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROME' : 'Back to CHROME'}</button>
           </div>
 
           <div className={styles.projectRoomHero}>
             <p className={styles.projectRoomWelcome}>GRACE IN MOTION</p>
-            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROMA</h1>
+            <h1 id="client-title" ref={heading} tabIndex={-1}>CHROME</h1>
             <div className={styles.projectRoomMeta}>
               <span className={styles.projectRoomCredits}><span><b>ARTIST</b><strong>JAMES D PARKHILL</strong></span><span><b>{fr ? 'PRODUCTEUR' : 'PRODUCER'}</b><strong>STUDIO SANCH</strong></span></span>
               <span className={styles.projectRoomStatus}><i aria-hidden="true" /><span><b>{fr ? 'PRÉPRODUCTION' : 'PRE-PRODUCTION'}</b><small>{fr ? 'ÉTAPE 01' : 'STAGE 01'}</small></span></span>
