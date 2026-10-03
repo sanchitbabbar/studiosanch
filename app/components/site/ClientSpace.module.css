@@ -1118,9 +1118,12 @@
   .hourLogEntries { padding: 0 20px max(30px, env(safe-area-inset-bottom)); }
   .hourLogEntries article { grid-template-columns: 1fr auto 24px; gap: 12px 16px; }
   .hourLogEntries article p { grid-column: 1 / -1; }
-  .hourLogTrigger { right: 14px; bottom: max(14px, env(safe-area-inset-bottom)); gap: 10px; padding: 8px 9px 8px 14px; }
+  .hourLogTrigger { position: relative; z-index: 2; right: auto; bottom: auto; width: min(100%, 360px); min-height: 58px; justify-content: space-between; align-self: center; gap: 10px; margin: 28px auto max(8px, env(safe-area-inset-bottom)); padding: 8px 9px 8px 16px; }
   .hourLogTrigger small { font-size: 6.5px; letter-spacing: .11em; }
   .hourLogTrigger strong { padding-left: 9px; font-size: 9px; }
+  .hourLogTrigger > i { position: relative; font-size: 0; }
+  .hourLogTrigger > i::before { content: ''; position: absolute; left: 9px; top: 14px; width: 11px; height: 1px; background: currentColor; transform: rotate(-45deg); transform-origin: right center; }
+  .hourLogTrigger > i::after { content: ''; position: absolute; right: 8px; top: 8px; width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; }
 }
 @media (max-width: 600px) { .accessNoticeSlot { height: 74px; } .accessNotice { flex-wrap: wrap; align-content: center; gap: 8px 10px; padding-inline: 10px; } .accessNotice i { display: none; } .accessNotice span { flex-basis: 100%; padding-left: 0; border-left: 0; } }
 @media (max-width: 600px) { .filmPages { gap: 17px; overflow-x: auto; } .space .filmPages button { white-space: nowrap; } .filmInspirationGrid { grid-template-columns: minmax(0, 250px); } .filmStoryboard h2 { white-space: normal; } .filmStoryboard > div { grid-template-columns: minmax(0, 250px); } }

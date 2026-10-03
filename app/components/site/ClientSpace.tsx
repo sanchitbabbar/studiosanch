@@ -988,7 +988,6 @@ export default function ClientSpace() {
           </div>
           <div className={styles.projectRoomHeader}>
             <button className={styles.back} onClick={() => setStep('entrance')}>← {fr ? 'Retour à CHROME' : 'Back to CHROME'}</button>
-            {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i>↗</i></button>}
           </div>
 
           <div className={styles.projectRoomHero}>
@@ -1123,6 +1122,7 @@ export default function ClientSpace() {
             </section>
           </div>, document.body)}
           </>}
+          {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i aria-hidden="true">↗</i></button>}
         </section>
       ) : (
         <section className={`${styles.content} ${styles.brief}`} aria-labelledby="client-title">
