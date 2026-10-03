@@ -1122,7 +1122,7 @@ export default function ClientSpace() {
             </section>
           </div>, document.body)}
           </>}
-          {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i aria-hidden="true">↗</i></button>}
+          {canViewHourLog && <button type="button" className={styles.hourLogTrigger} onClick={() => { setHourLogStatus(''); setHourLogOpen(true); }}><span><small>CARNET DE PRODUCTION</small><strong>{hourLogs.reduce((total, entry) => total + Number(entry.hours), 0).toLocaleString(fr ? 'fr-FR' : 'en-GB', { maximumFractionDigits: 2 })}H</strong></span><i aria-hidden="true"><span>↗</span><svg viewBox="0 0 24 24" focusable="false"><path d="M6 18 18 6M9 6h9v9" /></svg></i></button>}
         </section>
       ) : (
         <section className={`${styles.content} ${styles.brief}`} aria-labelledby="client-title">

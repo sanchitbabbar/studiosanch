@@ -111,6 +111,7 @@
 .hourLogTrigger small { color: #d7d2ca; font: 500 8px/1 'Montserrat', sans-serif; letter-spacing: .16em; }
 .hourLogTrigger strong { padding-left: 13px; border-left: 1px solid #ffffff25; color: #d4b57d; font: 500 11px/1 'Montserrat', sans-serif; letter-spacing: .08em; }
 .hourLogTrigger > i { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid #ffffff26; border-radius: 50%; font: 300 14px/1 Arial, sans-serif; }
+.hourLogTrigger > i svg { display: none; }
 .hourLogTrigger:hover, .hourLogTrigger:focus-visible { border-color: #fff; background: #ffffff14; transform: translateY(-1px); }
 .projectRoomIndex { display: flex; align-items: center; gap: 14px; margin: 0; color: #d7d9e0; font-size: 11px; letter-spacing: .18em; }
 .projectRoomIndex span { color: #fff; }
@@ -1121,9 +1122,8 @@
   .hourLogTrigger { position: relative; z-index: 2; right: auto; bottom: auto; width: min(100%, 360px); min-height: 58px; justify-content: space-between; align-self: center; gap: 10px; margin: 28px auto max(8px, env(safe-area-inset-bottom)); padding: 8px 9px 8px 16px; }
   .hourLogTrigger small { font-size: 6.5px; letter-spacing: .11em; }
   .hourLogTrigger strong { padding-left: 9px; font-size: 9px; }
-  .hourLogTrigger > i { position: relative; font-size: 0; }
-  .hourLogTrigger > i::before { content: ''; position: absolute; left: 9px; top: 14px; width: 11px; height: 1px; background: currentColor; transform: rotate(-45deg); transform-origin: right center; }
-  .hourLogTrigger > i::after { content: ''; position: absolute; right: 8px; top: 8px; width: 7px; height: 7px; border-top: 1px solid currentColor; border-right: 1px solid currentColor; }
+  .hourLogTrigger > i > span { display: none; }
+  .hourLogTrigger > i svg { display: block; width: 17px; height: 17px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 }
 @media (max-width: 600px) { .accessNoticeSlot { height: 74px; } .accessNotice { flex-wrap: wrap; align-content: center; gap: 8px 10px; padding-inline: 10px; } .accessNotice i { display: none; } .accessNotice span { flex-basis: 100%; padding-left: 0; border-left: 0; } }
 @media (max-width: 600px) { .filmPages { gap: 17px; overflow-x: auto; } .space .filmPages button { white-space: nowrap; } .filmInspirationGrid { grid-template-columns: minmax(0, 250px); } .filmStoryboard h2 { white-space: normal; } .filmStoryboard > div { grid-template-columns: minmax(0, 250px); } }
