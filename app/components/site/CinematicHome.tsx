@@ -334,6 +334,43 @@ export default function CinematicHome() {
         </motion.div>
       </section>
 
+      <section className={`${styles.chapters} ${styles.chaptersLead}`}>
+        <ChapterScene chapter={chapters[0]} index={0} language={currentLanguage} />
+      </section>
+
+      <section ref={boutiqueRef} className={styles.boutiqueScene}>
+        <motion.div className={styles.boutiqueImage} style={{ y: boutiqueImageY }}>
+          <motion.figure
+            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkSecondary}`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/art-prints/murmure-des-petals.jpg" alt="Murmure des Pétales artwork" />
+          </motion.figure>
+          <motion.figure
+            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkPrimary}`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/art-prints/murmure-de-sanch.jpg" alt="La première onde artwork on white paper" />
+          </motion.figure>
+          <motion.figure
+            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkTertiary}`}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/images/art-prints/celle-qui-se-connait.webp" alt="Celle qui se connaît artwork" />
+          </motion.figure>
+        </motion.div>
+        <motion.div className={styles.boutiqueCopy} style={{ opacity: boutiqueCopyOpacity, y: boutiqueCopyY }}>
+          <span className={styles.eyebrow}>DÉCOR</span>
+          <h2>{fr ? "Œuvres d'art" : 'Artworks'}</h2>
+          <p>
+            {fr
+              ? "Monochromes texturés : Dessins originaux retranscrits sur papier d'art Hahnemühle Photo Rag 308 g/m² aux encres pigmentaires, en édition limitée à cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
+              : "Tactile monochromes: Original works transcribed on Hahnemühle Photo Rag 308 g/m² art paper using pigment inks, limited to an edition of five. Accompanied by a signed certificate of authenticity."}
+          </p>
+          <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
+        </motion.div>
+      </section>
+
       <section ref={reelRef} className={styles.reelSection}>
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>
           <div className={styles.reelViewport}>
@@ -355,51 +392,16 @@ export default function CinematicHome() {
         <motion.div className={styles.reelCopy} style={{ opacity: reelCopyOpacity, y: reelCopyY }}>
           <span>{fr ? 'LE STUDIO' : 'THE STUDIO'}</span>
           <h2>{fr ? "De l'idée originelle à la forme pérenne, chaque création est bercée de sensibilité et ciselée d'une précision absolue." : 'From an initial idea to a lasting form, every production is composed with sensitivity and minute precision.'}</h2>
-          <Link href="/productions">PRODUCTIONS <i>{'\u2197\uFE0E'}</i></Link>
-        </motion.div>
-      </section>
-
-      <section className={`${styles.chapters} ${styles.chaptersLead}`}>
-        <ChapterScene chapter={chapters[0]} index={0} language={currentLanguage} />
-      </section>
-
-      <section ref={boutiqueRef} className={styles.boutiqueScene}>
-        <motion.div className={styles.boutiqueImage} style={{ y: boutiqueImageY }}>
-          <motion.figure
-            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkSecondary}`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/murmure-des-petals.jpg" alt="Murmure des Pétales artwork" />
-          </motion.figure>
-          <motion.figure
-            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkPrimary}`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/londe-interieure.jpg" alt="L’Onde Intérieure artwork on white paper" />
-          </motion.figure>
-          <motion.figure
-            className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkTertiary}`}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/celle-qui-se-connait.webp" alt="Celle qui se connaît artwork" />
-          </motion.figure>
-        </motion.div>
-        <motion.div className={styles.boutiqueCopy} style={{ opacity: boutiqueCopyOpacity, y: boutiqueCopyY }}>
-          <span className={styles.eyebrow}>DÉCOR</span>
-          <h2>{fr ? "Œuvres d'art" : 'Artworks'}</h2>
-          <p>
-            {fr
-              ? "Monochromes texturés : Dessins originaux retranscrits sur papier d'art Hahnemühle Photo Rag 308 g/m² aux encres pigmentaires, en édition limitée à cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
-              : "Tactile monochromes: Original works transcribed on Hahnemühle Photo Rag 308 g/m² art paper using pigment inks, limited to an edition of five. Accompanied by a signed certificate of authenticity."}
-          </p>
-          <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
+          <Link href="/productions">{fr ? 'EXPLORER' : 'EXPLORE'} <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
       </section>
 
       <section className={`${styles.chapters} ${styles.chaptersTail}`}>
-        {chapters.slice(1).map((chapter, index) => (
-          <ChapterScene chapter={chapter} index={index + 1} language={currentLanguage} key={chapter.title.en} />
-        ))}
+        <ChapterScene chapter={chapters[1]} index={1} language={currentLanguage} />
+      </section>
+
+      <section className={`${styles.chapters} ${styles.chaptersTail}`}>
+        <ChapterScene chapter={chapters[2]} index={2} language={currentLanguage} />
       </section>
 
       <section ref={finaleRef} className={styles.finale}>
@@ -411,6 +413,7 @@ export default function CinematicHome() {
         </div>
         </motion.div>
       </section>
+
     </main>
   );
 }

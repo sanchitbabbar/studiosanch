@@ -238,11 +238,32 @@
 
 .boutiqueScene { min-height: 180vh; display: grid; grid-template-columns: 1.18fr .82fr; align-items: start; background: #fff; color: #111; overflow: hidden; }
 .boutiqueImage { position: sticky; top: 9vh; height: min(82vh, 900px); margin: 9vh 0 0 3vw; will-change: transform; transform-origin: center center; perspective: 1400px; }
-.boutiqueArtwork { position: absolute; margin: 0; overflow: hidden; border-radius: 18px; background: transparent; opacity: 0; will-change: transform, opacity; transform-origin: center center; animation: museumOrbit 18s cubic-bezier(.45,.05,.2,1) infinite; }
+.boutiqueArtwork {
+  position: absolute;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 0;
+  padding: 3.3%;
+  background: #171717;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .48), 0 4px 10px rgba(0, 0, 0, .35), inset 0 0 0 1px #303030, inset 0 0 0 3px #1c1c1c;
+  opacity: 0;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  animation: museumOrbit 18s cubic-bezier(.45,.05,.2,1) infinite;
+}
+.boutiqueArtwork::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .035), inset -2px -2px 4px rgba(0, 0, 0, .6);
+}
 .boutiqueArtwork img { display: block; width: 100%; height: auto; object-fit: contain; filter: none; }
 .boutiqueArtworkPrimary { width: 92%; left: 0; top: 2%; animation-delay: 0s; }
-.boutiqueArtworkSecondary { width: 96%; left: -8%; top: 10%; animation-delay: -6s; }
-.boutiqueArtworkTertiary { width: 72%; right: 2%; top: 4%; animation-delay: -12s; }
+.boutiqueArtworkSecondary { width: 96%; left: 2%; top: 10%; animation-delay: -6s; }
+.boutiqueArtworkTertiary { width: min(80%, 50vh); padding: 1.8%; right: 8%; top: 0; animation-delay: -12s; }
 @keyframes museumOrbit {
   0% { z-index: 3; opacity: 1; transform: translate3d(0, 0, 90px) scale(1) rotate(0deg); }
   22% { z-index: 3; opacity: 1; transform: translate3d(1.5%, -1%, 90px) scale(1.025) rotate(.25deg); }
@@ -306,7 +327,7 @@
   .atelierAtmosphere span { width: 115vw; height: 38svh; }
   .atelierMistBack { top: 8svh; left: -12vw; }
   .atelierMistFront { bottom: 18svh; left: -18vw; }
-  .chapterMedia, .boutiqueArtwork, .sequenceFrame { border-radius: 12px; }
+  .chapterMedia, .sequenceFrame { border-radius: 12px; }
   .atelierSlide img, .atelierSlide video { border-radius: 12px; }
   .chapterCopy, .chapterPortrait .chapterCopy, .chapterLandscape .chapterCopy, .chapterDetail .chapterCopy { position: relative; inset: auto; width: auto; margin: 0; padding: 48px 8px 0; background: transparent; backdrop-filter: none; }
   .chapterDetail .chapterCopy { order: 2; }
@@ -315,7 +336,7 @@
   .boutiqueImage { position: sticky; top: 6svh; min-height: 0; height: 100svh; margin: 0; }
   .boutiqueArtworkPrimary { width: 100%; left: 0; top: 0; }
   .boutiqueArtworkSecondary { width: 100%; left: 0; top: 5%; }
-  .boutiqueArtworkTertiary { width: 88%; right: 0; top: 3%; }
+  .boutiqueArtworkTertiary { width: min(88%, 50svh); right: 6%; top: 0; }
   .boutiqueCopy { position: relative; top: auto; min-height: 75svh; padding: 12vh 8vw; background: #fff; z-index: 5; }
   .boutiqueCopy h2 { font-size: clamp(48px, 13vw, 82px); }
   .finale { min-height: 90svh; padding-inline: 8vw; }
