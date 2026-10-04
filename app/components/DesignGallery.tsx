@@ -39,6 +39,68 @@ interface Design {
   availablePieces?: number;
 }
 
+function ArtworkViews({ design, language }: { design: Design; language: string }) {
+  const [framed, setFramed] = useState(false);
+  const fr = language === 'fr';
+  return (
+    <div style={{ position: 'relative', overflow: 'hidden', height: '100%', display: 'grid', gridTemplateRows: 'minmax(0, 1fr) 44px', backgroundColor: framed ? '#f6f5f1' : '#000', backgroundImage: framed ? 'radial-gradient(ellipse at 28% 12%, rgba(255,255,255,.95), transparent 70%), linear-gradient(125deg, #faf9f6 0%, #f1efe9 100%)' : 'none' }}>
+      {framed && (<div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.035]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Cpath fill=%22%23000%22 filter=%22url(%23n)%22 d=%22M0 0h180v180H0z%22/%3E%3C/svg%3E")' }} />)}
+      <div style={{ position: 'relative', minHeight: 0 }}>
+      <motion.div
+        className="absolute inset-0 flex"
+        animate={{ x: framed ? '-100%' : '0%' }}
+        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="relative h-full w-full shrink-0">
+          <Image src={design.image} alt={design.title} fill sizes="(max-width: 768px) 95vw, 50vw" className="object-contain" priority />
+        </div>
+        <div
+          className="relative flex h-full w-full shrink-0 items-center justify-center p-4 md:p-7"
+          style={{
+            background: 'transparent',
+          }}
+        >
+
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={design.image}
+            alt={`${design.title} — ${fr ? 'vue encadrée' : 'framed view'}`}
+            loading="lazy"
+            className="relative block"
+            style={{
+              width: 'auto',
+              height: 'auto',
+              maxWidth: '100%',
+              maxHeight: '100%',
+              boxSizing: 'border-box',
+              border: '8px solid #171717',
+              boxShadow: '6px 18px 30px rgba(38,32,24,.18), 2px 4px 7px rgba(0,0,0,.16), 0 0 0 1px #303030',
+            }}
+          />
+        </div>
+      </motion.div>
+      </div>
+      <div style={{ position: 'relative', zIndex: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, height: 44 }}>
+        {[false, true].map(view => (
+          <button
+            key={String(view)}
+            type="button"
+            aria-label={view ? (fr ? 'Voir l’œuvre encadrée' : 'View framed artwork') : (fr ? 'Voir l’œuvre seule' : 'View artwork only')}
+            aria-pressed={framed === view}
+            onClick={event => { event.stopPropagation(); setFramed(view); }}
+            className={`group flex h-5 items-center justify-center px-1 focus-visible:outline focus-visible:outline-1 ${framed ? 'focus-visible:outline-black/60' : 'focus-visible:outline-white/60'}`}
+          >
+            <span
+              className={`block h-px transition-all duration-500 ease-out ${framed === view ? 'w-8' : 'w-4 group-hover:w-6'}`}
+              style={{ display: 'block', flexShrink: 0, width: framed === view ? 32 : 16, height: 1, backgroundColor: framed ? (framed === view ? '#222222' : '#898680') : (framed === view ? '#eeeeee' : '#777777') }}
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const printSizes: PrintSize[] = [
   {
     id: 'small',
@@ -577,18 +639,9 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                 >
                   <div className="relative grid grid-cols-1 md:grid-cols-2 h-full">
                     {/* Left: Image with elegant overlay */}
-                    <div className="relative h-[30vh] md:h-auto">
+                    <div className="relative h-[44svh] min-h-[280px] md:min-h-0 md:h-auto">
                       <div className="relative h-full w-full bg-transparent overflow-hidden">
-                        <Image
-                          src={selectedDesign.image}
-                          alt={selectedDesign.title}
-                          fill
-                          sizes="(max-width: 768px) 95vw, 50vw"
-                          className="object-contain"
-                          priority
-                          placeholder="blur"
-                          blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxIDEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMxMTExMTEiLz48L3N2Zz4="
-                        />
+                        <ArtworkViews key={selectedDesign.id} design={selectedDesign} language={language} />
                       </div>
                       <button
                         onClick={() => setSelectedDesign(null)}

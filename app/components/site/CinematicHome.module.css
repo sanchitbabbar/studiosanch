@@ -244,7 +244,7 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 0;
-  padding: 3.3%;
+  padding: 1.8%;
   background: #171717;
   box-shadow: 0 24px 48px rgba(0, 0, 0, .48), 0 4px 10px rgba(0, 0, 0, .35), inset 0 0 0 1px #303030, inset 0 0 0 3px #1c1c1c;
   opacity: 0;
@@ -263,7 +263,7 @@
 .boutiqueArtwork img { display: block; width: 100%; height: auto; object-fit: contain; filter: none; }
 .boutiqueArtworkPrimary { width: 92%; left: 0; top: 2%; animation-delay: 0s; }
 .boutiqueArtworkSecondary { width: 96%; left: 2%; top: 10%; animation-delay: -6s; }
-.boutiqueArtworkTertiary { width: min(80%, 50vh); padding: 1.8%; right: 8%; top: 0; animation-delay: -12s; }
+.boutiqueArtworkTertiary { width: min(80%, 50vh); right: 8%; top: 0; animation-delay: -12s; }
 @keyframes museumOrbit {
   0% { z-index: 3; opacity: 1; transform: translate3d(0, 0, 90px) scale(1) rotate(0deg); }
   22% { z-index: 3; opacity: 1; transform: translate3d(1.5%, -1%, 90px) scale(1.025) rotate(.25deg); }
@@ -334,8 +334,8 @@
   .chapterCopy i { margin-top: 34px; }
   .boutiqueScene { display: block; min-height: 178svh; }
   .boutiqueImage { position: sticky; top: 6svh; min-height: 0; height: 100svh; margin: 0; }
-  .boutiqueArtworkPrimary { width: 100%; left: 0; top: 0; }
-  .boutiqueArtworkSecondary { width: 100%; left: 0; top: 5%; }
+  .boutiqueArtworkPrimary { width: 84%; left: 8%; top: 0; }
+  .boutiqueArtworkSecondary { width: 84%; left: 8%; top: 5%; }
   .boutiqueArtworkTertiary { width: min(88%, 50svh); right: 6%; top: 0; }
   .boutiqueCopy { position: relative; top: auto; min-height: 75svh; padding: 12vh 8vw; background: #fff; z-index: 5; }
   .boutiqueCopy h2 { font-size: clamp(48px, 13vw, 82px); }
