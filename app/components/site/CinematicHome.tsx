@@ -344,19 +344,19 @@ export default function CinematicHome() {
             className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkSecondary}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/murmure-des-petals.jpg" alt="Murmure des Pétales artwork" />
+            <img src="/images/art-prints/murmure-des-petales-final-signed.webp" alt="Murmure des Pétales artwork" />
           </motion.figure>
           <motion.figure
             className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkPrimary}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/murmure-de-sanch.jpg" alt="La première onde artwork on white paper" />
+            <img src="/images/art-prints/la-premiere-onde-signed-v2.webp" alt="La première onde artwork on white paper" />
           </motion.figure>
           <motion.figure
             className={`${styles.boutiqueArtwork} ${styles.boutiqueArtworkTertiary}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/art-prints/celle-qui-se-connait.webp" alt="Celle qui se connaît artwork" />
+            <img src="/images/art-prints/celle-qui-se-connait-final.webp" alt="Celle qui se connaît artwork" />
           </motion.figure>
         </motion.div>
         <motion.div className={styles.boutiqueCopy} style={{ opacity: boutiqueCopyOpacity, y: boutiqueCopyY }}>

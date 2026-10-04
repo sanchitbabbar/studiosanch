@@ -262,7 +262,7 @@
 }
 .boutiqueArtwork img { display: block; width: 100%; height: auto; object-fit: contain; filter: none; }
 .boutiqueArtworkPrimary { width: 92%; left: 0; top: 2%; animation-delay: 0s; }
-.boutiqueArtworkSecondary { width: 96%; left: 2%; top: 10%; animation-delay: -6s; }
+.boutiqueArtworkSecondary { width: min(80%, 50vh); left: 8%; top: 0; animation-delay: -6s; }
 .boutiqueArtworkTertiary { width: min(80%, 50vh); right: 8%; top: 0; animation-delay: -12s; }
 @keyframes museumOrbit {
   0% { z-index: 3; opacity: 1; transform: translate3d(0, 0, 90px) scale(1) rotate(0deg); }
@@ -335,7 +335,7 @@
   .boutiqueScene { display: block; min-height: 178svh; }
   .boutiqueImage { position: sticky; top: 6svh; min-height: 0; height: 100svh; margin: 0; }
   .boutiqueArtworkPrimary { width: 84%; left: 8%; top: 0; }
-  .boutiqueArtworkSecondary { width: 84%; left: 8%; top: 5%; }
+  .boutiqueArtworkSecondary { width: min(84%, 50svh); left: 8%; top: 0; }
   .boutiqueArtworkTertiary { width: min(88%, 50svh); right: 6%; top: 0; }
   .boutiqueCopy { position: relative; top: auto; min-height: 75svh; padding: 12vh 8vw; background: #fff; z-index: 5; }
   .boutiqueCopy h2 { font-size: clamp(48px, 13vw, 82px); }
