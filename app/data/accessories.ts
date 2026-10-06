@@ -179,10 +179,10 @@ export const accessoryProducts: AccessoryProduct[] = [
     descriptionFr: 'Boucle Sanch signature sur une fine ceinture en cuir lisse',
     longDescription: '',
     price: '€375',
-    image: '/images/Accesories%20/Sanch%20Belt/belt-main.jpg',
+    image: '/images/Accesories%20/Sanch%20Belt/belt-main-v2.webp',
     additionalImages: [
       '/images/Accesories%20/Sanch%20Belt/belt-portrait-optimized.jpg',
-      '/images/Accesories%20/Sanch%20Belt/belt-4.jpg'
+      '/images/Accesories%20/Sanch%20Belt/belt-detail-v2.webp'
     ],
     comingSoon: false,
     categoryId: 'accessories',

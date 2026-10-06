@@ -47,7 +47,7 @@ const accessoryCategories: AccessoryCategory[] = [
     name: 'Belt',
     nameFr: 'Ceinture',
     description: 'Luxurious designer belt with refined minimalist aesthetic.',
-    image: '/images/Accesories%20/Sanch%20Belt/belt-main.jpg',
+    image: '/images/Accesories%20/Sanch%20Belt/belt-main-v2.webp',
     linkTo: '/product/belt-sanch'
   }
   // Other Accessories category hidden as requested
