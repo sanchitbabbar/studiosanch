@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
 import BackNavigation from './BackNavigation';
 
@@ -8,6 +9,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
   const [isLanguagePanelOpen, setIsLanguagePanelOpen] = useState(false);
   const { language, setLanguage } = useLanguage();
   const fr = language === 'fr';
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -139,8 +141,16 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
           </a>
         </div>
         <div className="copyright">
-          <p data-i18n="copyright">© studiosanch 2026</p>
-          <p>{fr ? 'TOUS DROITS RÉSERVÉS.' : 'ALL RIGHTS RESERVED.'}</p>
+          <motion.div
+            className="footer-copyright-copy"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: reducedMotion ? 0 : 0.8, delay: reducedMotion ? 0 : 0.2 }}
+            viewport={{ once: true }}
+          >
+            <p>ⓒ 2026 STUDIO SANCH</p>
+            <p>{fr ? 'TOUS DROITS RÉSERVÉS.' : 'ALL RIGHTS RESERVED.'}</p>
+          </motion.div>
           <div className="footer-policy-links" aria-label={fr ? 'Informations légales' : 'Legal information'}>
             <a href="/privacy-policy.html">{fr ? 'CONFIDENTIALITÉ' : 'PRIVACY'}</a>
             <span aria-hidden="true">|</span>
