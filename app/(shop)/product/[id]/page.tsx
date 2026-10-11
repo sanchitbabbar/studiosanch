@@ -114,12 +114,12 @@ export default function ProductDetail() {
   }
 
   const artbookFilms = [
-    '/Videos/sanch-artbook-film-03-web.mp4',
     '/Videos/sanch-artbook-editorial-film-web.mp4',
+    '/Videos/sanch-artbook-film-03-web.mp4',
   ];
   const artbookPosters = [
-    '/images/boutique/artbook-gallery/artbook-film-03-poster.webp',
     '/images/boutique/artbook-gallery/artbook-editorial-film-poster.webp',
+    '/images/boutique/artbook-gallery/artbook-film-03-poster.webp',
   ];
 
   return (
