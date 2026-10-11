@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import SiteHeader from '../../components/site/SiteHeader';
 import SiteFooter from '../../components/site/SiteFooter';
 import CinematicReel from '../../components/site/CinematicReel';
+import FeaturedPerformances from '../../components/FeaturedPerformances';
 import { useLanguage } from '../../context/LanguageContext';
 
 const services = [
@@ -228,6 +229,7 @@ export default function ProductionsPage() {
             </button>
           </div>
         </section>
+        <FeaturedPerformances />
       </main>
       <div className={`production-contact-modal${contactOpen ? ' is-open' : ''}`} aria-hidden={!contactOpen}>
         <button className="production-contact-backdrop" type="button" aria-label={fr ? 'Fermer' : 'Close'} onClick={closeContact} />
