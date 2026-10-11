@@ -78,7 +78,7 @@ export default function FeaturedPerformances() {
   return (
     <section className={playerStyles.section} aria-label={fr ? 'Films sélectionnés' : 'Featured films'}>
       <div className={playerStyles.inner}>
-        <h3 className={playerStyles.heading}>PRODUCTIONS</h3>
+        <h3 className={playerStyles.heading}>Films</h3>
         <div className={playerStyles.grid}>
           <div className={playerStyles.player}>
             <video
