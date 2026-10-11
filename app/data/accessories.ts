@@ -157,6 +157,7 @@ export const accessoryProducts: AccessoryProduct[] = [
       'Impression offset HR-UV',
       'Designed and Conceived in Paris',
       'Imprimerie : Escourbiac',
+      'ISBN : 979-10-415-9560-0 · EAN : 9791041595600',
       'Original art book: Limited edition, numbered, and personalized with a named dedication. Pursuant to Article L.221-28 of the French Consumer Code, this personalized item is excluded from the right of withdrawal, exchange, or refund.'
     ],
     featuresFr: [
@@ -169,6 +170,7 @@ export const accessoryProducts: AccessoryProduct[] = [
       'Impression offset HR-UV',
       'Conçu et réalisé à Paris',
       'Imprimerie : Escourbiac',
+      'ISBN : 979-10-415-9560-0 · EAN : 9791041595600',
       'Livre d\'art original : Édition limitée, numérotée et personnalisée par dédicace nominative. Conformément à l\'article L.221-28 du Code de la consommation, cet article personnalisé est exclu du droit de rétractation, d\'échange ou de remboursement.'
     ]
   },
