@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { newSanchFilms, type FilmCredit } from '../data/sanchFilms';
 import playerStyles from './FilmPlayer.module.css';
@@ -72,26 +72,45 @@ export default function FeaturedPerformances() {
   const [featuredIndex, setFeaturedIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [loadFilm, setLoadFilm] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    if (!('IntersectionObserver' in window)) {
+      setLoadFilm(true);
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setLoadFilm(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '400px' });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
   const featured = performances[featuredIndex];
   const fr = language === 'fr';
 
   return (
-    <section className={playerStyles.section} aria-label={fr ? 'Films sélectionnés' : 'Featured films'}>
+    <section ref={sectionRef} className={playerStyles.section} aria-label={fr ? 'Films sélectionnés' : 'Featured films'}>
       <div className={playerStyles.inner}>
         <h3 className={playerStyles.heading}>Films</h3>
         <div className={playerStyles.grid}>
           <div className={playerStyles.player}>
             <video
               ref={videoRef}
-              key={featured.videoSrc}
+              key={`${featured.videoSrc}-${loadFilm}`}
               className={playerStyles.media}
               autoPlay loop muted={isMuted} playsInline preload="metadata"
               poster={featured.poster}
               aria-label={fr ? (featured.titleFr || featured.title) : featured.title}
               onLoadedData={event => { void event.currentTarget.play().catch(() => undefined); }}
             >
-              <source src={featured.videoSrc} type={featured.videoSrc.endsWith('.mp4') ? 'video/mp4' : 'video/webm'} />
-              {featured.mp4Src && <source src={featured.mp4Src} type="video/mp4" />}
+              <source src={loadFilm ? featured.videoSrc : undefined} type={featured.videoSrc.endsWith('.mp4') ? 'video/mp4' : 'video/webm'} />
+              {featured.mp4Src && <source src={loadFilm ? featured.mp4Src : undefined} type="video/mp4" />}
             </video>
             <div className={playerStyles.info}>
               <div>
