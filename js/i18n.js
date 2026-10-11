@@ -1,5 +1,5 @@
 // Initialize i18next
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // Load jQuery
   const $ = window.jQuery;
 
@@ -12,18 +12,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Detect language from URL path
-  function detectLanguage() {
-    // Check URL first
-    const pathLang = window.location.pathname.split('/')[1];
-    if (pathLang === 'fr') return 'fr';
-    
-    // Check localStorage second
-    const savedLang = localStorage.getItem('i18nextLng');
-    if (savedLang) return savedLang;
-    
-    // Check browser language third
-    const browserLang = navigator.language.split('-')[0];
-    return browserLang === 'fr' ? 'fr' : 'en';
+  async function detectLanguage() {
+    if (window.location.pathname.split('/')[1] === 'fr') return 'fr';
+    try {
+      const preferred = localStorage.getItem('preferredLanguage');
+      if (preferred === 'fr' || preferred === 'en') return preferred;
+    } catch (_) {}
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    try {
+      const response = await fetch('/api/visitor-language', { signal: controller.signal, cache: 'no-store' });
+      const data = response.ok ? await response.json() : {};
+      return data.language === 'fr' ? 'fr' : 'en';
+    } catch (_) { return 'en'; }
+    finally { clearTimeout(timeout); }
   }
 
   // Load translations asynchronously
@@ -41,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Initialize language
-  const currentLang = detectLanguage();
+  const currentLang = await detectLanguage();
   let translations = {};
 
   // Load initial translations
@@ -77,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
       translations = data;
       translatePage(lang);
       localStorage.setItem('i18nextLng', lang);
+      localStorage.setItem('preferredLanguage', lang);
       
       // Handle URL changes
       if (lang === 'fr' && !window.location.pathname.startsWith('/fr/')) {

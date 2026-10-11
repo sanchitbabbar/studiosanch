@@ -1,5 +1,7 @@
 'use client';
 
+import { visitorLanguage, savedLanguage, saveLanguage } from '../lib/visitorLanguage';
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 // Define available languages
@@ -383,7 +385,6 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [language, setLanguageState] = useState('en');
-  const [isLanguageReady, setIsLanguageReady] = useState(false);
 
   // Function to get nested translation by dot notation
   const t = (key: string, sectionParam = '') => {
@@ -410,40 +411,37 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     return translations[language as keyof typeof translations][section as keyof TranslationsType] || {};
   };
 
-  // Save language preference to localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined' && isLanguageReady) {
-      localStorage.setItem('language', language);
-      localStorage.setItem('i18nextLng', language);
-      document.documentElement.lang = language;
-    }
-  }, [language, isLanguageReady]);
+  useEffect(() => { document.documentElement.lang = language; }, [language]);
 
-  // Initialize language from localStorage if available
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const siteLanguage = localStorage.getItem('i18nextLng');
-      const savedLanguage = localStorage.getItem('language');
-      const pathLanguage = window.location.pathname.startsWith('/fr/') ? 'fr' : null;
-      const preferredLanguage = pathLanguage || siteLanguage || savedLanguage;
-
-      if (preferredLanguage === 'en' || preferredLanguage === 'fr') {
-        setLanguageState(preferredLanguage);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 2500);
+    let cancelled = false;
+    const initialize = async () => {
+      const path = window.location.pathname;
+      const query = new URLSearchParams(window.location.search).get('lang');
+      const explicit = path === '/fr' || path.startsWith('/fr/') ? 'fr'
+        : query === 'en' || query === 'fr' ? query : null;
+      const preferred = savedLanguage();
+      const code = explicit || (preferred === 'fr' || preferred === 'en' ? preferred : await visitorLanguage(controller.signal));
+      if (cancelled || savedLanguage() !== preferred) return;
+      setLanguageState(code);
+      // The portfolio has dedicated French landing content.
+      if (false && code === 'fr' && path === '/' && query !== 'en') {
+        const url = new URL(window.location.href);
+        url.pathname = '/fr/';
+        window.location.replace(url.toString());
       }
-      setIsLanguageReady(true);
-    }
+    };
+    void initialize();
+    return () => { cancelled = true; clearTimeout(timeout); controller.abort(); };
   }, []);
 
-  // Update the interface immediately and persist the choice synchronously so
-  // navigation between React and legacy pages cannot restore a stale language.
   const setLanguage = (code: string) => {
     if (code !== 'en' && code !== 'fr') return;
+    saveLanguage(code);
     setLanguageState(code);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('language', code);
-      localStorage.setItem('i18nextLng', code);
-      document.documentElement.lang = code;
-    }
+    document.documentElement.lang = code;
   };
 
   return (
