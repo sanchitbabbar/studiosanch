@@ -10,7 +10,9 @@
 .category { display: block; margin: 0 0 8px; color: #ffffffcc; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
 .title { margin: 0; color: #ffffffe6; font-size: 24px; line-height: 1.3; font-weight: 300; }
 .description { margin: 8px 0 0; color: #ffffff99; font-size: 13px; line-height: 1.6; }
-.sound { flex: 0 0 auto; width: 34px; height: 34px; padding: 0; border: 1px solid #ffffff33; border-radius: 50%; background: #0004; color: #ffffffbb; cursor: pointer; font-size: 18px; }
+.sound { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; padding: 8px; border: 1px solid #ffffff1a; border-radius: 50%; background: #0000001a; backdrop-filter: blur(4px); color: #ffffff66; cursor: pointer; transition: background-color .3s, border-color .3s, color .3s; }
+.sound:hover { background: #0003; border-color: #ffffff33; color: #ffffff99; }
+.sound svg { flex-shrink: 0; }
 .playlist { display: flex; flex-direction: column; gap: 12px; max-height: 400px; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; scrollbar-color: #ffffff44 transparent; }
 .thumbnail { position: relative; display: block; width: 100%; height: 180px; flex-shrink: 0; padding: 0; border: 0; border-radius: 2px; overflow: hidden; background: #000; color: #fff; text-align: left; cursor: pointer; font: inherit; }
 .thumbnail img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1s ease; }
