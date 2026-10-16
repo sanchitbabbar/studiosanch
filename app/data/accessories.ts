@@ -39,12 +39,14 @@ export const accessoryProducts: AccessoryProduct[] = [
   "comingSoon": false,
   "categoryId": "accessories",
   "features": [
+    "33 × 150 cm",
     "Longline silhouette",
     "Soft-touch velour finish",
     "100% Synthetic fiber",
     "Designed and Made in Paris"
   ],
   "featuresFr": [
+    "33 × 150 cm",
     "Silhouette allongée",
     "Finition velours au toucher doux",
     "100% Fibre synthétique",
