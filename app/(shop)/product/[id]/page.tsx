@@ -439,7 +439,7 @@ export default function ProductDetail() {
                           <p>• Handcrafted quality</p>
                         </>
                       )}
-                      {(product?.id === 'artbook-main' || product?.id === 'belt-sanch' || product?.id === 'sunglasses-black') && product?.features && (
+                      {(product?.id === 'artbook-main' || product?.id === 'belt-sanch' || product?.id === 'sunglasses-black' || product?.id === 'conscious-fur-scarf') && product?.features && (
                         <>
                           {(language === 'fr' && product?.featuresFr ? product.featuresFr : product.features).map((feature, index) => (
                             feature.startsWith('~')
@@ -463,7 +463,7 @@ export default function ProductDetail() {
                           </p>
                         </>
                       )}
-                      {product?.id !== 'sanch-canvas' && product?.id !== 'sanch-suede' && product?.id !== 'mug-sketch' && product?.id !== 'mug-black' && product?.id !== 'artbook-main' && product?.id !== 'belt-sanch' && product?.id !== 'sunglasses-black' && (
+                      {product?.id !== 'sanch-canvas' && product?.id !== 'sanch-suede' && product?.id !== 'mug-sketch' && product?.id !== 'mug-black' && product?.id !== 'artbook-main' && product?.id !== 'belt-sanch' && product?.id !== 'sunglasses-black' && product?.id !== 'conscious-fur-scarf' && (
                         <p>• {language === 'fr' ? 'Savoir-faire de qualité supérieure' : 'Premium quality craftsmanship'}</p>
                       )}
                     </div>
@@ -557,14 +557,16 @@ export default function ProductDetail() {
                         fill
                         sizes="280px"
                         style={{ objectFit: 'cover', objectPosition: (() => {
-                          // Adjust positioning for different bag products
-                          if (relatedProduct.id === 'sanch-canvas') {
+                          // Keep the bottom of the bag and scarf visible in landscape thumbnails.
+                          if (relatedProduct.id === 'sanch-suede' || relatedProduct.id === 'conscious-fur-scarf') {
+                            return 'center bottom';
+                          } else if (relatedProduct.id === 'sanch-canvas') {
                             return 'center 60%';
                           } else {
                             return 'center center';
                           }
                         })() }}
-                        className="transition-transform duration-500 group-hover:scale-105"
+                        className={relatedProduct.id === 'sanch-suede' || relatedProduct.id === 'conscious-fur-scarf' ? 'transition-transform duration-500' : 'transition-transform duration-500 group-hover:scale-105'}
                       />
                       
                       {/* Overlay */}

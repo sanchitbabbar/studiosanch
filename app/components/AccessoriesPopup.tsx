@@ -36,9 +36,9 @@ const accessoryCategories: AccessoryCategory[] = [
   },
   {
   "id": "scarf",
-  "name": "Velour Fur Scarf",
-  "nameFr": "Écharpe en Fourrure Velours",
-  "description": "A designer scarf in high-density velour fur effect. Sculpted texture, fluid drape, and an exceptionally soft, velvet touch. Designed as a modern alternative to traditional pelage.",
+  "name": "Scarf",
+  "nameFr": "Écharpe",
+  "description": "A designer scarf in high-density velour fur. Sculpted texture, fluid drape, and a soft, velvet touch. Designed as a modern alternative to traditional pelage.",
   "image": "/images/boutique/conscious-fur-scarf/01-folded-logo-v2.webp",
   "linkTo": "/product/conscious-fur-scarf"
 },
