@@ -236,7 +236,7 @@
 .atelierMistBack { top: 15vh; left: 8vw; background: radial-gradient(ellipse at center, rgba(210,210,210,.15) 0%, rgba(110,110,110,.07) 42%, rgba(0,0,0,0) 72%); filter: blur(34px); }
 .atelierMistFront { bottom: 8vh; left: 2vw; background: radial-gradient(ellipse at center, rgba(235,235,235,.2) 0%, rgba(135,135,135,.08) 38%, rgba(0,0,0,0) 70%); filter: blur(48px); }
 
-.boutiqueScene { min-height: 180vh; display: grid; grid-template-columns: 1.18fr .82fr; align-items: start; background: #fff; color: #111; overflow: hidden; }
+.boutiqueScene { min-height: 110vh; display: grid; grid-template-columns: 1.18fr .82fr; align-items: start; background: #fff; color: #111; overflow: hidden; }
 .boutiqueImage { position: sticky; top: 9vh; height: min(82vh, 900px); margin: 9vh 0 0 3vw; will-change: transform; transform-origin: center center; perspective: 1400px; }
 .boutiqueArtwork {
   position: absolute;
@@ -347,4 +347,11 @@
 @media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
   .chapterMedia img { transition: none; }
+}
+
+@media (min-width: 901px) {
+  .productionChapter { padding-bottom: 0; }
+  .productionChapter .chapter { margin-bottom: 0; }
+  .atelierChapter { padding-top: 6vh; padding-bottom: 0; }
+  .atelierChapter .chapter { min-height: 95vh; margin-bottom: 0; }
 }

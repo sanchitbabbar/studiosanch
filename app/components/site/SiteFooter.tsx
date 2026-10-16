@@ -23,7 +23,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
 
   return (
     <footer style={{ backgroundColor }}>
-      <div className="footer-container">
+      <div className="footer-container" style={{ alignItems: 'center', textAlign: 'center' }}>
         <div className="footer-section">
           <h3
             id="language-selector-trigger"

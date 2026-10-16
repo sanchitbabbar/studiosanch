@@ -399,11 +399,11 @@ export default function CinematicHome() {
         </motion.div>
       </section>
 
-      <section className={`${styles.chapters} ${styles.chaptersTail}`}>
+      <section className={`${styles.chapters} ${styles.chaptersTail} ${styles.productionChapter}`}>
         <ChapterScene chapter={chapters[1]} index={1} language={currentLanguage} />
       </section>
 
-      <section className={`${styles.chapters} ${styles.chaptersTail}`}>
+      <section className={`${styles.chapters} ${styles.chaptersTail} ${styles.atelierChapter}`}>
         <ChapterScene chapter={chapters[2]} index={2} language={currentLanguage} />
       </section>
 
