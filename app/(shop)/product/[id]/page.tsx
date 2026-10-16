@@ -558,8 +558,10 @@ export default function ProductDetail() {
                         sizes="280px"
                         style={{ objectFit: 'cover', objectPosition: (() => {
                           // Keep the bottom of the bag and scarf visible in landscape thumbnails.
-                          if (relatedProduct.id === 'sanch-suede' || relatedProduct.id === 'conscious-fur-scarf') {
-                            return 'center bottom';
+                          if (relatedProduct.id === 'conscious-fur-scarf') {
+                            return 'center 72%';
+                          } else if (relatedProduct.id === 'sanch-suede') {
+                            return 'center 65%';
                           } else if (relatedProduct.id === 'sanch-canvas') {
                             return 'center 60%';
                           } else {
