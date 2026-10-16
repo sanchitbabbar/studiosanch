@@ -23,34 +23,32 @@ export interface AccessoryProduct {
 export const accessoryProducts: AccessoryProduct[] = [
   {
   "id": "conscious-fur-scarf",
-  "name": "The Conscious Fur Scarf",
+  "name": "Velour Fur Scarf",
   "nameFr": "Écharpe en Fourrure Velours",
-  "description": "Black fox fur, a velvety touch and a generous, fluid drape.",
-  "descriptionFr": "Une fourrure de renard noire au toucher velours, dans un drapé ample et souple.",
-  "longDescription": "A softly enveloping scarf in dense, short-pile black fox fur. Its understated lustre reveals the richness of the texture, finished with a discreet black satin SANCH label. Designed and crafted in Paris.",
-  "longDescriptionFr": "Une écharpe enveloppante en fourrure de renard noire, au poil court et dense. Son éclat discret souligne la richesse de la matière, ponctuée d’une étiquette SANCH en satin noir. Dessinée et confectionnée à Paris.",
+  "description": "A designer scarf in high-density velour fur effect. Sculpted texture, fluid drape, and an exceptionally soft, velvet touch. Designed as a modern alternative to traditional pelage.",
+  "descriptionFr": "Une écharpe de créateur en effet fourrure velours à haute densité. Texture sculptée, tombé fluide et toucher velouté d'une douceur absolue. Une alternative contemporaine au pelage traditionnel.",
+  "longDescription": "",
+  "longDescriptionFr": "",
   "price": "€875",
-  "image": "/images/boutique/conscious-fur-scarf/01-folded-logo.webp",
+  "image": "/images/boutique/conscious-fur-scarf/01-folded-logo-v2.webp",
   "additionalImages": [
-    "/images/boutique/conscious-fur-scarf/02-detail-logo.webp",
-    "/images/boutique/conscious-fur-scarf/03-u-fold-logo.webp",
-    "/images/boutique/conscious-fur-scarf/04-reverse-no-logo.webp"
+    "/images/boutique/conscious-fur-scarf/02-detail-logo-v2.webp",
+    "/images/boutique/conscious-fur-scarf/03-u-fold-logo-v2.webp",
+    "/images/boutique/conscious-fur-scarf/04-reverse-no-logo-v2.webp"
   ],
   "comingSoon": false,
   "categoryId": "accessories",
   "features": [
-    "Black fox fur",
-    "Dense, short pile with a soft, velvety hand",
-    "Dimensions: 150 × 33 cm",
-    "Black satin label with the SANCH signature",
-    "Designed and crafted in Paris"
+    "Longline silhouette",
+    "Soft-touch velour finish",
+    "100% Synthetic fiber",
+    "Designed and Made in Paris"
   ],
   "featuresFr": [
-    "Fourrure de renard noire",
-    "Poil court et dense, toucher doux et velouté",
-    "Dimensions : 150 × 33 cm",
-    "Étiquette en satin noir, signature SANCH",
-    "Dessinée et confectionnée à Paris"
+    "Silhouette allongée",
+    "Finition velours au toucher doux",
+    "100% Fibre synthétique",
+    "Créé et Fabriqué à Paris"
   ]
 },
   {

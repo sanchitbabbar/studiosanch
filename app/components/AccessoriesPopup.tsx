@@ -25,14 +25,7 @@ interface SubItem {
 
 // Define the main accessory categories
 const accessoryCategories: AccessoryCategory[] = [
-  {
-  "id": "scarf",
-  "name": "The Conscious Fur Scarf",
-  "nameFr": "Écharpe en Fourrure Velours",
-  "description": "Black fox-fur scarf, designed and crafted in Paris.",
-  "image": "/images/boutique/conscious-fur-scarf/01-folded-logo.webp",
-  "linkTo": "/product/conscious-fur-scarf"
-},
+
   {
     id: 'bag',
     name: 'Bag',
@@ -41,6 +34,14 @@ const accessoryCategories: AccessoryCategory[] = [
     image: '/images/Accesories/SanchBagSuede/subcategory-thumbnail.jpg',
     linkTo: '/product/sanch-suede'
   },
+  {
+  "id": "scarf",
+  "name": "Velour Fur Scarf",
+  "nameFr": "Écharpe en Fourrure Velours",
+  "description": "A designer scarf in high-density velour fur effect. Sculpted texture, fluid drape, and an exceptionally soft, velvet touch. Designed as a modern alternative to traditional pelage.",
+  "image": "/images/boutique/conscious-fur-scarf/01-folded-logo-v2.webp",
+  "linkTo": "/product/conscious-fur-scarf"
+},
   // Mug category hidden
   {
     id: 'sunglasses',
@@ -226,7 +227,7 @@ const AccessoriesPopup = () => {
             >
               <div className="h-[120px] w-[120px] relative mb-5 overflow-hidden rounded-md">
                 {/* Added more pronounced rounded corners with rounded-md (6px radius) */}
-                {(category.id === 'sunglasses' || category.id === 'mug' || category.id === 'bag' || category.id === 'belt') ? (
+                {(category.id === 'sunglasses' || category.id === 'mug' || category.id === 'bag' || category.id === 'belt' || category.id === 'scarf') ? (
                   <div className="relative h-full w-full overflow-hidden">
                     <Image 
                       src={category.image}
@@ -234,7 +235,7 @@ const AccessoriesPopup = () => {
                       fill
                       sizes="(max-width: 768px) 120px, 120px"
                       className="object-cover transform scale-[1.01] group-hover:scale-[1.08] transition-transform duration-[1.2s] ease-out"
-                      style={category.id === 'bag' ? { objectPosition: 'center 70%' } : {}}
+                      style={category.id === 'bag' ? { objectPosition: 'center 70%' } : category.id === 'scarf' ? { objectPosition: 'center 75%' } : {}}
                       priority={index < 2} // Only prioritize first two images
                     />
                     <motion.div 
