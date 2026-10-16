@@ -113,6 +113,8 @@ export default function ProductDetail() {
     );
   }
 
+  const productName = language === 'fr' && product.nameFr ? product.nameFr : product.name;
+
   const artbookFilms = [
     '/Videos/sanch-artbook-editorial-film-web.mp4',
     '/Videos/sanch-artbook-film-03-web.mp4',
@@ -158,7 +160,7 @@ export default function ProductDetail() {
               {language === 'fr' ? 'Collection' : 'Collection'}
             </Link>
             <span>/</span>
-            <span className="text-white">{product.name}</span>
+            <span className="text-white">{productName}</span>
           </div>
 
           {/* Back to Collection Link - Ultra Elegant version */}
@@ -280,7 +282,7 @@ export default function ProductDetail() {
                 ) : (
                   // Placeholder for missing image
                   <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-zinc-800 to-zinc-900">
-                    <span className="text-2xl font-syne tracking-wider">{product?.name}</span>
+                    <span className="text-2xl font-syne tracking-wider">{productName}</span>
                   </div>
                 )}
                 
@@ -332,7 +334,7 @@ export default function ProductDetail() {
                     >
                       <Image 
                         src={imageSrc}
-                        alt={`${product?.name} - View ${index + 1}`}
+                        alt={`${productName} - View ${index + 1}`}
                         fill
                         sizes="80px"
                         style={{ 
@@ -373,7 +375,7 @@ export default function ProductDetail() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             >
               {/* Product Name with Elegant Styling */}
-              <h1 className="text-3xl font-light mb-1 font-syne tracking-wide">{product?.name}</h1>
+              <h1 className="text-3xl font-light mb-1 font-syne tracking-wide">{productName}</h1>
               <div className="h-px w-16 bg-white/20 mb-6"></div>
               
               {/* Price with refined typography */}
@@ -584,7 +586,7 @@ export default function ProductDetail() {
         <ProductCheckoutModal
           isOpen={isCheckoutOpen}
           onClose={() => setIsCheckoutOpen(false)}
-          product={{ name: product.name, price: product.price, id: product.id }}
+          product={{ name: productName, price: product.price, id: product.id }}
         />
       )}
 

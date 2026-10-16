@@ -26,6 +26,14 @@ interface SubItem {
 // Define the main accessory categories
 const accessoryCategories: AccessoryCategory[] = [
   {
+  "id": "scarf",
+  "name": "The Conscious Fur Scarf",
+  "nameFr": "Écharpe en Fourrure Velours",
+  "description": "Black fox-fur scarf, designed and crafted in Paris.",
+  "image": "/images/boutique/conscious-fur-scarf/01-folded-logo.webp",
+  "linkTo": "/product/conscious-fur-scarf"
+},
+  {
     id: 'bag',
     name: 'Bag',
     nameFr: 'Sac',
