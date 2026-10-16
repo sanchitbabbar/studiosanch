@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from './CinematicHome.module.css';
+import BoutiqueSlider from './BoutiqueSlider';
 
 const MotionLink = motion.create(Link);
 
@@ -370,6 +371,8 @@ export default function CinematicHome() {
           <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
       </section>
+
+      <BoutiqueSlider />
 
       <section ref={reelRef} className={styles.reelSection}>
         <motion.div className={styles.reelMedia} style={{ scale: reelScale, y: reelY }}>

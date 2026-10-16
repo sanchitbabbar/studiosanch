@@ -1,0 +1,14 @@
+.section { padding: 100px 0 120px; background: #000; }
+.title { text-align: center; font-size: clamp(22px, 3vw, 36px); font-weight: 300; letter-spacing: .22em; margin-bottom: 64px !important; }
+.viewport { overflow: hidden; }
+.track { display: flex; width: max-content; will-change: transform; }
+.group { display: flex; gap: 32px; padding-right: 32px; }
+.card { display: block; width: 280px; flex: none; }
+.image { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 6px; background: #18181b; margin-bottom: 16px; }
+.card h3 { font-size: 16px; font-weight: 300; margin-bottom: 4px !important; }
+.card p { font-size: 14px; color: #999; }
+.overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0006; opacity: 0; transition: opacity .5s; font-size: 10px; letter-spacing: .2em; }
+.card:hover .overlay, .card:focus-visible .overlay { opacity: 1; }
+
+
+@media (max-width: 600px) { .section { padding: 70px 0 80px; } .title { margin-bottom: 40px !important; } }
