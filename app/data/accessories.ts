@@ -23,6 +23,7 @@ export interface AccessoryProduct {
 export const accessoryProducts: AccessoryProduct[] = [
   {
   "id": "conscious-fur-scarf",
+  "stockStatus": "limited",
   "name": "Velour Fur Scarf",
   "nameFr": "Écharpe en Fourrure Velours",
   "description": "A designer scarf in high-density velour fur. Sculpted texture, fluid drape, and a soft, velvet touch. Designed as a modern alternative to traditional pelage.",
