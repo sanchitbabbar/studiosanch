@@ -44,7 +44,7 @@ export const accessoryProducts: AccessoryProduct[] = [
     "Longline silhouette",
     "Soft-touch velour finish",
     "100% Synthetic fiber",
-    "Designed and Made in Paris"
+    "Designed and made in Paris"
   ],
   "featuresFr": [
     "33 × 150 cm",
