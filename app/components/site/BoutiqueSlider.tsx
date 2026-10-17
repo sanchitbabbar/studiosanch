@@ -7,7 +7,7 @@ import { accessoryProducts } from '../../data/accessories';
 import { useLanguage } from '../../context/LanguageContext';
 import styles from './BoutiqueSlider.module.css';
 
-const productIds = ['sanch-suede', 'conscious-fur-scarf', 'sunglasses-black', 'belt-sanch', 'artbook-main'];
+const productIds = ['sanch-suede', 'velour-fur-scarf', 'sunglasses-black', 'belt-sanch', 'artbook-main'];
 const products = productIds.flatMap(id => accessoryProducts.find(product => product.id === id) ?? []);
 
 export default function BoutiqueSlider() {
@@ -43,7 +43,7 @@ export default function BoutiqueSlider() {
                 <Link href="/boutique/" key={product.id} className={styles.card} tabIndex={copy === 1 ? -1 : undefined}>
                   <div className={styles.image}>
                     <Image src={product.image} alt={fr ? product.nameFr || product.name : product.name} fill sizes="280px"
-                      style={{ objectFit: 'cover', objectPosition: product.id === 'conscious-fur-scarf' ? 'center 72%' : product.id === 'sanch-suede' ? 'center 65%' : 'center' }} />
+                      style={{ objectFit: 'cover', objectPosition: product.id === 'velour-fur-scarf' ? 'center 72%' : product.id === 'sanch-suede' ? 'center 65%' : 'center' }} />
                     <span className={styles.overlay}>{fr ? 'EXPLORER LA BOUTIQUE' : 'EXPLORE BOUTIQUE'}</span>
                   </div>
                   <h3>{fr ? product.nameFr || product.name : product.name}</h3>

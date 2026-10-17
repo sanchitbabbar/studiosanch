@@ -22,7 +22,7 @@ export interface AccessoryProduct {
 // Define the main accessory products
 export const accessoryProducts: AccessoryProduct[] = [
   {
-  "id": "conscious-fur-scarf",
+  "id": "velour-fur-scarf",
   "stockStatus": "limited",
   "name": "Velour Fur Scarf",
   "nameFr": "Écharpe en Fourrure Velours",
