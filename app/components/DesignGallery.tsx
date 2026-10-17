@@ -145,6 +145,19 @@ const printQualities: PrintQuality[] = [
 
 const designs: Design[] = [
   {
+    "id": "leden",
+    "title": "L'Éden",
+    "descriptionFr": "Au milieu d’un monde en fracture, rien ne parlait au cœur. Par habitude, s'éloignant du tumulte, l'encre s'est déposée sur le papier—pour faire frémir des roses plutôt que des tempêtes.",
+    "descriptionEn": "Amidst the fracturing of the world, nothing spoke to the heart. As ever, turning away from the noise, one surrendered ink upon paper—hoping to sough roses, rather than storms.",
+    "image": "/images/art-prints/leden.webp",
+    "year": "2026",
+    "technique": "Œuvre d'art limitée",
+    "basePrice": 4850,
+    "availablePieces": 5,
+    sizes: printSizes,
+    qualities: printQualities
+  },
+  {
     id: '1',
     title: "Murmure des Pétales",
     descriptionFr: "Une composition fluide et délicate qui saisit l'essence éphémère des pétales murmurants en mouvement. Les nuances douces et les formes organiques évoquent une atmosphère d'élégance intemporelle où chaque regard découvre une nouvelle impression de sérénité.",
@@ -664,7 +677,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                           </h5>
                         </div>
                         <h3 className="text-white/95 text-2xl md:text-3xl font-light tracking-wide">{selectedDesign.title}</h3>
-                        <p className="text-white/60 tracking-wide leading-relaxed">{language === 'en' ? selectedDesign.descriptionEn : selectedDesign.descriptionFr}</p>
+                        <p className="text-white/60 tracking-wide leading-relaxed whitespace-pre-line">{language === 'en' ? selectedDesign.descriptionEn : selectedDesign.descriptionFr}</p>
                       </div>
 
                       {/* Product specs */}
