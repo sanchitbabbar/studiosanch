@@ -43,8 +43,7 @@ function ArtworkViews({ design, language }: { design: Design; language: string }
   const [framed, setFramed] = useState(false);
   const fr = language === 'fr';
   return (
-    <div style={{ position: 'relative', overflow: 'hidden', height: '100%', display: 'grid', gridTemplateRows: 'minmax(0, 1fr) 44px', backgroundColor: framed ? '#f6f5f1' : '#000', backgroundImage: framed ? 'radial-gradient(ellipse at 28% 12%, rgba(255,255,255,.95), transparent 70%), linear-gradient(125deg, #faf9f6 0%, #f1efe9 100%)' : 'none' }}>
-      {framed && (<div aria-hidden="true" className="pointer-events-none absolute inset-0 opacity-[0.035]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.7%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Cpath fill=%22%23000%22 filter=%22url(%23n)%22 d=%22M0 0h180v180H0z%22/%3E%3C/svg%3E")' }} />)}
+    <div style={{ position: 'relative', overflow: 'hidden', height: '100%', display: 'grid', gridTemplateRows: 'minmax(0, 1fr) 44px', backgroundColor: framed ? '#fff' : '#000' }}>
       <div style={{ position: 'relative', minHeight: 0 }}>
       <motion.div
         className="absolute inset-0 flex"
@@ -55,7 +54,7 @@ function ArtworkViews({ design, language }: { design: Design; language: string }
           <Image src={design.image} alt={design.title} fill sizes="(max-width: 768px) 95vw, 50vw" className="object-contain" priority />
         </div>
         <div
-          className="relative flex h-full w-full shrink-0 items-center justify-center p-4 md:p-7"
+          className="relative flex h-full w-full shrink-0 items-center justify-center p-10 md:p-16"
           style={{
             background: 'transparent',
           }}
@@ -74,7 +73,7 @@ function ArtworkViews({ design, language }: { design: Design; language: string }
               maxHeight: '100%',
               boxSizing: 'border-box',
               border: '8px solid #171717',
-              boxShadow: '6px 18px 30px rgba(38,32,24,.18), 2px 4px 7px rgba(0,0,0,.16), 0 0 0 1px #303030',
+              boxShadow: '-18px 24px 28px rgba(0,0,0,.28), -5px 8px 12px rgba(0,0,0,.12), 0 0 0 1px #303030',
             }}
           />
         </div>
