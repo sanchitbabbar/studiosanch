@@ -212,7 +212,8 @@ export const accessoryProducts: AccessoryProduct[] = [
   },
   {
     id: 'belt-sanch',
-    name: 'The SANCH Belt',
+    name: 'Sanch Belt',
+    nameFr: 'La Ceinture Sanch',
     description: 'Signature Sanch buckle with thin belt in smooth leather',
     descriptionFr: 'Boucle Sanch signature sur une fine ceinture en cuir lisse',
     longDescription: '',
