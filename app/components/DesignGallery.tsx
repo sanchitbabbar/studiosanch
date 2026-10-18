@@ -65,14 +65,13 @@ function ArtworkViews({ design, language }: { design: Design; language: string }
             src={design.image}
             alt={`${design.title} — ${fr ? 'vue encadrée' : 'framed view'}`}
             loading="lazy"
-            className="relative block"
+            className="relative block border-[4px] md:border-[8px] border-solid border-[#171717]"
             style={{
               width: 'auto',
               height: 'auto',
               maxWidth: '100%',
               maxHeight: '100%',
               boxSizing: 'border-box',
-              border: '8px solid #171717',
               boxShadow: '-18px 24px 28px rgba(0,0,0,.28), -5px 8px 12px rgba(0,0,0,.12), 0 0 0 1px #303030',
             }}
           />
