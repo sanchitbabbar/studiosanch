@@ -144,6 +144,19 @@ const printQualities: PrintQuality[] = [
 
 const designs: Design[] = [
   {
+    id: 'leffluve',
+    title: 'L’Effluve',
+    descriptionFr: 'Le Sillage de la sensibilité',
+    descriptionEn: 'The whisper of sensitivity',
+    image: '/images/art-prints/leffluve.webp',
+    year: '2026',
+    technique: "Œuvre d'art limitée",
+    basePrice: 4850,
+    availablePieces: 5,
+    sizes: printSizes,
+    qualities: printQualities
+  },
+  {
     "id": "leden",
     "title": "L'Éden",
     "descriptionFr": "Au milieu d’un monde en fracture, rien ne parlait au cœur. Par habitude, s'éloignant du tumulte, l'encre s'est déposée sur le papier—pour faire frémir des roses plutôt que des tempêtes.",
