@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '../../context/LanguageContext';
 import BackNavigation from './BackNavigation';
 
-export default function SiteFooter({ backgroundColor = '#000' }: { backgroundColor?: string }) {
+export default function SiteFooter({ backgroundColor = '#000', compact = false }: { backgroundColor?: string; compact?: boolean }) {
   const [isLanguagePanelOpen, setIsLanguagePanelOpen] = useState(false);
   const { language, setLanguage } = useLanguage();
   const fr = language === 'fr';
@@ -23,7 +23,7 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
 
   return (
     <footer style={{ backgroundColor }}>
-      <div className="footer-container" style={{ alignItems: 'center', textAlign: 'center' }}>
+      {!compact && <div className="footer-container" style={{ alignItems: 'center', textAlign: 'center' }}>
         <div className="footer-section">
           <h3
             id="language-selector-trigger"
@@ -84,10 +84,10 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
           </ul>
         </div>
 
-      </div>
+      </div>}
 
       <div className="copyright-container">
-        <BackNavigation />
+        {!compact && <BackNavigation />}
         <div className="social-links footer-social">
           <a
             href="https://www.facebook.com/profile.php?id=61559840979690"
@@ -148,6 +148,17 @@ export default function SiteFooter({ backgroundColor = '#000' }: { backgroundCol
             transition={{ duration: reducedMotion ? 0 : 0.8, delay: reducedMotion ? 0 : 0.2 }}
             viewport={{ once: true }}
           >
+            <div style={{ paddingBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/mda-timestamp-stamp.webp"
+                alt="Horodaté par MDA DATA avec IPOCAMP"
+                width={1500}
+                height={209}
+                loading="lazy"
+                style={{ display: 'block', height: 'auto', width: '268px', maxWidth: '80vw', clipPath: 'inset(22% 4%)' }}
+              />
+            </div>
             <p>ⓒ 2026 STUDIO SANCH</p>
             <p>{fr ? 'TOUS DROITS RÉSERVÉS.' : 'ALL RIGHTS RESERVED.'}</p>
           </motion.div>

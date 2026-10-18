@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import SiteFooter from './site/SiteFooter';
 import { useLanguage } from '../context/LanguageContext';
 
 interface DesignGalleryProps {
@@ -407,7 +408,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
         />
 
         {/* Main gallery container */}
-        <div className="relative h-screen max-h-screen flex flex-col overflow-auto">
+        <div className="relative h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden">
           {/* Elegant header with gold accent */}
           <div className="relative border-b border-white/10 z-20">
             <motion.div 
@@ -535,7 +536,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
           </div>
 
           {/* Main content area */}
-          <div className="flex-1 overflow-auto">
+          <div className="min-h-0 flex-1 overflow-y-auto">
             {activeTab === 'gallery' ? (
               <div className="px-4 md:px-8 py-6">
                 {/* Gallery grid with elegant spacing and luxury aesthetic */}
@@ -640,6 +641,7 @@ export default function DesignGallery({ isOpen, onClose }: DesignGalleryProps) {
                 </p>
               </div>
             )}
+            <SiteFooter compact />
           </div>
         </div>
 

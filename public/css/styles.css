@@ -1122,6 +1122,18 @@ footer {
 
 .footer-social {
     margin: 2rem 0 1rem;
+    align-items: center;
+}
+
+.footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.footer-social svg {
+    display: block;
 }
 
 .footer-social i {
