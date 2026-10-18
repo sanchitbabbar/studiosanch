@@ -156,17 +156,30 @@ const designs: Design[] = [
     qualities: printQualities
   },
   {
-    "id": "leden",
-    "title": "L'Éden",
-    "descriptionFr": "Au milieu d’un monde en fracture, rien ne parlait au cœur. Par habitude, s'éloignant du tumulte, l'encre s'est déposée sur le papier—pour faire frémir des roses plutôt que des tempêtes.",
-    "descriptionEn": "Amidst the fracturing of the world, nothing spoke to the heart. As ever, turning away from the noise, one surrendered ink upon paper—hoping to sough roses, rather than storms.",
-    "image": "/images/art-prints/leden.webp",
-    "year": "2026",
-    "technique": "Œuvre d'art limitée",
-    "basePrice": 4850,
-    "availablePieces": 5,
-    sizes: printSizes,
-    qualities: printQualities
+    id: '2',
+    title: "La première onde",
+    descriptionFr: "Une expression fluide du souffle et du mouvement, où les gestes dansent en harmonie perpétuelle. Cette œuvre capture l'essence du flot continu de la vie, un rythme qui fait écho à la caresse discrète des vagues, au passage éternel du temps, et au pouls de l'existence même. Une ondulation qui résonne avec le battement du cœur, source de tout. Les formes ne s'effacent jamais, mais se transforment sans fin au cours de leur voyage à travers l'espace.",
+    descriptionEn: "A flowing expression of breath and movement, where gestures dance in perpetual harmony. This work captures the essence of life's continuous flow, a rhythm mirroring the quiet caress of waves, the eternal passage of time, and the pulse of existence itself. A pulse echoing the very rhythm of the heart, the source of all. The forms never truly end, but transform endlessly on their journey through space.",
+    image: "/images/art-prints/la-premiere-onde-signed-v2.webp",
+    year: "2024",
+    technique: "Œuvre d'art limitée",
+    basePrice: 4850,
+    // Custom sizes with third size (large) unavailable
+    sizes: [
+      {
+        id: 'xs',
+        dimensions: '40 × 60 cm',
+        price: 4850,
+        recommended: 'Framed in black · 70% UV anti-reflective glass',
+        availability: 'in-stock' as const
+      },
+      { ...printSizes[0], availability: 'sold-out' as const },
+      { ...printSizes[1], availability: 'sold-out' as const },
+      { ...printSizes[2], availability: 'sold-out' as const },
+      { ...printSizes[3], availability: 'sold-out' as const },
+    ],
+    qualities: printQualities,
+    availablePieces: 1,
   },
   {
     id: '1',
@@ -195,30 +208,17 @@ const designs: Design[] = [
     availablePieces: 1,
   },
   {
-    id: '2',
-    title: "La première onde",
-    descriptionFr: "Une expression fluide du souffle et du mouvement, où les gestes dansent en harmonie perpétuelle. Cette œuvre capture l'essence du flot continu de la vie, un rythme qui fait écho à la caresse discrète des vagues, au passage éternel du temps, et au pouls de l'existence même. Une ondulation qui résonne avec le battement du cœur, source de tout. Les formes ne s'effacent jamais, mais se transforment sans fin au cours de leur voyage à travers l'espace.",
-    descriptionEn: "A flowing expression of breath and movement, where gestures dance in perpetual harmony. This work captures the essence of life's continuous flow, a rhythm mirroring the quiet caress of waves, the eternal passage of time, and the pulse of existence itself. A pulse echoing the very rhythm of the heart, the source of all. The forms never truly end, but transform endlessly on their journey through space.",
-    image: "/images/art-prints/la-premiere-onde-signed-v2.webp",
-    year: "2024",
-    technique: "Œuvre d'art limitée",
-    basePrice: 4850,
-    // Custom sizes with third size (large) unavailable
-    sizes: [
-      {
-        id: 'xs',
-        dimensions: '40 × 60 cm',
-        price: 4850,
-        recommended: 'Framed in black · 70% UV anti-reflective glass',
-        availability: 'in-stock' as const
-      },
-      { ...printSizes[0], availability: 'sold-out' as const },
-      { ...printSizes[1], availability: 'sold-out' as const },
-      { ...printSizes[2], availability: 'sold-out' as const },
-      { ...printSizes[3], availability: 'sold-out' as const },
-    ],
-    qualities: printQualities,
-    availablePieces: 1,
+    "id": "leden",
+    "title": "L'Éden",
+    "descriptionFr": "Au milieu d’un monde en fracture, rien ne parlait au cœur. Par habitude, s'éloignant du tumulte, l'encre s'est déposée sur le papier—pour faire frémir des roses plutôt que des tempêtes.",
+    "descriptionEn": "Amidst the fracturing of the world, nothing spoke to the heart. As ever, turning away from the noise, one surrendered ink upon paper—hoping to sough roses, rather than storms.",
+    "image": "/images/art-prints/leden.webp",
+    "year": "2026",
+    "technique": "Œuvre d'art limitée",
+    "basePrice": 4850,
+    "availablePieces": 5,
+    sizes: printSizes,
+    qualities: printQualities
   },
   {
     id: '3',
