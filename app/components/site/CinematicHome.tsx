@@ -365,8 +365,8 @@ export default function CinematicHome() {
           <h2>{fr ? "Œuvres d'art" : 'Artworks'}</h2>
           <p>
             {fr
-              ? "Monochromes texturés : Dessins originaux retranscrits sur papier d'art Hahnemühle Photo Rag 308 g/m² aux encres pigmentaires, en édition limitée à cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
-              : "Tactile monochromes: Original works transcribed on Hahnemühle Photo Rag 308 g/m² art paper using pigment inks, limited to an edition of five. Accompanied by a signed certificate of authenticity."}
+              ? "Monochromes texturés : Dessins originaux retranscrits sur papier d'art Hahnemühle Photo Rag aux encres pigmentaires, en édition limitée à cinq exemplaires. Chaque tirage est accompagné d’un certificat d’authenticité signé."
+              : "Tactile monochromes: Original works transcribed on Hahnemühle Photo Rag art paper using pigment inks, limited to an edition of five. Accompanied by a signed certificate of authenticity."}
           </p>
           <Link href="/artworks" prefetch>BOUTIQUE <i>{'\u2197\uFE0E'}</i></Link>
         </motion.div>
