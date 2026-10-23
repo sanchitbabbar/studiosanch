@@ -144,6 +144,19 @@ const printQualities: PrintQuality[] = [
 
 const designs: Design[] = [
   {
+    "id": "lombre-de-la-rose",
+    "title": "L’Ombre de la Rose",
+    "descriptionFr": "Une traversée silencieuse où l'encre cherche la grâce du geste. Même dans l’ombre, le féminin trouve sa lumière. Éclos sous le souffle d'un contour, l'éphémère se dépose au cœur de la matière pour offrir une sérénité intemporelle.",
+    "descriptionEn": "A silent journey where ink seeks the grace of gesture. Even in shadow, the feminine finds her light. Unfolding under the breath of a contour, the ephemeral rests within the heart of matter to offer timeless serenity.",
+    "image": "/images/art-prints/lombre-de-la-rose.webp",
+    "year": "2024",
+    "technique": "Œuvre d'art limitée",
+    "basePrice": 4850,
+    "availablePieces": 5,
+    sizes: printSizes,
+    qualities: printQualities
+  },
+  {
     id: 'leffluve',
     title: 'L’Effluve',
     descriptionFr: 'Le Sillage de la sensibilité',
