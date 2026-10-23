@@ -27,5 +27,5 @@ await inspect(root);
 const headers = await readFile(path.join(root, '_headers'), 'utf8');
 assert(headers.includes('X-Frame-Options: DENY'));
 const routes = JSON.parse(await readFile(path.join(root, '_routes.json'), 'utf8'));
-assert(routes.include.includes('/php/*'));
+assert(routes.include.includes('/*'), 'Security middleware must cover all routes');
 console.log('Export safety checks passed.');
