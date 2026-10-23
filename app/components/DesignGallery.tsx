@@ -144,6 +144,19 @@ const printQualities: PrintQuality[] = [
 
 const designs: Design[] = [
   {
+    "id": "le-sillage-epure",
+    "title": "Le Sillage Épuré",
+    "descriptionFr": "Le masque tombe, le regard se dénude. Un souffle exhalé jusqu’à l'essence pure, où tout se fond en une seule onde harmonieuse.",
+    "descriptionEn": "The mask shed, the gaze bare. Exhaled to absolute essence, forming a cohesive wave.",
+    "image": "/images/art-prints/le-sillage-epure.webp",
+    "year": "2026",
+    "technique": "Œuvre d'art limitée",
+    "basePrice": 4850,
+    "availablePieces": 5,
+    sizes: printSizes,
+    qualities: printQualities
+  },
+  {
     "id": "lombre-de-la-rose",
     "title": "L’Ombre de la Rose",
     "descriptionFr": "Une traversée silencieuse où l'encre cherche la grâce du geste. Même dans l’ombre, le féminin trouve sa lumière. Éclos sous le souffle d'un contour, l'éphémère se dépose au cœur de la matière pour offrir une sérénité intemporelle.",
