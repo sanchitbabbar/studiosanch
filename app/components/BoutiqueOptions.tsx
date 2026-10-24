@@ -33,12 +33,6 @@ const boutiqueCategories: BoutiqueCategory[] = [
     href: '/haute-couture.html'
   },
   {
-    id: 'artbook',
-    title: 'Art Book',
-    description: 'De la couleur au noir et blanc - This limited edition showcases Sanchit\'s journey from the land of chromatic richness to the land of monochromatic elegance.',
-    image: '/images/boutique/book-cover-french-optimized.jpg'
-  },
-  {
     id: 'accessories',
     title: 'Merchandise',
     description: 'Exclusive lifestyle accessories, including mugs, bags, and apparel, all designed by Sanchit.',
@@ -49,6 +43,12 @@ const boutiqueCategories: BoutiqueCategory[] = [
     title: 'Artworks',
     description: 'A collection of signed art editions by Sanchit.',
     image: '/images/boutique/prints.jpg'
+  },
+  {
+    id: 'artbook',
+    title: 'Art Book',
+    description: 'De la couleur au noir et blanc - This limited edition showcases Sanchit\'s journey from the land of chromatic richness to the land of monochromatic elegance.',
+    image: '/images/boutique/book-cover-french-optimized.jpg'
   }
 ];
 
@@ -265,7 +265,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                           className="flex flex-col text-left bg-zinc-900/60 rounded-lg overflow-hidden cursor-pointer group"
                           onClick={category.href ? undefined : () => handleCategorySelect(category.id)}
                         >
-                          <div className="aspect-[4/3] relative w-full shrink-0">
+                          <div className="aspect-[4/3] relative w-full shrink-0 overflow-hidden">
                             <Image
                               src={category.image}
                               alt={getCategoryTitle(category.id, language)}
@@ -273,7 +273,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                               priority={true}
                               loading="eager"
                               sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 25vw"
-                              style={{ objectFit: category.id === 'haute-couture' ? 'contain' : 'cover', objectPosition: category.id === 'haute-couture' ? 'center' : category.id === 'accessories' ? 'center 74%' : 'center 83%' }}
+                              style={{ objectFit: category.id === 'haute-couture' ? 'contain' : 'cover', objectPosition: category.id === 'haute-couture' ? 'center' : category.id === 'accessories' ? 'center 74%' : 'center 83%', ...(category.id === 'haute-couture' ? { transform: 'scale(1.85)', transformOrigin: '68% 84%' } : {}) }}
                               className={category.id === 'haute-couture' ? '' : 'transition-transform duration-700 group-hover:scale-105'}
                             />
                           </div>
