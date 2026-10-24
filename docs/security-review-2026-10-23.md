@@ -55,10 +55,12 @@ known private paths; no live payments, login guesses or destructive probes were 
 
 ## Remaining decisions and account controls
 
-- Legacy portfolio PayPal checkout accepts client-supplied totals and includes
-  direct PayPal fallbacks. It needs server-owned product/price validation and
-  verified capture before any automated fulfillment. A decision to retire or
-  rebuild this flow is pending; this review does not certify payment integrity.
+- Resolved on 24 October 2026 at the owner’s request: legacy portfolio PayPal
+  checkout is retired. Old create/capture endpoint paths return HTTP 410, checkout
+  and payment-return pages direct customers to Studio Sanch enquiries, and the
+  public export contains no legacy PayPal SDK or direct-payment fallbacks. New
+  checkout must use server-owned prices and verified capture before fulfillment.
+  No merchant credentials were revoked and no historical payment records changed.
 - The trusted admin claim must be set by an authorized Supabase administrator.
   The public portfolio does not publish the local admin interface.
 - Cloudflare, GitHub, registrar, email, Supabase, PayPal and Formspree MFA/passkeys,
