@@ -21,9 +21,17 @@ interface BoutiqueCategory {
   title: string;
   description: string;
   image: string;
+  href?: string;
 }
 
 const boutiqueCategories: BoutiqueCategory[] = [
+  {
+    id: 'haute-couture',
+    title: 'Haute Couture',
+    description: 'Discover the Haute Couture creations of Studio Sanch.',
+    image: '/images/about-page.jpg',
+    href: '/haute-couture.html'
+  },
   {
     id: 'artbook',
     title: 'Art Book',
@@ -46,6 +54,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
 
 const getCategoryTitle = (id: string, lang: string) => {
   const titles: Record<string, Record<string, string>> = {
+    'haute-couture': { fr: 'Haute Couture', en: 'Haute Couture' },
     artbook: { fr: "Livre d'Art", en: 'Art Book' },
     accessories: { fr: 'Accessoires', en: 'Accessories' },
     prints: { fr: "Œuvres d'art", en: 'Artworks' }
@@ -55,6 +64,10 @@ const getCategoryTitle = (id: string, lang: string) => {
 
 const getCategoryDescription = (id: string, lang: string) => {
   const descriptions: Record<string, Record<string, string>> = {
+    'haute-couture': {
+      fr: 'Découvrez les créations Haute Couture de Studio Sanch.',
+      en: 'Discover the Haute Couture creations of Studio Sanch.'
+    },
     artbook: {
       fr: "De la couleur au noir et blanc -\nUn voyage de la richesse chromatique vers l’épure monochrome.",
       en: "From color to black and white - This limited edition showcases Sanchit's journey from the land of chromatic richness to the land of monochromatic elegance."
@@ -241,31 +254,35 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                 {!selectedCategory && (
                   <div className="pt-8">
                     <h2 className="text-3xl font-light text-center mb-16">{language === 'en' ? 'Boutique' : 'Boutique'}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      {boutiqueCategories.map(category => (
-                        <div 
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                      {boutiqueCategories.map(category => {
+                        const Card = category.href ? 'a' : 'button';
+                        return (
+                        <Card
                           key={category.id}
-                          className="bg-zinc-900/60 rounded-lg overflow-hidden cursor-pointer group"
-                          onClick={() => handleCategorySelect(category.id)}
+                          href={category.href}
+                          type={category.href ? undefined : 'button'}
+                          className="flex flex-col text-left bg-zinc-900/60 rounded-lg overflow-hidden cursor-pointer group"
+                          onClick={category.href ? undefined : () => handleCategorySelect(category.id)}
                         >
-                          <div className="aspect-[4/3] relative">
+                          <div className="aspect-[4/3] relative w-full shrink-0">
                             <Image
                               src={category.image}
                               alt={getCategoryTitle(category.id, language)}
                               fill
                               priority={true}
                               loading="eager"
-                              sizes="(max-width: 768px) 100vw, 33vw"
-                              style={{ objectFit: 'cover', objectPosition: category.id === 'accessories' ? 'center 74%' : 'center 83%' }}
-                              className="transition-transform duration-700 group-hover:scale-105"
+                              sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 25vw"
+                              style={{ objectFit: category.id === 'haute-couture' ? 'contain' : 'cover', objectPosition: category.id === 'haute-couture' ? 'center' : category.id === 'accessories' ? 'center 74%' : 'center 83%' }}
+                              className={category.id === 'haute-couture' ? '' : 'transition-transform duration-700 group-hover:scale-105'}
                             />
                           </div>
                           <div className="p-6">
                             <h3 className="text-xl mb-2">{getCategoryTitle(category.id, language)}</h3>
                             <p className="text-white/70 text-sm">{getCategoryDescription(category.id, language)}</p>
                           </div>
-                        </div>
-                      ))}
+                        </Card>
+                      );})}
                     </div>
                   </div>
                 )}
