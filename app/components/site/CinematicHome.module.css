@@ -206,13 +206,14 @@
 }
 .atelierSlide { inset: 0; width: 100%; height: 100%; opacity: 0; border-radius: 6px; animation: atelierCarousel 18s cubic-bezier(.45,.05,.2,1) infinite; }
 .atelierSlide img, .atelierSlide video { object-fit: contain; border-radius: 6px; filter: grayscale(1) contrast(1.06) brightness(.94); }
-.atelierSlideSketch { animation-delay: -1.5s; }
-.atelierSlideFirstVideo { animation-delay: -7.5s; }
+.atelierSlideFitting { animation-delay: -1.5s; }
+.atelierSlideOlga { animation-delay: -7.5s; }
 .atelierSlideSecondVideo { animation-delay: -13.5s; }
 .atelierSlideSecondVideo,
 .atelierSlideSecondVideo video { border-radius: 8px; }
 @media (min-width: 901px) {
-  .atelierSlideSketch {
+  .atelierSlideFitting,
+  .atelierSlideOlga {
     inset: auto;
     top: -5vh;
     left: 50%;
@@ -221,7 +222,7 @@
     aspect-ratio: 9 / 16;
     translate: -50% 0;
   }
-  .atelierSlideSketch video { object-fit: cover; }
+  .atelierSlideFitting video, .atelierSlideOlga video { object-fit: cover; }
 }
 @keyframes atelierCarousel {
   0% { opacity: 0; transform: translate3d(14%, 2%, 0) scale(.92); }
@@ -312,16 +313,23 @@
   .chapterDetail .chapterMedia { width: 74%; margin-left: auto; margin-right: 2vw; }
   .coutureSequence { display: none; }
   .atelierSequence { position: relative; inset: auto; order: 1; width: 86%; height: 52svh; margin: 0 auto; }
-  .atelierSlideFirstVideo {
+  .atelierSlideFitting,
+  .atelierSlideOlga {
     inset: auto;
     top: 0;
     left: 50%;
-    width: min(72vw, 320px);
-    height: auto;
+    width: auto;
+    height: 100%;
     aspect-ratio: 9 / 16;
     translate: -50% 0;
+    border-radius: 24px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: #080808;
+    box-shadow: 0 18px 48px rgba(0,0,0,.5);
   }
-  .atelierSlideFirstVideo video { object-fit: cover; }
+  .atelierSlideFitting video,
+  .atelierSlideOlga video { object-fit: cover; border-radius: inherit; }
+
   .coutureFrameLeft { width: 58vw; height: 28svh; left: -15vw; top: 44svh; }
   .coutureFrameRight { width: 46vw; height: 36svh; right: -9vw; top: 1svh; }
   .atelierAtmosphere span { width: 115vw; height: 38svh; }

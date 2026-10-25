@@ -749,6 +749,23 @@
                 width: 90% !important;
             }
         }
+
+        /* Portrait fitting film: preserve the full frame on desktop and mobile. */
+        .gallery-item-4 .olga-fitting-media {
+            width: min(100%, 380px, 42.1875vh);
+            max-width: 100% !important;
+            aspect-ratio: 9 / 16;
+            margin: 0 auto;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,.16);
+            background: #080808;
+        }
+        .olga-fitting-media .step-video {
+            position: absolute;
+            inset: 0;
+            display: block;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -818,7 +835,7 @@
                 <div class="gallery-item gallery-item-1">
                     <div class="step-media vertical-media">
                         <video class="step-video" autoplay muted loop playsinline>
-                            <source src="/Videos/4.webm" type="video/webm">
+                            <source src="/Videos/atelier-sketch-logo-free.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -856,7 +873,7 @@
                 <div class="gallery-item gallery-item-3">
                     <div class="step-media vertical-media">
                         <video class="step-video" autoplay muted loop playsinline>
-                            <source src="/Videos/5_ultrahq_curved_optimized.webm" type="video/webm">
+                            <source src="/Videos/atelier-fitting-logo-free.webm" type="video/webm">
                             Your browser does not support the video tag.
                         </video>
                     </div>
@@ -880,10 +897,13 @@
                     </div>
                 </div>
                 
-                <!-- Gallery Item 4 - Image (Horizontal) -->
-                <div class="gallery-item gallery-item-4">
-                    <div class="step-media horizontal-media">
-                        <img class="sketch-image" src="images/sketch1.jpg" alt="Design Development Sketch" style="object-position: top center;">
+                <!-- Gallery Item 4 - Olga fitting film (Portrait) -->
+                <div class="gallery-item gallery-item-4" id="tailoring-film">
+                    <div class="step-media olga-fitting-media">
+                        <video class="step-video" autoplay muted loop playsinline preload="metadata" poster="/Videos/atelier-combinaison-olga-poster.webp" aria-label="Haute Couture fitting with Olga">
+                            <source src="/Videos/atelier-combinaison-olga.webm" type="video/webm">
+                            <source src="/Videos/atelier-combinaison-olga.mp4" type="video/mp4">
+                        </video>
                     </div>
                 </div>
             </div>

@@ -9,9 +9,10 @@ import BoutiqueSlider from './BoutiqueSlider';
 
 const MotionLink = motion.create(Link);
 
-function DeferredVideo({ src }: { src: string }) {
+function DeferredVideo({ src, fallbackSrc, poster }: { src: string; fallbackSrc?: string; poster?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sourceRef = useRef<HTMLSourceElement>(null);
+  const fallbackRef = useRef<HTMLSourceElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -22,6 +23,7 @@ function DeferredVideo({ src }: { src: string }) {
       ([entry]) => {
         if (!entry.isIntersecting || source.src) return;
         source.src = src;
+        if (fallbackRef.current && fallbackSrc) fallbackRef.current.src = fallbackSrc;
         video.load();
         void video.play().catch(() => undefined);
       },
@@ -30,11 +32,12 @@ function DeferredVideo({ src }: { src: string }) {
 
     observer.observe(video);
     return () => observer.disconnect();
-  }, [src]);
+  }, [src, fallbackSrc]);
 
   return (
-    <video ref={videoRef} autoPlay muted loop playsInline preload="none">
+    <video ref={videoRef} autoPlay muted loop playsInline preload="none" poster={poster}>
       <source ref={sourceRef} type="video/webm" />
+      {fallbackSrc && <source ref={fallbackRef} type="video/mp4" />}
     </video>
   );
 }
@@ -239,11 +242,11 @@ function ChapterScene({
       )}
       {index === 2 && (
         <div className={styles.atelierSequence} aria-hidden="true">
-          <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideSketch}`}>
-            <DeferredVideo src="/Videos/5_ultrahq_curved_optimized.webm" />
+          <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideFitting}`}>
+            <DeferredVideo src="/Videos/atelier-fitting-logo-free.webm" />
           </figure>
-          <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideFirstVideo}`}>
-            <DeferredVideo src="/Videos/4.webm" />
+          <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideOlga}`}>
+            <DeferredVideo src="/Videos/atelier-combinaison-olga.webm" fallbackSrc="/Videos/atelier-combinaison-olga.mp4" poster="/Videos/atelier-combinaison-olga-poster.webp" />
           </figure>
           <figure className={`${styles.sequenceFrame} ${styles.atelierSlide} ${styles.atelierSlideSecondVideo}`}>
             <DeferredVideo src="/Videos/Atelier_ultrahq_curved.webm" />
@@ -403,7 +406,7 @@ export default function CinematicHome() {
         <ChapterScene chapter={chapters[1]} index={1} language={currentLanguage} />
       </section>
 
-      <section className={`${styles.chapters} ${styles.chaptersTail} ${styles.atelierChapter}`}>
+      <section id="atelier" className={`${styles.chapters} ${styles.chaptersTail} ${styles.atelierChapter}`}>
         <ChapterScene chapter={chapters[2]} index={2} language={currentLanguage} />
       </section>
 
