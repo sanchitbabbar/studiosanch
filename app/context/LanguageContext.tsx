@@ -193,7 +193,7 @@ const fr = {
     eleganceTitle: 'Perception ou projection ?',
     eleganceText: 'Le travail de Sanchit transcende les frontières entre la danse, le cinéma et la mode. En tant que danseur, acteur et directeur artistique, il explore les thèmes de l\'élégance, de la sensualité, de la féminité et de l\'authenticité. Son approche, à la fois raffinée et profondément humaine, révèle une compréhension intime de soi, du mouvement et de l\'esthétique. Il croit que "l\'énergie féminine est la plus belle énergie disponible chez tous les êtres vivants", ajoutant qu\'il aime la voir s\'épanouir chez les autres, indépendamment du genre ou de l\'espèce, "car nous sommes tous nés à travers elle." Cette conviction guide son art et son engagement à honorer la sensibilité et la vulnérabilité, expressions de son idéal d\'élégance et de sensualité, qu\'il appelle "Sanchualité."',
     feminityTitle: 'Une Ode à la Féminité',
-    feminityText: 'Où se révèle la délicate interaction entre le masculin et le féminin, dans une grâce auréolée d\'\u00e9légance.',
+    feminityText: 'Où se révèle la délicate interaction entre le masculin et le féminin, dans une résonance auréolée d\'\u00e9légance.',
   },
   footer: {
     privacy: 'Confidentialité',

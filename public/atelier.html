@@ -751,7 +751,7 @@
         }
 
         /* Portrait fitting film: preserve the full frame on desktop and mobile. */
-        .gallery-item-4 .olga-fitting-media {
+        .gallery-item-4 .portrait-fitting-media {
             width: min(100%, 380px, 42.1875vh);
             max-width: 100% !important;
             aspect-ratio: 9 / 16;
@@ -760,7 +760,7 @@
             border: 1px solid rgba(255,255,255,.16);
             background: #080808;
         }
-        .olga-fitting-media .step-video {
+        .portrait-fitting-media .step-video {
             position: absolute;
             inset: 0;
             display: block;
@@ -798,8 +798,9 @@
         <!-- Add a mobile-only container that will only be visible on mobile -->
         <div class="mobile-hero-container" style="display: none;">
             <div class="fashion-gallery" style="width: 80%; margin: 0 auto;">
-                <video class="gallery-video" muted loop playsinline autoplay preload="metadata" style="width: 100%; height: auto;">
-                            <source src="/Videos/1.webm" type="video/webm">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata" poster="/Videos/atelier-combinaison-olga-poster.webp" style="width: 100%; height: auto;">
+                            <source src="/Videos/atelier-combinaison-olga.webm" type="video/webm">
+                    <source src="/Videos/atelier-combinaison-olga.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -813,8 +814,9 @@
         <!-- Desktop hero section that will be hidden on mobile -->
         <section class="hero-section desktop-hero">
             <div class="fashion-gallery">
-                <video class="gallery-video" muted loop playsinline autoplay preload="metadata">
-                    <source src="/Videos/1.webm" type="video/webm">
+                <video class="gallery-video" muted loop playsinline autoplay preload="metadata" poster="/Videos/atelier-combinaison-olga-poster.webp">
+                    <source src="/Videos/atelier-combinaison-olga.webm" type="video/webm">
+                    <source src="/Videos/atelier-combinaison-olga.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -897,12 +899,11 @@
                     </div>
                 </div>
                 
-                <!-- Gallery Item 4 - Olga fitting film (Portrait) -->
+                <!-- Gallery Item 4 - Clara film (Portrait) -->
                 <div class="gallery-item gallery-item-4" id="tailoring-film">
-                    <div class="step-media olga-fitting-media">
-                        <video class="step-video" autoplay muted loop playsinline preload="metadata" poster="/Videos/atelier-combinaison-olga-poster.webp" aria-label="Haute Couture fitting with Olga">
-                            <source src="/Videos/atelier-combinaison-olga.webm" type="video/webm">
-                            <source src="/Videos/atelier-combinaison-olga.mp4" type="video/mp4">
+                    <div class="step-media portrait-fitting-media">
+                        <video class="step-video" autoplay muted loop playsinline preload="metadata" aria-label="Haute Couture with Clara">
+                            <source src="/Videos/1.webm" type="video/webm">
                         </video>
                     </div>
                 </div>
