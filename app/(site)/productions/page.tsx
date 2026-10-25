@@ -223,7 +223,7 @@ export default function ProductionsPage() {
           <div className="productions-closing-light" aria-hidden="true" />
           <div className="productions-closing-copy" data-production-text>
             <p className="productions-eyebrow">{fr ? 'LE PREMIER CADRE' : 'THE FIRST FRAME'}</p>
-            <h2>{fr ? 'L’idée se révèle.' : 'Let the idea reveal itself.'}</h2>
+            <h2>{fr ? 'Le désir se révèle.' : 'Let the idea reveal itself.'}</h2>
             <button className="productions-cta" type="button" onClick={() => setContactOpen(true)}>
               {fr ? 'DÉMARRER UN PROJET' : 'START A PROJECT'} <span>↗︎</span>
             </button>
