@@ -452,6 +452,22 @@
                     <div class="scroll-indicator"><div class="scroll-dot active"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div><div class="scroll-dot"></div></div>
                 </div>
                 
+                <div class="thumbnail-container" data-collection="Zebra">
+                    <div class="gallery-item">
+                        <div class="thumbnail-scroller">
+                            <div class="thumbnail-images">
+                                <img src="/images/landing-production/production-lia.webp" alt="Lia on the bridge in the zebra-striped dress" loading="lazy" decoding="async" style="object-fit: cover; object-position: 50% 50%;">
+                                <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%20Zebra/gim_ii_97.webp" alt="Zebra-striped Haute Couture editorial - View 2" loading="lazy" decoding="async" style="object-fit: cover; object-position: 65% 50%;">
+                                <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%20Zebra/img_4680.webp" alt="Zebra-striped Haute Couture editorial - View 3" loading="lazy" decoding="async" style="object-fit: cover; object-position: 50% 50%;">
+                                <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%20Zebra/gim_ii_99.webp" alt="Zebra-striped Haute Couture editorial - View 4" loading="lazy" decoding="async" style="object-fit: cover; object-position: 56.2% 50%;">
+                                <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%20Zebra/gim_ii_95.webp" alt="Zebra-striped Haute Couture editorial - View 5" loading="lazy" decoding="async" style="object-fit: cover; object-position: 65% 50%;">
+                                <img src="/images/Haute%20Couture%20/Slider%20Thumbnail%20Zebra/gim_ii_94.webp" alt="Zebra-striped Haute Couture editorial - View 6" loading="lazy" decoding="async" style="object-fit: cover; object-position: 50% 50%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator" aria-label="Zebra editorial gallery position"></div>
+                </div>
+
                 <div class="thumbnail-container" data-collection="Sam">
                     <div class="gallery-item">
                         <div class="thumbnail-scroller">
@@ -684,6 +700,12 @@
             gallery.appendChild(finalSlider);
         }
 
+        // Keep the zebra-dress collection immediately before the final slider.
+        const zebraSlider = gallery.querySelector('[data-collection="Zebra"]');
+        if (zebraSlider && finalSlider) {
+            gallery.insertBefore(zebraSlider, finalSlider);
+        }
+
         // Shuffle function
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -715,7 +737,7 @@
             const dots = container.querySelectorAll('.scroll-dot');
 
             // Shuffle images on page load
-            const shuffledImages = shuffleArray(images);
+            const shuffledImages = container.dataset.collection === 'Zebra' ? images : shuffleArray(images);
             
             // Clear container and add shuffled images
             thumbnailImages.innerHTML = '';
