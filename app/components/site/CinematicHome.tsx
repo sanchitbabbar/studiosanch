@@ -82,7 +82,6 @@ const productionSlideshow = [
   { src: '/images/landing-production/production-lia.webp', alt: 'Black-and-white outdoor fashion study' },
   { src: '/images/landing-production/production-active-set-replacement.webp', alt: 'Monochrome Studio Sanch model profile on set' },
   { src: '/images/landing-production/frame-04.webp', alt: 'Studio Sanch production study 04' },
-  { src: '/images/landing-production/frame-05.webp', alt: 'Studio Sanch production study 05' },
   { src: '/images/studio-carousel/sanch-17.webp', alt: 'Olga beside the water' },
   { src: '/images/landing-production/frame-08.webp', alt: 'Studio Sanch production study 08' },
   { src: '/images/studio-carousel/untitled-11.webp', alt: 'Silhouette in a sculptural interior' },
