@@ -48,7 +48,7 @@ const boutiqueCategories: BoutiqueCategory[] = [
     id: 'artbook',
     title: 'Art Book',
     description: 'De la couleur au noir et blanc - This limited edition showcases Sanchit\'s journey from the land of chromatic richness to the land of monochromatic elegance.',
-    image: '/images/boutique/book-cover-french-optimized.jpg'
+    image: '/images/boutique/artbook-cover-spine-thumbnail.webp'
   }
 ];
 
@@ -283,7 +283,6 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                           </div>
                           <div className="p-6">
                             <h3 className="text-xl mb-2">{getCategoryTitle(category.id, language)}</h3>
-                            <p className="text-white/70 text-sm">{getCategoryDescription(category.id, language)}</p>
                           </div>
                         </Card>
                       );})}
