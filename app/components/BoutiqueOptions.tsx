@@ -282,7 +282,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                             />
                           </div>
                           <div className="p-6">
-                            <h3 className="text-xl mb-2">{getCategoryTitle(category.id, language)}</h3>
+                            <h3 className="block text-[11px] tracking-[0.25em] uppercase font-light text-white/80 group-hover:text-white transition-all duration-700 mb-2">{getCategoryTitle(category.id, language)}</h3>
                           </div>
                         </Card>
                       );})}
