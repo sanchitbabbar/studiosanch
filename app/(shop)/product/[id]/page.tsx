@@ -153,6 +153,8 @@ export default function ProductDetail() {
               Boutique
             </Link>
             <span>/</span>
+            {product.id !== 'artbook-main' && (
+              <>
             <Link 
               href="/boutique/?category=accessories"
               className="hover:text-white transition-colors"
@@ -160,17 +162,19 @@ export default function ProductDetail() {
               {language === 'fr' ? 'Collection' : 'Collection'}
             </Link>
             <span>/</span>
+              </>
+            )}
             <span className="text-white">{productName}</span>
           </div>
 
           {/* Back to Collection Link - Ultra Elegant version */}
           <div className="flex justify-end mb-12">
             <Link 
-              href="/boutique/?category=accessories"
+              href={product.id === 'artbook-main' ? '/boutique/' : '/boutique/?category=accessories'}
               className="text-white/60 hover:text-white text-[10px] uppercase tracking-[0.25em] transition-all duration-500 font-light flex items-center gap-2 group"
             >
               <span className="text-[8px] opacity-60 transform group-hover:translate-x-[-4px] transition-all duration-500 ease-in-out">←</span>
-              <span className="group-hover:tracking-[0.3em] transition-all duration-500 ease-in-out">{language === 'fr' ? 'RETOUR À LA COLLECTION' : 'RETURN TO COLLECTION'}</span>
+              <span className="group-hover:tracking-[0.3em] transition-all duration-500 ease-in-out">{product.id === 'artbook-main' ? (language === 'fr' ? 'RETOUR À LA BOUTIQUE' : 'RETURN TO BOUTIQUE') : (language === 'fr' ? 'RETOUR À LA COLLECTION' : 'RETURN TO COLLECTION')}</span>
             </Link>
           </div>
 
