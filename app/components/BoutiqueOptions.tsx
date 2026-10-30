@@ -123,6 +123,10 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
   }, [pageMode, selectedCategory]);
   
   const handleCategorySelect = (id: string) => {
+    if (id === 'artbook') {
+      router.push('/product/artbook-main');
+      return;
+    }
     setSelectedCategory(id);
   };
 
