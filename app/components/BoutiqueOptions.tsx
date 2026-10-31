@@ -160,13 +160,13 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
               ? { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
               : { duration: 0.2, ease: 'easeOut' }}
             className={pageMode
-              ? 'relative z-50 min-h-screen bg-black/35 backdrop-blur-sm flex items-start justify-center px-5 pb-16 pt-24 md:items-center md:px-8'
+              ? 'relative z-50 min-h-screen bg-black/35 backdrop-blur-sm flex items-start justify-center px-4 pb-16 pt-24 md:items-center md:px-8'
               : 'fixed inset-0 z-50 overflow-auto flex items-start md:items-center justify-center pt-[180px] md:pt-0'}
           >
             <div className={pageMode
-              ? 'flex w-full max-w-4xl flex-col items-start justify-start'
+              ? 'flex w-full min-w-0 max-w-4xl flex-col items-stretch justify-start'
               : 'mt-0 md:mt-0 max-h-[80vh] overflow-y-auto flex flex-col items-start justify-start p-0 md:p-8 w-full md:w-auto'}>
-              <div className="max-w-4xl w-full bg-zinc-900/80 rounded-lg p-5 md:p-8 relative transform scale-100 origin-top">
+              <div className="max-w-4xl w-full min-w-0 bg-black md:bg-zinc-900/80 rounded-lg p-5 md:p-8 relative transform scale-100 origin-top">
                 <button
                   onClick={() => {
                     if (selectedCategory) {
@@ -257,8 +257,8 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                 {/* Categories Selection */}
                 {!selectedCategory && (
                   <div className="pt-8">
-                    <h2 className="text-3xl font-light text-center mb-16">{language === 'en' ? 'Boutique' : 'Boutique'}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <h2 className="text-2xl md:text-3xl font-light text-center mb-10 md:mb-16">{language === 'en' ? 'Boutique' : 'Boutique'}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6">
                       {boutiqueCategories.map(category => {
                         const Card = category.href ? 'a' : 'button';
                         return (
@@ -269,7 +269,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                           className="flex flex-col text-left bg-zinc-900/60 rounded-lg overflow-hidden cursor-pointer group"
                           onClick={category.href ? undefined : () => handleCategorySelect(category.id)}
                         >
-                          <div className="aspect-[4/3] relative w-full shrink-0 overflow-hidden">
+                          <div className="aspect-[16/10] md:aspect-[4/3] relative w-full shrink-0 overflow-hidden">
                             <Image
                               src={category.image}
                               alt={getCategoryTitle(category.id, language)}
@@ -281,7 +281,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                               className={category.id === 'haute-couture' ? '' : 'transition-transform duration-700 group-hover:scale-105'}
                             />
                           </div>
-                          <div className="p-6">
+                          <div className="p-5 md:p-6">
                             <h3 className="block text-[11px] tracking-[0.25em] uppercase font-light text-white/80 group-hover:text-white transition-all duration-700 mb-2">{getCategoryTitle(category.id, language)}</h3>
                           </div>
                         </Card>

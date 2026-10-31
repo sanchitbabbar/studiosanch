@@ -37,8 +37,8 @@ function BoutiqueContent() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-black">
-      <div className="relative z-10 min-h-screen">
+    <main className="relative w-full min-h-screen overflow-hidden bg-black">
+      <div className="relative z-10 w-full min-h-screen">
         <BoutiqueOptions
           isOpen={isOpen}
           onClose={handleClose}
