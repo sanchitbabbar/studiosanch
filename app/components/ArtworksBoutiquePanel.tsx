@@ -25,32 +25,28 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
   useEffect(() => {
     const artwork = artworkRef.current;
     if (!artwork) return;
-    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     let movement: Animation | undefined;
     let previousExit = -1;
     let stopped = false;
     const corners = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
-    const crossScreen = () => {
-      if (stopped || preference.matches) return;
+    const crossScreen = (firstPass = false) => {
+      if (stopped) return;
       const entries = corners.map((_, index) => index).filter(index => index !== previousExit);
       const entry = entries[Math.floor(Math.random() * entries.length)];
       const [x, y] = corners[entry];
       previousExit = 3 - entry;
+      // Animate transform for consistent Safari support. The opening half-pass
+      // starts in view, then subsequent passes enter and fully exit diagonally.
+      const start = firstPass ? 'translate(-50%, -50%)' : `translate(-50%, -50%) translate(${x * 135}vw, ${y * 145}vh)`;
       movement = artwork.animate([
-        { translate: `${x * 135}vw ${y * 145}vh` },
-        { translate: `${-x * 135}vw ${-y * 145}vh` }
-      ], { duration: 42000, easing: 'linear', fill: 'forwards' });
+        { transform: start },
+        { transform: `translate(-50%, -50%) translate(${-x * 135}vw, ${-y * 145}vh)` }
+      ], { duration: firstPass ? 21000 : 42000, easing: 'linear', fill: 'forwards' });
       movement.onfinish = () => { movement?.cancel(); crossScreen(); };
     };
-    const updateMotion = () => {
-      if (movement) { movement.onfinish = null; movement.cancel(); }
-      crossScreen();
-    };
-    crossScreen();
-    preference.addEventListener('change', updateMotion);
+    crossScreen(true);
     return () => {
       stopped = true;
-      preference.removeEventListener('change', updateMotion);
       if (movement) { movement.onfinish = null; movement.cancel(); }
     };
   }, []);
@@ -96,7 +92,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
             <div className={styles.auctionDetails}>
               <p className={styles.auctionLabel}>{french ? 'Vente aux enchères à venir · Œuvre originale' : 'Upcoming auction · Original artwork'}</p>
               <ArtworkHeading className={styles.auctionTitle}>{auctionArtwork.title}</ArtworkHeading>
-              <p className={styles.auctionYear}>{auctionArtwork.year} · Paris, France</p>
+              <p className={styles.auctionYear}>{auctionArtwork.year}</p>
               <p className={styles.poetry}>{french ? auctionArtwork.descriptionFr : auctionArtwork.descriptionEn}</p>
               <button type="button" className={styles.interestButton} onClick={() => setShowInterest(true)}>
                 {french ? 'Exprimer mon intérêt' : 'Express interest'}

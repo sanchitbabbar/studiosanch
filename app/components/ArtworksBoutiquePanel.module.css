@@ -27,3 +27,5 @@
 @media(max-width:700px){.auctionPanel{padding:76px 25px 35px}.auctionPresentation{grid-template-columns:1fr;gap:30px}.auctionImage img{max-height:60vh}.auctionTitle{font-size:21px;margin-bottom:20px}.auctionLabel{margin-bottom:15px}.auctionDetails{padding:0}.interestButton{margin-top:25px}}
 
 .auctionYear{font-size:11px;letter-spacing:.12em;color:#999;margin:-14px 0 26px}
+
+.back:focus,.back:focus-visible{outline:none;box-shadow:none;border:0}.back:focus-visible{text-decoration:underline;text-underline-offset:4px;text-decoration-color:#ffffff50}
