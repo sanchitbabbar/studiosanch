@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import DesignGallery from './DesignGallery';
+import ArtworksBoutiquePanel from './ArtworksBoutiquePanel';
 import AccessoriesPopup from './AccessoriesPopup';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -134,6 +134,10 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
     setSelectedCategory(null);
   };
 
+  if (isOpen && selectedCategory === 'prints') {
+    return <ArtworksBoutiquePanel language={language} galleryHref={'/artworks'} onBack={handleBack} onClose={onClose} />;
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -196,35 +200,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                     </h2>
                     
                     <div className="text-center max-w-2xl mx-auto">
-                      {selectedCategory === 'prints' ? (
-                        <div className="space-y-6">
-                          <div className="text-white/80 text-sm font-light leading-relaxed max-w-xl mx-auto mb-4">
-                            {language === 'en' ? (
-                              <>
-                                <p className="mb-3">Each print is produced on museum-grade archival paper, ensuring exceptional longevity and color preservation.</p>
-                                <p className="text-white/60 text-xs">Note: Prints are sold unframed. Professional archival framing is recommended for optimal preservation and display.</p>
-                              </>
-                            ) : (
-                              <>
-                                <p className="mb-3">Chaque tirage est réalisé sur papier d'archives de qualité musée, garantissant une longévité exceptionnelle et la préservation des couleurs.</p>
-                                <p className="text-white/60 text-xs">Les œuvres sont vendues sans cadre. Un encadrement professionnel d'archives est recommandé pour une conservation et une mise en valeur optimales.</p>
-                              </>
-                            )}
-                          </div>
-                          
-                          <div className="inline-block">
-                            <div 
-                              className="inline-block cursor-pointer px-8 py-2 border-b border-white/40 hover:border-white transition-all duration-500"
-                              onClick={() => router.push('/artworks')}
-                            >
-                              <span className="tracking-[0.25em] uppercase text-xs font-light hover:tracking-[0.3em] inline-block pr-6 transition-all duration-500">
-                              {language === 'en' ? 'View Collection' : 'Voir la Collection'}
-                              <span className="ml-2 opacity-60 text-sm transition-all duration-500">→</span>
-                            </span>
-                            </div>
-                          </div>
-                        </div>
-                      ) : selectedCategory === 'accessories' ? (
+                      {selectedCategory === 'accessories' ? (
                         <AccessoriesPopup />
                       ) : selectedCategory === 'artbook' ? (
                         <div className="inline-block">
