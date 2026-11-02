@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { designs } from '../data/artworks';
 import AuctionInterestForm from './AuctionInterestForm';
 import styles from './ArtworksBoutiquePanel.module.css';
@@ -17,41 +18,14 @@ interface Props {
 }
 
 export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, initialPrintNotice = false, onBack, onClose }: Props) {
+  const [leaving, setLeaving] = useState(false);
   const [showAuctions, setShowAuctions] = useState(initialAuction);
+  const [showAuctionDetail, setShowAuctionDetail] = useState(initialAuction);
   const [showInterest, setShowInterest] = useState(false);
   const [showPrintNotice, setShowPrintNotice] = useState(initialPrintNotice);
-  const artworkRef = useRef<HTMLImageElement>(null);
   const french = language === 'fr';
   const ArtworkHeading = initialAuction ? 'h1' : 'h2';
 
-  useEffect(() => {
-    const artwork = artworkRef.current;
-    if (!artwork) return;
-    let movement: Animation | undefined;
-    let previousExit = -1;
-    let stopped = false;
-    const corners = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
-    const crossScreen = (firstPass = false) => {
-      if (stopped) return;
-      const entries = corners.map((_, index) => index).filter(index => index !== previousExit);
-      const entry = entries[Math.floor(Math.random() * entries.length)];
-      const [x, y] = corners[entry];
-      previousExit = 3 - entry;
-      // Animate transform for consistent Safari support. The opening half-pass
-      // starts in view, then subsequent passes enter and fully exit diagonally.
-      const start = firstPass ? 'translate(-50%, -50%)' : `translate(-50%, -50%) translate(${x * 135}vw, ${y * 145}vh)`;
-      movement = artwork.animate([
-        { transform: start },
-        { transform: `translate(-50%, -50%) translate(${-x * 135}vw, ${-y * 145}vh)` }
-      ], { duration: firstPass ? 28000 : 56000, easing: 'linear', fill: 'forwards' });
-      movement.onfinish = () => { movement?.cancel(); crossScreen(); };
-    };
-    crossScreen(true);
-    return () => {
-      stopped = true;
-      if (movement) { movement.onfinish = null; movement.cancel(); }
-    };
-  }, []);
 
   useEffect(() => {
     const previous = document.body.style.overflow;
@@ -59,9 +33,10 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
     const escape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         if (showInterest) setShowInterest(false);
+        else if (showAuctionDetail) setShowAuctionDetail(false);
         else if (showAuctions) setShowAuctions(false);
         else if (showPrintNotice) setShowPrintNotice(false);
-        else onClose();
+        else leave(onClose);
       }
     };
     document.addEventListener('keydown', escape);
@@ -69,21 +44,24 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
       document.body.style.overflow = previous;
       document.removeEventListener('keydown', escape);
     };
-  }, [onClose, showAuctions, showInterest, showPrintNotice]);
+  }, [onClose, showAuctions, showAuctionDetail, showInterest, showPrintNotice]);
 
-  const back = () => showInterest ? setShowInterest(false) : showAuctions ? setShowAuctions(false) : showPrintNotice ? setShowPrintNotice(false) : onBack();
+  const leave = (action: () => void) => {
+    if (leaving) return;
+    setLeaving(true);
+    window.setTimeout(action, 550);
+  };
+
+  const back = () => showInterest ? setShowInterest(false) : showAuctionDetail ? setShowAuctionDetail(false) : showAuctions ? setShowAuctions(false) : showPrintNotice ? setShowPrintNotice(false) : leave(onBack);
 
   return (
-    <div className={styles.overlay} role="dialog" aria-modal="true" aria-label={french ? 'Choisir une collection' : 'Choose a collection'}>
-      <div className={styles.background} aria-hidden="true">
-        {/* The original artwork remains intact beneath the translucent veil. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img ref={artworkRef} className={styles.artwork} src="/images/art-prints/le-sillage-epure.webp" alt="" />
-        <div className={styles.veil} />
-      </div>
-      <div className={`${styles.panel} ${showAuctions && !showInterest ? styles.auctionPanel : ''}`}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: leaving ? 0 : 1 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} className={styles.overlay} role="dialog" aria-modal="true" aria-label={french ? 'Choisir une collection' : 'Choose a collection'}>
+      <div className={styles.background} aria-hidden="true" />
+      <motion.div layout transition={{ layout: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } }} className={`${styles.panel} ${showAuctionDetail && !showInterest ? styles.auctionPanel : ''}`}>
         <button type="button" autoFocus className={styles.back} onClick={back}>← {french ? 'Retour' : 'Back'}</button>
-        <button type="button" className={styles.close} aria-label={french ? 'Fermer' : 'Close'} onClick={onClose}>×</button>
+        <button type="button" className={styles.close} aria-label={french ? 'Fermer' : 'Close'} onClick={() => leave(onClose)}>×</button>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div className={styles.flowContent} key={showPrintNotice ? 'prints' : showInterest ? 'interest' : showAuctions ? showAuctionDetail ? 'artwork' : 'auction-preview' : 'choices'} initial={{ opacity: 0, filter: 'blur(10px)', y: 12 }} animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }} exit={{ opacity: 0, filter: 'blur(8px)', y: -6 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
         {showPrintNotice ? (
           <section className={styles.printNotice}>
             <h2>{french ? 'Œuvres d’art' : 'Artworks'}</h2>
@@ -93,6 +71,12 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
           </section>
         ) : showInterest ? (
           <AuctionInterestForm language={language} />
+        ) : showAuctions && !showAuctionDetail ? (
+          <button type="button" className={styles.auctionPreview} onClick={() => setShowAuctionDetail(true)}>
+            <span className={styles.previewLabel}>{french ? 'Ventes aux enchères à venir' : 'Upcoming auctions'}</span>
+            <span className={styles.previewTitle}>{auctionArtwork.title}</span>
+            <span className={styles.previewLabel}>{french ? 'Participer' : 'Attend'}</span>
+          </button>
         ) : showAuctions ? (
           <div className={styles.auctionPresentation}>
             <figure className={styles.auctionImage}>
@@ -116,7 +100,9 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
             <a className={styles.choice} href={french ? '/fr/auctions/celle-qui-se-connait/' : '/auctions/celle-qui-se-connait/'} onClick={(event) => { event.preventDefault(); setShowAuctions(true); }}>{french ? 'Œuvres Originales' : 'Originals'}</a>
           </div>
         )}
-      </div>
-    </div>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }

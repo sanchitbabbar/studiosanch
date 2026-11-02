@@ -157,12 +157,12 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
 
           {/* Content */}
           <motion.div
-            initial={pageMode ? { opacity: 0, scale: 0.992, y: 8, filter: 'blur(5px)' } : { opacity: 0, scale: 0.95 }}
-            animate={pageMode ? { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' } : { opacity: 1, scale: 1 }}
-            exit={pageMode ? { opacity: 0, scale: 0.992, y: -4, filter: 'blur(2px)' } : { opacity: 0, scale: 0.95 }}
+            initial={pageMode ? { opacity: 0, scale: 0.992, y: 8, filter: 'blur(5px)' } : { opacity: 0, scale: 0.992, filter: 'blur(6px)' }}
+            animate={pageMode ? { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' } : { opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={pageMode ? { opacity: 0, scale: 0.992, y: -4, filter: 'blur(2px)' } : { opacity: 0, scale: 0.992, filter: 'blur(6px)' }}
             transition={pageMode
-              ? { duration: 0.22, ease: [0.22, 1, 0.36, 1] }
-              : { duration: 0.2, ease: 'easeOut' }}
+              ? { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+              : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className={pageMode
               ? 'relative z-50 min-h-screen bg-black/35 backdrop-blur-sm flex items-start justify-center px-4 pb-16 pt-24 md:items-center md:px-8'
               : 'fixed inset-0 z-50 overflow-auto flex items-start md:items-center justify-center pt-[180px] md:pt-0'}

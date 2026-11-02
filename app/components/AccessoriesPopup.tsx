@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -102,6 +102,11 @@ const AccessoriesPopup = () => {
   const router = useRouter();
   const { language } = useLanguage();
   const fr = language === 'fr';
+
+  useEffect(() => {
+    const paths = new Set([...accessoryCategories, ...bagItems].map(item => item.linkTo));
+    paths.forEach(path => router.prefetch(path));
+  }, [router]);
 
   // Handle click on a main category
   const handleCategoryClick = (category: AccessoryCategory) => {

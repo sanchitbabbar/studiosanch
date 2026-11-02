@@ -1,8 +1,6 @@
-.overlay{position:fixed;inset:0;z-index:100;isolation:isolate;overflow-x:hidden;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:32px 24px;background:#070707;color:#ddd;font-weight:300}
-.background{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.artwork{position:absolute;left:50%;top:50%;width:160vw;height:180vh;max-width:none;object-fit:cover;object-position:center 40%;opacity:.65;transform:translate(-50%,-50%)}
-.veil{position:absolute;inset:0;background:linear-gradient(110deg,#09090977,#151515a3 46%,#05050577);backdrop-filter:blur(2px)}
-.panel{position:relative;width:100%;max-width:950px;min-height:430px;display:flex;align-items:center;justify-content:center;padding:80px 34px;background:#12121250;backdrop-filter:blur(1px);border:1px solid #ffffff08;border-radius:8px;box-shadow:0 25px 90px #0003}
+.overlay{position:fixed;inset:0;z-index:100;isolation:isolate;overflow-x:hidden;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:32px 24px;background:transparent;color:#ddd;font-weight:300}
+.background{position:fixed;inset:0;z-index:-1;pointer-events:none;background:rgba(0,0,0,.6);backdrop-filter:blur(12px)}
+.panel{position:relative;width:100%;max-width:950px;min-height:430px;display:flex;align-items:center;justify-content:center;padding:80px 34px;background:rgba(0,0,0,.65);backdrop-filter:blur(12px);border:1px solid #ffffff08;border-radius:8px;box-shadow:0 25px 90px #0003}
 .back,.close{position:absolute;border:0;background:none;color:#999;font:inherit;font-size:12px;cursor:pointer;transition:color .3s}
 .back{left:28px;top:27px}.close{right:28px;top:23px;font-size:22px;line-height:1}
 .choices{display:flex;align-items:center;justify-content:center;gap:58px}
@@ -38,3 +36,10 @@
 .collectionLink span{font-size:18px;opacity:.6}.collectionLink:hover{border-color:#fff}
 .collectionLink:focus-visible{outline:none;color:#fff}
 @media(max-width:650px){.printNotice h2{font-size:25px;margin-bottom:30px}.printNotice p{font-size:13px}.printNotice .printNote{font-size:11px}.collectionLink{margin-top:28px;padding:12px 12px}}
+
+.flowContent{width:100%;display:flex;align-items:center;justify-content:center}
+.auctionPreview{display:flex;flex-direction:column;align-items:center;gap:18px;padding:30px 15px;border:0;background:none;color:#ddd;font:inherit;cursor:pointer}
+.previewLabel{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#999}
+.previewTitle{font-size:19px;font-weight:300;letter-spacing:.02em;line-height:1.5}
+.auctionPreview:hover .previewTitle,.auctionPreview:focus-visible .previewTitle{color:#fff}
+.auctionPreview:focus-visible{outline:none}

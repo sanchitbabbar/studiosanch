@@ -120,3 +120,13 @@ html::-webkit-scrollbar {
   outline: none !important;
   box-shadow: none !important;
 }
+
+/* A quiet dissolve between documents in browsers supporting view transitions. */
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: quiet-page-out .55s ease both; }
+::view-transition-new(root) { animation: quiet-page-in .7s ease both; }
+@keyframes quiet-page-out { to { opacity: 0; } }
+@keyframes quiet-page-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
