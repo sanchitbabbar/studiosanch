@@ -1,3 +1,5 @@
+import { designs } from './data/artworks';
+import { artworkPaths } from './lib/artwork-seo';
 import type { MetadataRoute } from 'next';
 import { accessoryProducts } from './data/accessories';
 
@@ -12,9 +14,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['/artworks/', 0.9],
     ['/boutique/', 0.9],
     ['/terms/', 0.3],
+    ['/haute-couture.html', 0.9],
+    ['/atelier.html', 0.8],
+    ['/fr/atelier.html', 0.8],
+    ['/about.html', 0.7],
+    ['/fr/about.html', 0.7],
   ] as const;
 
   return [
+    ...designs.flatMap((work) => {
+      const paths = artworkPaths(work.id);
+      return [paths.en, paths.fr].map((url) => ({ url, changeFrequency: 'monthly' as const, priority: 0.8,
+        alternates: { languages: { ...paths, 'x-default': paths.en } } }));
+    }),
     ...pages.map(([path, priority]) => ({
       url: `${base}${path}`,
       changeFrequency: path === '' ? 'weekly' as const : 'monthly' as const,
