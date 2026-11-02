@@ -1,5 +1,7 @@
 'use client';
 
+import ArtworksBoutiquePanel from './ArtworksBoutiquePanel';
+
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -89,6 +91,13 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
   const [showArtworkSuccess, setShowArtworkSuccess] = useState(false);
   const [artworkSubmissionError, setArtworkSubmissionError] = useState(false);
   const [activeTab, setActiveTab] = useState<'gallery' | 'about'>('gallery');
+  const [returnToPrintNotice, setReturnToPrintNotice] = useState(false);
+  const closeGallery = () => {
+    if (new URLSearchParams(window.location.search).get('from') === 'fine-art-editions') {
+      setReturnToPrintNotice(true);
+    } else { onClose(); }
+  };
+
 
   const calculatePrice = useCallback(() => {
     if (!selectedDesign || !selectedSize || !selectedQuality) return null;
@@ -114,6 +123,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
   }, []);
 
   if (!isOpen) return null;
+  if (returnToPrintNotice) return <ArtworksBoutiquePanel language={language} initialPrintNotice galleryHref={'/artworks/'} onBack={onClose} onClose={onClose} />;
 
   return (
     <AnimatePresence>
@@ -130,7 +140,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           className="fixed inset-0 bg-black/90 backdrop-blur-sm"
-          onClick={onClose}
+          onClick={closeGallery}
         />
 
         {/* Main gallery container */}
@@ -200,7 +210,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                   </button>
                 </div>
                 <button
-                  onClick={() => activeTab === 'about' ? setActiveTab('gallery') : onClose()}
+                  onClick={() => activeTab === 'about' ? setActiveTab('gallery') : closeGallery()}
                   className="text-white/40 hover:text-white/70 transition-colors p-2 border border-white/10 rounded-full"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

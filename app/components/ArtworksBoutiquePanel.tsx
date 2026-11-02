@@ -11,13 +11,15 @@ interface Props {
   language: string;
   galleryHref: string;
   initialAuction?: boolean;
+  initialPrintNotice?: boolean;
   onBack: () => void;
   onClose: () => void;
 }
 
-export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, onBack, onClose }: Props) {
+export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, initialPrintNotice = false, onBack, onClose }: Props) {
   const [showAuctions, setShowAuctions] = useState(initialAuction);
   const [showInterest, setShowInterest] = useState(false);
+  const [showPrintNotice, setShowPrintNotice] = useState(initialPrintNotice);
   const artworkRef = useRef<HTMLImageElement>(null);
   const french = language === 'fr';
   const ArtworkHeading = initialAuction ? 'h1' : 'h2';
@@ -41,7 +43,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
       movement = artwork.animate([
         { transform: start },
         { transform: `translate(-50%, -50%) translate(${-x * 135}vw, ${-y * 145}vh)` }
-      ], { duration: firstPass ? 21000 : 42000, easing: 'linear', fill: 'forwards' });
+      ], { duration: firstPass ? 28000 : 56000, easing: 'linear', fill: 'forwards' });
       movement.onfinish = () => { movement?.cancel(); crossScreen(); };
     };
     crossScreen(true);
@@ -58,6 +60,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
       if (event.key === 'Escape') {
         if (showInterest) setShowInterest(false);
         else if (showAuctions) setShowAuctions(false);
+        else if (showPrintNotice) setShowPrintNotice(false);
         else onClose();
       }
     };
@@ -66,9 +69,9 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
       document.body.style.overflow = previous;
       document.removeEventListener('keydown', escape);
     };
-  }, [onClose, showAuctions, showInterest]);
+  }, [onClose, showAuctions, showInterest, showPrintNotice]);
 
-  const back = () => showInterest ? setShowInterest(false) : showAuctions ? setShowAuctions(false) : onBack();
+  const back = () => showInterest ? setShowInterest(false) : showAuctions ? setShowAuctions(false) : showPrintNotice ? setShowPrintNotice(false) : onBack();
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" aria-label={french ? 'Choisir une collection' : 'Choose a collection'}>
@@ -81,7 +84,14 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
       <div className={`${styles.panel} ${showAuctions && !showInterest ? styles.auctionPanel : ''}`}>
         <button type="button" autoFocus className={styles.back} onClick={back}>← {french ? 'Retour' : 'Back'}</button>
         <button type="button" className={styles.close} aria-label={french ? 'Fermer' : 'Close'} onClick={onClose}>×</button>
-        {showInterest ? (
+        {showPrintNotice ? (
+          <section className={styles.printNotice}>
+            <h2>{french ? 'Œuvres d’art' : 'Artworks'}</h2>
+            <p>{french ? "Chaque tirage est réalisé sur papier d'archives de qualité musée, garantissant une longévité exceptionnelle et la préservation des couleurs." : 'Each print is produced on museum-grade archival paper, ensuring exceptional longevity and color preservation.'}</p>
+            <p className={styles.printNote}>{french ? "Les œuvres sont vendues sans cadre. Un encadrement professionnel d'archives est recommandé pour une conservation et une mise en valeur optimales." : 'Note: Prints are sold unframed. Professional archival framing is recommended for optimal preservation and display.'}</p>
+            <a className={styles.collectionLink} href={`${galleryHref}${galleryHref.includes('?') ? '&' : '?'}from=fine-art-editions`}>{french ? 'Voir la Collection' : 'View Collection'}<span aria-hidden="true">→</span></a>
+          </section>
+        ) : showInterest ? (
           <AuctionInterestForm language={language} />
         ) : showAuctions ? (
           <div className={styles.auctionPresentation}>
@@ -101,7 +111,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
           </div>
         ) : (
           <div className={styles.choices}>
-            <a className={styles.choice} href={galleryHref}>{french ? 'Éditions d’Art' : 'Fine Art Editions'}</a>
+            <a className={styles.choice} href={galleryHref} onClick={(event) => { event.preventDefault(); setShowPrintNotice(true); }}>{french ? 'Éditions d’Art' : 'Fine Art Editions'}</a>
             <span className={styles.separator} aria-hidden="true" />
             <a className={styles.choice} href={french ? '/fr/auctions/celle-qui-se-connait/' : '/auctions/celle-qui-se-connait/'} onClick={(event) => { event.preventDefault(); setShowAuctions(true); }}>{french ? 'Œuvres Originales' : 'Originals'}</a>
           </div>
