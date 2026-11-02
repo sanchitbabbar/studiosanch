@@ -1,3 +1,4 @@
+import { auctionPaths } from './lib/auction-seo';
 import { designs } from './data/artworks';
 import { artworkPaths } from './lib/artwork-seo';
 import type { MetadataRoute } from 'next';
@@ -22,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ] as const;
 
   return [
+    ...Object.values(auctionPaths).map(url => ({ url, lastModified: new Date('2026-11-02T00:00:00+01:00'), changeFrequency: 'weekly' as const, priority: 0.9, images: [`https://studiosanch.com/images/auctions/celle-qui-se-connait-original.webp`], alternates: { languages: { ...auctionPaths, 'x-default': auctionPaths.en } } })),
     ...designs.flatMap((work) => {
       const paths = artworkPaths(work.id);
       return [paths.en, paths.fr].map((url) => ({ url, changeFrequency: 'monthly' as const, priority: 0.8,

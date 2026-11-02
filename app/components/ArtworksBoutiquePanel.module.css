@@ -12,3 +12,18 @@
 .separator{height:28px;width:1px;background:#ffffff26}
 .notice{max-width:420px;margin:0;text-align:center;font-size:13px;line-height:2;letter-spacing:.04em}
 @media(max-width:650px){.overlay{padding:24px 18px}.panel{min-height:360px;padding:80px 25px}.choices{flex-direction:column;gap:10px}.choice{font-size:12px}.separator{width:24px;height:1px;margin:7px}.notice{font-size:12px}.back{left:25px;top:24px}.close{right:25px;top:23px}}
+
+.panel{flex-shrink:0;margin:auto}
+.auctionPanel{max-width:1100px;padding:80px 52px 52px}
+.auctionPresentation{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px;align-items:center;width:100%}
+.auctionImage{margin:0;display:flex;align-items:center;justify-content:center}
+.auctionImage img{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;box-shadow:0 15px 60px #0005}
+.auctionDetails{text-align:left;padding:15px 0}
+.auctionLabel{font-size:9px;line-height:1.8;letter-spacing:.18em;text-transform:uppercase;color:#999;margin:0 0 20px}
+.auctionTitle{font-size:23px;font-weight:300;line-height:1.4;letter-spacing:.01em;margin:0 0 26px;color:#eee}
+.poetry{font-size:12px;line-height:1.95;font-weight:300;color:#ccc;white-space:pre-line;margin:0}
+.interestButton{display:inline-block;margin-top:34px;padding:12px 0;border:0;border-bottom:1px solid #ffffff45;background:none;color:#ddd;font:inherit;font-size:10px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:color .3s,border-color .3s}
+.interestButton:hover{color:#fff;border-color:#aaa}.interestButton:focus-visible{outline:1px solid #999;outline-offset:6px}
+@media(max-width:700px){.auctionPanel{padding:76px 25px 35px}.auctionPresentation{grid-template-columns:1fr;gap:30px}.auctionImage img{max-height:60vh}.auctionTitle{font-size:21px;margin-bottom:20px}.auctionLabel{margin-bottom:15px}.auctionDetails{padding:0}.interestButton{margin-top:25px}}
+
+.auctionYear{font-size:11px;letter-spacing:.12em;color:#999;margin:-14px 0 26px}
