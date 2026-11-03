@@ -84,7 +84,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
               <img src="/images/auctions/celle-qui-se-connait-original.webp" alt={auctionArtwork.title} />
             </figure>
             <div className={styles.auctionDetails}>
-              <p className={styles.auctionLabel}>Acquisition</p>
+              <p className={styles.auctionLabel}>{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
               <ArtworkHeading className={styles.auctionTitle}>{auctionArtwork.title}</ArtworkHeading>
               <p className={styles.auctionYear}>{auctionArtwork.year}</p>
               <p className={styles.proposal}>{french ? 'Proposition — à partir de 1 000 000 EUR' : 'Proposal — from 1,000,000 EUR'}</p>

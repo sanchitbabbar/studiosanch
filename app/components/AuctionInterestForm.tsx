@@ -24,7 +24,7 @@ export default function AuctionInterestForm({ language }: { language: string }) 
   }
   return (
     <div className="w-full max-w-md mx-auto text-left">
-      <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase text-center mb-3">Acquisition</p>
+      <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase text-center mb-3">{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
       <h2 className="text-white/80 text-sm font-light text-center mb-7">Celle qui se connaît</h2>
       {status === 'sent' ? (
         <div role="status" className="py-6 text-center space-y-2">
