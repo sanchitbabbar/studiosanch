@@ -87,6 +87,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
               <p className={styles.auctionLabel}>{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
               <ArtworkHeading className={styles.auctionTitle}>{auctionArtwork.title}</ArtworkHeading>
               <p className={styles.auctionYear}>{auctionArtwork.year}</p>
+              <p className={styles.medium}>{french ? 'Encre sur papier' : 'Ink on paper'}</p>
               <p className={styles.proposal}>{french ? 'Proposition — à partir de 1 000 000 EUR' : 'Proposal — from 1,000,000 EUR'}</p>
               <p className={styles.poetry}>{french ? auctionArtwork.descriptionFr : auctionArtwork.descriptionEn}</p>
               <button type="button" className={styles.interestButton} onClick={() => setShowInterest(true)}>
