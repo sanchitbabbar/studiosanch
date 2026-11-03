@@ -73,9 +73,9 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
           <AuctionInterestForm language={language} />
         ) : showAuctions && !showAuctionDetail ? (
           <button type="button" className={styles.auctionPreview} onClick={() => setShowAuctionDetail(true)}>
-            <span className={styles.previewLabel}>{french ? 'Ventes aux enchères à venir' : 'Upcoming auctions'}</span>
+            <span className={styles.previewLabel}>Acquisition</span>
             <span className={styles.previewTitle}>{auctionArtwork.title}</span>
-            <span className={styles.previewLabel}>{french ? 'Participer' : 'Attend'}</span>
+            <span className={styles.previewLabel}>{french ? 'Se renseigner' : 'Enquire'}</span>
           </button>
         ) : showAuctions ? (
           <div className={styles.auctionPresentation}>
@@ -84,9 +84,10 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
               <img src="/images/auctions/celle-qui-se-connait-original.webp" alt={auctionArtwork.title} />
             </figure>
             <div className={styles.auctionDetails}>
-              <p className={styles.auctionLabel}>{french ? 'Vente aux enchères à venir · Œuvre originale' : 'Upcoming auction · Original artwork'}</p>
+              <p className={styles.auctionLabel}>Acquisition</p>
               <ArtworkHeading className={styles.auctionTitle}>{auctionArtwork.title}</ArtworkHeading>
               <p className={styles.auctionYear}>{auctionArtwork.year}</p>
+              <p className={styles.proposal}>{french ? 'Proposition — à partir de 1 000 000 EUR' : 'Proposal — from 1,000,000 EUR'}</p>
               <p className={styles.poetry}>{french ? auctionArtwork.descriptionFr : auctionArtwork.descriptionEn}</p>
               <button type="button" className={styles.interestButton} onClick={() => setShowInterest(true)}>
                 {french ? 'Exprimer mon intérêt' : 'Express interest'}
