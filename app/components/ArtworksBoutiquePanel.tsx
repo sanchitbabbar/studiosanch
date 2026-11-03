@@ -6,7 +6,7 @@ import { designs } from '../data/artworks';
 import AuctionInterestForm from './AuctionInterestForm';
 import styles from './ArtworksBoutiquePanel.module.css';
 
-const auctionArtwork = designs.find(design => design.title === 'Celle qui se connaît')!;
+const acquisitionArtworks = ['Celle qui se connaît', 'Deepa'].map(title => designs.find(design => design.title === title)!);
 
 interface Props {
   language: string;
@@ -18,6 +18,8 @@ interface Props {
 }
 
 export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, initialPrintNotice = false, onBack, onClose }: Props) {
+  const [selectedArtwork, setSelectedArtwork] = useState(0);
+  const auctionArtwork = acquisitionArtworks[selectedArtwork];
   const [leaving, setLeaving] = useState(false);
   const [showAuctions, setShowAuctions] = useState(initialAuction);
   const [showAuctionDetail, setShowAuctionDetail] = useState(initialAuction);
@@ -70,18 +72,22 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
             <a className={styles.collectionLink} href={`${galleryHref}${galleryHref.includes('?') ? '&' : '?'}from=fine-art-editions`}>{french ? 'Voir la Collection' : 'View Collection'}<span aria-hidden="true">→</span></a>
           </section>
         ) : showInterest ? (
-          <AuctionInterestForm language={language} />
+          <AuctionInterestForm key={auctionArtwork.title} language={language} artworkTitle={auctionArtwork.title} />
         ) : showAuctions && !showAuctionDetail ? (
-          <button type="button" className={styles.auctionPreview} onClick={() => setShowAuctionDetail(true)}>
-            <span className={styles.previewLabel}>Acquisition</span>
-            <span className={styles.previewTitle}>{auctionArtwork.title}</span>
-            <span className={styles.previewLabel}>{french ? 'Se renseigner' : 'Enquire'}</span>
-          </button>
+          <div className={styles.acquisitionList}>
+            <p className={styles.previewLabel}>Acquisition</p>
+            {acquisitionArtworks.map((artwork, index) => (
+              <button key={artwork.title} type="button" className={styles.auctionPreview} onClick={() => { setSelectedArtwork(index); setShowAuctionDetail(true); }}>
+                <span className={styles.previewTitle}>{artwork.title}</span>
+                <span className={styles.previewLabel}>{french ? 'Se renseigner' : 'Enquire'}</span>
+              </button>
+            ))}
+          </div>
         ) : showAuctions ? (
           <div className={styles.auctionPresentation}>
             <figure className={styles.auctionImage}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/auctions/celle-qui-se-connait-original.webp" alt={auctionArtwork.title} />
+              <img src={selectedArtwork === 0 ? '/images/auctions/celle-qui-se-connait-original.webp' : '/images/auctions/deepa-original.webp'} alt={auctionArtwork.title} />
             </figure>
             <div className={styles.auctionDetails}>
               <p className={styles.auctionLabel}>{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
