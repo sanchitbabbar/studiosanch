@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { designs } from '../data/artworks';
+import { originalArtworks as acquisitionArtworks } from '../data/originalArtworks';
 import AuctionInterestForm from './AuctionInterestForm';
+import AcquisitionInvitations from './AcquisitionInvitations';
 import styles from './ArtworksBoutiquePanel.module.css';
 
-const acquisitionArtworks = ['Celle qui se connaît', 'Deepa'].map(title => designs.find(design => design.title === title)!);
+
 
 interface Props {
   language: string;
@@ -74,20 +75,12 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
         ) : showInterest ? (
           <AuctionInterestForm key={auctionArtwork.title} language={language} artworkTitle={auctionArtwork.title} />
         ) : showAuctions && !showAuctionDetail ? (
-          <div className={styles.acquisitionList}>
-            <p className={styles.previewLabel}>Acquisition</p>
-            {acquisitionArtworks.map((artwork, index) => (
-              <button key={artwork.title} type="button" className={styles.auctionPreview} onClick={() => { setSelectedArtwork(index); setShowAuctionDetail(true); }}>
-                <span className={styles.previewTitle}>{artwork.title}</span>
-                <span className={styles.previewLabel}>{french ? 'Se renseigner' : 'Enquire'}</span>
-              </button>
-            ))}
-          </div>
+          <AcquisitionInvitations titles={acquisitionArtworks.map(artwork => artwork.title)} french={french} onSelect={index => { setSelectedArtwork(index); setShowAuctionDetail(true); }} />
         ) : showAuctions ? (
           <div className={styles.auctionPresentation}>
             <figure className={styles.auctionImage}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={selectedArtwork === 0 ? '/images/auctions/celle-qui-se-connait-original.webp' : '/images/auctions/deepa-original.webp'} alt={auctionArtwork.title} />
+              <img src={auctionArtwork.image} alt={auctionArtwork.title} />
             </figure>
             <div className={styles.auctionDetails}>
               <p className={styles.auctionLabel}>{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
