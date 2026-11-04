@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -21,10 +21,11 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
   const fr = language === 'fr';
   const isSunglassesWaitlist = product.id === 'sunglasses-black';
 
-  if (!isOpen) return null;
+
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto">
+    <AnimatePresence>
+    {isOpen && <motion.div exit={{ opacity: 0 }} transition={{ duration: 0.6 }} className="fixed inset-0 z-[100] overflow-y-auto">
       {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -228,6 +229,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
           </div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>}
+    </AnimatePresence>
   );
 }

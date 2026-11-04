@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { originalArtworks as acquisitionArtworks } from '../data/originalArtworks';
 import AuctionInterestForm from './AuctionInterestForm';
@@ -13,13 +13,14 @@ interface Props {
   language: string;
   galleryHref: string;
   initialAuction?: boolean;
+  initialArtwork?: number;
   initialPrintNotice?: boolean;
   onBack: () => void;
   onClose: () => void;
 }
 
-export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, initialPrintNotice = false, onBack, onClose }: Props) {
-  const [selectedArtwork, setSelectedArtwork] = useState(0);
+export default function ArtworksBoutiquePanel({ language, galleryHref, initialAuction = false, initialArtwork = 0, initialPrintNotice = false, onBack, onClose }: Props) {
+  const [selectedArtwork, setSelectedArtwork] = useState(initialArtwork);
   const auctionArtwork = acquisitionArtworks[selectedArtwork];
   const [leaving, setLeaving] = useState(false);
   const [showAuctions, setShowAuctions] = useState(initialAuction);
@@ -28,6 +29,23 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
   const [showPrintNotice, setShowPrintNotice] = useState(initialPrintNotice);
   const french = language === 'fr';
   const ArtworkHeading = initialAuction ? 'h1' : 'h2';
+  const origin = useRef<{ url: string; title: string } | null>(null);
+  useEffect(() => {
+    origin.current = { url: location.href, title: document.title };
+    return () => { if (origin.current) document.title = origin.current.title; };
+  }, []);
+  useEffect(() => {
+    if (!origin.current) return;
+    if (showAuctionDetail) {
+      const slug = ['celle-qui-se-connait', 'deepa', 'instar'][selectedArtwork];
+      history.replaceState(history.state, '', `${french ? '/fr' : ''}/originals/${slug}/`);
+      document.title = `${auctionArtwork.title} — ${french ? 'Œuvre originale' : 'Original artwork'}`;
+    } else {
+      history.replaceState(history.state, '', initialAuction ? '/boutique/' : origin.current.url);
+      document.title = initialAuction ? (french ? "Œuvres Originales" : "Original artworks") : origin.current.title;
+    }
+  }, [showAuctionDetail, selectedArtwork, french, auctionArtwork.title, initialAuction]);
+
 
 
   useEffect(() => {
@@ -52,7 +70,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
   const leave = (action: () => void) => {
     if (leaving) return;
     setLeaving(true);
-    window.setTimeout(action, 550);
+    window.setTimeout(() => { if (origin.current && !initialAuction) { history.replaceState(history.state, '', origin.current.url); document.title = origin.current.title; } action(); }, 550);
   };
 
   const back = () => showInterest ? setShowInterest(false) : showAuctionDetail ? setShowAuctionDetail(false) : showAuctions ? setShowAuctions(false) : showPrintNotice ? setShowPrintNotice(false) : leave(onBack);
@@ -98,7 +116,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
           <div className={styles.choices}>
             <a className={styles.choice} href={galleryHref} onClick={(event) => { event.preventDefault(); setShowPrintNotice(true); }}>{french ? 'Éditions d’Art' : 'Fine Art Editions'}</a>
             <span className={styles.separator} aria-hidden="true" />
-            <a className={styles.choice} href={french ? '/fr/auctions/celle-qui-se-connait/' : '/auctions/celle-qui-se-connait/'} onClick={(event) => { event.preventDefault(); setShowAuctions(true); }}>{french ? 'Œuvres Originales' : 'Originals'}</a>
+            <a className={styles.choice} href={french ? '/fr/originals/celle-qui-se-connait/' : '/originals/celle-qui-se-connait/'} onClick={(event) => { event.preventDefault(); setShowAuctions(true); }}>{french ? 'Œuvres Originales' : 'Originals'}</a>
           </div>
         )}
           </motion.div>

@@ -122,12 +122,13 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
     console.error('Payment error', error);
   }, []);
 
-  if (!isOpen) return null;
-  if (returnToPrintNotice) return <ArtworksBoutiquePanel language={language} initialPrintNotice galleryHref={'/artworks/'} onBack={onClose} onClose={onClose} />;
+
 
   return (
-    <AnimatePresence>
-      <motion.div
+    <AnimatePresence mode="wait">
+      {isOpen && (returnToPrintNotice ? <ArtworksBoutiquePanel language={language} initialPrintNotice galleryHref={'/artworks/'} onBack={onClose} onClose={onClose} /> : <motion.div
+        key="gallery"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -711,7 +712,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
               </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
+      </motion.div>)}
     </AnimatePresence>
   );
 }
