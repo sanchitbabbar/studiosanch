@@ -296,7 +296,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           priority={index < 3} // Prioritize first 3 designs
                           loading={index < 3 ? 'eager' : 'lazy'} // Lazy load designs below the fold
-                          className={`object-cover transition-all duration-700 group-hover:scale-105 ${design.id === '1' ? 'scale-[1.07]' : ''}`}
+                          className={`object-cover transition-all duration-700 ${design.id === 'le-sillage-epure' ? 'scale-[1.08] group-hover:scale-[1.13]' : 'group-hover:scale-105'} ${design.id === '1' ? 'scale-[1.07]' : ''}`}
                           style={design.id === '1' ? {objectPosition: 'center'} : {}}
                         />
                         <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
