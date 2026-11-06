@@ -232,8 +232,7 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
 
                 {/* Categories Selection */}
                 {!selectedCategory && (
-                  <div className="pt-8">
-                    <h2 className="text-2xl md:text-3xl font-light text-center mb-10 md:mb-16">{language === 'en' ? 'Boutique' : 'Boutique'}</h2>
+                  <div className="pt-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 md:gap-6">
                       {boutiqueCategories.map(category => {
                         const Card = category.href ? 'a' : 'button';
