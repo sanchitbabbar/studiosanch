@@ -1473,6 +1473,9 @@ footer {
     }
 }
 
+/* The heading receives programmatic focus without a browser-drawn rectangle. */
+#purchase-inquiry-title:focus{outline:none;box-shadow:none}
+
 /* Match the mobile contact reference while retaining the existing inquiry effects. */
 .purchase-inquiry-modal{transition:opacity .55s ease,visibility 0s linear .55s}
 .purchase-inquiry-card{transition-duration:.55s;transition-timing-function:cubic-bezier(.22,1,.36,1)}
