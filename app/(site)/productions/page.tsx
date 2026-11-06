@@ -408,14 +408,14 @@ export default function ProductionsPage() {
         @media (max-width: 600px), (max-height: 600px) { .production-contact-panel { overflow: auto; } }
         @media (max-width:700px){
           .production-contact-modal{padding:16px;overflow-y:auto}
-          .production-contact-panel{width:100%;max-width:352px;padding:24px;border:0;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent),rgba(0,0,0,.6);backdrop-filter:blur(24px);max-height:calc(100svh - 32px)}
+          .production-contact-panel{width:100%;max-width:352px;padding:24px;border:0;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),rgba(0,0,0,.88);backdrop-filter:blur(24px);max-height:calc(100svh - 32px)}
           .production-contact-panel h2{font-size:18px;line-height:1.5;letter-spacing:.05em}
           .production-contact-panel label{border:0;padding:0;gap:0;font-size:0;letter-spacing:normal}
-          .production-contact-panel input,.production-contact-panel textarea{box-sizing:border-box;margin:0;border:0;border-radius:6px;padding:10px 16px;background:rgba(255,255,255,.05);font-size:16px;line-height:1.55;letter-spacing:normal;transition:background .3s ease}
-          .production-contact-panel input:focus,.production-contact-panel textarea:focus{background:rgba(255,255,255,.1)}
-          .production-contact-panel input::placeholder,.production-contact-panel textarea::placeholder{color:rgba(255,255,255,.3);opacity:1}
+          .production-contact-panel input,.production-contact-panel textarea{box-sizing:border-box;margin:0;border:0;border-radius:6px;padding:10px 16px;background:rgba(255,255,255,.025);font-size:16px;line-height:1.55;letter-spacing:normal;transition:background .3s ease}
+          .production-contact-panel input:focus,.production-contact-panel textarea:focus{background:rgba(255,255,255,.045)}
+          .production-contact-panel input::placeholder,.production-contact-panel textarea::placeholder{color:rgba(255,255,255,.4);opacity:1}
           .production-contact-panel textarea{min-height:112px}
-          .production-contact-submit{width:100%;border:0;border-radius:6px;justify-content:center;padding:10px 16px;background:rgba(255,255,255,.1);font-size:12px;letter-spacing:.2em}
+          .production-contact-submit{width:100%;border:0;border-radius:6px;justify-content:center;padding:10px 16px;background:rgba(255,255,255,.045);font-size:12px;letter-spacing:.2em}
         }
         @media (max-width: 480px) { .productions-hero h1 { width: 85%; padding: 0; font-size: 1.5rem; letter-spacing: .07em; } }
         @media (prefers-reduced-motion: reduce) { [data-production-reveal] { opacity: .18; filter: none; transform: translate3d(0,12px,0); transition: opacity .35s ease, transform .35s ease; } [data-production-reveal].is-visible { opacity: 1; transform: translate3d(0,0,0); } [data-production-text] { opacity: .18; filter: none; transform: none; transition: opacity .3s ease; } [data-production-text].is-text-active { opacity: 1; } .productions-statement-orbit { transform: translate(-50%,-50%); } .productions-statement-orbit i { animation: none; } }
