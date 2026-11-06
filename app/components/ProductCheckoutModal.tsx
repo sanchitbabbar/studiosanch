@@ -44,11 +44,11 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
         animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
         exit={{ opacity: 0, scale: 0.992, filter: 'blur(6px)' }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-0 flex items-center justify-center z-[101]"
+        data-enquiry-stage className="fixed inset-0 flex items-center justify-center z-[101]"
       >
         <div className="w-full max-w-lg px-4">
           <div
-            className="relative overflow-hidden bg-black/80 backdrop-blur-2xl rounded-sm w-full border border-white/5"
+            data-enquiry-card className="relative overflow-hidden bg-black/80 backdrop-blur-2xl rounded-sm w-full border border-white/5"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Decorative gradient */}
@@ -101,7 +101,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                   </div>
                 </motion.div>
               ) : (
-                <form
+                <form data-sanch-enquiry
                   action="https://formspree.io/f/mrpgkojw"
                   method="POST"
                                 onSubmit={(e) => {
@@ -135,11 +135,11 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                 >
                   <div className="space-y-6">
                     <div className="relative">
-                      <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                      <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                         <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Nom complet' : 'Full Name'}</span>
                         <input
                           type="text"
-                          name="name"
+                          name="name" placeholder={language === 'fr' ? 'Nom complet' : 'Full Name'}
                           required
                           className="text-white/90 text-xs tracking-[0.2em] bg-transparent border-none focus:outline-none w-full resize-none mt-1 caret-white"
                         />
@@ -147,11 +147,11 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                     </div>
 
                     <div className="relative">
-                      <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                      <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                         <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Adresse e-mail' : 'Email Address'}</span>
                         <input
                           type="email"
-                          name="email"
+                          name="email" placeholder={language === 'fr' ? 'Adresse e-mail' : 'Email Address'}
                           required
                           className="text-white/90 text-xs tracking-[0.2em] bg-transparent border-none focus:outline-none w-full resize-none mt-1 caret-white"
                         />
@@ -159,10 +159,10 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
                     </div>
 
                     <div className="relative">
-                      <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                      <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                         <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{fr ? 'Votre message' : 'Your Message'}</span>
                         <textarea
-                          name="message"
+                          name="message" placeholder={language === 'fr' ? 'Votre message' : 'Your Message'}
                           required
                           rows={3}
                           defaultValue={isSunglassesWaitlist

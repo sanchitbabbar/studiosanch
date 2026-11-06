@@ -77,7 +77,7 @@ export default function ProductionsPage() {
 
   const closeContact = () => {
     setContactOpen(false);
-    window.setTimeout(() => setContactStatus('idle'), 350);
+    window.setTimeout(() => setContactStatus('idle'), 750);
   };
 
   const submitContact = async (event: FormEvent<HTMLFormElement>) => {
@@ -251,9 +251,9 @@ export default function ProductionsPage() {
               <h2 id="production-contact-title">{fr ? 'Commencez par ce que vous imaginez.' : 'Begin with what you imagine.'}</h2>
               <p className="production-contact-intro">{fr ? 'Partagez ce qui vous semble essentiel.' : 'Share what feels essential.'}</p>
               <form onSubmit={submitContact}>
-                <label>{fr ? 'VOTRE NOM' : 'YOUR NAME'}<input name="name" type="text" required autoFocus /></label>
-                <label>{fr ? 'VOTRE E-MAIL' : 'YOUR EMAIL'}<input name="email" type="email" required /></label>
-                <label>{fr ? 'VOTRE PROJET' : 'YOUR PROJECT'}<textarea name="message" rows={3} required /></label>
+                <label>{fr ? 'VOTRE NOM' : 'YOUR NAME'}<input name="name" placeholder={fr ? "Nom complet" : "Full Name"} type="text" required /></label>
+                <label>{fr ? 'VOTRE E-MAIL' : 'YOUR EMAIL'}<input name="email" placeholder={fr ? "Adresse e-mail" : "Email Address"} type="email" required /></label>
+                <label>{fr ? 'VOTRE PROJET' : 'YOUR PROJECT'}<textarea name="message" placeholder={fr ? "Votre message" : "Your Message"} rows={3} required /></label>
                 {contactStatus === 'error' && <p className="production-contact-error">{fr ? 'Votre message n’a pas pu être envoyé. Écrivez-nous à info@studiosanch.com.' : 'Your message could not be sent. Please write to info@studiosanch.com.'}</p>}
                 <button className="production-contact-submit" type="submit" disabled={contactStatus === 'sending'}>{contactStatus === 'sending' ? (fr ? 'ENVOI…' : 'SENDING…') : (fr ? 'ENVOYER' : 'SEND')} <span>↗︎</span></button>
               </form>
@@ -370,7 +370,7 @@ export default function ProductionsPage() {
         .productions-cta { position: relative; display: inline-flex; gap: .78rem; align-items: center; margin-top: 2.5rem; padding: .68rem 1.05rem; border: 1px solid rgba(255,255,255,.18); border-radius: 99px; background: rgba(255,255,255,.045); color: rgba(255,255,255,.72); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); font: inherit; font-size: .53rem; font-weight: 400; letter-spacing: .25em; text-decoration: none; cursor: pointer; box-shadow: inset 0 1px 0 rgba(255,255,255,.07); transition: color .35s ease, background .35s ease, border-color .35s ease, transform .35s ease, box-shadow .35s ease; }
         .productions-cta:hover { background: #fff; color: #000; transform: translateY(-3px); }
         .productions-cta span { font-size: .9rem; font-weight: 300; }
-        .production-contact-modal { position: fixed; z-index: 5000; inset: 0; display: grid; place-items: center; padding: 1.25rem; visibility: hidden; opacity: 0; transition: opacity .55s ease, visibility 0s linear .55s; }
+        .production-contact-modal { position: fixed; z-index: 5000; inset: 0; display: grid; place-items: center; padding: 1.25rem; visibility: hidden; opacity: 0; transition: opacity .7s ease, visibility 0s linear .7s; }
         .production-contact-modal.is-open { visibility: visible; opacity: 1; transition-delay: 0s; }
         .production-contact-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: rgba(0,0,0,.68); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); cursor: default; }
         .production-contact-panel { position: relative; width: min(520px,100%); max-height: calc(100vh - 2rem); padding: clamp(1.5rem,3vw,2.25rem); overflow: hidden; border: 1px solid rgba(255,255,255,.15); border-radius: 1.5rem; background: linear-gradient(145deg, rgba(30,30,30,.88), rgba(4,4,4,.93)); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 40px 120px rgba(0,0,0,.72); color: #fff; transform: translateY(32px) scale(.975); transition: transform .7s cubic-bezier(.16,1,.3,1); }
@@ -406,6 +406,17 @@ export default function ProductionsPage() {
         @media (max-width: 700px) { .productions-progress { display: none; } .productions-hero { padding: 4.5rem 1.5rem 0; } .productions-hero h1 { font-size: 2rem; letter-spacing: .12em; white-space: nowrap; } .productions-reel { width: calc(100% + 3rem); aspect-ratio: 1.38 / 1; margin-inline: -1.5rem; } .productions-statement { min-height: 700px; padding-inline: 1.5rem; } .productions-statement-copy { padding: 2.5rem 1.4rem; border-radius: 2rem; } .productions-statement-orbit { width: min(92vw, 560px); } .productions-journey { padding-inline: 1.5rem; } .productions-journey-intro { padding: 2rem 1.5rem; border-radius: 2rem; } .productions-process-step { grid-template-columns: 92px 1fr; min-height: 300px; padding: 2.25rem 1.25rem; border-radius: 2rem; } .productions-process-visual { width: 76px; height: 88px; } .process-glyph { width: 54px; height: 54px; } .process-glyph-3 { width: 62px; height: 42px; } .productions-services { padding-inline: 1.5rem; } .productions-services-heading { display: block; } .productions-services-heading > p { margin-top: 1.4rem; } .productions-services-heading h2 { margin-top: 1rem; } .productions-grid { grid-template-columns: 1fr; } .productions-card { min-height: 0; padding: 1.5rem; border-radius: 2rem; } .productions-card > a { position: relative; right: auto; bottom: auto; left: auto; margin-top: 2rem; } .productions-closing { padding-inline: 1.5rem; } }
         @media (max-width: 700px) { .productions-statement { min-height: 760px; } .productions-statement-copy { padding: 3.5rem 1.4rem; border-radius: 0; } .productions-statement-copy::before { width: min(94vw, 580px); } .productions-statement-copy::after { width: min(78vw, 480px); } }
         @media (max-width: 600px), (max-height: 600px) { .production-contact-panel { overflow: auto; } }
+        @media (max-width:700px){
+          .production-contact-modal{padding:16px;overflow-y:auto}
+          .production-contact-panel{width:100%;max-width:352px;padding:24px;border:0;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent),rgba(0,0,0,.6);backdrop-filter:blur(24px);max-height:calc(100svh - 32px)}
+          .production-contact-panel h2{font-size:18px;line-height:1.5;letter-spacing:.05em}
+          .production-contact-panel label{border:0;padding:0;gap:0;font-size:0;letter-spacing:normal}
+          .production-contact-panel input,.production-contact-panel textarea{box-sizing:border-box;margin:0;border:0;border-radius:6px;padding:10px 16px;background:rgba(255,255,255,.05);font-size:16px;line-height:1.55;letter-spacing:normal;transition:background .3s ease}
+          .production-contact-panel input:focus,.production-contact-panel textarea:focus{background:rgba(255,255,255,.1)}
+          .production-contact-panel input::placeholder,.production-contact-panel textarea::placeholder{color:rgba(255,255,255,.3);opacity:1}
+          .production-contact-panel textarea{min-height:112px}
+          .production-contact-submit{width:100%;border:0;border-radius:6px;justify-content:center;padding:10px 16px;background:rgba(255,255,255,.1);font-size:12px;letter-spacing:.2em}
+        }
         @media (max-width: 480px) { .productions-hero h1 { width: 85%; padding: 0; font-size: 1.5rem; letter-spacing: .07em; } }
         @media (prefers-reduced-motion: reduce) { [data-production-reveal] { opacity: .18; filter: none; transform: translate3d(0,12px,0); transition: opacity .35s ease, transform .35s ease; } [data-production-reveal].is-visible { opacity: 1; transform: translate3d(0,0,0); } [data-production-text] { opacity: .18; filter: none; transform: none; transition: opacity .3s ease; } [data-production-text].is-text-active { opacity: 1; } .productions-statement-orbit { transform: translate(-50%,-50%); } .productions-statement-orbit i { animation: none; } }
       `}</style>

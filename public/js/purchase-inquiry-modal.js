@@ -23,9 +23,9 @@
             <span></span>
           </div>
           <form class="purchase-inquiry-form" action="https://formspree.io/f/mrpgkojw" method="POST">
-            <label>Full Name<input type="text" name="name" required></label>
-            <label>Email Address<input type="email" name="email" required></label>
-            <label>Your Message<textarea name="message" rows="3" required></textarea></label>
+            <label>Full Name<input type="text" name="name" placeholder="Full Name" required></label>
+            <label>Email Address<input type="email" name="email" placeholder="Email Address" required></label>
+            <label>Your Message<textarea name="message" placeholder="Your Message" rows="3" required></textarea></label>
             <button type="submit">SEND</button>
             <p class="purchase-inquiry-error" role="status" hidden>Your request could not be sent. Please contact contact@studiosanch.com.</p>
           </form>
@@ -61,7 +61,7 @@
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    form.querySelector('input[name="name"]').focus();
+    const heading=modal.querySelector('#purchase-inquiry-title');heading.tabIndex=-1;heading.focus({preventScroll:true});
   };
 
   trigger.addEventListener('click', (event) => {

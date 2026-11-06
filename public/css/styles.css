@@ -1472,3 +1472,18 @@ footer {
         gap: 0.75rem;
     }
 }
+
+/* Match the mobile contact reference while retaining the existing inquiry effects. */
+.purchase-inquiry-modal{transition:opacity .55s ease,visibility 0s linear .55s}
+.purchase-inquiry-card{transition-duration:.55s;transition-timing-function:cubic-bezier(.22,1,.36,1)}
+@media(max-width:700px){
+ .purchase-inquiry-modal{overflow-y:auto}
+ .purchase-inquiry-card{max-width:352px;border:0;border-radius:8px;background:linear-gradient(180deg,rgba(255,255,255,.05),transparent),rgba(0,0,0,.6)}
+ .purchase-inquiry-form{gap:16px}
+ .purchase-inquiry-form label{border:0;padding:0;gap:0;font-size:0;letter-spacing:normal}
+ .purchase-inquiry-form input,.purchase-inquiry-form textarea{box-sizing:border-box;margin:0;border:0;border-radius:6px;padding:10px 16px;background:rgba(255,255,255,.05);font-size:16px;line-height:1.55;letter-spacing:normal;transition:background .3s ease}
+ .purchase-inquiry-form input:focus,.purchase-inquiry-form textarea:focus{background:rgba(255,255,255,.1)}
+ .purchase-inquiry-form input::placeholder,.purchase-inquiry-form textarea::placeholder{color:rgba(255,255,255,.3);opacity:1}
+ .purchase-inquiry-form textarea{min-height:112px}
+ .purchase-inquiry-form button{border-radius:6px;background:rgba(255,255,255,.1);padding:10px 16px;font-size:12px;line-height:1.6;letter-spacing:.2em}
+}

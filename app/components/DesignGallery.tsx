@@ -585,7 +585,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                                 </div>
                               </motion.div>
                             ) : (
-                              <form
+                              <form data-sanch-enquiry
                                 action="https://formspree.io/f/mrpgkojw"
                                 method="POST"
                                 onSubmit={(e) => {
@@ -618,28 +618,28 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                                 className="space-y-4"
                               >
                                 <div className="space-y-5">
-                                  <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                                  <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                                     <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{language === 'en' ? 'Full Name' : 'Nom Complet'}</span>
                                     <input
                                       type="text"
-                                      name="name"
+                                      name="name" placeholder={language === 'fr' ? 'Nom complet' : 'Full Name'}
                                       required
                                       className="text-white/90 text-xs tracking-[0.2em] bg-transparent border-none focus:outline-none w-full mt-1 caret-white"
                                     />
                                   </div>
-                                  <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                                  <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                                     <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{language === 'en' ? 'Email Address' : 'Adresse Email'}</span>
                                     <input
                                       type="email"
-                                      name="email"
+                                      name="email" placeholder={language === 'fr' ? 'Adresse e-mail' : 'Email Address'}
                                       required
                                       className="text-white/90 text-xs tracking-[0.2em] bg-transparent border-none focus:outline-none w-full mt-1 caret-white"
                                     />
                                   </div>
-                                  <div className="flex flex-col border-b border-white/10 px-0 py-3">
+                                  <div className="sanch-enquiry-field flex flex-col border-b border-white/10 px-0 py-3">
                                     <span className="text-white/40 text-xs tracking-[0.2em] mb-2">{language === 'en' ? 'Your Message' : 'Votre Message'}</span>
                                     <textarea
-                                      name="message"
+                                      name="message" placeholder={language === 'fr' ? 'Votre message' : 'Your Message'}
                                       required
                                       rows={2}
                                       defaultValue={language === 'en' ? `I'm interested in purchasing ${selectedDesign?.title} (${selectedSize?.dimensions || ''}, ${selectedQuality?.name || ''}) — €${calculatePrice()}.` : `Je souhaite acquérir ${selectedDesign?.title} (${selectedSize?.dimensions || ''}, ${selectedQuality?.name || ''}) — €${calculatePrice()}.`}

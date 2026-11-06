@@ -78,7 +78,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: leaving ? 0 : 1 }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} className={styles.overlay} role="dialog" aria-modal="true" aria-label={french ? 'Choisir une collection' : 'Choose a collection'}>
       <div className={styles.background} aria-hidden="true" />
-      <motion.div layout transition={{ layout: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } }} className={`${styles.panel} ${showAuctionDetail && !showInterest ? styles.auctionPanel : ''}`}>
+      <motion.div layout transition={{ layout: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } }} data-enquiry-card={showInterest || undefined} className={`${styles.panel} ${showAuctionDetail && !showInterest ? styles.auctionPanel : ''}`}>
         <button type="button" autoFocus className={styles.back} onClick={back}>← {french ? 'Retour' : 'Back'}</button>
         <button type="button" className={styles.close} aria-label={french ? 'Fermer' : 'Close'} onClick={() => leave(onClose)}>×</button>
         <AnimatePresence mode="wait" initial={false}>

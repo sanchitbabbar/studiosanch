@@ -67,3 +67,9 @@
 .originalsScrollLight{height:48px;overflow:visible;background:linear-gradient(to top,#fff,transparent);transform-origin:bottom;animation:originalsDiscoverLine 2s ease-in-out infinite}
 .originalsScrollLight::after{display:none;animation:none}
 @keyframes originalsDiscoverLine{0%{transform:scaleY(0);opacity:.5}50%{opacity:1}100%{transform:scaleY(1);opacity:.5}}
+
+@media(max-width:700px){
+ .panel[data-enquiry-card]{padding:64px 24px 24px!important;min-height:0}
+ .panel[data-enquiry-card] .flowContent{width:100%}
+ .panel[data-enquiry-card] h2{text-align:left;margin-bottom:24px;font-size:18px;line-height:1.5}
+}
