@@ -11,14 +11,18 @@ export default function AuctionInterestForm({ language, artworkTitle = 'Celle qu
     const form = event.currentTarget;
     const data = new FormData(form);
     data.set('artwork', `${artworkTitle} — original artwork`);
+    data.set('product', `${artworkTitle} — Original artwork`);
+    data.set('website', window.location.hostname);
     data.set('request_type', 'Acquisition enquiry and proposed offer');
-    data.set('_subject', `Acquisition enquiry: ${artworkTitle} — Original`);
+    data.set('_subject', `Purchase Inquiry: ${artworkTitle} — Original artwork`);
     data.set('_replyto', String(data.get('email') || ''));
     data.set('language', language);
     setStatus('sending');
     try {
       const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (!response.ok) throw new Error('Submission failed');
+      const result = await response.json();
+      if (result.ok !== true) throw new Error('Submission not confirmed');
       setStatus('sent');
     } catch { setStatus('error'); }
   }
