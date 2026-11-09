@@ -148,3 +148,11 @@ html::-webkit-scrollbar {
  [data-enquiry-stage]{overflow-y:auto;padding:16px;align-items:safe center}
  [data-enquiry-stage]>div{padding-inline:0}
 }
+
+/* Desktop fields already have labels; retain placeholders only on mobile. */
+@media(min-width:701px){
+ [data-sanch-enquiry] .sanch-enquiry-field input::placeholder,
+ [data-sanch-enquiry] .sanch-enquiry-field textarea::placeholder,
+ .production-contact-panel label input::placeholder,
+ .production-contact-panel label textarea::placeholder{color:transparent;opacity:0}
+}

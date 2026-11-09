@@ -1490,3 +1490,7 @@ footer {
  .purchase-inquiry-form textarea{min-height:112px}
  .purchase-inquiry-form button{border-radius:6px;background:rgba(255,255,255,.045);padding:10px 16px;font-size:12px;line-height:1.6;letter-spacing:.2em}
 }
+
+@media(min-width:701px){
+ .purchase-inquiry-form label input::placeholder,.purchase-inquiry-form label textarea::placeholder{color:transparent;opacity:0}
+}
