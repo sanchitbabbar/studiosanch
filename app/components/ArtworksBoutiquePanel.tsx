@@ -37,7 +37,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
   useEffect(() => {
     if (!origin.current) return;
     if (showAuctionDetail) {
-      const slug = ['celle-qui-se-connait', 'deepa', 'instar', 'murmure-des-petales'][selectedArtwork];
+      const slug = ['celle-qui-se-connait', 'deepa', 'instar', 'murmure-des-petales', 'la-premiere-onde'][selectedArtwork];
       history.replaceState(history.state, '', `${french ? '/fr' : ''}/originals/${slug}/`);
       document.title = `${auctionArtwork.title} — ${french ? 'Œuvre originale' : 'Original artwork'}`;
     } else {
@@ -104,7 +104,7 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
               <p className={styles.auctionLabel}>{french ? 'Acquisition · Œuvre originale' : 'Acquisition · Original artwork'}</p>
               <ArtworkHeading className={styles.auctionTitle}>{auctionArtwork.title}</ArtworkHeading>
               <p className={styles.auctionYear}>{auctionArtwork.year}</p>
-              <p className={styles.medium}>{french ? 'Encre sur papier' : 'Ink on paper'}{'dimensions' in auctionArtwork ? ` · ${auctionArtwork.dimensions} (${french ? 'H × L' : 'H × W'})` : ''}<span className={styles.provenance}>{french ? 'Créée à la main à Montmartre, Paris.' : 'Created by hand in Montmartre, Paris.'}</span></p>
+              <p className={styles.medium}>{french ? 'Encre sur papier' : 'Ink on paper'}{'dimensions' in auctionArtwork ? ` · ${auctionArtwork.dimensions}` : ''}<span className={styles.provenance}>{french ? 'Créée à la main à Montmartre, Paris.' : 'Created by hand in Montmartre, Paris.'}</span></p>
               <p className={styles.proposal}>{french ? 'Proposition — à partir de ' : 'Proposal — from '}{auctionArtwork.minimumProposal.toLocaleString(french ? 'fr-FR' : 'en-GB')} EUR</p>
               <p className={styles.poetry}>{french ? auctionArtwork.descriptionFr : auctionArtwork.descriptionEn}</p>
               <button type="button" className={styles.interestButton} onClick={() => setShowInterest(true)}>
