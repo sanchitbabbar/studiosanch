@@ -195,9 +195,11 @@ const BoutiqueOptions = ({ isOpen, onClose, initialCategory, initialSection, pag
                 {/* Selected Category Content */}
                 {selectedCategory && (
                   <div className="py-8">
-                    <h2 className="text-3xl font-light text-center mb-8">
-                      {selectedCategory ? getCategoryTitle(selectedCategory, language) : ''}
-                    </h2>
+                    {selectedCategory !== 'accessories' && (
+                      <h2 className="text-3xl font-light text-center mb-8">
+                        {selectedCategory ? getCategoryTitle(selectedCategory, language) : ''}
+                      </h2>
+                    )}
                     
                     <div className="text-center max-w-2xl mx-auto">
                       {selectedCategory === 'accessories' ? (

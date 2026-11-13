@@ -140,8 +140,6 @@ const AccessoriesPopup = () => {
 
   return (
     <div className="py-12 max-w-4xl mx-auto relative">
-      <h2 className="text-2xl tracking-[0.15em] uppercase font-light text-center mb-14 font-syne">{fr ? 'CRÉATIONS SIGNATURE' : 'SIGNATURE DESIGNS'}</h2>
-      
       {showSubItems ? (
         <>
           <button 
