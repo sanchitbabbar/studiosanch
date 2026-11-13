@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { originalArtworks as acquisitionArtworks } from '../data/originalArtworks';
 import AuctionInterestForm from './AuctionInterestForm';
 import AcquisitionInvitations from './AcquisitionInvitations';
+import FramingPreview from './FramingPreview';
 import styles from './ArtworksBoutiquePanel.module.css';
 
 
@@ -85,10 +86,13 @@ export default function ArtworksBoutiquePanel({ language, galleryHref, initialAu
           <motion.div className={styles.flowContent} key={showPrintNotice ? 'prints' : showInterest ? 'interest' : showAuctions ? showAuctionDetail ? 'artwork' : 'auction-preview' : 'choices'} initial={{ opacity: 0, filter: 'blur(10px)', y: 12 }} animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }} exit={{ opacity: 0, filter: 'blur(8px)', y: -6 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
         {showPrintNotice ? (
           <section className={styles.printNotice}>
-            <h2>{french ? 'Œuvres d’art' : 'Artworks'}</h2>
-            <p>{french ? "Chaque tirage est réalisé sur papier d'archives de qualité musée, garantissant une longévité exceptionnelle et la préservation des couleurs." : 'Each print is produced on museum-grade archival paper, ensuring exceptional longevity and color preservation.'}</p>
-            <p className={styles.printNote}>{french ? "Les œuvres sont vendues sans cadre. Un encadrement professionnel d'archives est recommandé pour une conservation et une mise en valeur optimales." : 'Note: Prints are sold unframed. Professional archival framing is recommended for optimal preservation and display.'}</p>
-            <a className={styles.collectionLink} href={`${galleryHref}${galleryHref.includes('?') ? '&' : '?'}from=fine-art-editions`}>{french ? 'Voir la Collection' : 'View Collection'}<span aria-hidden="true">→</span></a>
+            <FramingPreview french={french} />
+            <div className={styles.printCopy}>
+              <h2>{french ? 'Œuvres d’art' : 'Artworks'}</h2>
+              <p>{french ? "Chaque tirage est réalisé sur papier d'archives de qualité musée, garantissant une longévité exceptionnelle et la préservation des couleurs." : 'Each print is produced on museum-grade archival paper, ensuring exceptional longevity and color preservation.'}</p>
+              <p className={styles.printNote}>{french ? "Les œuvres sont vendues sans cadre. Un encadrement professionnel d'archives est recommandé pour une conservation et une mise en valeur optimales." : 'Note: Prints are sold unframed. Professional archival framing is recommended for optimal preservation and display.'}</p>
+              <a className={styles.collectionLink} href={`${galleryHref}${galleryHref.includes('?') ? '&' : '?'}from=fine-art-editions`}>{french ? 'Voir la Collection' : 'View Collection'}<span aria-hidden="true">→</span></a>
+            </div>
           </section>
         ) : showInterest ? (
           <AuctionInterestForm key={auctionArtwork.title} language={language} artworkTitle={auctionArtwork.title} />
