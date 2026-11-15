@@ -20,6 +20,7 @@ export interface Design {
   descriptionEn: string;
   basePrice: number;
   image: string;
+  thumbnail?: string;
   year: string;
   technique: string;
   sizes: PrintSize[];
@@ -76,12 +77,26 @@ export const designs: Design[] = [
     descriptionFr: 'Il vient un moment où le cœur, ayant porté sa langueur bien trop longtemps, ne trouve plus d’espace dans son esseulement, se frayant doucement un chemin à travers les doigts, vers le papier pour y déposer sa trace, telles des gouttes de pluie sur une fenêtre.',
     descriptionEn: 'There comes a time when the heart, having carried its languor for far too long, finds no more room within its space, gently making its way through the fingertips, toward the paper by leaving its trace, like raindrops on a pane.',
     image: '/images/art-prints/lencre-et-sa-trace.webp',
+    thumbnail: '/images/art-prints/lencre-et-sa-trace-thumbnail.webp',
     year: '2026',
     technique: "Œuvre d'art limitée",
     basePrice: printSizes[0].price,
     availablePieces: 5,
     sizes: printSizes,
     qualities: printQualities
+  },
+  {
+    id: 'instar',
+    title: "Instar",
+    descriptionEn: "Present now in this moment—breathing, vulnerable, efflorescing like a flower, sharing life... Is what is shared felt deep within, yet what makes a sudden fog appear, luring towards past or future to compare or define? Does yielding to that sway mean crushing the blossoming rose right in front, or admiring a fallen leaf which is not even here? The curiosity in the source remains open, continuing for the feminine to be.",
+    descriptionFr: "Présente ici, en cet instant—respirante, vulnérable, s’épanouissant comme une fleur, offrant la vie… Ce qui est partagé est-il ressenti au plus profond, et pourtant, qu’est-ce qui fait apparaître une brume soudaine, attirant vers le passé ou l’avenir pour comparer ou définir ? Glisser dans ce penchant signifie-t-il écraser la rose en fleur juste devant soi, ou admirer une feuille morte qui n’est même pas là ? Demeure au cœur la curiosité ouverte, pour que le féminin continue d’être.",
+    image: "/images/art-prints/instar-branded.svg",
+    year: "2025",
+    technique: "Œuvre d'art limitée",
+    basePrice: 4850,
+    sizes: printSizes,
+    qualities: printQualities,
+    availablePieces: 5,
   },
   {
     "id": "le-sillage-epure",
@@ -318,17 +333,4 @@ export const designs: Design[] = [
     qualities: printQualities,
     availablePieces: 4,
   },
-  {
-    id: 'instar',
-    title: "Instar",
-    descriptionEn: "Present now in this moment—breathing, vulnerable, efflorescing like a flower, sharing life... Is what is shared felt deep within, yet what makes a sudden fog appear, luring towards past or future to compare or define? Does yielding to that sway mean crushing the blossoming rose right in front, or admiring a fallen leaf which is not even here? The curiosity in the source remains open, continuing for the feminine to be.",
-    descriptionFr: "Présente ici, en cet instant—respirante, vulnérable, s’épanouissant comme une fleur, offrant la vie… Ce qui est partagé est-il ressenti au plus profond, et pourtant, qu’est-ce qui fait apparaître une brume soudaine, attirant vers le passé ou l’avenir pour comparer ou définir ? Glisser dans ce penchant signifie-t-il écraser la rose en fleur juste devant soi, ou admirer une feuille morte qui n’est même pas là ? Demeure au cœur la curiosité ouverte, pour que le féminin continue d’être.",
-    image: "/images/art-prints/instar-branded.svg",
-    year: "2025",
-    technique: "Œuvre d'art limitée",
-    basePrice: 4850,
-    sizes: printSizes,
-    qualities: printQualities,
-    availablePieces: 5,
-  }
 ];

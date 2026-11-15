@@ -290,7 +290,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                       <div className="relative aspect-[3/4] overflow-hidden border border-white/5 mb-4 shadow-md shadow-black/40 hover:shadow-lg hover:shadow-black/30 transition-shadow duration-300">
                         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
                         <Image
-                          src={design.image}
+                          src={design.thumbnail ?? design.image}
                           alt={design.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
