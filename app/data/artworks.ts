@@ -71,6 +71,19 @@ const printQualities: PrintQuality[] = [
 
 export const designs: Design[] = [
   {
+    id: 'lencre-et-sa-trace',
+    title: 'L’encre et sa trace',
+    descriptionFr: 'Il vient un moment où le cœur, ayant porté sa langueur bien trop longtemps, ne trouve plus d’espace dans son esseulement, se frayant doucement un chemin à travers les doigts, vers le papier pour y déposer sa trace, telles des gouttes de pluie sur une fenêtre.',
+    descriptionEn: 'There comes a time when the heart, having carried its languor for far too long, finds no more room within its space, gently making its way through the fingertips, toward the paper by leaving its trace, like raindrops on a pane.',
+    image: '/images/art-prints/lencre-et-sa-trace.webp',
+    year: '2026',
+    technique: "Œuvre d'art limitée",
+    basePrice: printSizes[0].price,
+    availablePieces: 5,
+    sizes: printSizes,
+    qualities: printQualities
+  },
+  {
     "id": "le-sillage-epure",
     "title": "Le Sillage Épuré",
     "descriptionFr": "Le masque tombe, le regard se dénude. Un souffle exhalé jusqu’à l'essence pure, où tout se fond en une seule onde harmonieuse.",
