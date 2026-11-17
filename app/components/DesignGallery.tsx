@@ -703,7 +703,7 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                             : "Tirage d'art : Édition limitée et numérotée, imprimée sur commande, signée à la main et parée d'une dédicace poétique nominative au dos. Conformément à l'article L.221-28 du Code de la consommation, cette œuvre personnalisée est définitivement exclue du droit de rétractation, d'échange ou de remboursement."}
                         </p>
                         <p className="text-center text-white/40 text-xs mt-3 italic">
-                          {language === 'en' ? 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.' : 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.'}
+                          {language === 'en' ? 'Shipments within and outside France will incur additional delivery charges based on current FedEx or UPS rates.' : 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx ou UPS en vigueur.'}
                         </p>
                       </div>
                     </div>

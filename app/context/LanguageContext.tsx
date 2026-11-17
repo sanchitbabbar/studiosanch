@@ -82,7 +82,7 @@ const en = {
     cardNumber: 'Card Number',
     expiration: 'Expiration (MM / YY)',
     cvc: 'CVC',
-    shippingNotice: 'Shipments outside France will incur additional delivery charges based on current FedEx rates.',
+    shippingNotice: 'Shipments outside France will incur additional delivery charges based on current FedEx or UPS rates.',
   },
   boutique: {
     title: 'Boutique',

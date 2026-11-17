@@ -208,7 +208,7 @@ export default function ProductCheckoutModal({ isOpen, onClose, product }: Produ
               ) : (
                 <>
                   <p className="text-[9px] italic text-white/30 text-center mt-6">
-                    {fr ? 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx en vigueur.' : 'Shipments within and outside France will incur additional delivery charges based on current FedEx rates.'}
+                    {fr ? 'Les expéditions en France et à l’étranger entraînent des frais de livraison supplémentaires selon les tarifs FedEx ou UPS en vigueur.' : 'Shipments within and outside France will incur additional delivery charges based on current FedEx or UPS rates.'}
                   </p>
                   <p className="text-[9px] italic text-white/30 text-center mt-2">
                     {product.id === 'artbook-main'
