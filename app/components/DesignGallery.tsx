@@ -401,19 +401,19 @@ export default function DesignGallery({ isOpen, onClose, initialDesignId, initia
                   className="w-full max-w-5xl bg-black/95 backdrop-blur-sm border border-white/10 mx-4 my-4 md:my-0 overflow-hidden"
                 >
                   <div className="relative grid grid-cols-1 md:grid-cols-2 h-full">
+                    <button
+                      onClick={() => setSelectedDesign(null)}
+                      className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2 border border-white/10 rounded-full bg-black/30 backdrop-blur-sm z-20"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
                     {/* Left: Image with elegant overlay */}
                     <div className="relative h-[44svh] min-h-[280px] md:min-h-0 md:h-auto">
                       <div className="relative h-full w-full bg-transparent overflow-hidden">
                         <ArtworkViews key={selectedDesign.id} design={selectedDesign} language={language} />
                       </div>
-                      <button
-                        onClick={() => setSelectedDesign(null)}
-                        className="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-2 border border-white/10 rounded-full bg-black/30 backdrop-blur-sm z-20"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
                     </div>
 
                     {/* Right: Product details with luxury styling */}
